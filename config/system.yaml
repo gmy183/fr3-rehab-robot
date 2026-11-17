@@ -1,0 +1,35 @@
+project:
+  name: rehab_robot
+  mode: reconstructed_safe_baseline
+
+fr3:
+  robot_ip: 192.168.1.25
+  pc_ip: 192.168.1.100
+  base_frame: fr3_link0
+  tcp_frame: xhand_grasp_center
+  max_joint_velocity_rad_s: 0.020
+  rehab_swing_rad: 0.010
+  automatic_recovery_on_fault: false
+
+xhand:
+  side: right
+  interface: enx6c1ff7641594
+  micro_close_rad: 0.005
+  single_joint_current_ma: 150
+  whole_hand_current_ma: 220
+  watchdog_s: 0.5
+  excluded_joints:
+    - index_bend_joint
+  inactive_joint_mode: 0
+  torque_encoding: signed_9bit_twos_complement
+
+d435i:
+  serial_no: "244222072086"
+  enable_color: true
+  enable_depth: true
+  enable_imu: false
+
+geometry_m:
+  xhand_from_fr3_link8_xyz: [0.0, 0.0, 0.081]
+  camera_from_fr3_link8_xyz: [-0.090, 0.0, 0.051]
+  axis_sign_requires_physical_verification: true

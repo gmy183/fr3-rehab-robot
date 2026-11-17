@@ -1,0 +1,1 @@
+{"time": "2026-10-22T22:50:48.000162+08:00", "event": "abort", "error": "TimeoutError: FR3 did not settle at initial pose within 8.0s (age=0.000s, max_speed=0.00213rad/s)"}

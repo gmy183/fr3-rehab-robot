@@ -1,0 +1,41 @@
+{
+  "status": "SOFTWARE_PIPELINE_PASS",
+  "validation_type": "in_sample_coordinate_conversion",
+  "sample": "sample_012.json",
+  "handeye_method": "HORAUD",
+  "base_frame": "fr3_link0",
+  "camera_frame": "camera_color_optical_frame",
+  "target_frame": "aruco_id_0",
+  "base_T_marker": [
+    [
+      -0.1801820676474421,
+      -0.9833166089163835,
+      -0.02495734616252987,
+      -0.09008639894676501
+    ],
+    [
+      0.9835810984690552,
+      -0.179853168282624,
+      -0.014868106574425291,
+      0.4760458676899301
+    ],
+    [
+      0.01013139835851401,
+      -0.027226540137996136,
+      0.9995779460749499,
+      -0.0007829319047915617
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "position_mm": [
+    -90.08639894676502,
+    476.0458676899301,
+    -0.7829319047915617
+  ],
+  "accuracy_certified": false
+}
