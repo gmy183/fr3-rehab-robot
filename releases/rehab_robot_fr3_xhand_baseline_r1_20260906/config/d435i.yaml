@@ -1,0 +1,32 @@
+device:
+  model: Intel RealSense D435i
+  serial_no: "244222072086"
+
+streams:
+  color:
+    enabled: true
+    width: 640
+    height: 480
+    fps: 30
+    format: RGB8
+
+  depth:
+    enabled: true
+    width: 848
+    height: 480
+    fps: 30
+    format: Z16
+
+  gyro:
+    enabled: false
+
+  accel:
+    enabled: false
+
+project_role:
+  empty_grasp:
+    required_for_motion: false
+    keep_online: true
+
+  later_perception_stage:
+    enabled: true

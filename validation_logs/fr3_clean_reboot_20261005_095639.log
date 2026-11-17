@@ -1,0 +1,173 @@
+nohup: 忽略输入
+[INFO] [launch]: All log files can be found below /home/gu/.ros/log/2026-10-05-09-56-42-388593-gu-G3-3500-9381
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [9440]
+[INFO] [ros2_control_node-2]: process started with pid [9441]
+[INFO] [joint_state_publisher-3]: process started with pid [9442]
+[INFO] [spawner-4]: process started with pid [9443]
+[INFO] [spawner-5]: process started with pid [9444]
+[ros2_control_node-2] [INFO] [1791165402.708281299] [controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[robot_state_publisher-1] [INFO] [1791165402.709197061] [robot_state_publisher]: Robot initialized
+[ros2_control_node-2] [INFO] [1791165402.710831146] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[ros2_control_node-2] [INFO] [1791165402.749856452] [controller_manager]: update rate is 1000 Hz
+[ros2_control_node-2] [INFO] [1791165402.749901616] [controller_manager]: Overruns handling is : disabled
+[ros2_control_node-2] [INFO] [1791165402.749925188] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 98
+[ros2_control_node-2] [INFO] [1791165402.751864911] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 98.
+[ros2_control_node-2] [INFO] [1791165402.766442661] [controller_manager]: Received robot description from topic.
+[ros2_control_node-2] [INFO] [1791165402.766506050] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-2] text not specified in the prefix tag
+[ros2_control_node-2] text not specified in the arm_prefix tag
+[ros2_control_node-2] [INFO] [1791165402.770301509] [controller_manager]: Loading hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791165402.778425595] [controller_manager]: Loaded hardware 'FrankaHardwareInterface' from plugin 'franka_hardware/FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791165402.778526442] [controller_manager]: Initialize hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791165402.782599856] [FrankaHardwareInterface]: Parsed Franka ros2_control interface version: 1.0.0
+[ros2_control_node-2] [INFO] [1791165402.782618376] [FrankaHardwareInterface]: Connecting to robot at "192.168.1.25" ...
+[ros2_control_node-2] [INFO] [1791165402.783036297] [FrankaHardwareInterface]: libfranka: Setting thread priority to the highest possible value.
+[ros2_control_node-2] [INFO] [1791165402.794516992] [FrankaHardwareInterface]: Successfully connected to robot
+[ros2_control_node-2] [INFO] [1791165402.832903387] [service_server]: Service started
+[spawner-4] [INFO] [1791165402.967323359] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[joint_state_publisher-3] [INFO] [1791165402.969865972] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-3] [INFO] [1791165402.974264020] [joint_state_publisher]: Got description, configuring robot
+[ros2_control_node-2] [INFO] [1791165402.979810435] [action_server]: Action server started
+[ros2_control_node-2] [INFO] [1791165402.979880335] [controller_manager]: Successful initialization of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791165402.980123544] [FrankaHardwareInterface]: Register joint-based command interfaces
+[ros2_control_node-2] [INFO] [1791165402.980133685] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface position with index 0
+[ros2_control_node-2] [INFO] [1791165402.980137668] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface velocity with index 0
+[ros2_control_node-2] [INFO] [1791165402.980140133] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface effort with index 0
+[ros2_control_node-2] [INFO] [1791165402.980143165] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface position with index 1
+[ros2_control_node-2] [INFO] [1791165402.980146201] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface velocity with index 1
+[ros2_control_node-2] [INFO] [1791165402.980148505] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface effort with index 1
+[ros2_control_node-2] [INFO] [1791165402.980151046] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface position with index 2
+[ros2_control_node-2] [INFO] [1791165402.980156123] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface velocity with index 2
+[ros2_control_node-2] [INFO] [1791165402.980158825] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface effort with index 2
+[ros2_control_node-2] [INFO] [1791165402.980161522] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface position with index 3
+[ros2_control_node-2] [INFO] [1791165402.980163901] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface velocity with index 3
+[ros2_control_node-2] [INFO] [1791165402.980166254] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface effort with index 3
+[ros2_control_node-2] [INFO] [1791165402.980168809] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface position with index 4
+[ros2_control_node-2] [INFO] [1791165402.980171113] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface velocity with index 4
+[ros2_control_node-2] [INFO] [1791165402.980175410] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface effort with index 4
+[ros2_control_node-2] [INFO] [1791165402.980227496] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface position with index 5
+[ros2_control_node-2] [INFO] [1791165402.980231708] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface velocity with index 5
+[ros2_control_node-2] [INFO] [1791165402.980234149] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface effort with index 5
+[ros2_control_node-2] [INFO] [1791165402.980236651] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface position with index 6
+[ros2_control_node-2] [INFO] [1791165402.980239039] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface velocity with index 6
+[ros2_control_node-2] [INFO] [1791165402.980241746] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface effort with index 6
+[ros2_control_node-2] [INFO] [1791165402.980244224] [FrankaHardwareInterface]: Register general purpose command interfaces
+[ros2_control_node-2] [INFO] [1791165402.980250049] [FrankaHardwareInterface]: Registering command interface: vx for command interface cartesian_velocity with index 0
+[ros2_control_node-2] [INFO] [1791165402.980253033] [FrankaHardwareInterface]: Registering command interface: vy for command interface cartesian_velocity with index 1
+[ros2_control_node-2] [INFO] [1791165402.980255495] [FrankaHardwareInterface]: Registering command interface: vz for command interface cartesian_velocity with index 2
+[ros2_control_node-2] [INFO] [1791165402.980258033] [FrankaHardwareInterface]: Registering command interface: wx for command interface cartesian_velocity with index 3
+[ros2_control_node-2] [INFO] [1791165402.980260513] [FrankaHardwareInterface]: Registering command interface: wy for command interface cartesian_velocity with index 4
+[ros2_control_node-2] [INFO] [1791165402.980263086] [FrankaHardwareInterface]: Registering command interface: wz for command interface cartesian_velocity with index 5
+[ros2_control_node-2] [INFO] [1791165402.980265614] [FrankaHardwareInterface]: Registering command interface: 0 for command interface cartesian_pose_command with index 0
+[ros2_control_node-2] [INFO] [1791165402.980274789] [FrankaHardwareInterface]: Registering command interface: 1 for command interface cartesian_pose_command with index 1
+[ros2_control_node-2] [INFO] [1791165402.980277760] [FrankaHardwareInterface]: Registering command interface: 2 for command interface cartesian_pose_command with index 2
+[ros2_control_node-2] [INFO] [1791165402.980280237] [FrankaHardwareInterface]: Registering command interface: 3 for command interface cartesian_pose_command with index 3
+[ros2_control_node-2] [INFO] [1791165402.980282818] [FrankaHardwareInterface]: Registering command interface: 4 for command interface cartesian_pose_command with index 4
+[ros2_control_node-2] [INFO] [1791165402.980286585] [FrankaHardwareInterface]: Registering command interface: 5 for command interface cartesian_pose_command with index 5
+[ros2_control_node-2] [INFO] [1791165402.980290267] [FrankaHardwareInterface]: Registering command interface: 6 for command interface cartesian_pose_command with index 6
+[ros2_control_node-2] [INFO] [1791165402.980295056] [FrankaHardwareInterface]: Registering command interface: 7 for command interface cartesian_pose_command with index 7
+[ros2_control_node-2] [INFO] [1791165402.980299051] [FrankaHardwareInterface]: Registering command interface: 8 for command interface cartesian_pose_command with index 8
+[ros2_control_node-2] [INFO] [1791165402.980303627] [FrankaHardwareInterface]: Registering command interface: 9 for command interface cartesian_pose_command with index 9
+[ros2_control_node-2] [INFO] [1791165402.980308031] [FrankaHardwareInterface]: Registering command interface: 10 for command interface cartesian_pose_command with index 10
+[ros2_control_node-2] [INFO] [1791165402.980313003] [FrankaHardwareInterface]: Registering command interface: 11 for command interface cartesian_pose_command with index 11
+[ros2_control_node-2] [INFO] [1791165402.980317023] [FrankaHardwareInterface]: Registering command interface: 12 for command interface cartesian_pose_command with index 12
+[ros2_control_node-2] [INFO] [1791165402.980321660] [FrankaHardwareInterface]: Registering command interface: 13 for command interface cartesian_pose_command with index 13
+[ros2_control_node-2] [INFO] [1791165402.980325960] [FrankaHardwareInterface]: Registering command interface: 14 for command interface cartesian_pose_command with index 14
+[ros2_control_node-2] [INFO] [1791165402.980330449] [FrankaHardwareInterface]: Registering command interface: 15 for command interface cartesian_pose_command with index 15
+[ros2_control_node-2] [INFO] [1791165402.980342882] [FrankaHardwareInterface]: Registering command interface: joint_3_position for command interface elbow_command with index 0
+[ros2_control_node-2] [INFO] [1791165402.980346581] [FrankaHardwareInterface]: Registering command interface: joint_4_sign for command interface elbow_command with index 1
+[ros2_control_node-2] [INFO] [1791165402.980623043] [controller_manager]: Activating component 'FrankaHardwareInterface'.
+[ros2_control_node-2] [INFO] [1791165402.980642073] [resource_manager]: 'configure' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791165402.980646337] [resource_manager]: Successful 'configure' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791165402.980658415] [resource_manager]: 'activate' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791165402.980873239] [resource_manager]: Successful 'activate' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791165402.980919069] [controller_manager]: Registering statistics for : FrankaHardwareInterface
+[ros2_control_node-2] [INFO] [1791165402.980982011] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[spawner-4] [INFO] [1791165403.221119342] [spawner_joint_state_broadcaster]: Setting controller param "node_options_args" to "['--remap', 'joint_states:=franka/joint_states']" for joint_state_broadcaster
+[ros2_control_node-2] [INFO] [1791165403.221697343] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-2] [INFO] [1791165403.221726749] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791165403.362260061] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_fw67q52m --params-file /tmp/launch_params_q82hgb6v --params-file /tmp/launch_params_y5v6p4xn --params-file /tmp/launch_params_4mbdl1bl --ros-args --remap joint_states:=franka/joint_states 
+[spawner-4] [INFO] [1791165403.368349722] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ros2_control_node-2] [INFO] [1791165403.369049934] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791165403.369175499] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-2] [INFO] [1791165403.408412794] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1791165403.409270988] [controller_manager]: Successfully switched controllers!
+[spawner-4] [INFO] [1791165403.411260716] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[ros2_control_node-2] [INFO] [1791165403.688517556] [controller_manager]: Loading controller : 'franka_robot_state_broadcaster' of type 'franka_robot_state_broadcaster/FrankaRobotStateBroadcaster'
+[ros2_control_node-2] [INFO] [1791165403.688557202] [controller_manager]: Loading controller 'franka_robot_state_broadcaster'
+[INFO] [spawner-4]: process has finished cleanly [pid 9443]
+[ros2_control_node-2] [INFO] [1791165403.797993392] [controller_manager]: Controller 'franka_robot_state_broadcaster' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_fw67q52m --params-file /tmp/launch_params_q82hgb6v --params-file /tmp/launch_params_y5v6p4xn --params-file /tmp/launch_params_4mbdl1bl 
+[spawner-5] [INFO] [1791165403.817167311] [spawner_franka_robot_state_broadcaster]: Loaded franka_robot_state_broadcaster
+[ros2_control_node-2] [INFO] [1791165403.817856575] [controller_manager]: Configuring controller: 'franka_robot_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791165403.824437237] [franka_robot_state_broadcaster]: Convenience topics at 1000 Hz, full state at 1000 Hz
+[ros2_control_node-2] [INFO] [1791165403.826597276] [controller_manager]: Activating controllers: [ franka_robot_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1791165403.829331374] [franka_robot_state_broadcaster]: Publish thread started with SCHED_FIFO priority 50.
+[ros2_control_node-2] [INFO] [1791165403.829403518] [controller_manager]: Successfully switched controllers!
+[spawner-5] [INFO] [1791165403.831161457] [spawner_franka_robot_state_broadcaster]: Configured and activated franka_robot_state_broadcaster
+[INFO] [spawner-5]: process has finished cleanly [pid 9444]
+[ros2_control_node-2] [INFO] [1791167134.407548744] [controller_manager]: Loading controller : 'fr3_position_v3_2_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791167134.407583401] [controller_manager]: Loading controller 'fr3_position_v3_2_controller'
+[ros2_control_node-2] [INFO] [1791167134.522317086] [controller_manager]: Controller 'fr3_position_v3_2_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_fw67q52m --params-file /tmp/launch_params_q82hgb6v --params-file /tmp/launch_params_y5v6p4xn --params-file /tmp/launch_params_4mbdl1bl --params-file /home/gu/rehab_robot_ws/config/fr3_position_v3_2_controller.yaml 
+[ros2_control_node-2] [INFO] [1791167134.539512470] [controller_manager]: Configuring controller: 'fr3_position_v3_2_controller'
+[ros2_control_node-2] [INFO] [1791167134.539790560] [fr3_position_v3_2_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] [INFO] [1791167134.539899253] [fr3_position_v3_2_controller]: Command interfaces are [position] and state interfaces are [position velocity].
+[ros2_control_node-2] [INFO] [1791167134.539938657] [fr3_position_v3_2_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] [INFO] [1791167134.543436286] [fr3_position_v3_2_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791167134.545948808] [fr3_position_v3_2_controller]: Setting initial scaling factor to 1.000000
+[ros2_control_node-2] [INFO] [1791167134.545987645] [fr3_position_v3_2_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [INFO] [1791167136.952265379] [controller_manager]: Activating controllers: [ fr3_position_v3_2_controller ]
+[ros2_control_node-2] [INFO] [1791167136.953299429] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [INFO] [1791167136.956896999] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791167147.520869227] [fr3_position_v3_2_controller]: Received new action goal
+[ros2_control_node-2] [INFO] [1791167147.520916709] [fr3_position_v3_2_controller]: Accepted new action goal
+[ros2_control_node-2] [ERROR] [1791167148.366558024] [FrankaHardwareInterface]: libfranka: Move command aborted: motion aborted by reflex! ["joint_motion_generator_velocity_discontinuity", "joint_motion_generator_acceleration_discontinuity"]
+[ros2_control_node-2] [ERROR] [1791167148.366621783] [FrankaHardwareInterface]: libfranka: Move command aborted: motion aborted by reflex! ["joint_motion_generator_velocity_discontinuity", "joint_motion_generator_acceleration_discontinuity"]
+[ros2_control_node-2] [ERROR] [1791167148.369425005] [controller_manager]: Deactivating following hardware components as their read cycle resulted in an error: [ FrankaHardwareInterface ]
+[ros2_control_node-2] [ERROR] [1791167148.369489958] [controller_manager]: Deactivating following controllers as their hardware components read cycle resulted in an error: [ joint_state_broadcaster franka_robot_state_broadcaster fr3_position_v3_2_controller ]
+[ros2_control_node-2] [ERROR] [1791167148.369535730] [controller_manager]: Not acceptable command interfaces combination: 
+[ros2_control_node-2] Start interfaces: 
+[ros2_control_node-2] [
+[ros2_control_node-2] ]
+[ros2_control_node-2] Stop interfaces: 
+[ros2_control_node-2] [
+[ros2_control_node-2]   fr3_joint1/position
+[ros2_control_node-2]   fr3_joint2/position
+[ros2_control_node-2]   fr3_joint3/position
+[ros2_control_node-2]   fr3_joint4/position
+[ros2_control_node-2]   fr3_joint5/position
+[ros2_control_node-2]   fr3_joint6/position
+[ros2_control_node-2]   fr3_joint7/position
+[ros2_control_node-2] ]
+[ros2_control_node-2] Not available: 
+[ros2_control_node-2] [
+[ros2_control_node-2]  fr3_joint1/position
+[ros2_control_node-2]  fr3_joint2/position
+[ros2_control_node-2]  fr3_joint3/position
+[ros2_control_node-2]  fr3_joint4/position
+[ros2_control_node-2]  fr3_joint5/position
+[ros2_control_node-2]  fr3_joint6/position
+[ros2_control_node-2]  fr3_joint7/position
+[ros2_control_node-2] ]
+[ros2_control_node-2] 
+[ros2_control_node-2] [ERROR] [1791167148.369549637] [controller_manager]: Error while attempting mode switch when deactivating controllers in read cycle!
+[ros2_control_node-2] [INFO] [1791167155.961099488] [controller_manager]: Unloading controller: 'fr3_position_v3_2_controller'
+[ros2_control_node-2] [INFO] [1791167155.961140311] [controller_manager]: Cleanup controller 'fr3_position_v3_2_controller'
+[ros2_control_node-2] [INFO] [1791168378.992846910] [controller_manager]: Received robot description from topic.
+[ros2_control_node-2] [WARN] [1791168378.992886352] [controller_manager]: ResourceManager has already loaded a urdf. Ignoring attempt to reload a robot description.
+[joint_state_publisher-3] [INFO] [1791168378.998370796] [joint_state_publisher]: Got description, configuring robot
+[ros2_control_node-2] [INFO] [1791168379.679239558] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791168379.679378377] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-2] [ERROR] [1791168380.134011983] [controller_manager]: The 'type' param was not defined for 'fr3_arm_controller'.
+[ros2_control_node-2] [INFO] [1791169544.380070168] [controller_manager]: Received robot description from topic.
+[ros2_control_node-2] [WARN] [1791169544.380133449] [controller_manager]: ResourceManager has already loaded a urdf. Ignoring attempt to reload a robot description.
+[joint_state_publisher-3] [INFO] [1791169544.381092437] [joint_state_publisher]: Got description, configuring robot
+[ros2_control_node-2] [ERROR] [1791169554.357373798] [controller_manager]: The 'type' param was not defined for ''.
+[ros2_control_node-2] [INFO] [1791169554.385352902] [controller_manager]: Configuring controller: ''
+[ros2_control_node-2] [ERROR] [1791169554.385395457] [controller_manager]: Could not configure controller with name '' because no controller with this name exists
+[ros2_control_node-2] [WARN] [1791169554.401804475] [controller_manager]: Controller Manager: to switch controllers you need to specify a strictness level of controller_manager_msgs::SwitchController::STRICT (2) or ::BEST_EFFORT (1). When unspecified, the default is BEST_EFFORT
+[ros2_control_node-2] [INFO] [1791169554.401992052] [controller_manager]: After checking the controllers, no controllers need to be activated or deactivated.
+[ros2_control_node-2] [ERROR] [1791169564.548763155] [controller_manager]: The 'type' param was not defined for ''.
+[ros2_control_node-2] [INFO] [1791169564.665444907] [controller_manager]: Configuring controller: ''
+[ros2_control_node-2] [ERROR] [1791169564.665498802] [controller_manager]: Could not configure controller with name '' because no controller with this name exists
+[ros2_control_node-2] [INFO] [1791169564.696080972] [controller_manager]: After checking the controllers, no controllers need to be activated or deactivated.

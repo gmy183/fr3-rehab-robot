@@ -1,0 +1,17 @@
+{
+  "mode": "check",
+  "ok": false,
+  "final_state": "FAULT",
+  "fault_latched": true,
+  "steps": [
+    {
+      "state": "FAULT",
+      "ok": false,
+      "message": "RuntimeError: runtime safety check failed: STATE_UNAVAILABLE: robot_state not received",
+      "data": null
+    }
+  ],
+  "artifacts": {
+    "task_result": "/home/gu/rehab_robot_ws/validation_logs/runtime/rehab_v3_check_20261004_215629.json"
+  }
+}

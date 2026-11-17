@@ -1,0 +1,273 @@
+[ENV] ROS 2 Jazzy
+[ENV] Franka official workspace
+[ENV] rehab_robot_ws NOT loaded
+[INFO] [launch]: All log files can be found below /home/gu/.ros/log/2026-10-20-10-00-44-114240-gu-G3-3500-8754
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [rviz2-1]: process started with pid [8796]
+[INFO] [robot_state_publisher-2]: process started with pid [8797]
+[INFO] [move_group-3]: process started with pid [8798]
+[INFO] [ros2_control_node-4]: process started with pid [8801]
+[INFO] [joint_state_publisher-5]: process started with pid [8804]
+[INFO] [spawner-6]: process started with pid [8805]
+[INFO] [franka_gripper_node-7]: process started with pid [8806]
+[INFO] [ros2-8]: process started with pid [8807]
+[INFO] [ros2-9]: process started with pid [8808]
+[joint_state_publisher-5] [INFO] [1792461646.211743446] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[spawner-6] [INFO] [1792461647.396449693] [spawner_franka_robot_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[robot_state_publisher-2] [INFO] [1792461649.791546256] [robot_state_publisher]: Robot initialized
+[franka_gripper_node-7] [INFO] [1792461650.172400376] [franka_gripper]: Trying to establish a connection with the gripper
+[joint_state_publisher-5] [INFO] [1792461650.174629881] [joint_state_publisher]: Got description, configuring robot
+[franka_gripper_node-7] [FATAL] [1792461650.268788190] [franka_gripper]: libfranka: Connection to FCI refused. Please install FCI feature or enable FCI mode in Desk.
+[franka_gripper_node-7] terminate called after throwing an instance of 'franka::Exception'
+[franka_gripper_node-7]   what():  libfranka: Connection to FCI refused. Please install FCI feature or enable FCI mode in Desk.
+[ERROR] [franka_gripper_node-7]: process has died [pid 8806, exit code -6, cmd '/home/gu/franka_ros2_ws/install/franka_gripper/lib/franka_gripper/franka_gripper_node --ros-args -r __node:=franka_gripper -r __ns:=/ --params-file /tmp/launch_params_3m65zb7f --params-file /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/config/franka_gripper_node.yaml'].
+[move_group-3] [WARN] [1792461653.579883649] [move_group]: Falling back to using the the move_group node namespace (deprecated behavior).
+[move_group-3] [INFO] [1792461653.640298149] [moveit.moveit.ros.rdf_loader]: Loaded robot model in 0.00469338 seconds
+[move_group-3] [INFO] [1792461653.640388333] [moveit.moveit.core.robot_model]: Loading robot model 'fr3'...
+[ros2_control_node-4] [INFO] [1792461654.983381279] [controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-4] [INFO] [1792461656.732059879] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[spawner-6] [WARN] [1792461657.402490110] [spawner_franka_robot_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-6] [INFO] [1792461657.402835375] [spawner_franka_robot_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[move_group-3] [INFO] [1792461657.421100843] [moveit.moveit.kinematics.kdl_kinematics_plugin]: Joint weights for group 'fr3_arm': 1 1 1 1 1 1 1
+[ros2_control_node-4] [INFO] [1792461658.313234155] [controller_manager]: update rate is 1000 Hz
+[ros2_control_node-4] [INFO] [1792461658.313307247] [controller_manager]: Overruns handling is : disabled
+[ros2_control_node-4] [INFO] [1792461658.313318500] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 98
+[ros2_control_node-4] [INFO] [1792461658.316611972] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 98.
+[ros2_control_node-4] [WARN] [1792461658.339734170] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-4] [INFO] [1792461658.340041600] [controller_manager]: Received robot description from topic.
+[ros2_control_node-4] [INFO] [1792461658.340062585] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-4] text not specified in the prefix tag
+[ros2_control_node-4] text not specified in the arm_prefix tag
+[ros2_control_node-4] [INFO] [1792461658.702492056] [controller_manager]: Loading hardware 'FrankaHardwareInterface' 
+[ros2_control_node-4] [INFO] [1792461659.450794803] [controller_manager]: Loaded hardware 'FrankaHardwareInterface' from plugin 'franka_hardware/FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792461659.450918574] [controller_manager]: Initialize hardware 'FrankaHardwareInterface' 
+[move_group-3] [INFO] [1792461659.462605851] [moveit.moveit.ros.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-3] [INFO] [1792461659.462803438] [moveit.moveit.ros.moveit_cpp]: Listening to 'joint_states' for joint states
+[ros2_control_node-4] [INFO] [1792461659.466651987] [FrankaHardwareInterface]: Parsed Franka ros2_control interface version: 1.0.0
+[ros2_control_node-4] [INFO] [1792461659.466678598] [FrankaHardwareInterface]: Connecting to robot at "192.168.1.25" ...
+[ros2_control_node-4] [INFO] [1792461659.467177621] [FrankaHardwareInterface]: libfranka: Setting thread priority to the highest possible value.
+[ros2_control_node-4] [INFO] [1792461659.477935480] [FrankaHardwareInterface]: Successfully connected to robot
+[rviz2-1] [INFO] [1792461659.501264295] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-1] [INFO] [1792461659.501449540] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[move_group-3] [INFO] [1792461659.524176617] [moveit.moveit.ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[move_group-3] [INFO] [1792461659.525055506] [moveit.moveit.ros.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[move_group-3] [INFO] [1792461659.525086890] [moveit.moveit.ros.planning_scene_monitor]: Stopping existing planning scene publisher.
+[move_group-3] [INFO] [1792461659.525374603] [moveit.moveit.ros.planning_scene_monitor]: Stopped publishing maintained planning scene.
+[move_group-3] [INFO] [1792461659.526326167] [moveit.moveit.ros.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-3] [INFO] [1792461659.526471493] [moveit.moveit.ros.planning_scene_monitor]: Starting planning scene monitor
+[move_group-3] [INFO] [1792461659.527358803] [moveit.moveit.ros.planning_scene_monitor]: Listening to '/planning_scene'
+[move_group-3] [INFO] [1792461659.527393611] [moveit.moveit.ros.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[move_group-3] [INFO] [1792461659.529012460] [moveit.moveit.ros.planning_scene_monitor]: Listening to 'collision_object'
+[move_group-3] [INFO] [1792461659.529654340] [moveit.moveit.ros.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[move_group-3] [WARN] [1792461659.575981144] [moveit.moveit.ros.occupancy_map_monitor]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[move_group-3] [ERROR] [1792461659.576074037] [moveit.moveit.ros.occupancy_map_monitor]: No 3D sensor plugin(s) defined for octomap updates
+[ros2_control_node-4] [INFO] [1792461659.650649274] [service_server]: Service started
+[ros2_control_node-4] [INFO] [1792461659.888023888] [action_server]: Action server started
+[ros2_control_node-4] [INFO] [1792461659.888100800] [controller_manager]: Successful initialization of hardware 'FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792461659.888372645] [FrankaHardwareInterface]: Register joint-based command interfaces
+[ros2_control_node-4] [INFO] [1792461659.888383153] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface position with index 0
+[ros2_control_node-4] [INFO] [1792461659.888389231] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface velocity with index 0
+[ros2_control_node-4] [INFO] [1792461659.888393849] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface effort with index 0
+[ros2_control_node-4] [INFO] [1792461659.888398292] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface position with index 1
+[ros2_control_node-4] [INFO] [1792461659.888402481] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface velocity with index 1
+[ros2_control_node-4] [INFO] [1792461659.888406770] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface effort with index 1
+[ros2_control_node-4] [INFO] [1792461659.888411110] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface position with index 2
+[ros2_control_node-4] [INFO] [1792461659.888423001] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface velocity with index 2
+[ros2_control_node-4] [INFO] [1792461659.888428763] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface effort with index 2
+[ros2_control_node-4] [INFO] [1792461659.888433232] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface position with index 3
+[ros2_control_node-4] [INFO] [1792461659.888437571] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface velocity with index 3
+[ros2_control_node-4] [INFO] [1792461659.888441725] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface effort with index 3
+[ros2_control_node-4] [INFO] [1792461659.888446394] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface position with index 4
+[ros2_control_node-4] [INFO] [1792461659.888451073] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface velocity with index 4
+[ros2_control_node-4] [INFO] [1792461659.888462059] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface effort with index 4
+[ros2_control_node-4] [INFO] [1792461659.888467045] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface position with index 5
+[ros2_control_node-4] [INFO] [1792461659.888471307] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface velocity with index 5
+[ros2_control_node-4] [INFO] [1792461659.888475654] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface effort with index 5
+[ros2_control_node-4] [INFO] [1792461659.888480951] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface position with index 6
+[ros2_control_node-4] [INFO] [1792461659.888485406] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface velocity with index 6
+[ros2_control_node-4] [INFO] [1792461659.888489668] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface effort with index 6
+[ros2_control_node-4] [INFO] [1792461659.888493599] [FrankaHardwareInterface]: Register general purpose command interfaces
+[ros2_control_node-4] [INFO] [1792461659.888528821] [FrankaHardwareInterface]: Registering command interface: vx for command interface cartesian_velocity with index 0
+[ros2_control_node-4] [INFO] [1792461659.888535885] [FrankaHardwareInterface]: Registering command interface: vy for command interface cartesian_velocity with index 1
+[ros2_control_node-4] [INFO] [1792461659.888540782] [FrankaHardwareInterface]: Registering command interface: vz for command interface cartesian_velocity with index 2
+[ros2_control_node-4] [INFO] [1792461659.888545185] [FrankaHardwareInterface]: Registering command interface: wx for command interface cartesian_velocity with index 3
+[ros2_control_node-4] [INFO] [1792461659.888549792] [FrankaHardwareInterface]: Registering command interface: wy for command interface cartesian_velocity with index 4
+[ros2_control_node-4] [INFO] [1792461659.888555669] [FrankaHardwareInterface]: Registering command interface: wz for command interface cartesian_velocity with index 5
+[ros2_control_node-4] [INFO] [1792461659.888560035] [FrankaHardwareInterface]: Registering command interface: 0 for command interface cartesian_pose_command with index 0
+[ros2_control_node-4] [INFO] [1792461659.888580537] [FrankaHardwareInterface]: Registering command interface: 1 for command interface cartesian_pose_command with index 1
+[ros2_control_node-4] [INFO] [1792461659.888585729] [FrankaHardwareInterface]: Registering command interface: 2 for command interface cartesian_pose_command with index 2
+[ros2_control_node-4] [INFO] [1792461659.888590164] [FrankaHardwareInterface]: Registering command interface: 3 for command interface cartesian_pose_command with index 3
+[ros2_control_node-4] [INFO] [1792461659.888594867] [FrankaHardwareInterface]: Registering command interface: 4 for command interface cartesian_pose_command with index 4
+[ros2_control_node-4] [INFO] [1792461659.888599561] [FrankaHardwareInterface]: Registering command interface: 5 for command interface cartesian_pose_command with index 5
+[ros2_control_node-4] [INFO] [1792461659.888604084] [FrankaHardwareInterface]: Registering command interface: 6 for command interface cartesian_pose_command with index 6
+[ros2_control_node-4] [INFO] [1792461659.888608986] [FrankaHardwareInterface]: Registering command interface: 7 for command interface cartesian_pose_command with index 7
+[ros2_control_node-4] [INFO] [1792461659.888613438] [FrankaHardwareInterface]: Registering command interface: 8 for command interface cartesian_pose_command with index 8
+[ros2_control_node-4] [INFO] [1792461659.888617830] [FrankaHardwareInterface]: Registering command interface: 9 for command interface cartesian_pose_command with index 9
+[ros2_control_node-4] [INFO] [1792461659.888622592] [FrankaHardwareInterface]: Registering command interface: 10 for command interface cartesian_pose_command with index 10
+[ros2_control_node-4] [INFO] [1792461659.888627841] [FrankaHardwareInterface]: Registering command interface: 11 for command interface cartesian_pose_command with index 11
+[ros2_control_node-4] [INFO] [1792461659.888632279] [FrankaHardwareInterface]: Registering command interface: 12 for command interface cartesian_pose_command with index 12
+[ros2_control_node-4] [INFO] [1792461659.888636659] [FrankaHardwareInterface]: Registering command interface: 13 for command interface cartesian_pose_command with index 13
+[ros2_control_node-4] [INFO] [1792461659.888640958] [FrankaHardwareInterface]: Registering command interface: 14 for command interface cartesian_pose_command with index 14
+[ros2_control_node-4] [INFO] [1792461659.888645595] [FrankaHardwareInterface]: Registering command interface: 15 for command interface cartesian_pose_command with index 15
+[ros2_control_node-4] [INFO] [1792461659.888650341] [FrankaHardwareInterface]: Registering command interface: joint_3_position for command interface elbow_command with index 0
+[ros2_control_node-4] [INFO] [1792461659.888655272] [FrankaHardwareInterface]: Registering command interface: joint_4_sign for command interface elbow_command with index 1
+[ros2_control_node-4] [INFO] [1792461659.889188905] [controller_manager]: Activating component 'FrankaHardwareInterface'.
+[ros2_control_node-4] [INFO] [1792461659.889209139] [resource_manager]: 'configure' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-4] [INFO] [1792461659.889215631] [resource_manager]: Successful 'configure' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792461659.889235973] [resource_manager]: 'activate' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-4] [INFO] [1792461659.889513871] [resource_manager]: Successful 'activate' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792461659.889605678] [controller_manager]: Registering statistics for : FrankaHardwareInterface
+[ros2_control_node-4] [INFO] [1792461659.889719968] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[ros2_control_node-4] [INFO] [1792461659.915532673] [controller_manager]: Loading controller : 'franka_robot_state_broadcaster' of type 'franka_robot_state_broadcaster/FrankaRobotStateBroadcaster'
+[ros2_control_node-4] [INFO] [1792461659.915581102] [controller_manager]: Loading controller 'franka_robot_state_broadcaster'
+[ros2_control_node-4] [WARN] [1792461660.380582274] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[ros2_control_node-4] [INFO] [1792461660.380621632] [controller_manager]: Controller 'franka_robot_state_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_jgskvcxa --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml -r joint_states:=franka/joint_states 
+[spawner-6] [INFO] [1792461660.421604180] [spawner_franka_robot_state_broadcaster]: Loaded franka_robot_state_broadcaster
+[ros2_control_node-4] [INFO] [1792461660.425695369] [controller_manager]: Configuring controller: 'franka_robot_state_broadcaster'
+[ros2_control_node-4] [INFO] [1792461660.436334225] [franka_robot_state_broadcaster]: Convenience topics at 1000 Hz, full state at 1000 Hz
+[ros2_control_node-4] [INFO] [1792461660.442212456] [controller_manager]: Activating controllers: [ franka_robot_state_broadcaster ]
+[ros2_control_node-4] [INFO] [1792461660.446163572] [franka_robot_state_broadcaster]: Publish thread started with SCHED_FIFO priority 50.
+[ros2_control_node-4] [INFO] [1792461660.446358515] [controller_manager]: Successfully switched controllers!
+[spawner-6] [INFO] [1792461660.448524936] [spawner_franka_robot_state_broadcaster]: Configured and activated franka_robot_state_broadcaster
+[rviz2-1] [INFO] [1792461660.564336848] [rviz2]: Stereo is NOT SUPPORTED
+[ros2-8] [INFO] [1792461660.625684501] [spawner_fr3_arm_controller]: waiting for service /controller_manager/list_controllers to become available...
+[move_group-3] [INFO] [1792461660.662927463] [moveit.moveit.ros.planning_pipeline]: Successfully loaded planner 'OMPL'
+[move_group-3] [INFO] [1792461660.665407032] [move_group]: Try loading adapter 'default_planning_request_adapters/ResolveConstraintFrames'
+[INFO] [spawner-6]: process has finished cleanly [pid 8805]
+[move_group-3] [INFO] [1792461660.742809814] [move_group]: Loaded adapter 'default_planning_request_adapters/ResolveConstraintFrames'
+[move_group-3] [INFO] [1792461660.742854308] [move_group]: Try loading adapter 'default_planning_request_adapters/ValidateWorkspaceBounds'
+[move_group-3] [INFO] [1792461660.770829658] [move_group]: Loaded adapter 'default_planning_request_adapters/ValidateWorkspaceBounds'
+[move_group-3] [INFO] [1792461660.770860967] [move_group]: Try loading adapter 'default_planning_request_adapters/CheckStartStateBounds'
+[move_group-3] [INFO] [1792461660.770895614] [move_group]: Loaded adapter 'default_planning_request_adapters/CheckStartStateBounds'
+[move_group-3] [INFO] [1792461660.770902650] [move_group]: Try loading adapter 'default_planning_request_adapters/CheckStartStateCollision'
+[move_group-3] [INFO] [1792461660.770917815] [move_group]: Loaded adapter 'default_planning_request_adapters/CheckStartStateCollision'
+[move_group-3] [INFO] [1792461660.774276913] [move_group]: Try loading adapter 'default_planning_response_adapters/AddTimeOptimalParameterization'
+[ros2_control_node-4] [INFO] [1792461661.128580571] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-4] [INFO] [1792461661.128622349] [controller_manager]: Loading controller 'fr3_arm_controller'
+[move_group-3] [INFO] [1792461661.721828800] [move_group]: Loaded adapter 'default_planning_response_adapters/AddTimeOptimalParameterization'
+[move_group-3] [INFO] [1792461661.721866450] [move_group]: Try loading adapter 'default_planning_response_adapters/ValidateSolution'
+[move_group-3] [INFO] [1792461661.986946857] [move_group]: Loaded adapter 'default_planning_response_adapters/ValidateSolution'
+[move_group-3] [INFO] [1792461661.986985215] [move_group]: Try loading adapter 'default_planning_response_adapters/DisplayMotionPath'
+[move_group-3] [INFO] [1792461661.988631671] [move_group]: Loaded adapter 'default_planning_response_adapters/DisplayMotionPath'
+[ros2_control_node-4] [WARN] [1792461662.117336196] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[ros2_control_node-4] [INFO] [1792461662.117375252] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /tmp/launch_params_jgskvcxa --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml -r joint_states:=franka/joint_states 
+[ros2-8] [INFO] [1792461662.156536492] [spawner_fr3_arm_controller]: Loaded fr3_arm_controller
+[ros2_control_node-4] [INFO] [1792461662.163948866] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-4] [INFO] [1792461662.164272686] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-4] [INFO] [1792461662.164392021] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-4] [INFO] [1792461662.164425551] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[move_group-3] [INFO] [1792461662.682062873] [moveit.moveit.plugins.simple_controller_manager]: Added FollowJointTrajectory controller for fr3_arm_controller
+[move_group-3] [INFO] [1792461662.682134069] [moveit.moveit.plugins.simple_controller_manager]: fr3_gripper will command a max effort of: 0
+[move_group-3] [INFO] [1792461662.685409213] [moveit.moveit.plugins.simple_controller_manager]: Added GripperCommand controller for fr3_gripper
+[move_group-3] [INFO] [1792461662.685614463] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[move_group-3] [INFO] [1792461662.685653318] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[move_group-3] [INFO] [1792461662.687380386] [moveit.moveit.ros.trajectory_execution_manager]: Trajectory execution is managing controllers
+[move_group-3] [INFO] [1792461662.687425148] [move_group]: MoveGroup debug mode is ON
+[ros2_control_node-4] [INFO] [1792461662.687484950] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-4] [INFO] [1792461662.693913116] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-4] [INFO] [1792461662.697621803] [controller_manager]: Activating controllers: [ fr3_arm_controller ]
+[ros2_control_node-4] [INFO] [1792461662.701259966] [controller_manager]: Successfully switched controllers!
+[ros2-8] [INFO] [1792461662.703034243] [spawner_fr3_arm_controller]: Configured and activated fr3_arm_controller
+[ros2-9] [INFO] [1792461662.827200351] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[INFO] [ros2-8]: process has finished cleanly [pid 8807]
+[move_group-3] [INFO] [1792461663.016019935] [moveit.moveit.ros.move_group.executable]: 
+[move_group-3] 
+[move_group-3] ********************************************************
+[move_group-3] * MoveGroup using: 
+[move_group-3] *     - apply_planning_scene_service
+[move_group-3] *     - clear_octomap_service
+[move_group-3] *     - get_group_urdf
+[move_group-3] *     - load_geometry_from_file
+[move_group-3] *     - CartesianPathService
+[move_group-3] *     - execute_trajectory_action
+[move_group-3] *     - get_planning_scene_service
+[move_group-3] *     - kinematics_service
+[move_group-3] *     - move_action
+[move_group-3] *     - motion_plan_service
+[move_group-3] *     - query_planners_service
+[move_group-3] *     - state_validation_service
+[move_group-3] *     - save_geometry_to_file
+[move_group-3] ********************************************************
+[move_group-3] 
+[move_group-3] [INFO] [1792461663.016108957] [moveit.moveit.ros.move_group.context]: MoveGroup context using pipeline move_group
+[move_group-3] [INFO] [1792461663.016128597] [moveit.moveit.ros.move_group.context]: MoveGroup context initialization complete
+[move_group-3] [96mLoading 'move_group/ApplyPlanningSceneService'...[0m
+[move_group-3] [96mLoading 'move_group/ClearOctomapService'...[0m
+[move_group-3] [96mLoading 'move_group/GetUrdfService'...[0m
+[move_group-3] [96mLoading 'move_group/LoadGeometryFromFileService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupCartesianPathService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupExecuteTrajectoryAction'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupGetPlanningSceneService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupKinematicsService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupMoveAction'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupPlanService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupQueryPlannersService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupStateValidationService'...[0m
+[move_group-3] [96mLoading 'move_group/SaveGeometryToFileService'...[0m
+[move_group-3] 
+[move_group-3] [92mYou can start planning now![0m
+[move_group-3] 
+[ros2_control_node-4] [INFO] [1792461663.581687644] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-4] [INFO] [1792461663.581729615] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-4] [WARN] [1792461663.648072308] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[ros2_control_node-4] [INFO] [1792461663.648124029] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_jgskvcxa --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml -r joint_states:=franka/joint_states 
+[ros2-9] [INFO] [1792461663.669767962] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ros2_control_node-4] [INFO] [1792461663.672870891] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-4] [INFO] [1792461663.672959925] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-4] [INFO] [1792461663.685408770] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[ros2_control_node-4] [INFO] [1792461663.685811264] [controller_manager]: Successfully switched controllers!
+[ros2-9] [INFO] [1792461663.688721860] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[rviz2-1] [WARN] [1792461663.949848043] [rcl.logging_rosout]: Publisher already registered for node name: 'rviz2'. If this is due to multiple nodes with the same name then all logs for the logger named 'rviz2' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[INFO] [ros2-9]: process has finished cleanly [pid 8808]
+[rviz2-1] Warning: class_loader.impl: SEVERE WARNING!!! A namespace collision has occurred with plugin factory for class rviz_default_plugins::displays::InteractiveMarkerDisplay. New factory will OVERWRITE existing one. This situation occurs when libraries containing plugins are directly linked against an executable (the one running right now generating this message). Please separate plugins out into their own library or just don't link against the library and use either class_loader::ClassLoader/MultiLibraryClassLoader to open.
+[rviz2-1]          at line 321 in /opt/ros/jazzy/include/class_loader/class_loader/class_loader_core.hpp
+[rviz2-1] [INFO] [1792461664.682831781] [rviz2.moveit.ros.rdf_loader]: Loaded robot model in 0.00402468 seconds
+[rviz2-1] [INFO] [1792461664.682913956] [rviz2.moveit.core.robot_model]: Loading robot model 'fr3'...
+[rviz2-1] [ERROR] [1792461669.625312367] [rviz2.moveit.ros.motion_planning_frame]: Action server: /recognize_objects not available
+[rviz2-1] [INFO] [1792461669.995682499] [rviz2.moveit.ros.rdf_loader]: Loaded robot model in 0.00328124 seconds
+[rviz2-1] [INFO] [1792461669.995735335] [rviz2.moveit.core.robot_model]: Loading robot model 'fr3'...
+[rviz2-1] [INFO] [1792461670.011578366] [rviz2.moveit.kinematics.kdl_kinematics_plugin]: Joint weights for group 'fr3_arm': 1 1 1 1 1 1 1
+[rviz2-1] [INFO] [1792461670.102753884] [rviz2.moveit.ros.planning_scene_monitor]: Starting planning scene monitor
+[rviz2-1] [INFO] [1792461670.103899181] [rviz2.moveit.ros.planning_scene_monitor]: Listening to '/monitored_planning_scene'
+[move_group-3] [WARN] [1792461670.144338863] [moveit.moveit.ros.planning_scene_monitor]: Unable to transform object from frame 'camera_depth_frame' to planning frame'base' (Could not find a connection between 'base' and 'camera_depth_frame' because they are not part of the same tree.Tf has two or more unconnected trees.)
+[move_group-3] [WARN] [1792461670.144414996] [moveit.moveit.ros.planning_scene_monitor]: Unable to transform object from frame 'camera_link' to planning frame'base' (Could not find a connection between 'base' and 'camera_link' because they are not part of the same tree.Tf has two or more unconnected trees.)
+[move_group-3] [WARN] [1792461670.144436786] [moveit.moveit.ros.planning_scene_monitor]: Unable to transform object from frame 'camera_depth_optical_frame' to planning frame'base' (Could not find a connection between 'base' and 'camera_depth_optical_frame' because they are not part of the same tree.Tf has two or more unconnected trees.)
+[move_group-3] [WARN] [1792461670.144453940] [moveit.moveit.ros.planning_scene_monitor]: Unable to transform object from frame 'camera_color_frame' to planning frame'base' (Could not find a connection between 'base' and 'camera_color_frame' because they are not part of the same tree.Tf has two or more unconnected trees.)
+[move_group-3] [WARN] [1792461670.144470114] [moveit.moveit.ros.planning_scene_monitor]: Unable to transform object from frame 'camera_color_optical_frame' to planning frame'base' (Could not find a connection between 'base' and 'camera_color_optical_frame' because they are not part of the same tree.Tf has two or more unconnected trees.)
+[ros2_control_node-4] [ERROR] [1792461751.438258356] [FrankaHardwareInterface]: libfranka: Move command aborted!
+[ros2_control_node-4] [ERROR] [1792461751.438340665] [FrankaHardwareInterface]: libfranka: Move command aborted!
+[ros2_control_node-4] [ERROR] [1792461751.440333446] [controller_manager]: Deactivating following hardware components as their read cycle resulted in an error: [ FrankaHardwareInterface ]
+[ros2_control_node-4] [ERROR] [1792461751.440393202] [controller_manager]: Deactivating following controllers as their hardware components read cycle resulted in an error: [ franka_robot_state_broadcaster fr3_arm_controller joint_state_broadcaster ]
+[ros2_control_node-4] [ERROR] [1792461751.440437696] [controller_manager]: Not acceptable command interfaces combination: 
+[ros2_control_node-4] Start interfaces: 
+[ros2_control_node-4] [
+[ros2_control_node-4] ]
+[ros2_control_node-4] Stop interfaces: 
+[ros2_control_node-4] [
+[ros2_control_node-4]   fr3_joint1/effort
+[ros2_control_node-4]   fr3_joint2/effort
+[ros2_control_node-4]   fr3_joint3/effort
+[ros2_control_node-4]   fr3_joint4/effort
+[ros2_control_node-4]   fr3_joint5/effort
+[ros2_control_node-4]   fr3_joint6/effort
+[ros2_control_node-4]   fr3_joint7/effort
+[ros2_control_node-4] ]
+[ros2_control_node-4] Not available: 
+[ros2_control_node-4] [
+[ros2_control_node-4]  fr3_joint1/effort
+[ros2_control_node-4]  fr3_joint2/effort
+[ros2_control_node-4]  fr3_joint3/effort
+[ros2_control_node-4]  fr3_joint4/effort
+[ros2_control_node-4]  fr3_joint5/effort
+[ros2_control_node-4]  fr3_joint6/effort
+[ros2_control_node-4]  fr3_joint7/effort
+[ros2_control_node-4] ]
+[ros2_control_node-4] 
+[ros2_control_node-4] [ERROR] [1792461751.440453639] [controller_manager]: Error while attempting mode switch when deactivating controllers in read cycle!

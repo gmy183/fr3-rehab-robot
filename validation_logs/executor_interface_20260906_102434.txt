@@ -1,0 +1,1362 @@
+============================================================
+1. 当前 Git / workspace 状态
+============================================================
+?? .runtime/
+?? .vscode/
+?? MANIFEST.txt
+?? README_START_HERE.md
+?? build/
+?? config/
+?? env.sh
+?? install/
+?? log/
+?? rehab_robot.code-workspace
+?? src/
+?? tools/
+?? validation_logs/
+
+============================================================
+2. 当前关键配置 SHA256
+============================================================
+b95561ef904856eb4a603ae91ddf1c7815c83d3f0f1bb7c666004742ab4325ce  config/hardware_profile.env
+a16950b216d93dcae7cc51d1ee6eaf9832830f3a06203fa9f1fd1a8f1efe8e91  config/safety.yaml
+81c6c8b21a0b056887d502bdaa6de2ed7ed673fa3139c5e1dd4dff6bc7c56d19  config/fr3_motion_safety.yaml
+5329d89f7939d85e4023c4dc063726c7a038c1cd3ea779a110bc1496f8258766  config/fr3_joint_limits_resolved.yaml
+8630fede56f43ed6eeb75ac71b6ed78bd81a2e4139cf16f4176a8a35ff74f2c9  config/xhand_motion_profile.yaml
+05b2940aa291f19dea948269a3eef6e1ed41edf28cfe642396480fa7070a9f16  config/empty_grasp_sequence.yaml
+716479507c07ae01064c45d1249bcf129b70f30a0b8482332933856cfb9053bf  tools/run_empty_grasp.sh
+1362e45f7aeb8a5b282311fd75db67cbb97030ffe2d1eac4ff42daa4e2f5d5b2  tools/empty_grasp_live_preflight.sh
+4809392ff5e525ade945b0af067a2c4ce34eca664bd86df3032e5ad09fbda841  tools/empty_grasp_fr3_preflight.py
+
+============================================================
+3. xhand_sdk_adapter.py
+============================================================
+"""
+XHand vendor-SDK adapter for rehab_robot_ws.
+
+IMPORTANT:
+- This module does NOT open EtherCAT at import time.
+- This module does NOT send commands at import time.
+- The self-test is software-only.
+- Active motion gains/targets are deliberately NOT invented here.
+
+Recovered safety contract from the 2026-07-22 reviewed project:
+- XHand command array length: 12
+- inactive joint:
+    mode = 0
+    kp = ki = kd = 0
+    tor_max = 0
+- command watchdog belongs to the ROS2 driver layer
+- hardware read failure must not be converted into a fresh valid state
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Iterable, Sequence
+
+from xhand_controller.xhand_control import (
+    FingerCommand_t,
+    HandCommand_t,
+    XHandControl,
+)
+
+
+XHAND_JOINT_COUNT = 12
+POWERLESS_MODE = 0
+
+
+class XHandAdapterError(RuntimeError):
+    """Raised when the vendor SDK does not satisfy the expected contract."""
+
+
+@dataclass(frozen=True)
+class JointCommandSpec:
+    position: float
+    effort_limit: int
+    mode: int
+    kp: int
+    ki: int
+    kd: int
+
+
+def _finger_commands(command: HandCommand_t):
+    fingers = command.finger_command
+
+    if len(fingers) != XHAND_JOINT_COUNT:
+        raise XHandAdapterError(
+            f"vendor HandCommand_t contains {len(fingers)} joints; "
+            f"expected {XHAND_JOINT_COUNT}"
+        )
+
+    return fingers
+
+
+def make_powerless_command() -> HandCommand_t:
+    """
+    Construct the reviewed safe disabled command.
+
+    This function only constructs an in-memory SDK object.
+    It does NOT call send_command().
+    """
+    command = HandCommand_t()
+    fingers = _finger_commands(command)
+
+    for index, finger in enumerate(fingers):
+        finger.id = index
+        finger.position = 0.0
+        finger.kp = 0
+        finger.ki = 0
+        finger.kd = 0
+        finger.tor_max = 0
+        finger.mode = POWERLESS_MODE
+        finger.res0 = 0
+        finger.res1 = 0
+        finger.res2 = 0
+        finger.res3 = 0
+
+    return command
+
+
+def build_command(specs: Sequence[JointCommandSpec]) -> HandCommand_t:
+    """
+    Translate already-validated project-level command specifications to
+    the vendor SDK representation.
+
+    No default active gains are supplied intentionally.  Active parameters
+    must come from the recovered project configuration, not from guesses.
+
+    Safety rule:
+      effort_limit <= 0  -> force POWERLESS_MODE and zero gains/current.
+    """
+    if len(specs) != XHAND_JOINT_COUNT:
+        raise XHandAdapterError(
+            f"command specification length={len(specs)}, "
+            f"expected={XHAND_JOINT_COUNT}"
+        )
+
+    command = HandCommand_t()
+    fingers = _finger_commands(command)
+
+    for index, (finger, spec) in enumerate(zip(fingers, specs)):
+        finger.id = index
+        finger.position = float(spec.position)
+
+        if int(spec.effort_limit) <= 0:
+            finger.kp = 0
+            finger.ki = 0
+            finger.kd = 0
+            finger.tor_max = 0
+            finger.mode = POWERLESS_MODE
+        else:
+            if int(spec.mode) == POWERLESS_MODE:
+                raise XHandAdapterError(
+                    f"joint {index}: positive effort_limit with mode=0"
+                )
+
+            finger.kp = int(spec.kp)
+            finger.ki = int(spec.ki)
+            finger.kd = int(spec.kd)
+            finger.tor_max = int(spec.effort_limit)
+            finger.mode = int(spec.mode)
+
+        finger.res0 = 0
+        finger.res1 = 0
+        finger.res2 = 0
+        finger.res3 = 0
+
+    return command
+
+
+def verify_vendor_api() -> None:
+    required_control_methods = (
+        "open_ethercat",
+        "read_state",
+        "send_command",
+        "close_device",
+        "list_hands_id",
+    )
+
+    missing_methods = [
+        name for name in required_control_methods
+        if not hasattr(XHandControl, name)
+    ]
+
+    if missing_methods:
+        raise XHandAdapterError(
+            "vendor XHandControl missing methods: "
+            + ", ".join(missing_methods)
+        )
+
+    finger = FingerCommand_t()
+
+    required_fields = (
+        "id",
+        "position",
+        "kp",
+        "ki",
+        "kd",
+        "tor_max",
+        "mode",
+        "res0",
+        "res1",
+        "res2",
+        "res3",
+    )
+
+    missing_fields = [
+        name for name in required_fields
+        if not hasattr(finger, name)
+    ]
+
+    if missing_fields:
+        raise XHandAdapterError(
+            "vendor FingerCommand_t missing fields: "
+            + ", ".join(missing_fields)
+        )
+
+    command = make_powerless_command()
+    fingers = _finger_commands(command)
+
+    for index, finger in enumerate(fingers):
+        if int(finger.mode) != 0:
+            raise XHandAdapterError(
+                f"joint {index}: powerless mode is not zero"
+            )
+
+        if any(
+            int(value) != 0
+            for value in (
+                finger.kp,
+                finger.ki,
+                finger.kd,
+                finger.tor_max,
+            )
+        ):
+            raise XHandAdapterError(
+                f"joint {index}: powerless command contains "
+                "non-zero gain/current"
+            )
+
+
+def main() -> None:
+    verify_vendor_api()
+
+    command = make_powerless_command()
+
+    print("============================================================")
+    print("XHand SDK adapter software-only self-test")
+    print("============================================================")
+    print(f"[PASS] vendor API")
+    print(f"[PASS] HandCommand_t joints = {len(command.finger_command)}")
+    print("[PASS] all 12 inactive joints:")
+    print("       mode=0")
+    print("       kp=ki=kd=0")
+    print("       tor_max=0")
+    print()
+    print("[PASS] no EtherCAT interface opened")
+    print("[PASS] no XHand command sent")
+    print("[PASS] no FR3 command sent")
+    print("============================================================")
+
+
+if __name__ == "__main__":
+    main()
+
+============================================================
+4. xhand_driver_core.py
+============================================================
+"""
+Safety core for the reconstructed XHand driver.
+
+This module contains NO ROS message definitions.
+
+Safety properties:
+- construction does not open EtherCAT
+- hardware access requires explicit open()
+- 0.5 s project-level command watchdog
+- watchdog/close sends multiple powerless frames
+- failed read_state() never produces a fresh state
+- wrong joint count never produces a fresh state
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+import time
+from typing import Any, Callable, Optional
+
+from .xhand_sdk_adapter import (
+    XHAND_JOINT_COUNT,
+    make_powerless_command,
+)
+
+
+DEFAULT_COMMAND_TIMEOUT_S = 0.5
+DEFAULT_DISABLE_FRAMES = 3
+
+
+class XHandDriverError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class FreshXHandState:
+    state: Any
+    received_monotonic_s: float
+
+
+def _sdk_result_ok(result: Any) -> bool:
+    """
+    Interpret XHand SDK ErrorStruct/bool-style return values.
+
+    Vendor examples use the return object directly in boolean context.
+    Keep fallback handling for simple fake backends used in tests.
+    """
+    if isinstance(result, bool):
+        return result
+
+    try:
+        return bool(result)
+    except Exception:
+        pass
+
+    error_code = getattr(result, "error_code", None)
+    if error_code is not None:
+        try:
+            return int(error_code) == 0
+        except (TypeError, ValueError):
+            return False
+
+    return False
+
+
+def _command_is_powerless(command: Any) -> bool:
+    fingers = command.finger_command
+
+    if len(fingers) != XHAND_JOINT_COUNT:
+        raise XHandDriverError(
+            f"command joint count={len(fingers)}, "
+            f"expected={XHAND_JOINT_COUNT}"
+        )
+
+    for finger in fingers:
+        if int(finger.mode) != 0:
+            return False
+        if any(
+            int(value) != 0
+            for value in (
+                finger.kp,
+                finger.ki,
+                finger.kd,
+                finger.tor_max,
+            )
+        ):
+            return False
+
+    return True
+
+
+class VendorXHandBackend:
+    """
+    Thin wrapper around the installed vendor SDK.
+
+    Merely constructing this object does not call open_ethercat().
+    """
+
+    def __init__(self):
+        from xhand_controller.xhand_control import XHandControl
+        self._control = XHandControl()
+
+    def open_ethercat(self, interface: str):
+        return self._control.open_ethercat(interface)
+
+    def list_hands_id(self):
+        return self._control.list_hands_id()
+
+    def send_command(self, device_id: int, command: Any):
+        return self._control.send_command(device_id, command)
+
+    def read_state(self, device_id: int, force_update: bool = False):
+        return self._control.read_state(device_id, force_update)
+
+    def close_device(self):
+        return self._control.close_device()
+
+
+class XHandDriverCore:
+    def __init__(
+        self,
+        backend: Any,
+        command_timeout_s: float = DEFAULT_COMMAND_TIMEOUT_S,
+        disable_frames: int = DEFAULT_DISABLE_FRAMES,
+        clock: Callable[[], float] = time.monotonic,
+    ):
+        if command_timeout_s <= 0.0:
+            raise ValueError("command_timeout_s must be > 0")
+
+        if disable_frames < 1:
+            raise ValueError("disable_frames must be >= 1")
+
+        self._backend = backend
+        self._command_timeout_s = float(command_timeout_s)
+        self._disable_frames = int(disable_frames)
+        self._clock = clock
+
+        self._opened = False
+        self._device_id: Optional[int] = None
+
+        self._last_command_time: Optional[float] = None
+        self._last_good_state_time: Optional[float] = None
+
+        self._watchdog_armed = False
+        self._watchdog_tripped = False
+
+    @property
+    def opened(self) -> bool:
+        return self._opened
+
+    @property
+    def device_id(self) -> Optional[int]:
+        return self._device_id
+
+    @property
+    def last_good_state_time(self) -> Optional[float]:
+        return self._last_good_state_time
+
+    @property
+    def watchdog_armed(self) -> bool:
+        return self._watchdog_armed
+
+    @property
+    def watchdog_tripped(self) -> bool:
+        return self._watchdog_tripped
+
+    def open(self, interface: str) -> int:
+        if self._opened:
+            raise XHandDriverError("XHand driver is already open")
+
+        if not interface:
+            raise ValueError("EtherCAT interface must not be empty")
+
+        result = self._backend.open_ethercat(interface)
+
+        if not _sdk_result_ok(result):
+            raise XHandDriverError(
+                f"open_ethercat failed: {result!r}"
+            )
+
+        hand_ids = list(self._backend.list_hands_id())
+
+        if not hand_ids:
+            try:
+                self._backend.close_device()
+            finally:
+                self._opened = False
+            raise XHandDriverError("no XHand device id reported")
+
+        self._device_id = int(hand_ids[0])
+        self._opened = True
+        self._watchdog_armed = False
+        self._watchdog_tripped = False
+        self._last_command_time = None
+
+        return self._device_id
+
+    def send_command(self, command: Any) -> None:
+        self._require_open()
+
+        powerless = _command_is_powerless(command)
+
+        result = self._backend.send_command(
+            self._device_id,
+            command,
+        )
+
+        if not _sdk_result_ok(result):
+            raise XHandDriverError(
+                f"send_command failed: {result!r}"
+            )
+
+        now = self._clock()
+
+        if powerless:
+            self._watchdog_armed = False
+            self._watchdog_tripped = False
+            self._last_command_time = None
+        else:
+            self._last_command_time = now
+            self._watchdog_armed = True
+            self._watchdog_tripped = False
+
+    def refresh_active_command(self, command: Any) -> None:
+        if _command_is_powerless(command):
+            raise XHandDriverError(
+                "refresh_active_command received powerless command"
+            )
+
+        self.send_command(command)
+
+    def read_fresh_state(
+        self,
+        force_update: bool = False,
+    ) -> Optional[FreshXHandState]:
+        """
+        Return a state only when this read cycle is successful.
+
+        A failed SDK read returns None and DOES NOT update
+        last_good_state_time.
+        """
+        self._require_open()
+
+        result = self._backend.read_state(
+            self._device_id,
+            force_update,
+        )
+
+        if not isinstance(result, (tuple, list)) or len(result) != 2:
+            return None
+
+        error, state = result
+
+        if not _sdk_result_ok(error):
+            return None
+
+        fingers = getattr(state, "finger_state", None)
+
+        if fingers is None:
+            return None
+
+        try:
+            count = len(fingers)
+        except TypeError:
+            return None
+
+        if count != XHAND_JOINT_COUNT:
+            return None
+
+        now = self._clock()
+        self._last_good_state_time = now
+
+        return FreshXHandState(
+            state=state,
+            received_monotonic_s=now,
+        )
+
+    def poll_watchdog(self) -> bool:
+        """
+        Check the project-level command watchdog.
+
+        Returns True only on the cycle that actually trips it.
+        """
+        if not self._opened:
+            return False
+
+        if not self._watchdog_armed:
+            return False
+
+        if self._last_command_time is None:
+            return False
+
+        elapsed = self._clock() - self._last_command_time
+
+        if elapsed <= self._command_timeout_s:
+            return False
+
+        if self._watchdog_tripped:
+            return False
+
+        self.disable_multiframe()
+
+        self._watchdog_tripped = True
+        self._watchdog_armed = False
+        self._last_command_time = None
+
+        return True
+
+    def disable_multiframe(self) -> None:
+        """
+        Send several independent powerless frames.
+
+        This follows the reviewed project requirement that watchdog,
+        normal exit, protection exit and Ctrl+C must not rely on one
+        single disable packet.
+        """
+        self._require_open()
+
+        failures = []
+
+        for index in range(self._disable_frames):
+            command = make_powerless_command()
+
+            try:
+                result = self._backend.send_command(
+                    self._device_id,
+                    command,
+                )
+
+                if not _sdk_result_ok(result):
+                    failures.append(
+                        f"frame {index + 1}: {result!r}"
+                    )
+            except Exception as exc:
+                failures.append(
+                    f"frame {index + 1}: {exc}"
+                )
+
+        self._watchdog_armed = False
+        self._last_command_time = None
+
+        if failures:
+            raise XHandDriverError(
+                "powerless disable incomplete: "
+                + "; ".join(failures)
+            )
+
+    def close(self) -> None:
+        """
+        Deterministic shutdown order:
+          multiple powerless frames -> close vendor device
+        """
+        if not self._opened:
+            return
+
+        disable_error = None
+
+        try:
+            self.disable_multiframe()
+        except Exception as exc:
+            disable_error = exc
+
+        try:
+            self._backend.close_device()
+        finally:
+            self._opened = False
+            self._device_id = None
+            self._watchdog_armed = False
+            self._last_command_time = None
+
+        if disable_error is not None:
+            raise disable_error
+
+    def _require_open(self) -> None:
+        if not self._opened or self._device_id is None:
+            raise XHandDriverError(
+                "XHand device is not open"
+            )
+
+============================================================
+5. xhand_readonly_session.py
+============================================================
+"""
+Strict read-only XHand session.
+
+Purpose:
+    Real hardware state acquisition before any motion-control path is enabled.
+
+Safety contract:
+- construction does NOT create/open EtherCAT communication
+- open() is explicit
+- read_state() is allowed
+- send_command() does not exist
+- close() calls vendor close_device() directly
+- NO powerless frame is sent on close because this session never sends
+  active commands in the first place
+- failed reads never become fresh states
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+import time
+from typing import Any, Callable, Optional
+
+from .xhand_driver_core import _sdk_result_ok
+from .xhand_sdk_adapter import XHAND_JOINT_COUNT
+
+
+class XHandReadOnlyError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class FreshReadOnlyXHandState:
+    state: Any
+    received_monotonic_s: float
+
+
+class VendorXHandReadOnlyBackend:
+    """
+    Minimal vendor SDK wrapper.
+
+    Deliberately exposes no send_command() method.
+    Constructing it creates XHandControl, but does NOT call open_ethercat().
+    """
+
+    def __init__(self):
+        from xhand_controller.xhand_control import XHandControl
+        self._control = XHandControl()
+
+    def open_ethercat(self, interface: str):
+        return self._control.open_ethercat(interface)
+
+    def list_hands_id(self):
+        return self._control.list_hands_id()
+
+    def read_state(self, device_id: int, force_update: bool = False):
+        return self._control.read_state(device_id, force_update)
+
+    def close_device(self):
+        return self._control.close_device()
+
+
+class XHandReadOnlySession:
+    def __init__(
+        self,
+        backend: Any,
+        clock: Callable[[], float] = time.monotonic,
+    ):
+        self._backend = backend
+        self._clock = clock
+
+        self._opened = False
+        self._device_id: Optional[int] = None
+        self._last_good_state_time: Optional[float] = None
+
+    @property
+    def opened(self) -> bool:
+        return self._opened
+
+    @property
+    def device_id(self) -> Optional[int]:
+        return self._device_id
+
+    @property
+    def last_good_state_time(self) -> Optional[float]:
+        return self._last_good_state_time
+
+    def open(self, interface: str) -> int:
+        if self._opened:
+            raise XHandReadOnlyError(
+                "read-only XHand session is already open"
+            )
+
+        if not interface:
+            raise ValueError(
+                "EtherCAT interface must not be empty"
+            )
+
+        result = self._backend.open_ethercat(interface)
+
+        if not _sdk_result_ok(result):
+            raise XHandReadOnlyError(
+                f"open_ethercat failed: {result!r}"
+            )
+
+        hand_ids = list(self._backend.list_hands_id())
+
+        if not hand_ids:
+            try:
+                self._backend.close_device()
+            finally:
+                self._opened = False
+
+            raise XHandReadOnlyError(
+                "no XHand device id reported"
+            )
+
+        self._device_id = int(hand_ids[0])
+        self._opened = True
+
+        return self._device_id
+
+    def read_fresh_state(
+        self,
+        force_update: bool = False,
+    ) -> Optional[FreshReadOnlyXHandState]:
+
+        self._require_open()
+
+        result = self._backend.read_state(
+            self._device_id,
+            force_update,
+        )
+
+        if not isinstance(result, (tuple, list)):
+            return None
+
+        if len(result) != 2:
+            return None
+
+        error, state = result
+
+        if not _sdk_result_ok(error):
+            return None
+
+        fingers = getattr(state, "finger_state", None)
+
+        if fingers is None:
+            return None
+
+        try:
+            count = len(fingers)
+        except TypeError:
+            return None
+
+        if count != XHAND_JOINT_COUNT:
+            return None
+
+        now = self._clock()
+        self._last_good_state_time = now
+
+        return FreshReadOnlyXHandState(
+            state=state,
+            received_monotonic_s=now,
+        )
+
+    def close(self) -> None:
+        """
+        Strictly read-only shutdown.
+
+        No disable command is required because this session has no command
+        API and therefore cannot have armed any actuator command.
+        """
+
+        if not self._opened:
+            return
+
+        try:
+            self._backend.close_device()
+        finally:
+            self._opened = False
+            self._device_id = None
+
+    def _require_open(self) -> None:
+        if not self._opened or self._device_id is None:
+            raise XHandReadOnlyError(
+                "read-only XHand device is not open"
+            )
+
+============================================================
+6. xhand_motion_contract.py
+============================================================
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+import math
+from typing import Optional
+
+import yaml
+
+from .xhand_sdk_adapter import (
+    JointCommandSpec,
+    build_command,
+)
+from .xhand_state_mapper import JOINT_NAMES
+
+
+class XHandMotionGateError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class ActiveGains:
+    mode: int
+    kp: Optional[int]
+    ki: Optional[int]
+    kd: Optional[int]
+    verified: bool
+
+
+def load_profile(path: Path | None = None):
+    if path is None:
+        path = (
+            Path.home()
+            / "rehab_robot_ws/config/xhand_motion_profile.yaml"
+        )
+
+    return yaml.safe_load(
+        path.read_text(encoding="utf-8")
+    )["xhand"]
+
+
+def load_active_gains(profile=None) -> ActiveGains:
+    if profile is None:
+        profile = load_profile()
+
+    gains = profile["active_gains"]
+
+    return ActiveGains(
+        mode=int(profile["mode"]),
+        kp=gains["kp"],
+        ki=gains["ki"],
+        kd=gains["kd"],
+        verified=bool(gains["verified"]),
+    )
+
+
+def require_verified_gains(gains: ActiveGains) -> None:
+    if not gains.verified:
+        raise XHandMotionGateError(
+            "XHand active kp/ki/kd are not verified"
+        )
+
+    if None in (gains.kp, gains.ki, gains.kd):
+        raise XHandMotionGateError(
+            "verified XHand gains contain missing values"
+        )
+
+
+def validate_positions(values):
+    result = tuple(float(v) for v in values)
+
+    if len(result) != 12:
+        raise XHandMotionGateError(
+            "XHand position vector must contain 12 joints"
+        )
+
+    if not all(math.isfinite(v) for v in result):
+        raise XHandMotionGateError(
+            "XHand position vector contains non-finite value"
+        )
+
+    return result
+
+
+def validate_active_joints(names, profile=None):
+    if profile is None:
+        profile = load_profile()
+
+    names = tuple(names)
+
+    unknown = [
+        name for name in names
+        if name not in JOINT_NAMES
+    ]
+
+    if unknown:
+        raise XHandMotionGateError(
+            "unknown XHand joints: "
+            + ", ".join(unknown)
+        )
+
+    forbidden = set(
+        profile["fixed_joints"]
+        + profile["excluded_joints"]
+    )
+
+    bad = [
+        name for name in names
+        if name in forbidden
+    ]
+
+    if bad:
+        raise XHandMotionGateError(
+            "forbidden active XHand joints: "
+            + ", ".join(bad)
+        )
+
+    return names
+
+
+def plan_relative_motion(
+    current_positions,
+    *,
+    active_joints,
+    delta_rad,
+    effort_limit_ma,
+    profile=None,
+):
+    if profile is None:
+        profile = load_profile()
+
+    current = validate_positions(
+        current_positions
+    )
+
+    active_joints = validate_active_joints(
+        active_joints,
+        profile=profile,
+    )
+
+    delta = float(delta_rad)
+
+    if not math.isfinite(delta):
+        raise XHandMotionGateError(
+            "delta_rad must be finite"
+        )
+
+    if abs(delta) > 0.005 + 1e-12:
+        raise XHandMotionGateError(
+            "first-stage XHand delta exceeds 0.005 rad"
+        )
+
+    effort = int(effort_limit_ma)
+
+    if effort <= 0 or effort > 220:
+        raise XHandMotionGateError(
+            "XHand effort limit must be in (0, 220] mA"
+        )
+
+    target = list(current)
+
+    active_set = set(active_joints)
+
+    for index, name in enumerate(JOINT_NAMES):
+        if name in active_set:
+            target[index] += delta
+
+    return {
+        "active_joints": active_joints,
+        "current_positions": current,
+        "target_positions": tuple(target),
+        "delta_rad": delta,
+        "effort_limit_ma": effort,
+    }
+
+
+def build_verified_sdk_command(
+    plan,
+    *,
+    gains: ActiveGains,
+):
+    require_verified_gains(gains)
+
+    active = set(
+        plan["active_joints"]
+    )
+
+    specs = []
+
+    for index, name in enumerate(JOINT_NAMES):
+        if name in active:
+            specs.append(
+                JointCommandSpec(
+                    position=plan[
+                        "target_positions"
+                    ][index],
+                    effort_limit=int(
+                        plan["effort_limit_ma"]
+                    ),
+                    mode=int(gains.mode),
+                    kp=int(gains.kp),
+                    ki=int(gains.ki),
+                    kd=int(gains.kd),
+                )
+            )
+        else:
+            specs.append(
+                JointCommandSpec(
+                    position=plan[
+                        "current_positions"
+                    ][index],
+                    effort_limit=0,
+                    mode=0,
+                    kp=0,
+                    ki=0,
+                    kd=0,
+                )
+            )
+
+    return build_command(specs)
+
+============================================================
+7. vendor XHand API 当前实际 Python 签名
+============================================================
+========== xhand_controller package ==========
+module = <module 'xhand_controller' from '/usr/local/lib/python3.12/dist-packages/xhand_controller/__init__.py'>
+file   = /usr/local/lib/python3.12/dist-packages/xhand_controller/__init__.py
+from xhand_controller import XHandControl: ImportError("cannot import name 'XHandControl' from 'xhand_controller' (/usr/local/lib/python3.12/dist-packages/xhand_controller/__init__.py)")
+
+CLASS: xhand_controller.xhand_control.XHandControl
+
+METHOD: __init__
+  signature unavailable: ValueError('no signature found for builtin <instancemethod __init__ at 0x775fb2ec6b30>')
+  doc: __init__(self: xhand_controller.xhand_control.XHandControl) -> None
+
+METHOD: enumerate_devices
+  signature unavailable: ValueError('no signature found for builtin <instancemethod enumerate_devices at 0x775fb2ec69e0>')
+  doc: enumerate_devices(self: xhand_controller.xhand_control.XHandControl, arg0: str) -> list[str]  Enumerate available devices
+
+METHOD: open_ethercat
+  signature unavailable: ValueError('no signature found for builtin <instancemethod open_ethercat at 0x775fb2ec6f50>')
+  doc: open_ethercat(self: xhand_controller.xhand_control.XHandControl, arg0: str) -> xhand_control::ErrorStruct  Open a ethercat device for communication
+
+METHOD: list_hands_id
+  signature unavailable: ValueError('no signature found for builtin <instancemethod list_hands_id at 0x775fb2ec72e0>')
+  doc: list_hands_id(self: xhand_controller.xhand_control.XHandControl) -> list[int]  list hands id
+
+METHOD: get_serial_number
+  signature unavailable: ValueError('no signature found for builtin <instancemethod get_serial_number at 0x775fb2ec73a0>')
+  doc: get_serial_number(self: xhand_controller.xhand_control.XHandControl, arg0: int) -> tuple[xhand_control::ErrorStruct, str]  get_serial_number
+
+METHOD: read_state
+  signature unavailable: ValueError('no signature found for builtin <instancemethod read_state at 0x775fb2ec7040>')
+  doc: read_state(self: xhand_controller.xhand_control.XHandControl, arg0: int, arg1: bool) -> tuple[xhand_control::ErrorStruct, HandState_t]  Read device status and other parameters
+
+METHOD: send_command
+  signature unavailable: ValueError('no signature found for builtin <instancemethod send_command at 0x775fb2e9dab0>')
+  doc: send_command(self: xhand_controller.xhand_control.XHandControl, arg0: int, arg1: HandCommand_t) -> xhand_control::ErrorStruct  Send control commands to the device
+
+METHOD: close_device
+  signature unavailable: ValueError('no signature found for builtin <instancemethod close_device at 0x775fb2ec7280>')
+  doc: close_device(self: xhand_controller.xhand_control.XHandControl) -> None  close device
+
+============================================================
+8. 当前正式 XHand motion profile
+============================================================
+xhand:
+  mode: 3
+  active_gains:
+    verified: false
+    source: real_device_micro_validation_candidate_20260830
+    kp: 225
+    ki: 0
+    kd: 0
+  fixed_joints:
+  - thumb_rota_joint1
+  - thumb_rota_joint2
+  excluded_joints:
+  - index_bend_joint
+  single_joint:
+    joint: index_joint1
+    delta_rad: 0.005
+    effort_limit_ma: 150
+  safe_whole_hand_group:
+    active_joints:
+    - thumb_bend_joint
+    - index_joint1
+    - index_joint2
+    - mid_joint1
+    - mid_joint2
+    - ring_joint1
+    - ring_joint2
+    - pinky_joint1
+    - pinky_joint2
+    delta_rad: 0.005
+    effort_limit_ma: 220
+  inactive_joint:
+    mode: 0
+    kp: 0
+    ki: 0
+    kd: 0
+    tor_max: 0
+  watchdog:
+    command_timeout_s: 0.5
+    disable_frames: 3
+    hold_refresh_hz: 20.0
+  hardware_motion_gate:
+    require_verified_active_gains: true
+    require_live_position_baseline: true
+    require_live_direction_validation: true
+    require_empty_load: true
+
+============================================================
+9. 当前 empty-grasp sequence
+============================================================
+project:
+  name: rehab_robot
+  sequence: fr3_xhand_empty_grasp
+  mode: relative_safe_recovery
+frames:
+  base_frame: fr3_link0
+  tcp_frame: xhand_grasp_center
+preflight:
+  require_fr3_state: true
+  require_xhand_state: true
+  require_xhand_command_interface: true
+  require_fr3_ptp_action: true
+  d435i_required_for_motion: false
+  d435i_keep_online_if_available: true
+xhand:
+  joint_count: 12
+  excluded_joints:
+  - index_bend_joint
+  single_joint_test:
+    enabled: true
+    joint_name: index_joint1
+    delta_rad: 0.005
+    effort_limit_ma: 150
+  whole_hand_test:
+    enabled: true
+    delta_rad: 0.005
+    effort_limit_ma: 220
+  grasp:
+    default_close_delta_rad: 0.005
+    maximum_effort_limit_ma: 220
+  watchdog:
+    command_timeout_s: 0.5
+    refresh_hold_while_waiting_for_fr3: true
+    disable_frames: 3
+  inactive_joint:
+    mode: 0
+    kp: 0
+    ki: 0
+    kd: 0
+    tor_max: 0
+  active_control:
+    mode: 3
+    gains:
+      verified: false
+      kp: 225
+      ki: 0
+      kd: 0
+    note: mode=3 with kp=225, ki=0, kd=0 is a 2026-08-30 real-device micro-validation
+      candidate. It is not claimed to be the unrecovered historical rehab-project
+      gain set. Formal combined-motion gate remains closed.
+  motion_enable_gate:
+    require_verified_active_gains: true
+    require_live_direction_check: true
+    require_empty_load_only: true
+fr3:
+  motion_mode: relative_from_live_joint_state
+  pregrasp_delta_joint1_rad: 0.005
+  grasp_delta_joint1_rad: 0.01
+  return_delta_joint1_rad: 0.005
+  max_joint_velocity_rad_s: 0.02
+  rehab_stage_1:
+    delta_joint1_rad: 0.005
+  automatic_recovery_on_fault: false
+  automatic_return_on_fault: false
+timing:
+  settle_time_s: 1.0
+  hold_time_s: 1.0
+sequence:
+- preflight_readonly
+- xhand_single_joint_0p005
+- xhand_whole_hand_0p005
+- fr3_relative_pregrasp
+- xhand_grasp
+- fr3_relative_grasp
+- fr3_rehab_stage_1
+- controlled_finish
+fault_behavior:
+  send_no_automatic_fr3_return_motion: true
+  xhand_multiframe_disable: true
+  require_operator_recovery: true
+
+============================================================
+10. FR3 PTP client
+============================================================
+from __future__ import annotations
+
+from rclpy.action import ActionClient
+
+from franka_msgs.action import PTPMotion
+
+from .fr3_ptp_contract import (
+    FR3PTPContractError,
+    PTP_ACTION_TYPE,
+    build_goal,
+    discover_unique_ptp_action,
+)
+
+
+class FR3PTPExecutionGateError(RuntimeError):
+    pass
+
+
+def discover_from_node(node):
+    graph = node.get_action_names_and_types()
+
+    return discover_unique_ptp_action(
+        graph
+    )
+
+
+class FR3PTPClient:
+    """
+    Real ActionClient wrapper.
+
+    Merely constructing this object does not send a goal.
+    """
+
+    def __init__(
+        self,
+        node,
+        action_name: str,
+    ):
+        if not action_name:
+            raise FR3PTPContractError(
+                "PTP action name must not be empty"
+            )
+
+        self._node = node
+        self._action_name = action_name
+
+        self._client = ActionClient(
+            node,
+            PTPMotion,
+            action_name,
+        )
+
+    @property
+    def action_name(self):
+        return self._action_name
+
+    def wait_ready(self, timeout_sec=2.0):
+        return self._client.wait_for_server(
+            timeout_sec=float(timeout_sec)
+        )
+
+    def build_goal(
+        self,
+        target,
+        *,
+        maximum_velocity_rad_s=0.020,
+        goal_tolerance=0.001,
+    ):
+        return build_goal(
+            target,
+            maximum_velocity_rad_s=(
+                maximum_velocity_rad_s
+            ),
+            goal_tolerance=goal_tolerance,
+        )
+
+    def send_goal_async(
+        self,
+        goal,
+        *,
+        execute=False,
+    ):
+        if not execute:
+            raise FR3PTPExecutionGateError(
+                "PTP goal blocked: execute flag is false"
+            )
+
+        return self._client.send_goal_async(
+            goal
+        )
+
+============================================================
+11. 当前测试清单
+============================================================
+test_empty_grasp_dry_run.py
+test_empty_grasp_gate.py
+test_fr3_ptp_contract.py
+test_xhand_driver_core.py
+test_xhand_fake_state_pipeline.py
+test_xhand_motion_contract.py
+test_xhand_readonly_session.py
+test_xhand_ros_contract.py
+test_xhand_ros_state_bridge.py
+test_xhand_state_mapper.py
+test_xhand_vendor_readonly_guard.py
+
+============================================================
+12. 回归测试
+============================================================
+...................................................................      [100%]
+67 passed in 0.47s
+
+pytest_result=0
+
+============================================================
+13. 当前正式状态
+============================================================
+XHand source   = real_device_micro_validation_candidate_20260830
+XHand kp/ki/kd = 225 0 0
+XHand verified = False
+[PASS] production motion gate remains CLOSED

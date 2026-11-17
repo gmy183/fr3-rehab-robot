@@ -1,0 +1,22 @@
+============================================================
+CURRENT -> TAUGHT P8
+============================================================
+current xyz = [0.260894, 0.51682, 0.291366]
+P8 xyz      = [0.259547, 0.521461, 0.30278]
+distance    = 12.39 mm
+fraction    = 1.000000
+max joint delta = 0.015742 rad
+trajectory points = 3
+
+Orientation: hold current
+PTP speed: 0.015 rad/s
+NO automatic return
+输入 EXECUTE-P8 才执行：[EXECUTE] PTP goal accepted
+ROS status       = 4
+PTP target status= 2
+
+final joint error = 0.001388 rad
+final P8 error    = 1.349 mm
+
+[PASS] P8 TEACH REPLAY COMPLETE
+[SAFE] robot remains at P8

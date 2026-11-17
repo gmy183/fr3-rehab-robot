@@ -1,0 +1,25 @@
+xhand_rehab_tcp_candidate:
+  parent: fr3_link8
+  child: xhand_rehab_tcp
+  translation_m:
+  - -0.06893529322976207
+  - 0.09820880792021978
+  - 0.13151974083960072
+  rotation_definition:
+    mode: inherit_fr3_link8_axes
+    rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    measured: false
+  method: manual_pivot_calibration
+  sample_count: 8
+  rms_residual_mm: 0.0010056722857888342
+  max_residual_mm: 0.0015787434113282135
+  orientation_spread_deg: 0.0004887345189563933
+  matrix_rank: 6
+  pivot_point_in_fr3_link0_m:
+  - 0.17246485905678435
+  - 0.07397680867184814
+  - 0.3676748035662619
+  verified: false

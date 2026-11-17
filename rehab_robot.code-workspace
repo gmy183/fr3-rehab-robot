@@ -1,0 +1,11 @@
+{
+    "folders": [
+        {
+            "name": "康复机械臂",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "terminal.integrated.cwd": "${workspaceFolder}"
+    }
+}

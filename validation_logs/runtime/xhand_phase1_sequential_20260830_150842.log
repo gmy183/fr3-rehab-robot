@@ -1,0 +1,154 @@
+============================================================
+XHand sequential +0.005 rad validation
+============================================================
+mode       = 3
+kp         = 225
+ki         = 0
+kd         = 0
+tor_max    = 150 mA
+delta      = +0.005000 rad
+profile max= 220 mA
+
+一次只激活一个关节；其他 11 个全部 mode=0。
+
+active joints:
+   0: thumb_bend_joint
+   4: index_joint1
+   5: index_joint2
+   6: mid_joint1
+   7: mid_joint2
+   8: ring_joint1
+   9: ring_joint2
+  10: pinky_joint1
+  11: pinky_joint2
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x1db7b348,  24 In:0x1db7b360, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+
+[PASS] EtherCAT open, device_id=0
+serial=012R3201B1217006
+
+============================================================
+JOINT 0: thumb_bend_joint
+============================================================
+passive: q=+0.065699 rad, I=+73.0 mA
+takeover: drift=+0.000000, Imax=74.0 mA, modes=[0, 3]
+active: q=+0.065699 rad, I=+73.0 mA
+move: command=+0.005000, observed=+0.001412 rad, Imax=74.0 mA, modes=[3]
+return: error=+0.001412 rad, Imax=73.0 mA
+[PASS] thumb_bend_joint
+
+============================================================
+JOINT 4: index_joint1
+============================================================
+passive: q=+0.017682 rad, I=+72.0 mA
+takeover: drift=+0.000000, Imax=72.0 mA, modes=[0, 3]
+active: q=+0.017682 rad, I=+72.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=73.0 mA, modes=[3]
+return: error=-0.001412 rad, Imax=73.0 mA
+[FAIL] index_joint1: positive response too small (+0.000000)
+
+============================================================
+JOINT 5: index_joint2
+============================================================
+passive: q=+0.007090 rad, I=+74.0 mA
+takeover: drift=+0.000706, Imax=75.0 mA, modes=[0, 3]
+active: q=+0.007796 rad, I=+73.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=74.0 mA, modes=[3]
+return: error=-0.001412 rad, Imax=75.0 mA
+[FAIL] index_joint2: positive response too small (+0.000000)
+
+============================================================
+JOINT 6: mid_joint1
+============================================================
+passive: q=+0.024037 rad, I=+65.0 mA
+takeover: drift=-0.000706, Imax=67.0 mA, modes=[0, 3]
+active: q=+0.023331 rad, I=+66.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=67.0 mA, modes=[3]
+return: error=+0.000000 rad, Imax=67.0 mA
+[FAIL] mid_joint1: positive response too small (+0.000000)
+
+============================================================
+JOINT 7: mid_joint2
+============================================================
+passive: q=+0.005677 rad, I=+77.0 mA
+takeover: drift=-0.000706, Imax=78.0 mA, modes=[0, 3]
+active: q=+0.004971 rad, I=+77.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=77.0 mA, modes=[3]
+return: error=+0.001412 rad, Imax=78.0 mA
+[FAIL] mid_joint2: positive response too small (+0.000000)
+
+============================================================
+JOINT 8: ring_joint1
+============================================================
+passive: q=+0.003559 rad, I=+69.0 mA
+takeover: drift=+0.000000, Imax=70.0 mA, modes=[0, 3]
+active: q=+0.004971 rad, I=+69.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=71.0 mA, modes=[3]
+return: error=+0.000000 rad, Imax=71.0 mA
+[FAIL] ring_joint1: positive response too small (+0.000000)
+
+============================================================
+JOINT 9: ring_joint2
+============================================================
+passive: q=+0.017682 rad, I=+61.0 mA
+takeover: drift=-0.002825, Imax=63.0 mA, modes=[0, 3]
+active: q=+0.016269 rad, I=+62.0 mA
+move: command=+0.005000, observed=+0.001412 rad, Imax=64.0 mA, modes=[3]
+return: error=+0.000000 rad, Imax=64.0 mA
+[PASS] ring_joint2
+
+============================================================
+JOINT 10: pinky_joint1
+============================================================
+passive: q=+0.033923 rad, I=+57.0 mA
+takeover: drift=-0.000706, Imax=57.0 mA, modes=[3]
+active: q=+0.033217 rad, I=+56.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=59.0 mA, modes=[3]
+return: error=+0.000000 rad, Imax=58.0 mA
+[FAIL] pinky_joint1: positive response too small (+0.000000)
+
+============================================================
+JOINT 11: pinky_joint2
+============================================================
+passive: q=+0.010620 rad, I=+85.0 mA
+takeover: drift=+0.000000, Imax=86.0 mA, modes=[0, 3]
+active: q=+0.010620 rad, I=+85.0 mA
+move: command=+0.005000, observed=+0.000000 rad, Imax=86.0 mA, modes=[3]
+return: error=+0.000000 rad, Imax=86.0 mA
+[FAIL] pinky_joint2: positive response too small (+0.000000)
+
+============================================================
+FINAL SUMMARY
+============================================================
+PASS thumb_bend_joint   delta=+0.001412 Imax=74.0mA return=+0.001412
+FAIL index_joint1       delta=+0.000000 Imax=73.0mA return=-0.001412
+FAIL index_joint2       delta=+0.000000 Imax=74.0mA return=-0.001412
+FAIL mid_joint1         delta=+0.000000 Imax=67.0mA return=+0.000000
+FAIL mid_joint2         delta=+0.000000 Imax=77.0mA return=+0.001412
+FAIL ring_joint1        delta=+0.000000 Imax=71.0mA return=+0.000000
+PASS ring_joint2        delta=+0.001412 Imax=64.0mA return=+0.000000
+FAIL pinky_joint1       delta=+0.000000 Imax=59.0mA return=+0.000000
+FAIL pinky_joint2       delta=+0.000000 Imax=86.0mA return=+0.000000
+
+[FAIL] 只需继续处理这些关节：
+  - index_joint1
+  - index_joint2
+  - mid_joint1
+  - mid_joint2
+  - ring_joint1
+  - pinky_joint1
+  - pinky_joint2
+
+kp、kd、150mA 限制均未提高。
+
+[SAFE] final powerless x3 + close EtherCAT
+[PASS] XHand powerless + EtherCAT closed

@@ -1,0 +1,68 @@
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/task_manager.py:113:                live = planner.capture_live_state()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:243:            samples.append(planner.capture_live_state().q)
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:245:        after = planner.capture_live_state()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:255:        # routes /franka/joint_states through joint_state_publisher before
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:257:        # /franka/joint_states remains live while TF freezes. Therefore TF
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:304:        """Plan one 5-mm Cartesian move and retime its IK knots rest-to-rest.
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:306:        V3.1.2 deliberately does NOT reuse MoveIt's returned velocities and
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:307:        accelerations for this short hardware test.  The old V3.1 path fed
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:312:        Here MoveIt supplies only the Cartesian IK knot positions.  Every
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:314:        quintic that is audited and later sent to FollowJointTrajectory.
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:323:        # computed from the same fresh /franka/joint_states sample. Re-run
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:370:        if max_abs_delta(raw[0]["positions"], start.q) > 0.003:
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:373:        # Use only MoveIt's IK knot positions.  Remove numerical duplicates.
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:376:            q = [float(x) for x in item["positions"]]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:388:                "positions": list(knots[0]),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:389:                "velocities": list(zero),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:390:                "accelerations": list(zero),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:405:                    "positions": list(q1),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:406:                    "velocities": list(zero),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:407:                    "accelerations": list(zero),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:414:        knot_xyz = [planner.fk(p["positions"])[0] for p in points]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:417:            qstep = max_abs_delta(p0["positions"], p1["positions"])
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:427:        q = points[-1]["positions"]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:487:        print("[V3.1.2] short path retimed from MoveIt IK positions only")
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:490:        print(f"retimed duration = {points[-1]['time']:.3f} s")
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:545:                    "time_from_start_s": p["time"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:546:                    "positions": p["positions"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:547:                    "velocities": p["velocities"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:548:                    "accelerations": p["accelerations"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:553:            "end_q": list(points[-1]["positions"]),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:559:        from control_msgs.action import FollowJointTrajectory
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:562:        from trajectory_msgs.msg import JointTrajectoryPoint
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:564:        live = planner.capture_live_state()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:571:        client = ActionClient(planner.node, FollowJointTrajectory, action_name)
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:573:            raise FR3TestError("FollowJointTrajectory server unavailable")
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:575:        goal = FollowJointTrajectory.Goal()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:578:            pt = JointTrajectoryPoint()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:579:            pt.positions = [float(x) for x in item["positions"]]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:580:            pt.velocities = [float(x) for x in item["velocities"]]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:581:            pt.accelerations = [float(x) for x in item["accelerations"]]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:582:            pt.time_from_start = self._duration_msg(float(item["time_from_start_s"]))
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:604:        print("[EXEC] ONE constrained FollowJointTrajectory goal accepted")
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:655:            before = planner.capture_live_state()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:676:            print("[TEST PROFILE] /franka/joint_states = motion-state authority")
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:687:                captured = planner.capture_live_state()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:734:                final_capture = planner.capture_live_state()
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/fr3_test_runner.py:763:                raise FR3TestError("FollowJointTrajectory action did not succeed")
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:81:            p0["positions"][j], p0["velocities"][j], p0["accelerations"][j],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:82:            p1["positions"][j], p1["velocities"][j], p1["accelerations"][j], T,
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:105:            "positions": list(p["positions"]),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:106:            "velocities": [float(v) / S for v in p["velocities"]],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:107:            "accelerations": [float(a) / (S*S) for a in p["accelerations"]],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:121:        if len(p.positions) != n or len(p.velocities) != n or len(p.accelerations) != n:
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:124:            "time": duration_to_s(p.time_from_start),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:125:            "positions": [float(p.positions[idx[nm]]) for nm in JOINT_NAMES],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:126:            "velocities": [float(p.velocities[idx[nm]]) for nm in JOINT_NAMES],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:127:            "accelerations": [float(p.accelerations[idx[nm]]) for nm in JOINT_NAMES],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:304:    def capture_live_state(self) -> LiveState:
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:468:        if max_abs_delta(raw[0]["positions"], start_q) > float(self.config.safety["trajectory"]["maximum_start_joint_error_rad"]):
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:525:                    "time_from_start_s": p["time"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:526:                    "positions": p["positions"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:527:                    "velocities": p["velocities"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:528:                    "accelerations": p["accelerations"],
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:533:            "end_q": list(scaled[-1]["positions"]),
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:541:        knot_xyz = [self.fk(p["positions"])[0] for p in points]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:545:            qstep = max_abs_delta(p0["positions"], p1["positions"])
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:551:        q = points[-1]["positions"]
+/home/gu/rehab_robot_ws/validation_logs/fr3_fast_debug_20261005_100802/v3/trajectory_manager.py:553:        dense.append((q, points[-1]["velocities"], points[-1]["accelerations"], xyz, qq))

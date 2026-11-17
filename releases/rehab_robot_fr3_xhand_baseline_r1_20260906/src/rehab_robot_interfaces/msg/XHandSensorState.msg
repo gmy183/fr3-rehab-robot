@@ -1,0 +1,1 @@
+rehab_robot_interfaces/XHandFingerSensorState[] finger_sensor_states

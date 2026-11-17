@@ -1,0 +1,93 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 mesa-libgallium:i386 ocl-icd-libopencl1:i386
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  libnvidia-cfg1-535* libnvidia-cfg1-580* libnvidia-common-535*
+  libnvidia-common-580* libnvidia-compute-535* libnvidia-compute-580*
+  libnvidia-compute-580:i386* libnvidia-decode-535* libnvidia-decode-580*
+  libnvidia-decode-580:i386* libnvidia-egl-wayland1*
+  libnvidia-egl-wayland1:i386* libnvidia-encode-535* libnvidia-encode-580*
+  libnvidia-encode-580:i386* libnvidia-extra-535* libnvidia-extra-580*
+  libnvidia-fbc1-535* libnvidia-fbc1-580* libnvidia-fbc1-580:i386*
+  libnvidia-gl-535* libnvidia-gl-580* libnvidia-gl-580:i386*
+  linux-modules-nvidia-535-6.17.0-14-generic*
+  linux-modules-nvidia-535-generic-hwe-24.04*
+  linux-modules-nvidia-580-7.0.0-28-generic*
+  linux-modules-nvidia-580-generic-hwe-24.04*
+  linux-objects-nvidia-535-6.17.0-14-generic*
+  linux-objects-nvidia-580-7.0.0-28-generic*
+  linux-signatures-nvidia-6.17.0-14-generic*
+  linux-signatures-nvidia-7.0.0-28-generic* nvidia-compute-utils-535*
+  nvidia-compute-utils-580* nvidia-dkms-580* nvidia-driver-535*
+  nvidia-driver-580* nvidia-firmware-535-535.288.01*
+  nvidia-firmware-580-580.173.02* nvidia-kernel-common-535*
+  nvidia-kernel-common-580* nvidia-kernel-source-535*
+  nvidia-kernel-source-580* nvidia-prime* nvidia-settings* nvidia-utils-535*
+  nvidia-utils-580* screen-resolution-extra* xserver-xorg-video-nvidia-535*
+  xserver-xorg-video-nvidia-580*
+0 upgraded, 0 newly installed, 49 to remove and 0 not upgraded.
+5 not fully installed or removed.
+Purg nvidia-driver-535 [535.309.01-0ubuntu0.24.04.2]
+Purg xserver-xorg-video-nvidia-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-cfg1-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-driver-580 [580.173.02-0ubuntu0.24.04.1]
+Purg xserver-xorg-video-nvidia-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-cfg1-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-gl-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-common-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-gl-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-gl-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-common-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-utils-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-compute-utils-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-compute-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-encode-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-decode-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-compute-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-utils-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-compute-utils-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-compute-580 [580.173.02-0ubuntu0.24.04.1] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-encode-535 [535.309.01-0ubuntu0.24.04.2] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-decode-535 [535.309.01-0ubuntu0.24.04.2] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-encode-580 [580.173.02-0ubuntu0.24.04.1] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-decode-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-egl-wayland1 [1:1.1.13-1ubuntu0.1]
+Purg libnvidia-egl-wayland1:i386 [1:1.1.13-1ubuntu0.1]
+Purg libnvidia-extra-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-extra-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-fbc1-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-fbc1-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-fbc1-580 [580.173.02-0ubuntu0.24.04.1]
+Purg linux-modules-nvidia-535-6.17.0-14-generic [6.17.0-14.14~24.04.1+1]
+Purg linux-modules-nvidia-535-generic-hwe-24.04 [7.0.0-28.28~24.04.1+3]
+Purg linux-modules-nvidia-580-generic-hwe-24.04 [7.0.0-28.28~24.04.1+3]
+Purg linux-modules-nvidia-580-7.0.0-28-generic [7.0.0-28.28~24.04.1+3]
+Purg linux-objects-nvidia-535-6.17.0-14-generic [6.17.0-14.14~24.04.1+1]
+Purg linux-objects-nvidia-580-7.0.0-28-generic [7.0.0-28.28~24.04.1+3]
+Purg linux-signatures-nvidia-6.17.0-14-generic [6.17.0-14.14~24.04.1+1]
+Purg linux-signatures-nvidia-7.0.0-28-generic [7.0.0-28.28~24.04.1+3]
+Purg nvidia-dkms-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-firmware-535-535.288.01 [535.288.01-0ubuntu0.24.04.2]
+Purg nvidia-kernel-common-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-kernel-common-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-firmware-580-580.173.02 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-kernel-source-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-kernel-source-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-prime [0.8.17.2]
+Purg nvidia-settings [510.47.03-0ubuntu4.24.04.1]
+Purg screen-resolution-extra [0.18.3ubuntu0.24.04.1]
+Conf linux-headers-6.8.1-1015-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf linux-headers-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf linux-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf linux-image-6.8.1-1015-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf ubuntu-realtime (1.1.2~24.04.1 Ubuntu:24.04/noble-updates [amd64])

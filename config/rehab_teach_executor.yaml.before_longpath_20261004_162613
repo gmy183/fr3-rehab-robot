@@ -1,0 +1,47 @@
+version: 1
+
+motion:
+  ptp_max_velocity_rad_s: 0.015
+
+  # 每个 Cartesian 示教段的最大长度
+  max_cartesian_segment_m: 0.015
+
+  # 考虑上一段最终误差后允许的小量余量
+  segment_distance_slack_m: 0.002
+
+  # 开始执行一条示教边前，
+  # 当前末端必须位于该示教点附近
+  max_start_point_error_m: 0.005
+
+  # 每个小段执行后的 Cartesian 误差限制
+  max_segment_final_error_m: 0.005
+
+  # 每个示教点最终误差限制
+  max_waypoint_final_error_m: 0.005
+
+  # 单小段允许的最大关节变化
+  max_segment_joint_delta_rad: 0.100
+
+  # PTP 完成后的关节目标误差
+  max_final_joint_error_rad: 0.010
+
+planning:
+  min_cartesian_fraction: 0.995
+  cartesian_max_step_m: 0.001
+  avoid_collisions: true
+
+state:
+  idle_robot_mode: 1
+  move_robot_mode: 2
+  idle_timeout_s: 5.0
+  fresh_state_timeout_s: 3.0
+
+execution:
+  automatic_return: false
+  automatic_error_recovery: false
+  xhand_control: false
+  camera_control: false
+
+  # 当前8点历史示教只保存 XYZ。
+  # 整个任务固定使用启动时 fr3_link8 姿态。
+  orientation_mode: hold_task_start_orientation

@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T16:02:00.759385+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "P6",
+  "to_point": "P7",
+  "route": [
+    "P6",
+    "P7"
+  ],
+  "planned_polyline_length_m": 0.12375941451461381,
+  "estimated_subsegments": 9,
+  "result": "PASS",
+  "edges": [
+    {
+      "from": "P6",
+      "to": "P7",
+      "live_edge_length_m": 0.12413993718551417,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.3767384311853296,
+            0.4583140289454158,
+            0.30409746661495396
+          ],
+          "planned_distance_m": 0.013793062644653107,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012282398240450743,
+          "cartesian_error_m": 0.000982008256807288
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.3649372522871634,
+            0.46542865032723885,
+            0.3034890332880847
+          ],
+          "planned_distance_m": 0.014101206425467793,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012807358938975444,
+          "cartesian_error_m": 0.00111170690891721
+        },
+        {
+          "index": 3,
+          "target_xyz_m": [
+            0.3531360733889972,
+            0.47254327170906185,
+            0.30288059996121547
+          ],
+          "planned_distance_m": 0.014092979462961895,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012759651671134797,
+          "cartesian_error_m": 0.0010717322565088258
+        },
+        {
+          "index": 4,
+          "target_xyz_m": [
+            0.341334894490831,
+            0.47965789309088486,
+            0.3022721666343462
+          ],
+          "planned_distance_m": 0.014138852748531414,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012886227180366472,
+          "cartesian_error_m": 0.0009469118842974893
+        },
+        {
+          "index": 5,
+          "target_xyz_m": [
+            0.3295337155926648,
+            0.4867725144727079,
+            0.301663733307477
+          ],
+          "planned_distance_m": 0.014377256603363536,
+          "fraction": 1.0,
+          "joint_error_rad": 0.001292460517312799,
+          "cartesian_error_m": 0.0010777654572782331
+        },
+        {
+          "index": 6,
+          "target_xyz_m": [
+            0.31773253669449864,
+            0.4938871358545309,
+            0.3010552999806077
+          ],
+          "planned_distance_m": 0.014139638847118151,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0013780282822002388,
+          "cartesian_error_m": 0.0009728108736492839
+        },
+        {
+          "index": 7,
+          "target_xyz_m": [
+            0.3059313577963324,
+            0.501001757236354,
+            0.3004468666537385
+          ],
+          "planned_distance_m": 0.014328324710856155,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0014280536250659281,
+          "cartesian_error_m": 0.0009966981719231457
+        },
+        {
+          "index": 8,
+          "target_xyz_m": [
+            0.2941301788981662,
+            0.5081163786181769,
+            0.2998384333268692
+          ],
+          "planned_distance_m": 0.014220027797173754,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0013730174689565722,
+          "cartesian_error_m": 0.0010367268645415577
+        },
+        {
+          "index": 9,
+          "target_xyz_m": [
+            0.282329,
+            0.515231,
+            0.29923
+          ],
+          "planned_distance_m": 0.014146643967157556,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012697818332052524,
+          "cartesian_error_m": 0.0008761715287371057
+        }
+      ],
+      "waypoint_final_error_m": 0.0008761715287371057
+    }
+  ],
+  "completed_segments": 9,
+  "final_cartesian_error_m": 0.0008761715287371057,
+  "finished_at": "2026-10-04T16:02:25.785778+08:00"
+}

@@ -1,0 +1,191 @@
+============================================================
+VS Code 全量重装 + 康复机械臂 ROS 2 配置
+============================================================
+
+========== 1/9 前置检查 ==========
+[PASS] 系统与工程检查通过
+
+========== 2/9 备份旧 VS Code 配置 ==========
+[PASS] 旧配置已备份到：/home/gu/vscode_reinstall_backup_20260815_215810
+
+========== 3/9 卸载现有 VS Code ==========
+[INFO] 未检测到 Snap 版 code
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+[PASS] 旧 VS Code 已清理
+
+========== 4/9 安装 Microsoft 官方 APT 版 VS Code ==========
+命中:1 https://librealsense.realsenseai.com/Debian/apt-repo noble InRelease
+命中:2 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:3 http://security.ubuntu.com/ubuntu noble-security InRelease
+获取:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+命中:5 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:6 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+获取:7 http://archive.ubuntu.com/ubuntu noble-updates/main i386 Packages [531 kB]
+获取:8 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1,191 kB]
+已下载 1,848 kB，耗时 8秒 (222 kB/s)
+正在读取软件包列表...
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+wget 已经是最新版 (1.21.4-1ubuntu4.4)。
+gpg 已经是最新版 (2.4.4-2ubuntu17.4)。
+gpg 已设置为手动安装。
+ca-certificates 已经是最新版 (20260601~24.04.1)。
+下列软件包是自动安装的并且现在不需要了：
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 linux-headers-6.17.0-14-generic
+  linux-hwe-6.17-headers-6.17.0-14 linux-hwe-6.17-tools-6.17.0-14
+  linux-image-6.17.0-14-generic linux-modules-6.17.0-14-generic
+  linux-modules-extra-6.17.0-14-generic linux-tools-6.17.0-14-generic
+  mesa-libgallium:i386 ocl-icd-libopencl1:i386
+使用'sudo apt autoremove'来卸载它(它们)。
+升级了 0 个软件包，新安装了 0 个软件包，要卸载 0 个软件包，有 39 个软件包未被升级。
+命中:1 https://librealsense.realsenseai.com/Debian/apt-repo noble InRelease
+获取:2 https://packages.microsoft.com/repos/code stable InRelease [3,590 B]
+命中:3 http://archive.ubuntu.com/ubuntu noble InRelease
+获取:4 https://packages.microsoft.com/repos/code stable/main amd64 Packages [30.0 kB]
+命中:5 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:6 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:7 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+命中:8 http://security.ubuntu.com/ubuntu noble-security InRelease
+已下载 33.6 kB，耗时 7秒 (5,044 B/s)
+正在读取软件包列表...
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+下列软件包是自动安装的并且现在不需要了：
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 linux-headers-6.17.0-14-generic
+  linux-hwe-6.17-headers-6.17.0-14 linux-hwe-6.17-tools-6.17.0-14
+  linux-image-6.17.0-14-generic linux-modules-6.17.0-14-generic
+  linux-modules-extra-6.17.0-14-generic linux-tools-6.17.0-14-generic
+  mesa-libgallium:i386 ocl-icd-libopencl1:i386
+使用'sudo apt autoremove'来卸载它(它们)。
+将会同时安装下列软件：
+  socat
+下列【新】软件包将被安装：
+  code socat
+升级了 0 个软件包，新安装了 2 个软件包，要卸载 0 个软件包，有 39 个软件包未被升级。
+需要下载 240 MB 的归档。
+解压缩后会消耗 1,075 MB 的额外空间。
+获取:1 https://packages.microsoft.com/repos/code stable/main amd64 code amd64 1.133.0-1786487972 [239 MB]
+获取:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 socat amd64 1.8.0.0-4ubuntu0.1 [374 kB]
+正在预设定软件包 ...
+已下载 240 MB，耗时 57秒 (4,210 kB/s)
+正在选中未选择的软件包 code。
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 375792 个文件和目录。)
+准备解压 .../code_1.133.0-1786487972_amd64.deb  ...
+正在解压 code (1.133.0-1786487972) ...
+正在选中未选择的软件包 socat。
+准备解压 .../socat_1.8.0.0-4ubuntu0.1_amd64.deb  ...
+正在解压 socat (1.8.0.0-4ubuntu0.1) ...
+正在设置 code (1.133.0-1786487972) ...
+正在设置 socat (1.8.0.0-4ubuntu0.1) ...
+正在处理用于 desktop-file-utils (0.27-2build1) 的触发器 ...
+正在处理用于 gnome-menus (3.36.0-1.1ubuntu3) 的触发器 ...
+正在处理用于 man-db (2.12.0-4build2) 的触发器 ...
+正在处理用于 shared-mime-info (2.4-4) 的触发器 ...
+[PASS] Microsoft 官方 APT 版 VS Code 安装完成
+
+========== 5/9 安装开发扩展 ==========
+[EXT] MS-CEINTL.vscode-language-pack-zh-hans
+Installing extensions...
+(node:36456) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ms-ceintl.vscode-language-pack-zh-hans'...
+Extension 'ms-ceintl.vscode-language-pack-zh-hans' v1.131.2026072717 was successfully installed.
+[EXT] ms-python.python
+Installing extensions...
+(node:36580) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ms-python.python'...
+Extension 'ms-python.vscode-python-envs' v1.36.0 was successfully installed.
+Extension 'ms-python.python' v2026.4.0 was successfully installed.
+Extension 'ms-python.debugpy' v2026.6.0 was successfully installed.
+Extension 'ms-python.vscode-pylance' v2026.3.1 was successfully installed.
+[EXT] ms-vscode.cpptools
+Installing extensions...
+(node:36762) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ms-vscode.cpptools'...
+Extension 'ms-vscode.cpptools' v1.32.2 was successfully installed.
+[EXT] Ranch-Hand-Robotics.rde-pack
+Installing extensions...
+(node:36895) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ranch-hand-robotics.rde-pack'...
+Extension 'ranch-hand-robotics.rde-pack' v1.0.0 was successfully installed.
+Extension 'ranch-hand-robotics.rde-ros-2' v1.2.1 was successfully installed.
+Extension 'ranch-hand-robotics.urdf-editor' v1.7.1 was successfully installed.
+[EXT] redhat.vscode-yaml
+Installing extensions...
+(node:36970) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'redhat.vscode-yaml'...
+Extension 'redhat.vscode-yaml' v1.24.0 was successfully installed.
+[PASS] ROS 2 / Python / C++ / 中文扩展安装完成
+
+========== 6/9 配置简体中文与界面 ==========
+[PASS] 简体中文和 ROS 2 终端配置完成
+
+========== 7/9 重建项目 .vscode 配置 ==========
+[PASS] 项目 .vscode 已重建
+
+========== 8/9 创建统一启动入口 ==========
+[PASS] rehab_code 与桌面启动入口已创建
+
+========== 9/9 最终验收 ==========
+--- VS Code ---
+/usr/bin/code
+1.133.0
+a5b500951314efd502d07465bd138dfbd714a960
+x64
+
+--- 安装来源 ---
+code status=ii  version=1.133.0-1786487972
+[PASS] 未检测到 Snap 版 code
+
+--- 核心扩展 ---
+ms-ceintl.vscode-language-pack-zh-hans
+ms-python.python
+ms-vscode.cpptools
+ranch-hand-robotics.rde-pack
+ranch-hand-robotics.rde-ros-2
+redhat.vscode-yaml
+[PASS] 旧 ms-iot.vscode-ros 不存在
+
+--- 中文配置 ---
+{
+  "locale": "zh-cn"
+}
+
+--- ROS 2 环境 ---
+ROS_DISTRO=jazzy
+/home/gu/franka_ros2_ws/install/franka_bringup
+/home/gu/rehab_robot_ws/install
+
+============================================================
+[PASS] VS Code 重装和 ROS 2 工作区配置完成
+备份目录：/home/gu/vscode_reinstall_backup_20260815_215810
+日志：/home/gu/vscode_reinstall_20260815_215810.log
+
+启动命令：
+  /home/gu/.local/bin/rehab_code
+
+第一次打开若出现工作区信任提示，请选择信任此文件夹。
+未启动 FR3、XHand、D435i，也未发送运动命令。
+============================================================

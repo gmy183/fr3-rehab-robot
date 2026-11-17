@@ -1,0 +1,34 @@
+============================================================
+FR3 + XHand REHAB MULTI-CYCLE V1.2
+3 CYCLES / EMPTY LOAD / BOUNDED MOTION
+============================================================
+FR3 run q0 = [0.039638, -0.656093, 0.005617, -2.544291, -0.018507, 1.557606, 1.579475]
+FR3 q_out  = [0.044638, -0.656093, 0.005617, -2.544291, -0.018507, 1.557606, 1.579475]
+[PLAN] q0 captured once; all 3 cycles reuse this same q0
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x407974e8,  24 In:0x40797500, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+XHand serial = 012R3201B1217006
+[PASS] XHand passive baseline
+[PASS] multicycle takeover FR3 freshness gate
+[PASS] XHand takeover
+[PASS] multicycle grasp FR3 freshness gate
+[PASS] XHand bounded grasp armed
+
+============================================================
+CYCLE 1 / 3
+============================================================
+[PASS] cycle 1 start q0_error=0.000005 rad
+[PASS] cycle 1 outbound +0.005 pre-send FR3 state fresh; pose_error=0.000008 rad
+[INFO] cycle 1 outbound +0.005 PTP goal accepted
+[SAFE] XHand powerless x3 + EtherCAT closed
+[FAIL] RuntimeSafetyError: thumb_bend_joint motion guard exceeded: q=+0.000000, reference=+0.061462, delta=-0.061462 rad, current=+0.0 mA, mode=0, limit=0.020000 rad
+[SAFE] no automatic FR3 recovery/return

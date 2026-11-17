@@ -1,0 +1,45 @@
+xhand:
+  mode: 3
+  active_gains:
+    verified: false
+    source: real_device_micro_validation_candidate_20260830
+    kp: 225
+    ki: 0
+    kd: 0
+  fixed_joints:
+  - thumb_rota_joint1
+  - thumb_rota_joint2
+  excluded_joints:
+  - index_bend_joint
+  single_joint:
+    joint: index_joint1
+    delta_rad: 0.005
+    effort_limit_ma: 150
+  safe_whole_hand_group:
+    active_joints:
+    - thumb_bend_joint
+    - index_joint1
+    - index_joint2
+    - mid_joint1
+    - mid_joint2
+    - ring_joint1
+    - ring_joint2
+    - pinky_joint1
+    - pinky_joint2
+    delta_rad: 0.005
+    effort_limit_ma: 220
+  inactive_joint:
+    mode: 0
+    kp: 0
+    ki: 0
+    kd: 0
+    tor_max: 0
+  watchdog:
+    command_timeout_s: 0.5
+    disable_frames: 3
+    hold_refresh_hz: 20.0
+  hardware_motion_gate:
+    require_verified_active_gains: true
+    require_live_position_baseline: true
+    require_live_direction_validation: true
+    require_empty_load: true

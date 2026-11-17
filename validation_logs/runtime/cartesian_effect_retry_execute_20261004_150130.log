@@ -1,0 +1,31 @@
+planned max joint delta = 0.007282 rad
+live/start drift = 0.000011 rad
+
+================================
+REAL MOTION READY
+Motion:
+  current pose -> planned +Z 5 mm endpoint
+  hold 1 s
+  -> original position
+PTP max velocity = 0.020 rad/s
+XHand = no command
+Camera = not used
+================================
+输入 EXECUTE-5MM 才执行：
+[EXECUTE] outbound
+[OUTBOUND] current q = [-0.140989, 1.38239, 1.41545, -1.855323, 0.137369, 1.774363, -0.907398]
+[OUTBOUND] target q  = [-0.143002, 1.378332, 1.422739, -1.856188, 0.141688, 1.77346, -0.901517]
+[OUTBOUND] PTP goal accepted
+[OUTBOUND] final max error = 0.001338 rad
+[PASS] outbound complete
+
+[EXECUTE] planned return
+[RETURN] current q = [-0.143227, 1.378847, 1.419197, -1.856283, 0.140041, 1.773716, -0.901602]
+[RETURN] target q  = [-0.140991, 1.382385, 1.415457, -1.855319, 0.137367, 1.774366, -0.907405]
+[RETURN] PTP goal accepted
+[RETURN] final max error = 0.001009 rad
+
+return max error = 0.001009 rad
+
+[PASS] 5 mm MOTION EFFECT TEST COMPLETE
+[PASS] returned to captured start

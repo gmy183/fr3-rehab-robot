@@ -1,0 +1,421 @@
+### Default parts of the message
+std_msgs/Header header
+	builtin_interfaces/Time stamp
+		int32 sec
+		uint32 nanosec
+	string frame_id
+
+### Indicates which dimensions have an active contact/collision flag raised
+CollisionIndicators collision_indicators
+	geometry_msgs/Vector3 is_cartesian_linear_collision
+		float64 x
+		float64 y
+		float64 z
+	geometry_msgs/Vector3 is_cartesian_angular_collision
+		float64 x
+		float64 y
+		float64 z
+	geometry_msgs/Vector3 is_cartesian_linear_contact
+		float64 x
+		float64 y
+		float64 z
+	geometry_msgs/Vector3 is_cartesian_angular_contact
+		float64 x
+		float64 y
+		float64 z
+	float64[7] is_joint_collision
+	float64[7] is_joint_contact
+
+### The state of the arm in joint space
+# The joint state consisting out of position (q), velocity (dq) and effort (tau_J)
+sensor_msgs/JointState measured_joint_state
+	#
+	#
+	#
+	#
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	string[] name
+	float64[] position
+	float64[] velocity
+	float64[] effort
+
+# The desired joint state consisting out of position (q_d), velocity (dq_d) and effort (tau_J_d)
+sensor_msgs/JointState desired_joint_state
+	#
+	#
+	#
+	#
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	string[] name
+	float64[] position
+	float64[] velocity
+	float64[] effort
+
+# The measured motor state of the joints consisting out of position (theta) and velocity (dtheta)
+sensor_msgs/JointState measured_joint_motor_state
+	#
+	#
+	#
+	#
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	string[] name
+	float64[] position
+	float64[] velocity
+	float64[] effort
+
+# The desired joint acceleration
+float64[7] ddq_d
+# The derivative of the measured torque signal
+float64[7] dtau_j
+# Filtered external torque. The JointState consists out of effort (tau_ext_hat_filtered)
+sensor_msgs/JointState tau_ext_hat_filtered
+	#
+	#
+	#
+	#
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	string[] name
+	float64[] position
+	float64[] velocity
+	float64[] effort
+
+### The state of the elbow
+Elbow elbow
+	float64[2] position
+	float64[2] desired_position
+	float64[2] commanded_position
+	float64[2] commanded_velocity
+	float64[2] commanded_acceleration
+
+### The active wrenches acting on the stiffness frame expressed relative to
+# stiffness frame
+geometry_msgs/WrenchStamped k_f_ext_hat_k
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Wrench wrench
+		Vector3  force
+			float64 x
+			float64 y
+			float64 z
+		Vector3  torque
+			float64 x
+			float64 y
+			float64 z
+# base frame
+geometry_msgs/WrenchStamped o_f_ext_hat_k
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Wrench wrench
+		Vector3  force
+			float64 x
+			float64 y
+			float64 z
+		Vector3  torque
+			float64 x
+			float64 y
+			float64 z
+
+### The different inertias of the arm
+# The end-effector inertia
+geometry_msgs/InertiaStamped inertia_ee
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Inertia inertia
+		float64 m
+		geometry_msgs/Vector3 com
+			float64 x
+			float64 y
+			float64 z
+		float64 ixx
+		float64 ixy
+		float64 ixz
+		float64 iyy
+		float64 iyz
+		float64 izz
+# The load inertia
+geometry_msgs/InertiaStamped inertia_load
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Inertia inertia
+		float64 m
+		geometry_msgs/Vector3 com
+			float64 x
+			float64 y
+			float64 z
+		float64 ixx
+		float64 ixy
+		float64 ixz
+		float64 iyy
+		float64 iyz
+		float64 izz
+# The total (end-effector + load) inertia
+geometry_msgs/InertiaStamped inertia_total
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Inertia inertia
+		float64 m
+		geometry_msgs/Vector3 com
+			float64 x
+			float64 y
+			float64 z
+		float64 ixx
+		float64 ixy
+		float64 ixz
+		float64 iyy
+		float64 iyz
+		float64 izz
+
+### The poses describing the transformations between different frames of the arm
+# Measured end-effector pose in base frame
+geometry_msgs/PoseStamped o_t_ee
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Pose pose
+		Point position
+			float64 x
+			float64 y
+			float64 z
+		Quaternion orientation
+			float64 x 0
+			float64 y 0
+			float64 z 0
+			float64 w 1
+# Last desired end-effector pose of motion generation in base frame
+geometry_msgs/PoseStamped o_t_ee_d
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Pose pose
+		Point position
+			float64 x
+			float64 y
+			float64 z
+		Quaternion orientation
+			float64 x 0
+			float64 y 0
+			float64 z 0
+			float64 w 1
+# Last commanded end-effector pose of motion generation in base frame
+geometry_msgs/PoseStamped o_t_ee_c
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Pose pose
+		Point position
+			float64 x
+			float64 y
+			float64 z
+		Quaternion orientation
+			float64 x 0
+			float64 y 0
+			float64 z 0
+			float64 w 1
+# Flange to end-effector frame
+geometry_msgs/PoseStamped f_t_ee
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Pose pose
+		Point position
+			float64 x
+			float64 y
+			float64 z
+		Quaternion orientation
+			float64 x 0
+			float64 y 0
+			float64 z 0
+			float64 w 1
+# End-effector to stiffness frame
+geometry_msgs/PoseStamped ee_t_k
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Pose pose
+		Point position
+			float64 x
+			float64 y
+			float64 z
+		Quaternion orientation
+			float64 x 0
+			float64 y 0
+			float64 z 0
+			float64 w 1
+
+# Desired end effector twist in base frame
+geometry_msgs/TwistStamped o_dp_ee_d
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Twist twist
+		Vector3  linear
+			float64 x
+			float64 y
+			float64 z
+		Vector3  angular
+			float64 x
+			float64 y
+			float64 z
+# Last commanded end effector twist in base frame
+geometry_msgs/TwistStamped o_dp_ee_c
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Twist twist
+		Vector3  linear
+			float64 x
+			float64 y
+			float64 z
+		Vector3  angular
+			float64 x
+			float64 y
+			float64 z
+# Last commanded end effector acceleration in base frame
+geometry_msgs/AccelStamped o_ddp_ee_c
+	std_msgs/Header header
+		builtin_interfaces/Time stamp
+			int32 sec
+			uint32 nanosec
+		string frame_id
+	Accel accel
+		Vector3  linear
+			float64 x
+			float64 y
+			float64 z
+		Vector3  angular
+			float64 x
+			float64 y
+			float64 z
+
+### Additional information
+float64 time
+float64 control_command_success_rate
+
+uint8 ROBOT_MODE_OTHER=0
+uint8 ROBOT_MODE_IDLE=1
+uint8 ROBOT_MODE_MOVE=2
+uint8 ROBOT_MODE_GUIDING=3
+uint8 ROBOT_MODE_REFLEX=4
+uint8 ROBOT_MODE_USER_STOPPED=5
+uint8 ROBOT_MODE_AUTOMATIC_ERROR_RECOVERY=6
+uint8 robot_mode
+
+Errors current_errors
+	bool joint_position_limits_violation
+	bool cartesian_position_limits_violation
+	bool self_collision_avoidance_violation
+	bool joint_velocity_violation
+	bool cartesian_velocity_violation
+	bool force_control_safety_violation
+	bool joint_reflex
+	bool cartesian_reflex
+	bool max_goal_pose_deviation_violation
+	bool max_path_pose_deviation_violation
+	bool cartesian_velocity_profile_safety_violation
+	bool joint_position_motion_generator_start_pose_invalid
+	bool joint_motion_generator_position_limits_violation
+	bool joint_motion_generator_velocity_limits_violation
+	bool joint_motion_generator_velocity_discontinuity
+	bool joint_motion_generator_acceleration_discontinuity
+	bool cartesian_position_motion_generator_start_pose_invalid
+	bool cartesian_motion_generator_elbow_limit_violation
+	bool cartesian_motion_generator_velocity_limits_violation
+	bool cartesian_motion_generator_velocity_discontinuity
+	bool cartesian_motion_generator_acceleration_discontinuity
+	bool cartesian_motion_generator_elbow_sign_inconsistent
+	bool cartesian_motion_generator_start_elbow_invalid
+	bool cartesian_motion_generator_joint_position_limits_violation
+	bool cartesian_motion_generator_joint_velocity_limits_violation
+	bool cartesian_motion_generator_joint_velocity_discontinuity
+	bool cartesian_motion_generator_joint_acceleration_discontinuity
+	bool cartesian_position_motion_generator_invalid_frame
+	bool force_controller_desired_force_tolerance_violation
+	bool controller_torque_discontinuity
+	bool start_elbow_sign_inconsistent
+	bool communication_constraints_violation
+	bool power_limit_violation
+	bool joint_p2p_insufficient_torque_for_planning
+	bool tau_j_range_violation
+	bool instability_detected
+Errors last_motion_errors
+	bool joint_position_limits_violation
+	bool cartesian_position_limits_violation
+	bool self_collision_avoidance_violation
+	bool joint_velocity_violation
+	bool cartesian_velocity_violation
+	bool force_control_safety_violation
+	bool joint_reflex
+	bool cartesian_reflex
+	bool max_goal_pose_deviation_violation
+	bool max_path_pose_deviation_violation
+	bool cartesian_velocity_profile_safety_violation
+	bool joint_position_motion_generator_start_pose_invalid
+	bool joint_motion_generator_position_limits_violation
+	bool joint_motion_generator_velocity_limits_violation
+	bool joint_motion_generator_velocity_discontinuity
+	bool joint_motion_generator_acceleration_discontinuity
+	bool cartesian_position_motion_generator_start_pose_invalid
+	bool cartesian_motion_generator_elbow_limit_violation
+	bool cartesian_motion_generator_velocity_limits_violation
+	bool cartesian_motion_generator_velocity_discontinuity
+	bool cartesian_motion_generator_acceleration_discontinuity
+	bool cartesian_motion_generator_elbow_sign_inconsistent
+	bool cartesian_motion_generator_start_elbow_invalid
+	bool cartesian_motion_generator_joint_position_limits_violation
+	bool cartesian_motion_generator_joint_velocity_limits_violation
+	bool cartesian_motion_generator_joint_velocity_discontinuity
+	bool cartesian_motion_generator_joint_acceleration_discontinuity
+	bool cartesian_position_motion_generator_invalid_frame
+	bool force_controller_desired_force_tolerance_violation
+	bool controller_torque_discontinuity
+	bool start_elbow_sign_inconsistent
+	bool communication_constraints_violation
+	bool power_limit_violation
+	bool joint_p2p_insufficient_torque_for_planning
+	bool tau_j_range_violation
+	bool instability_detected

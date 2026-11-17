@@ -1,0 +1,73 @@
+========================================================================
+FR3 + XHAND PAYLOAD CONFIGURATION AUDIT V1
+READ ONLY / NO MOTION / NO SETLOAD CALL
+========================================================================
+
+========== 1. Current controller baseline ==========
+joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               active
+franka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  active
+
+========== 2. Current FR3 health ==========
+robot_mode: 1
+  joint_reflex: false
+  cartesian_reflex: false
+  communication_constraints_violation: false
+  instability_detected: false
+  joint_reflex: false
+  cartesian_reflex: false
+  communication_constraints_violation: false
+  instability_detected: false
+
+========== 3. Discover payload/load services ==========
+/controller_manager/load_controller [controller_manager_msgs/srv/LoadController]
+/controller_manager/reload_controller_libraries [controller_manager_msgs/srv/ReloadControllerLibraries]
+/controller_manager/unload_controller [controller_manager_msgs/srv/UnloadController]
+/service_server/set_load [franka_msgs/srv/SetLoad]
+
+--- franka_msgs/srv/SetLoad interface ---
+# The mass of the object
+float64 mass
+# Position of the center of mass
+float64[3] center_of_mass
+# Inertia of the object - the provided 3x3 matrix is in column major form.
+float64[9] load_inertia
+---
+bool success
+string error
+
+========== 4. Runtime payload readback ==========
+[INFO] current robot_state topic does not expose payload fields
+
+========== 5. Payload-related ROS parameters ==========
+[INFO] no payload-related runtime parameters exposed by these nodes
+
+========== 6. Runtime robot_description audit ==========
+[PASS] robot_description loaded (23727 chars)
+links/joints downstream of fr3_link8: 0
+
+collecting current TF tree...
+
+---------- URDF CURRENT-CONFIG PAYLOAD CANDIDATE ----------
+resolved modeled mass = 0.000000 kg
+combined COM = unavailable
+
+========== 7. AUTOMATIC ASSESSMENT ==========
+[PASS] SetLoad-capable service/interface is discoverable
+[INFO] current ROS robot_state does not directly expose payload readback
+[WARN] no clearly named XHand/tool model was found downstream of fr3_link8
+[WARN] no usable downstream inertial mass was obtained from runtime URDF
+
+[ACTION] actual XHand + adapter measured mass/COM data is still required before SetLoad.
+
+========== 8. Saved report ==========
+JSON report = /home/gu/rehab_robot_ws/validation_logs/runtime/fr3_xhand_payload_audit_20261004_205912.json
+
+========================================================================
+[DONE] PAYLOAD AUDIT COMPLETE
+NO CONTROLLER LOAD
+NO CONTROLLER ACTIVATION
+NO TRAJECTORY
+NO PTP
+NO SETLOAD CALL
+NO ROBOT CONFIGURATION WAS CHANGED
+========================================================================

@@ -1,0 +1,31 @@
+schema: rehab_hardware_v3
+
+fr3:
+  robot_ip: 192.168.1.25
+  controller_manager: /controller_manager
+  trajectory_controller: fr3_arm_controller
+  trajectory_action: /fr3_arm_controller/follow_joint_trajectory
+  controller_type: joint_trajectory_controller/JointTrajectoryController
+  controller_param_file: ~/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml
+  joint_state_topic: /franka/joint_states
+  robot_state_topic: /franka_robot_state_broadcaster/robot_state
+  required_idle_robot_mode: 1
+
+  # Hard production gates. Keep false until the effort-JTC tracking issue is closed.
+  real_execution_enabled: false
+  tracking_backend_validated: false
+
+moveit:
+  plan_only_server: ~/rehab_robot_ws/tools/rehab_move_group_plan_only_server.py
+  cartesian_service: /compute_cartesian_path
+  fk_service: /compute_fk
+
+xhand:
+  present: true
+  combined_motion_enabled: false
+  real_grasp_enabled: false
+  watchdog_s: 0.5
+
+camera:
+  enabled: false
+  device: D435i

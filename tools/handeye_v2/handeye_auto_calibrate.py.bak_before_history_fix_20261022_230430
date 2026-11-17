@@ -1,0 +1,585 @@
+#!/usr/bin/env python3
+"""
+FR3 + D435i eye-in-hand ArUco calibration: slow PTP motion + automatic capture.
+
+Safety behavior:
+- Dry-run unless --execute is supplied.
+- Requires an explicit "MOVE" confirmation before any motion.
+- Uses the existing /action_server/ptp_motion action, not fr3_arm_controller.
+- Validates every target against the installed FR3 safe joint limits.
+- Stops on health loss, action failure, stale joint state, marker loss, or sample rejection.
+- Never sends a home/return/recovery motion after an error or at the end.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import threading
+import time
+from collections import deque
+from datetime import datetime
+from pathlib import Path
+
+import yaml
+import rclpy
+from action_msgs.msg import GoalStatus
+from controller_manager_msgs.srv import ListControllers, ListHardwareComponents
+from franka_msgs.action import PTPMotion
+from rclpy.action import ActionClient
+from rclpy.executors import MultiThreadedExecutor
+from rclpy.node import Node
+from sensor_msgs.msg import JointState
+
+
+JOINT_NAMES = tuple(f"fr3_joint{i}" for i in range(1, 8))
+PTP_ACTION = "/action_server/ptp_motion"
+JOINT_TOPIC = "/franka/joint_states"
+CONTROLLER_SERVICE = "/controller_manager/list_controllers"
+HARDWARE_SERVICE = "/controller_manager/list_hardware_components"
+REQUIRED_CONTROLLERS = ("joint_state_broadcaster", "franka_robot_state_broadcaster")
+HARDWARE_NAME = "FrankaHardwareInterface"
+
+# Small, symmetric perturbations around the measured starting configuration.
+# Each target is an absolute joint configuration derived from the live anchor.
+POSE_OFFSETS = [
+    ("j1_plus", 0, +0.07), ("j1_minus", 0, -0.07),
+    ("j2_plus", 1, +0.06), ("j2_minus", 1, -0.06),
+    ("j3_plus", 2, +0.06), ("j3_minus", 2, -0.06),
+    ("j4_plus", 3, +0.06), ("j4_minus", 3, -0.06),
+    ("j5_plus", 4, +0.06), ("j5_minus", 4, -0.06),
+    ("j6_plus", 5, +0.06), ("j6_minus", 5, -0.06),
+    ("j7_plus", 6, +0.08), ("j7_minus", 6, -0.08),
+]
+
+
+def wait_future(future, timeout_s: float, description: str):
+    deadline = time.monotonic() + timeout_s
+    while not future.done() and time.monotonic() < deadline:
+        time.sleep(0.02)
+    if not future.done():
+        raise TimeoutError(f"Timed out waiting for {description} ({timeout_s:.1f}s)")
+    exc = future.exception()
+    if exc is not None:
+        raise RuntimeError(f"{description} failed: {exc}") from exc
+    result = future.result()
+    if result is None:
+        raise RuntimeError(f"{description} returned an empty result")
+    return result
+
+
+def load_joint_limits(path: Path):
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    joints = data.get("joints", {})
+    limits = {}
+    for name in JOINT_NAMES:
+        if name not in joints:
+            raise ValueError(f"Missing safe joint limits for {name} in {path}")
+        limits[name] = (
+            float(joints[name]["safe_lower_rad"]),
+            float(joints[name]["safe_upper_rad"]),
+        )
+    return limits
+
+
+def validate_target(target, limits):
+    values = tuple(float(v) for v in target)
+    if len(values) != 7:
+        raise ValueError("An FR3 target must contain exactly 7 joint positions")
+    for name, value in zip(JOINT_NAMES, values):
+        lo, hi = limits[name]
+        if not (lo <= value <= hi):
+            raise ValueError(
+                f"{name} target {value:+.5f} rad outside safe range [{lo:+.5f}, {hi:+.5f}]"
+            )
+    return values
+
+
+def build_plan(anchor, limits):
+    plan = []
+    for label, index, delta in POSE_OFFSETS:
+        target = list(anchor)
+        target[index] += delta
+        plan.append((label, validate_target(target, limits), index, delta))
+    return plan
+
+
+def log_event(path: Path, event: str, **fields):
+    record = {"time": datetime.now().astimezone().isoformat(), "event": event, **fields}
+    with path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        f.flush()
+
+
+class AutoHandeyeNode(Node):
+    def __init__(self, limits):
+        super().__init__("fr3_handeye_auto_calibration")
+        self.limits = limits
+        self._lock = threading.Lock()
+        self._latest_q = None
+        self._latest_dq = None
+        self._latest_received = 0.0
+        self._history = deque(maxlen=500)
+
+        self.create_subscription(JointState, JOINT_TOPIC, self._joint_cb, 20)
+        self.ptp = ActionClient(self, PTPMotion, PTP_ACTION)
+        self.ctrl_client = self.create_client(ListControllers, CONTROLLER_SERVICE)
+        self.hw_client = self.create_client(ListHardwareComponents, HARDWARE_SERVICE)
+
+    def _joint_cb(self, msg):
+        indices = {name: i for i, name in enumerate(msg.name)}
+        if any(name not in indices for name in JOINT_NAMES):
+            return
+        try:
+            q = tuple(float(msg.position[indices[n]]) for n in JOINT_NAMES)
+            dq = tuple(float(msg.velocity[indices[n]]) for n in JOINT_NAMES)
+        except (IndexError, TypeError, ValueError):
+            return
+        if not all(map(lambda x: abs(x) < float("inf"), q + dq)):
+            return
+        now = time.monotonic()
+        with self._lock:
+            self._latest_q = q
+            self._latest_dq = dq
+            self._latest_received = now
+            self._history.append((now, q, dq))
+
+    def current_state(self, max_age_s=0.5):
+        with self._lock:
+            q, dq, received = self._latest_q, self._latest_dq, self._latest_received
+        if q is None or dq is None:
+            raise RuntimeError(f"No valid 7-joint state received on {JOINT_TOPIC}")
+        age = time.monotonic() - received
+        if age > max_age_s:
+            raise RuntimeError(f"FR3 joint-state stream stale: age={age:.3f}s")
+        return q, dq, age
+
+    def wait_initial_state(self, timeout_s=8.0):
+        deadline = time.monotonic() + timeout_s
+        while time.monotonic() < deadline:
+            try:
+                return self.current_state(max_age_s=0.5)
+            except RuntimeError:
+                time.sleep(0.05)
+        raise TimeoutError(f"No fresh FR3 joint state on {JOINT_TOPIC}")
+
+    def check_health(self, timeout_s=4.0):
+        for client, name in (
+            (self.ctrl_client, CONTROLLER_SERVICE),
+            (self.hw_client, HARDWARE_SERVICE),
+        ):
+            if not client.wait_for_service(timeout_sec=timeout_s):
+                raise RuntimeError(f"Health-check service unavailable: {name}")
+
+        ctrl_future = self.ctrl_client.call_async(ListControllers.Request())
+        hw_future = self.hw_client.call_async(ListHardwareComponents.Request())
+        ctrl = wait_future(ctrl_future, timeout_s, "list_controllers")
+        hw = wait_future(hw_future, timeout_s, "list_hardware_components")
+
+        controllers = {c.name: c.state for c in ctrl.controller}
+        for name in REQUIRED_CONTROLLERS:
+            if controllers.get(name) != "active":
+                raise RuntimeError(
+                    f"Required controller {name} is {controllers.get(name)!r}, not 'active'"
+                )
+
+        components = [c for c in hw.component if c.name == HARDWARE_NAME]
+        if len(components) != 1 or components[0].state.label.lower() != "active":
+            state = [getattr(c.state, "label", "unknown") for c in components]
+            raise RuntimeError(
+                f"{HARDWARE_NAME} must be uniquely active; observed states={state}"
+            )
+
+        if not self.ptp.wait_for_server(timeout_sec=timeout_s):
+            raise RuntimeError(f"PTP action server unavailable: {PTP_ACTION}")
+
+        q, dq, age = self.current_state()
+        q = validate_target(q, self.limits)
+        print(
+            "[PREFLIGHT PASS] hardware=active; required broadcasters=active; "
+            f"PTP action=ready; joint_age={age*1000:.1f}ms; "
+            f"max_abs_joint_speed={max(abs(v) for v in dq):.5f}rad/s",
+            flush=True,
+        )
+        print(
+            "[INFO] fr3_arm_controller is not required by this script; "
+            "motion is sent through the verified PTP action.",
+            flush=True,
+        )
+        return q
+
+    def wait_still(self, target=None, timeout_s=15.0, label="robot"):
+        deadline = time.monotonic() + timeout_s
+        required_window = 0.55
+        while time.monotonic() < deadline:
+            now = time.monotonic()
+            with self._lock:
+                hist = [h for h in self._history if now - h[0] <= 0.85]
+                received = self._latest_received
+                q_now = self._latest_q
+            if q_now is not None and now - received <= 0.25 and len(hist) >= 5:
+                span = hist[-1][0] - hist[0][0]
+                max_speed = max(abs(v) for _, _, dq in hist for v in dq)
+                drift = max(
+                    max(abs(h[1][i] - hist[0][1][i]) for i in range(7))
+                    for h in hist
+                )
+                target_ok = True
+                if target is not None:
+                    target_ok = max(abs(q_now[i] - target[i]) for i in range(7)) <= 0.010
+                if (
+                    span >= required_window
+                    and max_speed < 0.010
+                    and drift < 0.0015
+                    and target_ok
+                ):
+                    return tuple(q_now)
+            time.sleep(0.05)
+
+        with self._lock:
+            q_now = self._latest_q
+            dq_now = self._latest_dq
+            received = self._latest_received
+        if q_now is None or dq_now is None:
+            raise TimeoutError(f"Could not verify a stationary joint state for {label}")
+        detail = (
+            f"age={time.monotonic()-received:.3f}s, "
+            f"max_speed={max(abs(v) for v in dq_now):.5f}rad/s"
+        )
+        if target is not None:
+            detail += f", max_target_error={max(abs(q_now[i]-target[i]) for i in range(7)):.5f}rad"
+        raise TimeoutError(f"FR3 did not settle at {label} within {timeout_s:.1f}s ({detail})")
+
+    def move_to(self, target, velocity):
+        target = validate_target(target, self.limits)
+        if not (0.0 < velocity <= 0.020):
+            raise ValueError("PTP maximum joint velocity must be in (0, 0.020] rad/s")
+
+        self.check_health()
+        self.current_state()
+        goal = PTPMotion.Goal()
+        goal.goal_joint_configuration = list(target)
+        goal.maximum_joint_velocities = [float(velocity)] * 7
+        goal.goal_tolerance = 0.001
+
+        print(
+            "[MOVE] target="
+            + ", ".join(f"{v:+.4f}" for v in target)
+            + f" rad; max_joint_velocity={velocity:.3f} rad/s",
+            flush=True,
+        )
+        goal_future = self.ptp.send_goal_async(goal)
+        goal_handle = wait_future(goal_future, 8.0, "PTP goal acceptance")
+        if not goal_handle.accepted:
+            raise RuntimeError("PTP action server rejected the motion goal")
+
+        result_wrap = wait_future(goal_handle.get_result_async(), 60.0, "PTP motion result")
+        if result_wrap.status != GoalStatus.STATUS_SUCCEEDED:
+            raise RuntimeError(
+                f"PTP motion did not succeed (status={result_wrap.status}); "
+                f"result={result_wrap.result!r}"
+            )
+        print("[MOVE PASS] PTP action reported success; checking measured joint settling.", flush=True)
+        q_final = self.wait_still(target=target, timeout_s=15.0, label="PTP target")
+        return q_final
+
+
+class CaptureMonitor:
+    def __init__(self, process):
+        self.process = process
+        self._lock = threading.Lock()
+        self.status = None
+        self.status_time = 0.0
+        self.saved_events = 0
+        self.reject_events = 0
+        self.fatal_line = None
+        self.last_lines = deque(maxlen=50)
+        self.reader = threading.Thread(target=self._read_stdout, daemon=True)
+        self.reader.start()
+
+    def _read_stdout(self):
+        try:
+            for raw in self.process.stdout:
+                line = raw.rstrip("\n")
+                print(line, flush=True)
+                now = time.monotonic()
+                with self._lock:
+                    self.last_lines.append(line)
+                    m = re.search(r"\[STATUS\]\s+health=(\w+)\s+marker=(\w+)", line)
+                    if m:
+                        self.status = {"health": m.group(1), "marker": m.group(2)}
+                        self.status_time = now
+                    if "[SAVED]" in line:
+                        self.saved_events += 1
+                    if "[REJECT]" in line:
+                        self.reject_events += 1
+                    if "[HALT]" in line or "[ERROR]" in line:
+                        self.fatal_line = line
+        except Exception as exc:
+            with self._lock:
+                self.fatal_line = f"capture stdout reader failed: {exc}"
+
+    def snapshot(self):
+        with self._lock:
+            return (
+                None if self.status is None else dict(self.status),
+                self.status_time,
+                self.saved_events,
+                self.reject_events,
+                self.fatal_line,
+            )
+
+    def wait_marker_ready(self, timeout_s=15.0, after_time=0.0):
+        deadline = time.monotonic() + timeout_s
+        while time.monotonic() < deadline:
+            status, stamp, _, _, fatal = self.snapshot()
+            if fatal:
+                raise RuntimeError(f"Capture health fault: {fatal}")
+            if (
+                status
+                and stamp >= after_time
+                and time.monotonic() - stamp <= 2.0
+                and status["health"] == "OK"
+                and status["marker"] == "OK"
+            ):
+                return
+            if self.process.poll() is not None:
+                raise RuntimeError(f"Capture process exited with code {self.process.returncode}")
+            time.sleep(0.05)
+        status, stamp, _, _, fatal = self.snapshot()
+        raise TimeoutError(
+            "No fresh '[STATUS] health=OK marker=OK' after "
+            f"{timeout_s:.1f}s; last_status={status}, status_age="
+            f"{time.monotonic()-stamp:.2f}s"
+        )
+
+    def request_sample(self, timeout_s=12.0):
+        self.wait_marker_ready(timeout_s=4.0)
+        _, _, saved_before, rejects_before, fatal = self.snapshot()
+        if fatal:
+            raise RuntimeError(f"Capture health fault: {fatal}")
+        if self.process.poll() is not None:
+            raise RuntimeError(f"Capture process exited with code {self.process.returncode}")
+
+        self.process.stdin.write("s\n")
+        self.process.stdin.flush()
+        print("[CAPTURE REQUEST] Sent 's' to the existing verified capture process.", flush=True)
+
+        deadline = time.monotonic() + timeout_s
+        while time.monotonic() < deadline:
+            _, _, saved_now, rejects_now, fatal = self.snapshot()
+            if fatal:
+                raise RuntimeError(f"Capture health fault: {fatal}")
+            if saved_now > saved_before:
+                return
+            if rejects_now > rejects_before:
+                with self._lock:
+                    reason = next(
+                        (line for line in reversed(self.last_lines) if "[REJECT]" in line),
+                        "sample rejected",
+                    )
+                raise RuntimeError(f"Capture rejected the sample; stopping sequence: {reason}")
+            if self.process.poll() is not None:
+                raise RuntimeError(f"Capture process exited with code {self.process.returncode}")
+            time.sleep(0.05)
+        raise TimeoutError(f"No [SAVED] event after requesting a sample ({timeout_s:.1f}s)")
+
+
+def parse_args():
+    p = argparse.ArgumentParser(
+        description="Low-speed FR3 automatic eye-in-hand calibration motion and ArUco capture"
+    )
+    p.add_argument("--output", required=True, help="Existing or new hand-eye sample output directory")
+    p.add_argument(
+        "--execute",
+        action="store_true",
+        help="Actually move the FR3; without this flag the program only preflights and prints targets",
+    )
+    p.add_argument(
+        "--velocity",
+        type=float,
+        default=0.015,
+        help="Maximum velocity per joint in rad/s (default 0.015; hard maximum 0.020)",
+    )
+    p.add_argument(
+        "--limits",
+        default=str(Path.home() / "rehab_robot_ws/config/fr3_joint_limits_resolved.yaml"),
+        help="Resolved FR3 joint limit YAML",
+    )
+    return p.parse_args()
+
+
+def main():
+    args = parse_args()
+    output = Path(args.output).expanduser().resolve()
+    limits_path = Path(args.limits).expanduser().resolve()
+    capture_script = Path.home() / "rehab_robot_ws/tools/handeye_v2/handeye_capture_v2.py"
+    log_path = output / "auto_motion_log.jsonl"
+
+    if not (0.0 < args.velocity <= 0.020):
+        raise SystemExit("--velocity must be in (0, 0.020] rad/s")
+    if not limits_path.is_file():
+        raise SystemExit(f"Joint-limit file not found: {limits_path}")
+    if not capture_script.is_file():
+        raise SystemExit(f"Existing capture script not found: {capture_script}")
+
+    limits = load_joint_limits(limits_path)
+    output.mkdir(parents=True, exist_ok=True)
+
+    rclpy.init(args=None)
+    node = AutoHandeyeNode(limits)
+    executor = MultiThreadedExecutor(num_threads=3)
+    executor.add_node(node)
+    spin_thread = threading.Thread(target=executor.spin, daemon=True)
+    spin_thread.start()
+
+    capture_proc = None
+    try:
+        print("=== FR3 + D435i AUTOMATIC HAND-EYE CALIBRATION ===", flush=True)
+        print(f"Output directory: {output}", flush=True)
+        print(f"Joint limits: {limits_path}", flush=True)
+        print(f"PTP velocity: {args.velocity:.3f} rad/s", flush=True)
+        print("Motion pattern: 14 small joint-space perturbations; no return-home or fault recovery.", flush=True)
+
+        anchor = node.check_health()
+        node.wait_still(timeout_s=8.0, label="initial pose")
+        plan = build_plan(anchor, limits)
+
+        print("\n========== VALIDATED TARGET PLAN ==========", flush=True)
+        for i, (label, target, joint_index, delta) in enumerate(plan, 1):
+            print(
+                f"{i:02d}. {label:9s} delta={delta:+.3f} rad on {JOINT_NAMES[joint_index]} | "
+                + " ".join(f"{v:+.3f}" for v in target),
+                flush=True,
+            )
+
+        if not args.execute:
+            print(
+                "\n[DRY RUN ONLY] No motion was sent and no capture process was started.\n"
+                "Review the target plan and workspace. To execute, rerun with --execute.",
+                flush=True,
+            )
+            return 0
+
+        print(
+            "\nSAFETY CHECK: make sure the complete arm sweep is clear, the camera cable is free, "
+            "the ArUco board is fixed, and the emergency stop is reachable.",
+            flush=True,
+        )
+        confirm = input('Type exactly "MOVE" to start the slow automatic sequence: ').strip()
+        if confirm != "MOVE":
+            print("[CANCELLED] No motion sent.", flush=True)
+            return 0
+
+        log_event(log_path, "start", output=str(output), anchor_q=list(anchor), velocity=args.velocity)
+        capture_proc = subprocess.Popen(
+            [
+                sys.executable,
+                str(capture_script),
+                "--output",
+                str(output),
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+            env={**os.environ, "RMW_IMPLEMENTATION": os.environ.get("RMW_IMPLEMENTATION", "rmw_cyclonedds_cpp")},
+        )
+        monitor = CaptureMonitor(capture_proc)
+
+        print("[WAIT] Waiting for capture health=OK and marker=OK before moving.", flush=True)
+        monitor.wait_marker_ready(timeout_s=20.0)
+        node.check_health()
+        node.wait_still(timeout_s=8.0, label="pre-motion pose")
+
+        completed = 0
+        for index, (label, target, joint_index, delta) in enumerate(plan):
+            # Check both robot health and camera readiness before every commanded move.
+            node.check_health()
+            monitor.wait_marker_ready(timeout_s=8.0)
+            node.wait_still(timeout_s=8.0, label=f"before {label}")
+
+            log_event(
+                log_path,
+                "move_start",
+                pose_index=index + 1,
+                label=label,
+                target_q=list(target),
+                velocity=args.velocity,
+            )
+            node.move_to(target, args.velocity)
+            motion_done_time = time.monotonic()
+            log_event(log_path, "move_done", pose_index=index + 1, label=label, measured_q=list(node.current_state()[0]))
+
+            # Never keep moving if the marker or health gate is lost at a pose.
+            monitor.wait_marker_ready(timeout_s=15.0, after_time=motion_done_time)
+            node.check_health()
+            node.wait_still(target=target, timeout_s=8.0, label=f"settled at {label}")
+
+            monitor.request_sample(timeout_s=12.0)
+            completed += 1
+            log_event(log_path, "sample_saved", pose_index=index + 1, label=label)
+            print(f"[POSE PASS] {completed}/{len(plan)} saved at {label}.", flush=True)
+
+            # A supervised first pose confirms the view and clearance before the remaining automatic sequence.
+            if completed == 1 and len(plan) > 1:
+                answer = input(
+                    "First pose was moved to and sampled successfully. Inspect the live camera/arm. "
+                    "Press Enter to continue the remaining automatic poses, or type q to stop here: "
+                ).strip().lower()
+                if answer == "q":
+                    print("[STOPPED BY OPERATOR] No return-home motion will be sent.", flush=True)
+                    log_event(log_path, "operator_stop_after_first_pose")
+                    break
+
+        print(
+            f"\n[FINISHED] Newly saved samples during this run: {completed}. "
+            f"Output: {output}",
+            flush=True,
+        )
+        log_event(log_path, "finish", newly_saved=completed)
+        return 0
+
+    except KeyboardInterrupt:
+        print("\n[STOP] Keyboard interrupt received. No recovery or return-home motion will be sent.", flush=True)
+        log_event(log_path, "keyboard_interrupt")
+        return 130
+    except Exception as exc:
+        print(f"\n[ABORT] {type(exc).__name__}: {exc}", flush=True)
+        print("[ABORT] No further motion will be sent. No automatic recovery/return-home will be attempted.", flush=True)
+        log_event(log_path, "abort", error=f"{type(exc).__name__}: {exc}")
+        return 2
+    finally:
+        if capture_proc is not None and capture_proc.poll() is None:
+            try:
+                capture_proc.stdin.write("q\n")
+                capture_proc.stdin.flush()
+                capture_proc.wait(timeout=5.0)
+            except Exception:
+                try:
+                    capture_proc.terminate()
+                    capture_proc.wait(timeout=2.0)
+                except Exception:
+                    try:
+                        capture_proc.kill()
+                    except Exception:
+                        pass
+        try:
+            executor.shutdown(timeout_sec=2.0)
+        except Exception:
+            pass
+        try:
+            node.destroy_node()
+        except Exception:
+            pass
+        if rclpy.ok():
+            rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

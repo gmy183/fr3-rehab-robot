@@ -1,0 +1,42 @@
+project:
+  name: rehab_robot
+  stage: empty_grasp_recovery
+
+global:
+  automatic_motion_on_startup: false
+  automatic_fault_return: false
+  require_explicit_execute: true
+  require_hardware_preflight: true
+
+fr3:
+  max_joint_velocity_rad_s: 0.020
+  automatic_recovery_on_fault: false
+
+  relative_motion_only_before_validation: true
+
+  # 不猜测旧硬盘中已丢失的绝对七关节目标。
+  absolute_joint_targets_enabled: false
+
+xhand:
+  command_timeout_s: 0.5
+  state_timeout_s: 0.2
+
+  default_micro_close_rad: 0.005
+  single_joint_effort_limit_ma: 150
+  whole_hand_effort_limit_ma: 220
+
+  inactive_joint_mode: 0
+  inactive_joint_kp: 0
+  inactive_joint_ki: 0
+  inactive_joint_kd: 0
+  inactive_joint_tor_max: 0
+
+  disable_frames: 3
+
+  excluded_joints:
+    - index_bend_joint
+
+  fault_auto_return: false
+
+d435i:
+  enable_imu_during_empty_grasp: false

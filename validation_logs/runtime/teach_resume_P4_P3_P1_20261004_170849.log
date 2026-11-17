@@ -1,0 +1,170 @@
+====================================================================
+FR3 MID-EDGE RESUME CHECK
+====================================================================
+resume edge = P4 -> P3
+final target = P1
+current xyz = [0.519963, 0.190686, 0.347309]
+edge projection = [0.519698, 0.192671, 0.349964]
+edge progress = 53.2%
+cross-track error = 3.326 mm
+resume route = RESUME -> P3 -> P2 -> P1
+remaining polyline = 0.422 m
+estimated subsegments = 29
+[PASS] current pose validated on selected taught edge
+[WAIT] TF tree not ready; waiting for fr3_link0 -> fr3_link8...
+[PASS] TF connected after 6 attempts
+
+current xyz = [0.519964, 0.190685, 0.347309]
+RESUME xyz = [0.519963, 0.190686, 0.347309]
+start error = 0.001 mm
+
+================================================
+REAL EXECUTION READY
+================================================
+PTP speed = 0.015 rad/s
+max Cartesian segment = 15.0 mm
+orientation = fixed task-start orientation
+fault = stop immediately
+automatic return = DISABLED
+automatic recovery = DISABLED
+XHand = NO COMMAND
+Camera = NOT USED
+
+输入 EXECUTE-RESUME-P1 才执行：
+====================================================================
+EDGE 1/3: RESUME -> P3
+====================================================================
+edge start error = 0.001 mm
+live edge length = 87.9 mm
+subsegments = 6
+
+  --- SEGMENT 1/6 ---
+    current = [0.519965, 0.190685, 0.34731]
+    target  = [0.51789, 0.179309, 0.356301]
+    actual distance = 14.65 mm
+    fraction = 1.000000
+    max joint delta = 0.030320 rad
+    [E1S1] inter-goal settle 0.30 s
+    [E1S1] PTP accepted
+    [E1S1] ROS status = 4
+    [E1S1] PTP status = 2
+    [E1S1] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S1] joint error = 0.000919 rad
+    Cartesian error = 0.717 mm
+
+  --- SEGMENT 2/6 ---
+    current = [0.517984, 0.179129, 0.355405]
+    target  = [0.515816, 0.167933, 0.365292]
+    actual distance = 15.09 mm
+    fraction = 1.000000
+    max joint delta = 0.029560 rad
+    [E1S2] inter-goal settle 0.30 s
+    [E1S2] PTP accepted
+    [E1S2] ROS status = 4
+    [E1S2] PTP status = 2
+    [E1S2] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S2] joint error = 0.000882 rad
+    Cartesian error = 0.723 mm
+
+  --- SEGMENT 3/6 ---
+    current = [0.515904, 0.167762, 0.364543]
+    target  = [0.513741, 0.156557, 0.374283]
+    actual distance = 15.00 mm
+    fraction = 1.000000
+    max joint delta = 0.028903 rad
+    [E1S3] inter-goal settle 0.30 s
+    [E1S3] PTP accepted
+    [E1S3] ROS status = 4
+    [E1S3] PTP status = 2
+    [E1S3] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S3] joint error = 0.000879 rad
+    Cartesian error = 0.768 mm
+
+  --- SEGMENT 4/6 ---
+    current = [0.513833, 0.156383, 0.373526]
+    target  = [0.511667, 0.14518, 0.383274]
+    actual distance = 15.01 mm
+    fraction = 1.000000
+    max joint delta = 0.028221 rad
+    [E1S4] inter-goal settle 0.30 s
+    [E1S4] PTP accepted
+    [E1S4] ROS status = 4
+    [E1S4] PTP status = 2
+    [E1S4] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S4] joint error = 0.000847 rad
+    Cartesian error = 0.867 mm
+
+  --- SEGMENT 5/6 ---
+    current = [0.511824, 0.145299, 0.38243]
+    target  = [0.509593, 0.133804, 0.392266]
+    actual distance = 15.29 mm
+    fraction = 1.000000
+    max joint delta = 0.027530 rad
+    [E1S5] inter-goal settle 0.30 s
+    [E1S5] PTP accepted
+    [E1S5] ROS status = 4
+    [E1S5] PTP status = 2
+    [E1S5] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S5] joint error = 0.000847 rad
+    Cartesian error = 0.948 mm
+
+  --- SEGMENT 6/6 ---
+    current = [0.509682, 0.133657, 0.391657]
+    target  = [0.507519, 0.122428, 0.401257]
+    actual distance = 14.93 mm
+    fraction = 1.000000
+    max joint delta = 0.026877 rad
+    [E1S6] inter-goal settle 0.30 s
+    [E1S6] PTP accepted
+    [E1S6] ROS status = 4
+    [E1S6] PTP status = 2
+    [E1S6] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S6] joint error = 0.000848 rad
+    Cartesian error = 0.967 mm
+
+[EDGE PASS] RESUME -> P3
+waypoint error = 0.967 mm
+
+====================================================================
+EDGE 2/3: P3 -> P2
+====================================================================
+edge start error = 0.634 mm
+live edge length = 220.1 mm
+subsegments = 15
+
+  --- SEGMENT 1/15 ---
+    current = [0.507605, 0.12229, 0.400644]
+    target  = [0.502682, 0.111463, 0.409243]
+    actual distance = 14.68 mm
+    fraction = 1.000000
+    max joint delta = 0.034017 rad
+    [E2S1] inter-goal settle 0.30 s
+    [E2S1] PTP accepted
+    [E2S1] ROS status = 4
+    [E2S1] PTP status = 2
+    [E2S1] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E2S1] joint error = 0.000830 rad
+    Cartesian error = 0.644 mm
+
+  --- SEGMENT 2/15 ---
+    current = [0.502803, 0.11132, 0.408479]
+    target  = [0.497759, 0.100637, 0.417842]
+    actual distance = 15.07 mm
+    fraction = 1.000000
+    max joint delta = 0.033536 rad
+    [E2S2] inter-goal settle 0.30 s
+    [E2S2] PTP accepted
+    [E2S2] ROS status = 6
+    [E2S2] PTP status = 3
+    [E2S2] message = libfranka: Move received unexpected motion started message.
+
+[FAULT] TeachPathError: E2S2: ROS action failed
+[SAFE] no automatic retry
+[SAFE] no automatic return

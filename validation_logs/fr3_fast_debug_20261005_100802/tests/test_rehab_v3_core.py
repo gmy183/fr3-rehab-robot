@@ -1,0 +1,102 @@
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "src" / "rehab_robot_control"))
+
+from rehab_robot_control.v3.config import V3Config
+from rehab_robot_control.v3.contracts import TaskState
+from rehab_robot_control.v3.state_machine import RehabStateMachine, StateTransitionError
+from rehab_robot_control.v3.teach_path import TeachPath, distance
+from rehab_robot_control.v3.trajectory_manager import (
+    quintic_coefficients,
+    quintic_eval,
+    uniform_time_scale,
+)
+
+
+def test_config_loads():
+    cfg = V3Config.load(ROOT)
+    assert cfg.task["rehab_start"] == "P1"
+    assert cfg.task["rehab_end"] == "P8"
+    assert cfg.hardware["fr3"]["real_execution_enabled"] is False
+    assert cfg.hardware["xhand"]["combined_motion_enabled"] is False
+
+
+def test_forward_reverse_route():
+    cfg = V3Config.load(ROOT)
+    tp = TeachPath(cfg.task["teach_points"], cfg.task["route_order"])
+    assert tp.route("P1", "P4") == ["P1", "P2", "P3", "P4"]
+    assert tp.route("P4", "P1") == ["P4", "P3", "P2", "P1"]
+
+
+def test_nearest_edge_and_remaining_waypoints():
+    cfg = V3Config.load(ROOT)
+    tp = TeachPath(cfg.task["teach_points"], cfg.task["route_order"])
+    p2 = tp.points["P2"]
+    p3 = tp.points["P3"]
+    mid = tuple((a+b)/2 for a,b in zip(p2,p3))
+    edge = tp.nearest_edge(mid)
+    assert {edge.from_name, edge.to_name} == {"P2", "P3"}
+    assert edge.cross_track_m < 1e-12
+    assert tp.remaining_waypoints_from_current(mid, "P1") == ["P2", "P1"]
+    assert tp.remaining_waypoints_from_current(mid, "P8")[0] == "P3"
+
+
+def test_state_machine_fault_latches():
+    sm = RehabStateMachine()
+    sm.transition(TaskState.APPROACH)
+    sm.fault()
+    assert sm.state == TaskState.FAULT
+    assert sm.fault_latched
+    try:
+        sm.transition(TaskState.GRASP)
+        assert False, "transition should have failed"
+    except StateTransitionError:
+        pass
+
+
+def test_state_machine_nominal_path():
+    sm = RehabStateMachine()
+    for s in [
+        TaskState.APPROACH,
+        TaskState.GRASP,
+        TaskState.REHAB_MOTION,
+        TaskState.RETURN,
+        TaskState.RELEASE,
+        TaskState.FINISH,
+    ]:
+        sm.transition(s)
+    assert sm.state == TaskState.FINISH
+
+
+def test_quintic_boundary_conditions():
+    q0,v0,a0 = 0.1,0.03,-0.02
+    q1,v1,a1 = 0.42,-0.01,0.015
+    T = 2.3
+    c = quintic_coefficients(q0,v0,a0,q1,v1,a1,T)
+    s = quintic_eval(c,0.0)
+    e = quintic_eval(c,T)
+    for actual,expected in zip(s,(q0,v0,a0)):
+        assert abs(actual-expected) < 1e-9
+    for actual,expected in zip(e,(q1,v1,a1)):
+        assert abs(actual-expected) < 1e-9
+
+
+def test_uniform_time_scaling_reduces_dynamics():
+    pts = [
+        {"time":0.0,"positions":[0.0]*7,"velocities":[0.0]*7,"accelerations":[0.0]*7},
+        {"time":1.0,"positions":[0.1]*7,"velocities":[0.0]*7,"accelerations":[0.0]*7},
+    ]
+    scale,scaled,ov,oa,v,a = uniform_time_scale(pts,0.02,0.1,1.03)
+    assert scale >= 1.0
+    assert v <= 0.02002
+    assert a <= 0.1001
+    assert scaled[-1]["positions"] == pts[-1]["positions"]
+
+
+def test_teach_total_length_positive():
+    cfg = V3Config.load(ROOT)
+    tp = TeachPath(cfg.task["teach_points"], cfg.task["route_order"])
+    total = sum(distance(tp.points[a], tp.points[b]) for a,b in zip(tp.order[:-1],tp.order[1:]))
+    assert total > 0.9

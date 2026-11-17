@@ -1,0 +1,46 @@
+============================================================
+FR3 + XHand REHAB MICRO-CYCLE V1
+ONE CYCLE / EMPTY LOAD / BOUNDED MOTION
+============================================================
+FR3 q0       = [0.039572, -0.657166, 0.005741, -2.542708, -0.018466, 1.557663, 1.579466]
+FR3 q_out    = [0.044572, -0.657166, 0.005741, -2.542708, -0.018466, 1.557663, 1.579466]
+FR3 q_return = [0.039572, -0.657166, 0.005741, -2.542708, -0.018466, 1.557663, 1.579466]
+[PLAN] J1 outbound +0.005 rad, then planned return to this run's q0
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x1710d9a8,  24 In:0x1710d9c0, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+XHand serial = 012R3201B1217006
+[PASS] XHand passive baseline
+[PASS] cycle takeover FR3 freshness gate
+[PASS] XHand takeover
+[PASS] cycle grasp FR3 freshness gate
+[PASS] XHand bounded grasp armed
+[PASS] FR3 cycle outbound +0.005 pre-send FR3 state fresh; pose_error=0.000004 rad
+[INFO] FR3 cycle outbound +0.005 PTP goal accepted
+[INFO] FR3 cycle outbound +0.005 XHand max refresh gap=0.0532s
+[PASS] FR3 cycle outbound +0.005 max_final_error=0.001470 rad
+[PASS] cycle turnaround hold FR3 freshness gate
+[PASS] FR3 cycle planned return to q0 pre-send FR3 state fresh; pose_error=0.001522 rad
+[INFO] FR3 cycle planned return to q0 PTP goal accepted
+[INFO] FR3 cycle planned return to q0 XHand max refresh gap=0.0538s
+[PASS] FR3 cycle planned return to q0 max_final_error=0.001516 rad
+[INFO] FR3 return max error=0.001520 rad
+[PASS] cycle final hold FR3 freshness gate
+
+============================================================
+[PASS] REHAB MICRO-CYCLE COMPLETE
+============================================================
+FR3: planned outbound +0.005 rad and normal return to captured q0 completed.
+FR3 return max error=0.001520 rad
+XHand: powerless.
+Cycles completed: 1
+No automatic fault recovery was used.
+[SAFE] XHand powerless x3 + EtherCAT closed

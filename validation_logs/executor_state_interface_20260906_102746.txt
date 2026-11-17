@@ -1,0 +1,1079 @@
+============================================================
+1. xhand_state_mapper.py
+============================================================
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Any
+
+
+JOINT_NAMES = (
+    "thumb_bend_joint",
+    "thumb_rota_joint1",
+    "thumb_rota_joint2",
+    "index_bend_joint",
+    "index_joint1",
+    "index_joint2",
+    "mid_joint1",
+    "mid_joint2",
+    "ring_joint1",
+    "ring_joint2",
+    "pinky_joint1",
+    "pinky_joint2",
+)
+
+SENSOR_LOCATIONS = (
+    "thumb",
+    "index",
+    "middle",
+    "ring",
+    "pinky",
+)
+
+JOINT_COUNT = 12
+SENSOR_COUNT = 5
+RAW_FORCE_COUNT = 120
+RAW_TEMPERATURE_COUNT = 20
+
+
+class XHandStateMappingError(ValueError):
+    """Vendor state does not satisfy the recovered XHand state contract."""
+
+
+@dataclass(frozen=True)
+class MappedJointState:
+    name: tuple[str, ...]
+    position: tuple[float, ...]
+    effort: tuple[float, ...]
+    temperature: tuple[float, ...]
+    error_code: tuple[int, ...]
+
+
+@dataclass(frozen=True)
+class MappedFingerSensorState:
+    location: str
+    calc_force: tuple[float, float, float]
+    raw_force: tuple[tuple[float, float, float], ...]
+    calc_temperature: int
+    raw_temperature: tuple[int, ...]
+
+
+@dataclass(frozen=True)
+class MappedXHandState:
+    hand_id: int
+    hand_name: str
+    hand_type: str
+    joint_state: MappedJointState
+    sensor_states: tuple[MappedFingerSensorState, ...]
+
+
+def _fixed_sequence(value: Any, expected: int, label: str) -> tuple[Any, ...]:
+    try:
+        result = tuple(value)
+    except Exception as exc:
+        raise XHandStateMappingError(
+            f"{label} is not a readable sequence"
+        ) from exc
+
+    if len(result) != expected:
+        raise XHandStateMappingError(
+            f"{label} count mismatch: expected {expected}, got {len(result)}"
+        )
+
+    return result
+
+
+def _force_xyz(value: Any, label: str) -> tuple[float, float, float]:
+    try:
+        return (
+            float(value.fx),
+            float(value.fy),
+            float(value.fz),
+        )
+    except Exception as exc:
+        raise XHandStateMappingError(
+            f"{label} does not contain valid fx/fy/fz"
+        ) from exc
+
+
+def _joint_error_code(finger: Any) -> int:
+    """
+    Recovered compatibility semantics:
+
+    0 = all three vendor hardware error fields are zero
+    1 = at least one vendor hardware error field is non-zero
+
+    The exact historical non-zero packing has not been recovered, so we do
+    not invent a numeric encoding. Upper safety layers only need zero/nonzero.
+    """
+    try:
+        raw_errors = (
+            int(finger.commboard_err),
+            int(finger.jonitboard_err),  # vendor spelling
+            int(finger.tipboard_err),
+        )
+    except Exception as exc:
+        raise XHandStateMappingError(
+            "finger state is missing hardware error fields"
+        ) from exc
+
+    return 0 if raw_errors == (0, 0, 0) else 1
+
+
+def map_hand_state(
+    hand_state: Any,
+    *,
+    hand_id: int = 0,
+    hand_name: str = "xhand",
+    hand_type: str = "R",
+) -> MappedXHandState:
+    """
+    Convert one processed vendor HandState_t into the recovered ROS contract.
+
+    Important:
+    FingerState_t.torque from the currently installed SDK is already a
+    processed signed current value in mA. It must NOT be decoded again as a
+    raw 9-bit field.
+    """
+
+    try:
+        fingers = _fixed_sequence(
+            hand_state.finger_state,
+            JOINT_COUNT,
+            "finger_state",
+        )
+        sensors = _fixed_sequence(
+            hand_state.sensor_data,
+            SENSOR_COUNT,
+            "sensor_data",
+        )
+    except AttributeError as exc:
+        raise XHandStateMappingError(
+            "hand state does not expose finger_state/sensor_data"
+        ) from exc
+
+    positions: list[float] = []
+    efforts: list[float] = []
+    temperatures: list[float] = []
+    error_codes: list[int] = []
+
+    for index, finger in enumerate(fingers):
+        try:
+            positions.append(float(finger.position))
+
+            # DO NOT call torque_codec.decode_signed_9bit() here.
+            # Current FingerState_t.torque is already signed current in mA.
+            efforts.append(float(finger.torque))
+
+            temperatures.append(float(finger.temperature))
+            error_codes.append(_joint_error_code(finger))
+        except XHandStateMappingError:
+            raise
+        except Exception as exc:
+            raise XHandStateMappingError(
+                f"invalid finger_state[{index}]"
+            ) from exc
+
+    mapped_sensors: list[MappedFingerSensorState] = []
+
+    for index, sensor in enumerate(sensors):
+        try:
+            raw_force_objects = _fixed_sequence(
+                sensor.raw_force,
+                RAW_FORCE_COUNT,
+                f"sensor_data[{index}].raw_force",
+            )
+
+            raw_temperature_objects = _fixed_sequence(
+                sensor.temperature,
+                RAW_TEMPERATURE_COUNT,
+                f"sensor_data[{index}].temperature",
+            )
+
+            calc_force = _force_xyz(
+                sensor.calc_force,
+                f"sensor_data[{index}].calc_force",
+            )
+
+            raw_force = tuple(
+                _force_xyz(
+                    value,
+                    f"sensor_data[{index}].raw_force[{force_index}]",
+                )
+                for force_index, value in enumerate(raw_force_objects)
+            )
+
+            raw_temperature = tuple(
+                int(value) for value in raw_temperature_objects
+            )
+
+            mapped_sensors.append(
+                MappedFingerSensorState(
+                    location=SENSOR_LOCATIONS[index],
+                    calc_force=calc_force,
+                    raw_force=raw_force,
+                    calc_temperature=int(sensor.calc_temperature),
+                    raw_temperature=raw_temperature,
+                )
+            )
+        except XHandStateMappingError:
+            raise
+        except Exception as exc:
+            raise XHandStateMappingError(
+                f"invalid sensor_data[{index}]"
+            ) from exc
+
+    return MappedXHandState(
+        hand_id=int(hand_id),
+        hand_name=str(hand_name),
+        hand_type=str(hand_type),
+        joint_state=MappedJointState(
+            name=JOINT_NAMES,
+            position=tuple(positions),
+            effort=tuple(efforts),
+            temperature=tuple(temperatures),
+            error_code=tuple(error_codes),
+        ),
+        sensor_states=tuple(mapped_sensors),
+    )
+
+============================================================
+2. xhand_phase1_validate.py
+============================================================
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import math
+import os
+import statistics
+import sys
+import time
+
+from xhand_controller.xhand_control import HandCommand_t
+
+from rehab_robot_control.xhand_driver_core import (
+    VendorXHandBackend,
+    XHandDriverCore,
+)
+from rehab_robot_control.xhand_state_mapper import JOINT_NAMES
+
+
+MODE = 3
+KP = 225
+KI = 0
+KD = 0
+
+DELTA = 0.005
+TOR_MAX = 150
+
+WATCHDOG = 0.5
+DISABLE_FRAMES = 3
+REFRESH_HZ = 20.0
+
+SINGLE_INDEX = 4
+
+ACTIVE = [
+    0,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+]
+
+INACTIVE = [
+    1,
+    2,
+    3,
+]
+
+MAX_TAKEOVER_DRIFT = 0.015
+MAX_MOTION = 0.020
+MAX_CURRENT = 170.0
+
+
+class ValidationError(RuntimeError):
+    pass
+
+
+def read_state(driver):
+    fresh = driver.read_fresh_state(False)
+
+    if fresh is None:
+        raise ValidationError("no fresh state")
+
+    fingers = fresh.state.finger_state
+
+    if len(fingers) != 12:
+        raise ValidationError(
+            f"finger count={len(fingers)}"
+        )
+
+    pos = []
+    cur = []
+    mode = []
+
+    for i, f in enumerate(fingers):
+        q = float(f.position)
+        c = float(f.torque)
+        raw = int(f.raw_position)
+
+        if not math.isfinite(q):
+            raise ValidationError(
+                f"{JOINT_NAMES[i]} position non-finite"
+            )
+
+        if not math.isfinite(c):
+            raise ValidationError(
+                f"{JOINT_NAMES[i]} current non-finite"
+            )
+
+        errors = (
+            int(f.commboard_err),
+            int(f.jonitboard_err),
+            int(f.tipboard_err),
+        )
+
+        if any(errors):
+            raise ValidationError(
+                f"{JOINT_NAMES[i]} errors={errors}"
+            )
+
+        pos.append(q)
+        cur.append(c)
+        mode.append(raw & 0xF)
+
+    return pos, cur, mode
+
+
+def baseline(driver, n=25):
+    rows = []
+    currents = []
+
+    for _ in range(n):
+        p, c, _ = read_state(driver)
+
+        rows.append(p)
+        currents.append(c)
+
+        time.sleep(0.01)
+
+    pos = [
+        statistics.median(
+            row[i]
+            for row in rows
+        )
+        for i in range(12)
+    ]
+
+    cur = [
+        statistics.median(
+            row[i]
+            for row in currents
+        )
+        for i in range(12)
+    ]
+
+    return pos, cur
+
+
+def command(
+    reference,
+    active,
+    targets,
+):
+    cmd = HandCommand_t()
+
+    for i in range(12):
+        f = cmd.finger_command[i]
+
+        f.id = i
+        f.position = float(reference[i])
+
+        f.mode = 0
+        f.kp = 0
+        f.ki = 0
+        f.kd = 0
+        f.tor_max = 0
+
+    for i in active:
+        f = cmd.finger_command[i]
+
+        f.position = float(targets[i])
+
+        f.mode = MODE
+        f.kp = KP
+        f.ki = KI
+        f.kd = KD
+        f.tor_max = TOR_MAX
+
+    return cmd
+
+
+def run_window(
+    driver,
+    cmd,
+    reference,
+    active,
+    seconds,
+    label,
+):
+    samples = {
+        i: []
+        for i in active
+    }
+
+    max_current = {
+        i: 0.0
+        for i in active
+    }
+
+    modes = {
+        i: set()
+        for i in range(12)
+    }
+
+    deadline = time.monotonic() + seconds
+    period = 1.0 / REFRESH_HZ
+
+    while time.monotonic() < deadline:
+        start = time.monotonic()
+
+        driver.refresh_active_command(cmd)
+
+        time.sleep(0.02)
+
+        pos, cur, state_modes = read_state(
+            driver
+        )
+
+        for i in range(12):
+            modes[i].add(state_modes[i])
+
+        for i in active:
+            delta = pos[i] - reference[i]
+
+            samples[i].append(delta)
+
+            max_current[i] = max(
+                max_current[i],
+                abs(cur[i]),
+            )
+
+            if abs(delta) > MAX_MOTION:
+                raise ValidationError(
+                    f"{label}: "
+                    f"{JOINT_NAMES[i]} runaway "
+                    f"{delta:+.6f}"
+                )
+
+            if abs(cur[i]) > MAX_CURRENT:
+                raise ValidationError(
+                    f"{label}: "
+                    f"{JOINT_NAMES[i]} current "
+                    f"{cur[i]:.1f}mA"
+                )
+
+        driver.poll_watchdog()
+
+        elapsed = time.monotonic() - start
+
+        if elapsed < period:
+            time.sleep(period - elapsed)
+
+    result = {}
+
+    for i in active:
+        values = samples[i]
+
+        if not values:
+            raise ValidationError(
+                f"{JOINT_NAMES[i]} no samples"
+            )
+
+        result[i] = {
+            "median": statistics.median(values),
+            "min": min(values),
+            "max": max(values),
+            "peak_abs": max(abs(v) for v in values),
+            "imax": max_current[i],
+        }
+
+    return result, modes
+
+
+def check_inactive_modes(modes):
+    for i in INACTIVE:
+        seen = modes[i]
+
+        bad = [
+            m
+            for m in seen
+            if m != 0
+        ]
+
+        if bad:
+            raise ValidationError(
+                f"inactive {JOINT_NAMES[i]} "
+                f"entered modes={sorted(seen)}"
+            )
+
+
+def main():
+    if os.geteuid() != 0:
+        raise ValidationError(
+            "must run via sudo wrapper"
+        )
+
+    interface = os.environ["XHAND_IF"]
+    expected_serial = os.environ.get(
+        "XHAND_SERIAL",
+        "",
+    ).strip()
+
+    print(
+        "============================================================"
+    )
+    print("XHand Phase-1 FINAL validation")
+    print(
+        "============================================================"
+    )
+    print("mode=3")
+    print("kp=225")
+    print("ki=0")
+    print("kd=0")
+    print("tor_max=150mA")
+    print("delta=+0.005rad")
+    print()
+    print(
+        "注意：本验收检查安全接管/隔离/有界微动，"
+    )
+    print(
+        "不再用单次编码器量化步作为9关节伺服性能判据。"
+    )
+
+    backend = VendorXHandBackend()
+
+    driver = XHandDriverCore(
+        backend,
+        command_timeout_s=WATCHDOG,
+        disable_frames=DISABLE_FRAMES,
+    )
+
+    opened = False
+
+    try:
+        device_id = driver.open(interface)
+        opened = True
+
+        print()
+        print(
+            f"[PASS] EtherCAT open device_id={device_id}"
+        )
+
+        control = backend._control
+
+        serial_ret = control.get_serial_number(
+            device_id
+        )
+
+        actual_serial = (
+            str(serial_ret[1])
+            .strip()
+            .strip("\x00")
+        )
+
+        print(f"serial={actual_serial}")
+
+        if (
+            expected_serial
+            and actual_serial != expected_serial
+        ):
+            raise ValidationError(
+                "serial mismatch"
+            )
+
+        # ====================================================
+        # A. index_joint1 单关节
+        # ====================================================
+
+        print()
+        print(
+            "============================================================"
+        )
+        print("A. index_joint1 single-joint")
+        print(
+            "============================================================"
+        )
+
+        driver.disable_multiframe()
+        time.sleep(0.15)
+
+        p0, c0 = baseline(driver)
+
+        print(
+            f"passive q={p0[SINGLE_INDEX]:+.6f} "
+            f"I={c0[SINGLE_INDEX]:+.1f}mA"
+        )
+
+        hold_targets = list(p0)
+
+        hold = command(
+            p0,
+            [SINGLE_INDEX],
+            hold_targets,
+        )
+
+        driver.send_command(hold)
+
+        hold_result, hold_modes = run_window(
+            driver,
+            hold,
+            p0,
+            [SINGLE_INDEX],
+            0.8,
+            "single/takeover",
+        )
+
+        check_inactive_modes(hold_modes)
+
+        if 3 not in hold_modes[SINGLE_INDEX]:
+            raise ValidationError(
+                "index_joint1 did not enter mode=3"
+            )
+
+        h = hold_result[SINGLE_INDEX]
+
+        print(
+            "takeover "
+            f"median={h['median']:+.6f} "
+            f"range=[{h['min']:+.6f},"
+            f"{h['max']:+.6f}] "
+            f"Imax={h['imax']:.1f}"
+        )
+
+        if h["peak_abs"] > MAX_TAKEOVER_DRIFT:
+            raise ValidationError(
+                "single takeover drift too large"
+            )
+
+        pa, _ = baseline(
+            driver,
+            n=15,
+        )
+
+        targets = list(pa)
+        targets[SINGLE_INDEX] += DELTA
+
+        move = command(
+            pa,
+            [SINGLE_INDEX],
+            targets,
+        )
+
+        driver.send_command(move)
+
+        move_result, move_modes = run_window(
+            driver,
+            move,
+            pa,
+            [SINGLE_INDEX],
+            1.2,
+            "single/move",
+        )
+
+        check_inactive_modes(move_modes)
+
+        if 3 not in move_modes[SINGLE_INDEX]:
+            raise ValidationError(
+                "index_joint1 lost mode=3"
+            )
+
+        m = move_result[SINGLE_INDEX]
+
+        print(
+            "move "
+            f"median={m['median']:+.6f} "
+            f"range=[{m['min']:+.6f},"
+            f"{m['max']:+.6f}] "
+            f"Imax={m['imax']:.1f}"
+        )
+
+        # 方向已由上一轮肉眼验证。
+        # 此处只要求没有反向失控。
+        if m["min"] < -0.010:
+            raise ValidationError(
+                "index_joint1 unexpected reverse motion"
+            )
+
+        driver.disable_multiframe()
+
+        print(
+            "[PASS] index_joint1 control/safety contract"
+        )
+
+        # ====================================================
+        # B. 9关节整手
+        # ====================================================
+
+        print()
+        print(
+            "============================================================"
+        )
+        print("B. 9-joint whole-hand micro validation")
+        print(
+            "============================================================"
+        )
+
+        time.sleep(0.15)
+
+        p0, _ = baseline(driver)
+
+        hold_targets = list(p0)
+
+        whole_hold = command(
+            p0,
+            ACTIVE,
+            hold_targets,
+        )
+
+        driver.send_command(
+            whole_hold
+        )
+
+        takeover, takeover_modes = run_window(
+            driver,
+            whole_hold,
+            p0,
+            ACTIVE,
+            1.0,
+            "whole/takeover",
+        )
+
+        check_inactive_modes(
+            takeover_modes
+        )
+
+        for i in ACTIVE:
+            if 3 not in takeover_modes[i]:
+                raise ValidationError(
+                    f"{JOINT_NAMES[i]} "
+                    "did not enter mode=3"
+                )
+
+        print()
+        print("takeover:")
+
+        for i in ACTIVE:
+            r = takeover[i]
+
+            print(
+                f"{JOINT_NAMES[i]:18s} "
+                f"range=[{r['min']:+.6f},"
+                f"{r['max']:+.6f}] "
+                f"Imax={r['imax']:.1f}"
+            )
+
+            if r["peak_abs"] > MAX_TAKEOVER_DRIFT:
+                raise ValidationError(
+                    f"{JOINT_NAMES[i]} "
+                    "takeover drift too large"
+                )
+
+        pa, _ = baseline(
+            driver,
+            n=15,
+        )
+
+        targets = list(pa)
+
+        for i in ACTIVE:
+            targets[i] += DELTA
+
+        whole_move = command(
+            pa,
+            ACTIVE,
+            targets,
+        )
+
+        driver.send_command(
+            whole_move
+        )
+
+        motion, motion_modes = run_window(
+            driver,
+            whole_move,
+            pa,
+            ACTIVE,
+            1.5,
+            "whole/move",
+        )
+
+        check_inactive_modes(
+            motion_modes
+        )
+
+        print()
+        print("+0.005 group command:")
+
+        for i in ACTIVE:
+            if 3 not in motion_modes[i]:
+                raise ValidationError(
+                    f"{JOINT_NAMES[i]} "
+                    "lost mode=3"
+                )
+
+            r = motion[i]
+
+            print(
+                f"{JOINT_NAMES[i]:18s} "
+                f"median={r['median']:+.6f} "
+                f"range=[{r['min']:+.6f},"
+                f"{r['max']:+.6f}] "
+                f"Imax={r['imax']:.1f}"
+            )
+
+        driver.disable_multiframe()
+
+        print()
+        print(
+            "============================================================"
+        )
+        print(
+            "[PASS] XHand PHASE-1 FINAL MICRO VALIDATION"
+        )
+        print(
+            "============================================================"
+        )
+        print(
+            "index_joint1 direction was already "
+            "visually confirmed as closing."
+        )
+        print(
+            "Production active_gains is NOT modified by this script."
+        )
+
+        return 0
+
+    finally:
+        if opened:
+            print()
+            print(
+                "[SAFE] powerless x3 + close EtherCAT"
+            )
+
+            driver.close()
+
+            print(
+                "[PASS] XHand powerless + EtherCAT closed"
+            )
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+
+    except KeyboardInterrupt:
+        print(
+            "\n[FAIL] interrupted",
+            file=sys.stderr,
+        )
+        raise SystemExit(130)
+
+    except Exception as exc:
+        print(
+            "\n[FAIL] "
+            f"{type(exc).__name__}: {exc}",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
+
+============================================================
+3. xhand_phase1_validate.sh
+============================================================
+#!/usr/bin/env bash
+
+WS="$HOME/rehab_robot_ws"
+
+source "$WS/env.sh"
+source "$WS/config/hardware_profile.env"
+
+LOGDIR="$WS/validation_logs/runtime"
+mkdir -p "$LOGDIR"
+
+echo "============================================================"
+echo "XHand Phase-1 FINAL 一键验证"
+echo "FR3 不参与"
+echo "============================================================"
+
+CONFLICT="$(
+  ps -eo pid,args \
+    | grep -E \
+      'xhand_control_ros2|test_ethercat|phase1_xhand.py|phase1_xhand_whole.py|phase1_xhand_sequential.py|xhand_mode_probe.py' \
+    | grep -v grep \
+    || true
+)"
+
+if [ -n "$CONFLICT" ]; then
+  echo "$CONFLICT"
+  echo "[FAIL] 已有 XHand 控制进程"
+  exit 2
+fi
+
+ip -br link show "$XHAND_IF" || exit 2
+
+CARRIER="$(
+  cat "/sys/class/net/$XHAND_IF/carrier" \
+    2>/dev/null
+)"
+
+echo "carrier=$CARRIER"
+
+if [ "$CARRIER" != "1" ]; then
+  echo "[FAIL] EtherCAT carrier != 1"
+  exit 2
+fi
+
+python3 -m py_compile \
+  "$WS/tools/xhand_phase1_validate.py" \
+  || exit 2
+
+sudo -v || exit 2
+
+LOG="$LOGDIR/xhand_phase1_final_$(date +%Y%m%d_%H%M%S).log"
+
+echo "log=$LOG"
+echo
+echo "XHand 必须完全空载。"
+echo "异常时 Ctrl+C / 急停。"
+echo
+
+sudo -n env \
+  HOME="$HOME" \
+  XHAND_IF="$XHAND_IF" \
+  XHAND_SERIAL="$XHAND_SERIAL" \
+  PYTHONUNBUFFERED=1 \
+  /bin/bash --noprofile --norc -c '
+    source "$HOME/rehab_robot_ws/env.sh"
+    exec python3 \
+      "$HOME/rehab_robot_ws/tools/xhand_phase1_validate.py"
+  ' 2>&1 | tee "$LOG"
+
+RC="${PIPESTATUS[0]}"
+
+echo
+echo "============================================================"
+echo "result=$RC"
+echo "log=$LOG"
+echo "============================================================"
+
+exit "$RC"
+
+============================================================
+4. 查找项目内所有 torque/current/mode/error 解析
+============================================================
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_ros2_node.py:62:                "state_source=vendor_readonly in the current stage"
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:108:            int(finger.commboard_err),
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:109:            int(finger.jonitboard_err),  # vendor spelling
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:110:            int(finger.tipboard_err),
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:131:    FingerState_t.torque from the currently installed SDK is already a
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:132:    processed signed current value in mA. It must NOT be decoded again as a
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:161:            # DO NOT call torque_codec.decode_signed_9bit() here.
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:162:            # Current FingerState_t.torque is already signed current in mA.
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py:163:            efforts.append(float(finger.torque))
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_driver_core.py:76:        if int(finger.mode) != 0:
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/torque_codec.py:1:"""XHand 9-bit signed torque/current codec helpers."""
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/config_validator.py:10:    "xhand.single_joint_current_ma": (0.0, 150.0),
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/config_validator.py:11:    "xhand.whole_hand_current_ma": (0.0, 220.0),
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_fake_backend.py:49:            finger.torque = -20 + i
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_fake_backend.py:52:            finger.commboard_err = 0
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_fake_backend.py:53:            finger.jonitboard_err = 0
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_fake_backend.py:54:            finger.tipboard_err = 0
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:13:    mode = 0
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:33:POWERLESS_MODE = 0
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:44:    mode: int
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:79:        finger.mode = POWERLESS_MODE
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:97:      effort_limit <= 0  -> force POWERLESS_MODE and zero gains/current.
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:117:            finger.mode = POWERLESS_MODE
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:119:            if int(spec.mode) == POWERLESS_MODE:
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:121:                    f"joint {index}: positive effort_limit with mode=0"
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:128:            finger.mode = int(spec.mode)
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:167:        "mode",
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:189:        if int(finger.mode) != 0:
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:191:                f"joint {index}: powerless mode is not zero"
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:205:                "non-zero gain/current"
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_sdk_adapter.py:220:    print("       mode=0")
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py:285:        # in the current stage.
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:23:    mode: int
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:49:        mode=int(profile["mode"]),
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:122:    current_positions,
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:132:    current = validate_positions(
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:133:        current_positions
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:160:    target = list(current)
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:170:        "current_positions": current,
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:200:                    mode=int(gains.mode),
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:210:                        "current_positions"
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py:213:                    mode=0,
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/fr3_ptp_contract.py:105:    current,
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/fr3_ptp_contract.py:113:        for v in current
+/home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/fr3_ptp_contract.py:118:            "current FR3 state must contain 7 joints"
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:20:MODE = 3
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:54:MAX_CURRENT = 170.0
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:76:    mode = []
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:80:        c = float(f.torque)
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:81:        raw = int(f.raw_position)
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:90:                f"{JOINT_NAMES[i]} current non-finite"
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:94:            int(f.commboard_err),
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:95:            int(f.jonitboard_err),
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:96:            int(f.tipboard_err),
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:106:        mode.append(raw & 0xF)
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:108:    return pos, cur, mode
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:113:    currents = []
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:119:        currents.append(c)
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:134:            for row in currents
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:155:        f.mode = 0
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:166:        f.mode = MODE
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:188:    max_current = {
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:193:    modes = {
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:208:        pos, cur, state_modes = read_state(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:213:            modes[i].add(state_modes[i])
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:220:            max_current[i] = max(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:221:                max_current[i],
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:232:            if abs(cur[i]) > MAX_CURRENT:
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:235:                    f"{JOINT_NAMES[i]} current "
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:261:            "imax": max_current[i],
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:264:    return result, modes
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:267:def check_inactive_modes(modes):
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:269:        seen = modes[i]
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:280:                f"entered modes={sorted(seen)}"
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:303:    print("mode=3")
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:391:        hold_result, hold_modes = run_window(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:400:        check_inactive_modes(hold_modes)
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:402:        if 3 not in hold_modes[SINGLE_INDEX]:
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:404:                "index_joint1 did not enter mode=3"
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:438:        move_result, move_modes = run_window(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:447:        check_inactive_modes(move_modes)
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:449:        if 3 not in move_modes[SINGLE_INDEX]:
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:451:                "index_joint1 lost mode=3"
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:506:        takeover, takeover_modes = run_window(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:515:        check_inactive_modes(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:516:            takeover_modes
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:520:            if 3 not in takeover_modes[i]:
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:523:                    "did not enter mode=3"
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:565:        motion, motion_modes = run_window(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:574:        check_inactive_modes(
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:575:            motion_modes
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:582:            if 3 not in motion_modes[i]:
+/home/gu/rehab_robot_ws/tools/xhand_phase1_validate.py:585:                    "lost mode=3"
+
+============================================================
+5. 确认这一轮没有改变配置
+============================================================
+8630fede56f43ed6eeb75ac71b6ed78bd81a2e4139cf16f4176a8a35ff74f2c9  /home/gu/rehab_robot_ws/config/xhand_motion_profile.yaml
+05b2940aa291f19dea948269a3eef6e1ed41edf28cfe642396480fa7070a9f16  /home/gu/rehab_robot_ws/config/empty_grasp_sequence.yaml
+fc804456ecbaa42c58b708241ae3429667c62dec028e611e42e6b9179ab3a3de  /home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_driver_core.py
+1b4ef7859acd0a6fb8609a9ff5c5cec5533554f72c392a45fd63262ea174be3b  /home/gu/rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/xhand_state_mapper.py

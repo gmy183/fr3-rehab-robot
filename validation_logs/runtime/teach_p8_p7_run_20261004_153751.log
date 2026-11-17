@@ -1,0 +1,31 @@
+============================================================
+TAUGHT PATH SEGMENT: P8 -> P7
+============================================================
+current = [0.260074, 0.520999, 0.300703]
+P8      = [0.259547, 0.521461, 0.30278]
+MID     = [0.270938, 0.518346, 0.301005]
+P7      = [0.282329, 0.515231, 0.29923]
+current/P8 error = 2.192 mm
+
+Path:
+  P8 -> MID (~12 mm)
+  MID -> P7 (~12 mm)
+Orientation = hold current
+PTP speed = 0.015 rad/s
+Fault = STOP, no auto return
+输入 EXECUTE-P8-P7 才执行：
+========== SEGMENT 1/2 ==========
+segment distance = 11.19 mm
+fraction = 1.000000
+max joint delta = 0.027096 rad
+[P8-MID] PTP goal accepted
+[P8-MID] ROS status = 4
+[P8-MID] PTP status = 2
+[P8-MID] joint error = 0.001107 rad
+MID Cartesian error = 0.700 mm
+
+========== SEGMENT 2/2 ==========
+
+[FAULT] ReplayError: FR3 not IDLE before segment 2
+[SAFE] stop current task
+[SAFE] no automatic return/recovery

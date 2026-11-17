@@ -1,0 +1,92 @@
+========================================
+FR3 REALTIME + NETWORK AUDIT
+========================================
+
+========== 1. REALTIME KERNEL ==========
+Linux gu-G3-3500 6.8.1-1015-realtime #16-Ubuntu SMP PREEMPT_RT Wed Jan 15 21:03:54 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+PREEMPT_RT: 1
+
+========== 2. REALTIME PERMISSIONS ==========
+rtprio=99
+memlock=unlimited
+
+========== 3. CPU GOVERNOR ==========
+      8 performance
+
+========== 4. FR3 NETWORK ==========
+enp4s0           UP             192.168.1.100/24 
+192.168.1.25 dev enp4s0 src 192.168.1.100 uid 1000 
+    cache 
+
+========== 5. ETHERNET LINK ==========
+netlink error: Operation not permitted
+	Speed: 1000Mb/s
+	Duplex: Full
+	Auto-negotiation: on
+	Link detected: yes
+
+========== 6. NETWORK ERRORS ==========
+2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 2c:ea:7f:fe:5d:ae brd ff:ff:ff:ff:ff:ff
+    RX:   bytes packets errors dropped  missed   mcast           
+    10547307913 7632382      0       0       0       0 
+    TX:   bytes packets errors dropped carrier collsns           
+      243461719  770436      0       0       0       0 
+
+========== 7. CONTROLLER RT THREADS ==========
+    PID     TID CLS RTPRIO PRI PSR STAT COMMAND
+  24756   24756  FF     99 139   6 SLl  ros2_control_no
+  24756   24775  TS      -  19   2 SLl  ros2_contro-ust
+  24756   24776  TS      -  19   5 SLl  ros2_contro-ust
+  24756   24783  TS      -  19   2 SLl  ros2_control_no
+  24756   24784  TS      -  19   4 SLl  ros2_control_no
+  24756   24785  TS      -  19   0 SLl  gc
+  24756   24786  TS      -  19   1 SLl  dq.builtins
+  24756   24787  TS      -  19   2 SLl  dq.user
+  24756   24788  TS      -  19   7 SLl  tev
+  24756   24789  TS      -  19   0 SLl  recv
+  24756   24790  TS      -  19   3 SLl  recvMC
+  24756   24791  TS      -  19   6 SLl  recvUC
+  24756   24792  TS      -  19   7 SLl  ros2_control_no
+  24756   24804  TS      -  19   7 RLl  ros2_control_no
+  24756   24805  TS      -  19   1 SLl  ros2_control_no
+  24756   24845  FF     98 138   2 SLl  ros2_control_no
+  24756   24846  TS      -  19   6 SLl  ros2_control_no
+  24756   24848  TS      -  19   6 SLl  ros2_control_no
+  24756   24849  TS      -  19   6 SLl  ros2_control_no
+  24756   24850  TS      -  19   5 SLl  ros2_control_no
+  24756   24851  TS      -  19   7 SLl  ros2_control_no
+  24756   24852  TS      -  19   6 SLl  ros2_control_no
+  24756   24853  TS      -  19   6 SLl  ros2_control_no
+  24756   24881  FF     99 139   7 SLl  ros2_control_no
+
+========== 8. SYSTEM CPU LOAD ==========
+    PID COMMAND         %CPU %MEM
+   8544 python3          250  3.7
+   9854 python3          246  4.4
+   6710 realsense2_came 31.7  1.5
+   3976 Cat             26.1  2.9
+   5116 Isolated Web Co 14.1  7.0
+   4156 firefox         10.2  9.8
+  24756 ros2_control_no  8.5  4.4
+  33059 Isolated Web Co  8.3 11.8
+   2666 gnome-shell      6.8  4.3
+  24753 rviz2            5.3  3.4
+  24757 joint_state_pub  4.3  0.7
+    251 irq/128-xhci_hc  1.1  0.0
+     46 irq_work/3       1.0  0.0
+   4015 CatCore          0.9  0.8
+
+========== 9. 1 kHz NETWORK TEST ==========
+No robot motion. ICMP network test only.
+[1792470924.232870] 1208 bytes from 192.168.1.25: icmp_seq=9997 ttl=64 time=0.185 ms
+[1792470924.233985] 1208 bytes from 192.168.1.25: icmp_seq=9998 ttl=64 time=0.186 ms
+[1792470924.235055] 1208 bytes from 192.168.1.25: icmp_seq=9999 ttl=64 time=0.184 ms
+[1792470924.235957] 1208 bytes from 192.168.1.25: icmp_seq=10000 ttl=64 time=0.170 ms
+
+--- 192.168.1.25 ping statistics ---
+10000 packets transmitted, 10000 received, 0% packet loss, time 11115ms
+rtt min/avg/max/mdev = 0.085/0.178/2.177/0.143 ms
+ping_exit_code=0
+
+========== AUDIT COMPLETE ==========

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>rehab_robot_control</name>
+  <version>0.1.0</version>
+
+  <description>
+    Safety-oriented control, monitoring and XHand driver utilities
+    for the FR3-XHand-D435i rehabilitation robot.
+  </description>
+
+  <maintainer email="gu@localhost.localdomain">gu</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>ament_index_python</depend>
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>rehab_robot_interfaces</depend>
+
+  <exec_depend>python3-yaml</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

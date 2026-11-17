@@ -1,0 +1,32 @@
+============================================================
+XHand sequential closing-direction validation
+============================================================
+mode       = 3
+kp         = 225
+ki         = 0
+kd         = 0
+tor_max    = 150 mA
+|delta|    = 0.005000
+direction  = device angle_stretching -> angle_closing
+
+Only ONE joint is active at any time.
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x37f70328,  24 In:0x37f70340, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+[PASS] EtherCAT open, device_id=0
+serial=012R3201B1217006
+
+========== device calibration ==========
+
+[SAFE] final powerless x3 + close EtherCAT
+[PASS] XHand powerless + EtherCAT closed
+
+[FAIL] ProbeError: thumb_bend_joint: angle_stretching == angle_closing

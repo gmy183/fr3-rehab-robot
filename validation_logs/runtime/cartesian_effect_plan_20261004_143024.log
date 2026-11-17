@@ -1,0 +1,22 @@
+============================================================
+FR3 CARTESIAN PLAN-ONLY V1
+NO EXECUTION / NO MOTION
+============================================================
+[PASS] GetCartesianPath service ready
+q_start = [-0.12978, 1.377262, 1.429644, -1.840827, 0.136133, 1.765392, -0.917831]
+current flange xyz = [0.259558, 0.521455, 0.302768]
+target flange xyz  = [0.259558, 0.521455, 0.307768]
+plan-only delta    = [0, 0, +0.005] m in fr3_link0
+
+fraction = 1.000000
+points   = 6
+duration = 0.479921 s
+max joint step = 0.002675 rad
+max reported joint velocity = 0.025087 rad/s
+
+[PASS] REAL-STATE CARTESIAN PLAN GENERATED
+[SAFE] trajectory was NOT executed
+[SAFE] no FollowJointTrajectory goal sent
+[SAFE] no PTP goal sent
+[SAFE] Cartesian real-execution gate remains CLOSED
+result_file = /home/gu/rehab_robot_ws/validation_logs/runtime/cartesian_effect_plan_20261004_143024.json

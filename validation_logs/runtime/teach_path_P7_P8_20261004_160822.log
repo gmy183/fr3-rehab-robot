@@ -1,0 +1,75 @@
+====================================================================
+FR3 FINAL TEACH PATH EXECUTOR
+====================================================================
+profile = manual_8point_approach_v1
+route   = P7 -> P8
+frame   = fr3_link0
+tool    = fr3_link8
+orientation = hold task-start fr3_link8 orientation
+polyline length = 0.024 m
+estimated subsegments = 2
+
+  P7 -> P8: 23.9 mm, ~2 segments
+
+current xyz = [0.28292, 0.514735, 0.29717]
+P7 xyz = [0.282329, 0.515231, 0.29923]
+start error = 2.200 mm
+
+================================================
+REAL EXECUTION READY
+================================================
+PTP speed = 0.015 rad/s
+max Cartesian segment = 15.0 mm
+orientation = fixed task-start orientation
+fault = stop immediately
+automatic return = DISABLED
+automatic recovery = DISABLED
+XHand = NO COMMAND
+Camera = NOT USED
+
+输入 EXECUTE-P7-P8 才执行：
+====================================================================
+EDGE 1/1: P7 -> P8
+====================================================================
+edge start error = 2.200 mm
+live edge length = 25.0 mm
+subsegments = 2
+
+  --- SEGMENT 1/2 ---
+    current = [0.282921, 0.514734, 0.297169]
+    target  = [0.271234, 0.518098, 0.299975]
+    actual distance = 12.48 mm
+    fraction = 1.000000
+    max joint delta = 0.028590 rad
+    [E1S1] PTP accepted
+    [E1S1] ROS status = 4
+    [E1S1] PTP status = 2
+    [E1S1] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S1] joint error = 0.001298 rad
+    Cartesian error = 1.087 mm
+
+  --- SEGMENT 2/2 ---
+    current = [0.271475, 0.517903, 0.299148]
+    target  = [0.259547, 0.521461, 0.30278]
+    actual distance = 12.97 mm
+    fraction = 1.000000
+    max joint delta = 0.028291 rad
+    [E1S2] PTP accepted
+    [E1S2] ROS status = 4
+    [E1S2] PTP status = 2
+    [E1S2] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S2] joint error = 0.001271 rad
+    Cartesian error = 1.069 mm
+
+[EDGE PASS] P7 -> P8
+waypoint error = 1.069 mm
+
+====================================================================
+[PASS] COMPLETE TEACH PATH EXECUTION
+route = P7 -> P8
+completed segments = 2
+final Cartesian error = 1.069 mm
+[SAFE] robot remains at P8
+====================================================================

@@ -1,0 +1,29 @@
+version: 1
+motion:
+  ptp_max_velocity_rad_s: 0.015
+  max_cartesian_segment_m: 0.015
+  segment_distance_slack_m: 0.002
+  max_start_point_error_m: 0.005
+  max_segment_final_error_m: 0.005
+  max_waypoint_final_error_m: 0.005
+  max_segment_joint_delta_rad: 0.1
+  max_final_joint_error_rad: 0.01
+planning:
+  min_cartesian_fraction: 0.995
+  cartesian_max_step_m: 0.001
+  avoid_collisions: true
+state:
+  idle_robot_mode: 1
+  move_robot_mode: 2
+  idle_timeout_s: 5.0
+  fresh_state_timeout_s: 3.0
+  inter_goal_settle_s: 0.3
+  goal_start_timeout_s: 3.0
+  result_timeout_s: 30.0
+  min_start_joint_motion_rad: 0.0005
+execution:
+  automatic_return: false
+  automatic_error_recovery: false
+  xhand_control: false
+  camera_control: false
+  orientation_mode: hold_task_start_orientation

@@ -1,0 +1,17 @@
+{
+  "mode": "real",
+  "ok": false,
+  "final_state": "FAULT",
+  "fault_latched": true,
+  "steps": [
+    {
+      "state": "FAULT",
+      "ok": false,
+      "message": "RuntimeError: REAL mode hard-blocked: fr3.real_execution_enabled=false; fr3.tracking_backend_validated=false; xhand.combined_motion_enabled=false; xhand.real_grasp_enabled=false",
+      "data": null
+    }
+  ],
+  "artifacts": {
+    "task_result": "/home/gu/rehab_robot_ws/validation_logs/runtime/rehab_v3_real_20261004_213302.json"
+  }
+}

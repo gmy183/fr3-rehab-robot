@@ -1,0 +1,25 @@
+============================================================
+FR3 + XHand REHAB MICRO-CYCLE V1
+ONE CYCLE / EMPTY LOAD / BOUNDED MOTION
+============================================================
+FR3 q0       = [0.034719, -0.658239, 0.005888, -2.54126, -0.018429, 1.557719, 1.579465]
+FR3 q_out    = [0.039719, -0.658239, 0.005888, -2.54126, -0.018429, 1.557719, 1.579465]
+FR3 q_return = [0.034719, -0.658239, 0.005888, -2.54126, -0.018429, 1.557719, 1.579465]
+[PLAN] J1 outbound +0.005 rad, then planned return to this run's q0
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x20f03618,  24 In:0x20f03630, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+XHand serial = 012R3201B1217006
+[PASS] XHand passive baseline
+[PASS] cycle takeover FR3 freshness gate
+[SAFE] XHand powerless x3 + EtherCAT closed
+[FAIL] RuntimeSafetyError: pinky_joint2 takeover drift exceeded
+[SAFE] no automatic FR3 return/recovery

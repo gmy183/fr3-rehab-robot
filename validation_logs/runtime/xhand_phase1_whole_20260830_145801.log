@@ -1,0 +1,96 @@
+============================================================
+XHand Whole-Hand Phase-1 validation
+============================================================
+candidate gains:
+  mode = 3
+  kp   = 225
+  ki   = 0
+  kd   = 0
+
+delta = +0.005000 rad
+validation current limit = 150 mA/joint
+profile maximum remains = 220 mA/joint
+
+active joints:
+   0: thumb_bend_joint
+   4: index_joint1
+   5: index_joint2
+   6: mid_joint1
+   7: mid_joint2
+   8: ring_joint1
+   9: ring_joint2
+  10: pinky_joint1
+  11: pinky_joint2
+
+powerless joints:
+   1: thumb_rota_joint1
+   2: thumb_rota_joint2
+   3: index_bend_joint
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x51ae018,  24 In:0x51ae030, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+
+[PASS] EtherCAT open, device_id=0
+serial=012R3201B1217006
+
+========== passive baseline ==========
+thumb_bend_joint   q=+0.067111 I=+73.0mA
+index_joint1       q=+0.017682 I=+71.0mA
+index_joint2       q=+0.007090 I=+74.0mA
+mid_joint1         q=+0.024037 I=+65.0mA
+mid_joint2         q=+0.004971 I=+77.0mA
+ring_joint1        q=+0.003559 I=+69.0mA
+ring_joint2        q=+0.016269 I=+62.0mA
+pinky_joint1       q=+0.033217 I=+57.0mA
+pinky_joint2       q=+0.010620 I=+85.0mA
+
+========== takeover ==========
+thumb_bend_joint   drift=-0.001412 Imax=74.0 modes=[0, 3]
+index_joint1       drift=+0.001412 Imax=73.0 modes=[0, 3]
+index_joint2       drift=+0.000706 Imax=75.0 modes=[0, 3]
+mid_joint1         drift=-0.000706 Imax=66.0 modes=[0, 3]
+mid_joint2         drift=+0.000000 Imax=79.0 modes=[0, 3]
+ring_joint1        drift=+0.000000 Imax=70.0 modes=[0, 3]
+ring_joint2        drift=+0.001412 Imax=64.0 modes=[0, 3]
+pinky_joint1       drift=+0.001412 Imax=58.0 modes=[0, 3]
+pinky_joint2       drift=+0.000000 Imax=86.0 modes=[0, 3]
+
+========== active baseline ==========
+thumb_bend_joint   q=+0.067111 I=+72.5mA
+index_joint1       q=+0.016269 I=+71.0mA
+index_joint2       q=+0.007796 I=+73.0mA
+mid_joint1         q=+0.024037 I=+66.0mA
+mid_joint2         q=+0.004971 I=+77.0mA
+ring_joint1        q=+0.003559 I=+69.0mA
+ring_joint2        q=+0.016976 I=+62.0mA
+pinky_joint1       q=+0.033217 I=+57.0mA
+pinky_joint2       q=+0.009208 I=+85.0mA
+
+========== +0.005 rad group move ==========
+thumb_bend_joint   delta=-0.001412 Imax=74.0 modes=[3]
+index_joint1       delta=+0.001412 Imax=73.0 modes=[3]
+index_joint2       delta=+0.000000 Imax=75.0 modes=[3]
+mid_joint1         delta=-0.000706 Imax=67.0 modes=[3]
+mid_joint2         delta=+0.000000 Imax=79.0 modes=[3]
+ring_joint1        delta=+0.001412 Imax=70.0 modes=[3]
+ring_joint2        delta=-0.000706 Imax=64.0 modes=[3]
+pinky_joint1       delta=+0.001412 Imax=58.0 modes=[3]
+pinky_joint2       delta=+0.001412 Imax=87.0 modes=[3]
+
+[SAFE] powerless mode x3 + close EtherCAT
+[PASS] XHand powerless + EtherCAT closed
+
+[FAIL] ValidationError: whole-hand validation failed:
+  thumb_bend_joint insufficient positive motion (-0.001412)
+  index_joint2 insufficient positive motion (+0.000000)
+  mid_joint1 insufficient positive motion (-0.000706)
+  mid_joint2 insufficient positive motion (+0.000000)
+  ring_joint2 insufficient positive motion (-0.000706)

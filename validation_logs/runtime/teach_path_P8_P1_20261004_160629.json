@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T16:06:59.580936+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "P8",
+  "to_point": "P1",
+  "route": [
+    "P8",
+    "P7",
+    "P6",
+    "P5",
+    "P4",
+    "P3",
+    "P2",
+    "P1"
+  ],
+  "planned_polyline_length_m": 0.9127742847828249,
+  "estimated_subsegments": 64,
+  "result": "FAULT",
+  "edges": [],
+  "fault": "TeachPathError: robot is not sufficiently close to P8",
+  "finished_at": "2026-10-04T16:06:59.803704+08:00"
+}

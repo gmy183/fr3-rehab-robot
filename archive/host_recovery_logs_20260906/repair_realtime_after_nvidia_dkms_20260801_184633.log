@@ -1,0 +1,405 @@
+============================================================
+实时内核 NVIDIA DKMS 冲突修复
+============================================================
+
+========== 1/9 系统与图形驱动检查 ==========
+current_kernel=7.0.0-28-generic
+current_realtime=0
+/dev/sdb2 ext4   rw,relatime
+文件系统       类型  大小  已用  可用 已用% 挂载点
+/dev/sdb2      ext4  457G   25G  409G    6% /
+
+--- 当前显卡和内核驱动 ---
+00:02.0 VGA compatible controller: Intel Corporation CometLake-H GT2 [UHD Graphics] (rev 05)
+	DeviceName: Onboard - Video
+	Subsystem: Dell CometLake-H GT2 [UHD Graphics]
+	Kernel driver in use: i915
+--
+01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Mobile / Max-Q] (rev a1)
+	Subsystem: Dell TU117M [GeForce GTX 1650 Mobile / Max-Q]
+	Kernel driver in use: nvidia
+	Kernel modules: nvidiafb, nouveau, nvidia_drm, nvidia
+nvidia_uvm           2080768  0
+nvidia_drm            139264  3
+nvidia_modeset       1683456  3 nvidia_drm
+nvidia              105349120  35 nvidia_uvm,nvidia_drm,nvidia_modeset
+i915                 4997120  26
+[PASS] 当前没有加载 NVIDIA 专有内核模块
+
+========== 2/9 收集已安装 NVIDIA 软件包 ==========
+[NVIDIA] libnvidia-cfg1-535:amd64
+[NVIDIA] libnvidia-cfg1-580:amd64
+[NVIDIA] libnvidia-common-535
+[NVIDIA] libnvidia-common-580
+[NVIDIA] libnvidia-compute-535:amd64
+[NVIDIA] libnvidia-compute-580:amd64
+[NVIDIA] libnvidia-compute-580:i386
+[NVIDIA] libnvidia-decode-535:amd64
+[NVIDIA] libnvidia-decode-580:amd64
+[NVIDIA] libnvidia-decode-580:i386
+[NVIDIA] libnvidia-egl-wayland1:amd64
+[NVIDIA] libnvidia-egl-wayland1:i386
+[NVIDIA] libnvidia-encode-535:amd64
+[NVIDIA] libnvidia-encode-580:amd64
+[NVIDIA] libnvidia-encode-580:i386
+[NVIDIA] libnvidia-extra-535:amd64
+[NVIDIA] libnvidia-extra-580:amd64
+[NVIDIA] libnvidia-fbc1-535:amd64
+[NVIDIA] libnvidia-fbc1-580:amd64
+[NVIDIA] libnvidia-fbc1-580:i386
+[NVIDIA] libnvidia-gl-535:amd64
+[NVIDIA] libnvidia-gl-580:amd64
+[NVIDIA] libnvidia-gl-580:i386
+[NVIDIA] linux-modules-nvidia-535-6.17.0-14-generic
+[NVIDIA] linux-modules-nvidia-535-generic-hwe-24.04
+[NVIDIA] linux-modules-nvidia-580-7.0.0-28-generic
+[NVIDIA] linux-modules-nvidia-580-generic-hwe-24.04
+[NVIDIA] linux-objects-nvidia-535-6.17.0-14-generic
+[NVIDIA] linux-objects-nvidia-580-7.0.0-28-generic
+[NVIDIA] linux-signatures-nvidia-6.17.0-14-generic
+[NVIDIA] linux-signatures-nvidia-7.0.0-28-generic
+[NVIDIA] nvidia-compute-utils-535
+[NVIDIA] nvidia-compute-utils-580
+[NVIDIA] nvidia-dkms-580
+[NVIDIA] nvidia-driver-535
+[NVIDIA] nvidia-driver-580
+[NVIDIA] nvidia-firmware-535-535.288.01
+[NVIDIA] nvidia-firmware-580-580.173.02
+[NVIDIA] nvidia-kernel-common-535
+[NVIDIA] nvidia-kernel-common-580
+[NVIDIA] nvidia-kernel-source-535
+[NVIDIA] nvidia-kernel-source-580
+[NVIDIA] nvidia-prime
+[NVIDIA] nvidia-settings
+[NVIDIA] nvidia-utils-535
+[NVIDIA] nvidia-utils-580
+[NVIDIA] screen-resolution-extra
+[NVIDIA] xserver-xorg-video-nvidia-535
+[NVIDIA] xserver-xorg-video-nvidia-580
+[NVIDIA-DKMS] nvidia-dkms-580
+
+========== 3/9 模拟清除并进行安全检查 ==========
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 mesa-libgallium:i386 ocl-icd-libopencl1:i386
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  libnvidia-cfg1-535* libnvidia-cfg1-580* libnvidia-common-535*
+  libnvidia-common-580* libnvidia-compute-535* libnvidia-compute-580*
+  libnvidia-compute-580:i386* libnvidia-decode-535* libnvidia-decode-580*
+  libnvidia-decode-580:i386* libnvidia-egl-wayland1*
+  libnvidia-egl-wayland1:i386* libnvidia-encode-535* libnvidia-encode-580*
+  libnvidia-encode-580:i386* libnvidia-extra-535* libnvidia-extra-580*
+  libnvidia-fbc1-535* libnvidia-fbc1-580* libnvidia-fbc1-580:i386*
+  libnvidia-gl-535* libnvidia-gl-580* libnvidia-gl-580:i386*
+  linux-modules-nvidia-535-6.17.0-14-generic*
+  linux-modules-nvidia-535-generic-hwe-24.04*
+  linux-modules-nvidia-580-7.0.0-28-generic*
+  linux-modules-nvidia-580-generic-hwe-24.04*
+  linux-objects-nvidia-535-6.17.0-14-generic*
+  linux-objects-nvidia-580-7.0.0-28-generic*
+  linux-signatures-nvidia-6.17.0-14-generic*
+  linux-signatures-nvidia-7.0.0-28-generic* nvidia-compute-utils-535*
+  nvidia-compute-utils-580* nvidia-dkms-580* nvidia-driver-535*
+  nvidia-driver-580* nvidia-firmware-535-535.288.01*
+  nvidia-firmware-580-580.173.02* nvidia-kernel-common-535*
+  nvidia-kernel-common-580* nvidia-kernel-source-535*
+  nvidia-kernel-source-580* nvidia-prime* nvidia-settings* nvidia-utils-535*
+  nvidia-utils-580* screen-resolution-extra* xserver-xorg-video-nvidia-535*
+  xserver-xorg-video-nvidia-580*
+0 upgraded, 0 newly installed, 49 to remove and 0 not upgraded.
+5 not fully installed or removed.
+Purg nvidia-driver-535 [535.309.01-0ubuntu0.24.04.2]
+Purg xserver-xorg-video-nvidia-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-cfg1-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-driver-580 [580.173.02-0ubuntu0.24.04.1]
+Purg xserver-xorg-video-nvidia-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-cfg1-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-gl-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-common-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-gl-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-gl-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-common-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-utils-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-compute-utils-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-compute-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-encode-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-decode-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-compute-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-utils-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-compute-utils-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-compute-580 [580.173.02-0ubuntu0.24.04.1] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-encode-535 [535.309.01-0ubuntu0.24.04.2] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-decode-535 [535.309.01-0ubuntu0.24.04.2] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-encode-580 [580.173.02-0ubuntu0.24.04.1] [libnvidia-decode-580:amd64 ]
+Purg libnvidia-decode-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-egl-wayland1 [1:1.1.13-1ubuntu0.1]
+Purg libnvidia-egl-wayland1:i386 [1:1.1.13-1ubuntu0.1]
+Purg libnvidia-extra-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-extra-580 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-fbc1-535 [535.309.01-0ubuntu0.24.04.2]
+Purg libnvidia-fbc1-580:i386 [580.173.02-0ubuntu0.24.04.1]
+Purg libnvidia-fbc1-580 [580.173.02-0ubuntu0.24.04.1]
+Purg linux-modules-nvidia-535-6.17.0-14-generic [6.17.0-14.14~24.04.1+1]
+Purg linux-modules-nvidia-535-generic-hwe-24.04 [7.0.0-28.28~24.04.1+3]
+Purg linux-modules-nvidia-580-generic-hwe-24.04 [7.0.0-28.28~24.04.1+3]
+Purg linux-modules-nvidia-580-7.0.0-28-generic [7.0.0-28.28~24.04.1+3]
+Purg linux-objects-nvidia-535-6.17.0-14-generic [6.17.0-14.14~24.04.1+1]
+Purg linux-objects-nvidia-580-7.0.0-28-generic [7.0.0-28.28~24.04.1+3]
+Purg linux-signatures-nvidia-6.17.0-14-generic [6.17.0-14.14~24.04.1+1]
+Purg linux-signatures-nvidia-7.0.0-28-generic [7.0.0-28.28~24.04.1+3]
+Purg nvidia-dkms-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-firmware-535-535.288.01 [535.288.01-0ubuntu0.24.04.2]
+Purg nvidia-kernel-common-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-kernel-common-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-firmware-580-580.173.02 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-kernel-source-535 [535.309.01-0ubuntu0.24.04.2]
+Purg nvidia-kernel-source-580 [580.173.02-0ubuntu0.24.04.1]
+Purg nvidia-prime [0.8.17.2]
+Purg nvidia-settings [510.47.03-0ubuntu4.24.04.1]
+Purg screen-resolution-extra [0.18.3ubuntu0.24.04.1]
+Conf linux-headers-6.8.1-1015-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf linux-headers-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf linux-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf linux-image-6.8.1-1015-realtime (6.8.1-1015.16 Ubuntu:24.04/noble-updates [amd64])
+Conf ubuntu-realtime (1.1.2~24.04.1 Ubuntu:24.04/noble-updates [amd64])
+[PASS] 模拟清除不会删除 Ubuntu 桌面、通用/实时内核或机器人关键包
+
+========== 4/9 先清除 NVIDIA DKMS 阻塞包 ==========
+[PURGE-DKMS] nvidia-dkms-580
+(正在读取数据库 ... 系统当前共安装有 377202 个文件和目录。)
+正在卸载 nvidia-dkms-580 (580.173.02-0ubuntu0.24.04.1) ...
+Removing all DKMS Modules
+Done.
+INFO:Disable nvidia
+DEBUG:Parsing /usr/share/ubuntu-drivers-common/quirks/dell_latitude
+DEBUG:Parsing /usr/share/ubuntu-drivers-common/quirks/lenovo_thinkpad
+DEBUG:Parsing /usr/share/ubuntu-drivers-common/quirks/put_your_quirks_here
+update-initramfs: deferring update (trigger activated)
+正在清除 nvidia-dkms-580 (580.173.02-0ubuntu0.24.04.1) 的配置文件 ...
+update-initramfs: deferring update (trigger activated)
+正在处理用于 initramfs-tools (0.142ubuntu25.8) 的触发器 ...
+update-initramfs: Generating /boot/initrd.img-7.0.0-28-generic
+[PASS] NVIDIA DKMS 阻塞包处理完成
+
+========== 5/9 清除其余 NVIDIA 专有驱动组件 ==========
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+软件包 nvidia-dkms-580 未安装，所以不会被卸载
+下列软件包是自动安装的并且现在不需要了：
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 mesa-libgallium:i386 ocl-icd-libopencl1:i386
+使用'sudo apt autoremove'来卸载它(它们)。
+下列软件包将被【卸载】：
+  libnvidia-cfg1-535* libnvidia-cfg1-580* libnvidia-common-535*
+  libnvidia-common-580* libnvidia-compute-535* libnvidia-compute-580*
+  libnvidia-compute-580:i386* libnvidia-decode-535* libnvidia-decode-580*
+  libnvidia-decode-580:i386* libnvidia-egl-wayland1*
+  libnvidia-egl-wayland1:i386* libnvidia-encode-535* libnvidia-encode-580*
+  libnvidia-encode-580:i386* libnvidia-extra-535* libnvidia-extra-580*
+  libnvidia-fbc1-535* libnvidia-fbc1-580* libnvidia-fbc1-580:i386*
+  libnvidia-gl-535* libnvidia-gl-580* libnvidia-gl-580:i386*
+  linux-modules-nvidia-535-6.17.0-14-generic*
+  linux-modules-nvidia-535-generic-hwe-24.04*
+  linux-modules-nvidia-580-7.0.0-28-generic*
+  linux-modules-nvidia-580-generic-hwe-24.04*
+  linux-objects-nvidia-535-6.17.0-14-generic*
+  linux-objects-nvidia-580-7.0.0-28-generic*
+  linux-signatures-nvidia-6.17.0-14-generic*
+  linux-signatures-nvidia-7.0.0-28-generic* nvidia-compute-utils-535*
+  nvidia-compute-utils-580* nvidia-driver-535* nvidia-driver-580*
+  nvidia-firmware-535-535.288.01* nvidia-firmware-580-580.173.02*
+  nvidia-kernel-common-535* nvidia-kernel-common-580*
+  nvidia-kernel-source-535* nvidia-kernel-source-580* nvidia-prime*
+  nvidia-settings* nvidia-utils-535* nvidia-utils-580*
+  screen-resolution-extra* xserver-xorg-video-nvidia-535*
+  xserver-xorg-video-nvidia-580*
+升级了 0 个软件包，新安装了 0 个软件包，要卸载 48 个软件包，有 0 个软件包未被升级。
+有 5 个软件包没有被完全安装或卸载。
+解压缩后将会空出 1,965 MB 的空间。
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 377169 个文件和目录。)
+正在卸载 nvidia-driver-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 xserver-xorg-video-nvidia-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-cfg1-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 nvidia-driver-580 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 xserver-xorg-video-nvidia-580 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-cfg1-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-gl-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-common-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-gl-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-gl-580:i386 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-common-580 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 nvidia-utils-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 nvidia-compute-utils-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-compute-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 nvidia-utils-580 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 nvidia-compute-utils-580 (580.173.02-0ubuntu0.24.04.1) ...
+[0;1;38;5;185mWarning: The unit file, source configuration file or drop-ins of nvidia-persistenced.service changed on disk. Run 'systemctl daemon-reload' to reload units.[0m
+正在卸载 libnvidia-encode-580:i386 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-decode-580:i386 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-compute-580:i386 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-encode-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-decode-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-encode-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-decode-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-egl-wayland1:i386 (1:1.1.13-1ubuntu0.1) ...
+正在卸载 libnvidia-egl-wayland1:amd64 (1:1.1.13-1ubuntu0.1) ...
+正在卸载 libnvidia-extra-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-extra-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-fbc1-535:amd64 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 libnvidia-fbc1-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 libnvidia-fbc1-580:i386 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 linux-modules-nvidia-535-6.17.0-14-generic (6.17.0-14.14~24.04.1+1) ...
+linux-image-nvidia-6.17.0-14-generic: removing .ko files
+正在卸载 linux-modules-nvidia-535-generic-hwe-24.04 (7.0.0-28.28~24.04.1+3) ...
+正在卸载 linux-modules-nvidia-580-generic-hwe-24.04 (7.0.0-28.28~24.04.1+3) ...
+正在卸载 linux-modules-nvidia-580-7.0.0-28-generic (7.0.0-28.28~24.04.1+3) ...
+linux-image-nvidia-7.0.0-28-generic: removing .ko files
+正在卸载 linux-objects-nvidia-535-6.17.0-14-generic (6.17.0-14.14~24.04.1+1) ...
+正在卸载 linux-objects-nvidia-580-7.0.0-28-generic (7.0.0-28.28~24.04.1+3) ...
+正在卸载 linux-signatures-nvidia-6.17.0-14-generic (6.17.0-14.14~24.04.1+1) ...
+正在卸载 linux-signatures-nvidia-7.0.0-28-generic (7.0.0-28.28~24.04.1+3) ...
+正在卸载 nvidia-firmware-535-535.288.01 (535.288.01-0ubuntu0.24.04.2) ...
+正在卸载 nvidia-kernel-common-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 nvidia-kernel-source-535 (535.309.01-0ubuntu0.24.04.2) ...
+正在卸载 nvidia-kernel-source-580 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 nvidia-prime (0.8.17.2) ...
+正在卸载 nvidia-settings (510.47.03-0ubuntu4.24.04.1) ...
+正在卸载 screen-resolution-extra (0.18.3ubuntu0.24.04.1) ...
+正在卸载 libnvidia-compute-580:amd64 (580.173.02-0ubuntu0.24.04.1) ...
+正在卸载 nvidia-kernel-common-580 (580.173.02-0ubuntu0.24.04.1) ...
+update-initramfs: deferring update (trigger activated)
+正在卸载 nvidia-firmware-580-580.173.02 (580.173.02-0ubuntu0.24.04.1) ...
+正在设置 linux-image-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在设置 linux-headers-6.8.1-1015-realtime (6.8.1-1015.16) ...
+/etc/kernel/header_postinst.d/dkms:
+ * dkms: running auto installation service for kernel 6.8.1-1015-realtime
+ * dkms: autoinstall for kernel 6.8.1-1015-realtime
+   ...done.
+正在设置 linux-headers-realtime (6.8.1-1015.16) ...
+正在设置 linux-realtime (6.8.1-1015.16) ...
+正在设置 ubuntu-realtime (1.1.2~24.04.1) ...
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/99-realtime.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-6.8.1-1015-realtime
+Found linux image: /boot/vmlinuz-7.0.0-28-generic
+Found initrd image: /boot/initrd.img-7.0.0-28-generic
+Found linux image: /boot/vmlinuz-6.17.0-14-generic
+Found initrd image: /boot/initrd.img-6.17.0-14-generic
+Found memtest86+ 64bit EFI image: /boot/memtest86+x64.efi
+Warning: os-prober will be executed to detect other bootable partitions.
+Its output will be used to detect bootable binaries on them and create new boot entries.
+Found Windows Boot Manager on /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+正在处理用于 initramfs-tools (0.142ubuntu25.8) 的触发器 ...
+update-initramfs: Generating /boot/initrd.img-7.0.0-28-generic
+正在处理用于 gnome-menus (3.36.0-1.1ubuntu3) 的触发器 ...
+正在处理用于 libc-bin (2.39-0ubuntu8.8) 的触发器 ...
+正在处理用于 man-db (2.12.0-4build2) 的触发器 ...
+正在处理用于 desktop-file-utils (0.27-2build1) 的触发器 ...
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 375731 个文件和目录。)
+正在清除 linux-objects-nvidia-580-7.0.0-28-generic (7.0.0-28.28~24.04.1+3) 的配置文件 ...
+正在清除 libnvidia-compute-580:amd64 (580.173.02-0ubuntu0.24.04.1) 的配置文件 ...
+正在清除 nvidia-compute-utils-580 (580.173.02-0ubuntu0.24.04.1) 的配置文件 ...
+正在清除 nvidia-prime (0.8.17.2) 的配置文件 ...
+正在清除 linux-modules-nvidia-535-6.17.0-14-generic (6.17.0-14.14~24.04.1+1) 的配置文件 ...
+正在清除 nvidia-kernel-common-535 (535.309.01-0ubuntu0.24.04.2) 的配置文件 ...
+正在清除 nvidia-kernel-common-580 (580.173.02-0ubuntu0.24.04.1) 的配置文件 ...
+update-initramfs: deferring update (trigger activated)
+正在清除 linux-modules-nvidia-580-7.0.0-28-generic (7.0.0-28.28~24.04.1+3) 的配置文件 ...
+正在清除 linux-objects-nvidia-535-6.17.0-14-generic (6.17.0-14.14~24.04.1+1) 的配置文件 ...
+正在清除 nvidia-settings (510.47.03-0ubuntu4.24.04.1) 的配置文件 ...
+正在清除 libnvidia-compute-535:amd64 (535.309.01-0ubuntu0.24.04.2) 的配置文件 ...
+正在处理用于 linux-image-6.8.1-1015-realtime (6.8.1-1015.16) 的触发器 ...
+/etc/kernel/postinst.d/dkms:
+ * dkms: running auto installation service for kernel 6.8.1-1015-realtime
+ * dkms: autoinstall for kernel 6.8.1-1015-realtime
+   ...done.
+/etc/kernel/postinst.d/initramfs-tools:
+update-initramfs: Generating /boot/initrd.img-6.8.1-1015-realtime
+/etc/kernel/postinst.d/zz-update-grub:
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/99-realtime.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-6.8.1-1015-realtime
+Found initrd image: /boot/initrd.img-6.8.1-1015-realtime
+Found linux image: /boot/vmlinuz-7.0.0-28-generic
+Found initrd image: /boot/initrd.img-7.0.0-28-generic
+Found linux image: /boot/vmlinuz-6.17.0-14-generic
+Found initrd image: /boot/initrd.img-6.17.0-14-generic
+Found memtest86+ 64bit EFI image: /boot/memtest86+x64.efi
+Warning: os-prober will be executed to detect other bootable partitions.
+Its output will be used to detect bootable binaries on them and create new boot entries.
+Found Windows Boot Manager on /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+正在处理用于 initramfs-tools (0.142ubuntu25.8) 的触发器 ...
+update-initramfs: Generating /boot/initrd.img-7.0.0-28-generic
+[PASS] NVIDIA 专有驱动组件已清除
+
+========== 6/9 修复 dpkg 并完成实时内核配置 ==========
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+下列软件包是自动安装的并且现在不需要了：
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 mesa-libgallium:i386 ocl-icd-libopencl1:i386
+使用'sudo apt autoremove'来卸载它(它们)。
+升级了 0 个软件包，新安装了 0 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+[PASS] dpkg 状态已恢复
+
+========== 7/9 验证实时内核包和启动文件 ==========
+ubuntu-realtime status=ii 
+linux-realtime status=ii 
+linux-image-realtime status=ii 
+linux-headers-realtime status=ii 
+linux-image-6.8.1-1015-realtime status=ii 
+linux-headers-6.8.1-1015-realtime status=ii 
+linux-modules-6.8.1-1015-realtime status=ii 
+linux-modules-extra-6.8.1-1015-realtime status=ii 
+selected_realtime_kernel=6.8.1-1015-realtime
+[PASS] 实时内核软件包和启动文件完整
+
+========== 8/9 固定 GRUB 并保护关键包 ==========
+update-initramfs: Generating /boot/initrd.img-6.8.1-1015-realtime
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/99-realtime.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-7.0.0-28-generic
+Found initrd image: /boot/initrd.img-7.0.0-28-generic
+Found linux image: /boot/vmlinuz-6.17.0-14-generic
+Found initrd image: /boot/initrd.img-6.17.0-14-generic
+Found linux image: /boot/vmlinuz-6.8.1-1015-realtime
+Found initrd image: /boot/initrd.img-6.8.1-1015-realtime
+Found memtest86+ 64bit EFI image: /boot/memtest86+x64.efi
+Warning: os-prober will be executed to detect other bootable partitions.
+Its output will be used to detect bootable binaries on them and create new boot entries.
+Found Windows Boot Manager on /dev/nvme0n1p1@/efi/Microsoft/Boot/bootmgfw.efi
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+grep: /boot/grub/grub.cfg: 权限不够
+[ERROR] GRUB 中未找到实时内核启动项

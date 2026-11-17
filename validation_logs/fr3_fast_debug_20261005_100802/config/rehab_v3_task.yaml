@@ -1,0 +1,31 @@
+schema: rehab_task_v3
+name: ankle_rehab_fr3_xhand
+orientation_mode: hold_task_start_orientation
+base_frame: fr3_link0
+tool_frame: fr3_link8
+
+state_flow:
+  - READY
+  - APPROACH
+  - GRASP
+  - REHAB_MOTION
+  - RETURN
+  - RELEASE
+  - FINISH
+
+approach_target: P1
+rehab_start: P1
+rehab_end: P8
+return_target: P1
+
+teach_points:
+  P1: [0.361755, -0.060096, 0.442920]
+  P2: [0.433758, -0.040105, 0.529633]
+  P3: [0.507519, 0.122428, 0.401257]
+  P4: [0.533520, 0.272396, 0.291748]
+  P5: [0.522183, 0.336994, 0.286536]
+  P6: [0.388255, 0.451693, 0.306911]
+  P7: [0.282329, 0.515231, 0.299230]
+  P8: [0.259547, 0.521461, 0.302780]
+
+route_order: [P1, P2, P3, P4, P5, P6, P7, P8]

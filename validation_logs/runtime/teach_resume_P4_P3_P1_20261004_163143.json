@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T16:31:52.242971+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "RESUME",
+  "to_point": "P1",
+  "route": [
+    "RESUME",
+    "P3",
+    "P2",
+    "P1"
+  ],
+  "planned_polyline_length_m": 0.42179276375556046,
+  "estimated_subsegments": 29,
+  "result": "FAULT",
+  "edges": [],
+  "fault": "TeachPathError: TF unavailable: Could not find a connection between 'fr3_link0' and 'fr3_link8' because they are not part of the same tree.Tf has two or more unconnected trees.",
+  "finished_at": "2026-10-04T16:31:54.282991+08:00"
+}

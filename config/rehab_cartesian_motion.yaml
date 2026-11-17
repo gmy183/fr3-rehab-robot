@@ -1,0 +1,37 @@
+rehab_cartesian:
+  version: 1
+
+  robot:
+    base_frame: fr3_link0
+    flange_frame: fr3_link8
+
+    # 后续实际标定得到：
+    task_tool_frame: xhand_rehab_tcp
+
+    # 当前故意保持 false。
+    # 在真实 TCP 几何标定完成前禁止 Cartesian 实机执行。
+    tool_frame_calibrated: false
+
+  moveit:
+    package: franka_fr3_moveit_config
+    planning_group: auto
+    trajectory_controller: auto
+
+    cartesian_max_step_m: 0.001
+    minimum_fraction: 0.995
+    avoid_collisions: true
+
+  safety:
+    # 单段 Cartesian 位移合同。
+    # 只是软件安全上限，不代表患者治疗幅度。
+    max_translation_per_segment_m: 0.020
+
+    # 10 deg
+    max_rotation_per_segment_rad: 0.17453292519943295
+
+    # 真实治疗幅度后续单独配置，
+    # 不能直接使用这里的安全上限。
+    patient_motion_profile_verified: false
+
+  execution:
+    enabled: false

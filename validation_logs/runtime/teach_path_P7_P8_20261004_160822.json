@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T16:08:27.789741+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "P7",
+  "to_point": "P8",
+  "route": [
+    "P7",
+    "P8"
+  ],
+  "planned_polyline_length_m": 0.023883779516651004,
+  "estimated_subsegments": 2,
+  "result": "PASS",
+  "edges": [
+    {
+      "from": "P7",
+      "to": "P8",
+      "live_edge_length_m": 0.024960643011835974,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.2712337405187489,
+            0.5180979659093268,
+            0.2999749112948995
+          ],
+          "planned_distance_m": 0.012481648562566384,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012984097991239896,
+          "cartesian_error_m": 0.0010866203613563601
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.259547,
+            0.521461,
+            0.30278
+          ],
+          "planned_distance_m": 0.01296648295097823,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012707699650369442,
+          "cartesian_error_m": 0.0010693557567637256
+        }
+      ],
+      "waypoint_final_error_m": 0.0010693557567637256
+    }
+  ],
+  "completed_segments": 2,
+  "final_cartesian_error_m": 0.0010693557567637256,
+  "finished_at": "2026-10-04T16:08:37.749564+08:00"
+}

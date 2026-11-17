@@ -1,0 +1,39 @@
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x368549c8,  24 In:0x368549e0, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+[PASS] EtherCAT open, device_id=0
+
+========== passive ==========
+q          = +0.017681735
+current    = +72.0 mA
+mode       = 0
+raw        = 51488
+encoder    = 3218
+velocity   = +0.000000
+
+========== mode=3 hold probe ==========
+q=+0.016269458 drift=-0.001412276 I=+72.0mA mode=0 raw=51504 enc=3219 vel=+0.000000
+q=+0.017681735 drift=+0.000000000 I=+71.0mA mode=3 raw=51491 enc=3218 vel=+0.000000
+q=+0.019094011 drift=+0.001412276 I=+71.0mA mode=3 raw=51475 enc=3217 vel=+0.000000
+q=+0.019094011 drift=+0.001412276 I=+71.0mA mode=3 raw=51475 enc=3217 vel=+0.000000
+q=+0.017681735 drift=+0.000000000 I=+72.0mA mode=3 raw=51491 enc=3218 vel=+0.000000
+q=+0.019094011 drift=+0.001412276 I=+72.0mA mode=3 raw=51475 enc=3217 vel=+0.000000
+q=+0.019094011 drift=+0.001412276 I=+72.0mA mode=3 raw=51475 enc=3217 vel=+0.000000
+
+========== result ==========
+modes_seen = [0, 3]
+max_drift = 0.001412276
+max_current = 73.0 mA
+[PASS] joint4 feedback entered mode=3
+[NEXT] command path works; do NOT increase current yet
+
+[SAFE] powerless x3 + close EtherCAT
+[PASS] XHand powerless and closed

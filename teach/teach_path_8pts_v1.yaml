@@ -1,0 +1,40 @@
+teach_path:
+  version: 1
+  name: manual_8point_approach_v1
+
+  frame: fr3_link0
+  tool: fr3_link8
+
+  source: manual_hand_guiding
+
+  # 当前历史采样只保存了位置，没有保存各点姿态。
+  orientation_mode: hold_current_orientation
+
+  execution:
+    validated: false
+    full_path_enabled: false
+
+  points:
+    - id: P1
+      position_m: [0.361755, -0.060096, 0.442920]
+
+    - id: P2
+      position_m: [0.433758, -0.040105, 0.529633]
+
+    - id: P3
+      position_m: [0.507519,  0.122428, 0.401257]
+
+    - id: P4
+      position_m: [0.533520,  0.272396, 0.291748]
+
+    - id: P5
+      position_m: [0.522183,  0.336994, 0.286536]
+
+    - id: P6
+      position_m: [0.388255,  0.451693, 0.306911]
+
+    - id: P7
+      position_m: [0.282329,  0.515231, 0.299230]
+
+    - id: P8
+      position_m: [0.259547,  0.521461, 0.302780]

@@ -1,0 +1,36 @@
+============================================================
+FR3 + XHand COMBINED MICRO EXECUTOR
+EMPTY LOAD / BOUNDED MICRO MOTION
+============================================================
+FR3 q_start = [0.021161, -0.673934, 0.005677, -2.524314, -0.01846, 1.557553, 1.579529]
+FR3 q1 = [0.026161, -0.673934, 0.005677, -2.524314, -0.01846, 1.557553, 1.579529]
+FR3 q2 = [0.036161, -0.673934, 0.005677, -2.524314, -0.01846, 1.557553, 1.579529]
+FR3 q3 = [0.041161, -0.673934, 0.005677, -2.524314, -0.01846, 1.557553, 1.579529]
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x21986d98,  24 In:0x21986db0, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+XHand serial=012R3201B1217006
+[PASS] XHand passive baseline
+[PASS] single takeover FR3 freshness gate
+[PASS] single move FR3 freshness gate
+[PASS] XHand single-joint micro stage
+[PASS] whole takeover FR3 freshness gate
+[PASS] whole micro test FR3 freshness gate
+[PASS] XHand whole-hand bounded micro stage
+[PASS] FR3 pregrasp pre-send FR3 state fresh; pose_error=0.000006 rad
+[PASS] FR3 pregrasp max_final_error=0.001323 rad
+[PASS] grasp takeover FR3 freshness gate
+[PASS] XHand grasp FR3 freshness gate
+[PASS] XHand grasp hold armed
+[PASS] FR3 grasp pre-send FR3 state fresh; pose_error=0.001382 rad
+[SAFE] XHand powerless x3 + EtherCAT closed
+[FAIL] RuntimeSafetyError: thumb_bend_joint motion guard exceeded
+[SAFE] No automatic FR3 recovery/return will be attempted.

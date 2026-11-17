@@ -1,0 +1,54 @@
+XHand hardware validation
+Date: 2026-10-05
+
+RESULT: PASS
+
+Interface:
+enx6c1ff7641594
+
+Device:
+id=0
+serial=012R3201B1217006
+type=R
+
+Control:
+mode=3
+kp=225
+ki=0
+kd=0
+tor_max=150 mA
+current_guard=170 mA
+refresh=20 Hz
+watchdog=0.5 s
+disable_frames=3
+
+Trajectory joints:
+0,4,5,6,7,8,9,10,11
+
+Active hold:
+2 thumb_rota_joint2
+
+Powerless:
+1 thumb_rota_joint1
+3 index_bend_joint
+
+Validated sequence:
+staged takeover
+-> OPEN
+-> GRASP
+-> OPEN
+-> powerless x3
+-> EtherCAT close
+
+Final results:
+MOVE_OPEN final_max_error=0.008474 rad
+MOVE_GRASP final_max_error=0.008474 rad
+RETURN_OPEN final_max_error=0.007239 rad
+
+Known restriction:
+thumb_rota_joint2 continuous negative-direction motion
+previously caused 179-181 mA current guard trips.
+Production behavior is HOLD ONLY.
+
+FR3 motion:
+NONE during this validation.

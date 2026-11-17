@@ -1,0 +1,41 @@
+from pathlib import Path
+
+
+def _runner_text():
+    p = (
+        Path.home()
+        / "rehab_robot_ws/src/rehab_robot_control/rehab_robot_control/v3/fr3_test_runner.py"
+    )
+    return p.read_text(encoding="utf-8")
+
+
+def test_v3_2_position_backend_markers():
+    text = _runner_text()
+    assert "V3.2 POSITION-JTC backend" in text
+    assert 'POSITION_CONTROLLER = "fr3_position_v3_2_controller"' in text
+    assert 'CONFIRM = "EXECUTE-FR3-V3.2-POSITION-5MM"' in text
+
+
+def test_v3_2_isolated_action_endpoint():
+    text = _runner_text()
+    assert 'f"/{self.POSITION_CONTROLLER}/follow_joint_trajectory"' in text
+
+
+def test_v3_2_does_not_reuse_production_trajectory_controller():
+    text = _runner_text()
+    block_start = text.index("    def _register_load_configure")
+    block_end = text.index("\n    def _activate", block_start)
+    block = text[block_start:block_end]
+    assert 'self.POSITION_CONTROLLER' in block
+    assert '["trajectory_controller"]' not in block
+    assert 'fr3_arm_controller' not in block
+
+
+def test_v3_2_position_config_exists_and_is_position_command():
+    p = Path.home() / "rehab_robot_ws/config/fr3_position_v3_2_controller.yaml"
+    text = p.read_text(encoding="utf-8")
+    assert "fr3_position_v3_2_controller:" in text
+    assert "command_interfaces:" in text
+    assert "- position" in text
+    assert "- effort" not in text
+    assert "set_last_command_interface_value_as_state_on_activation: true" in text

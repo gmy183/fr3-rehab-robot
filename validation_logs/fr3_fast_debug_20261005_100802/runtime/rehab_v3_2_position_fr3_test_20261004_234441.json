@@ -1,0 +1,169 @@
+{
+  "schema": "rehab_v3_2_position_fr3_test",
+  "mode": "fr3-test",
+  "test_backend": "position_jtc",
+  "test_controller": "fr3_position_v3_2_controller",
+  "test_distance_m": 0.005,
+  "xhand_commanded": false,
+  "ptp_used": false,
+  "error_recovery_used": false,
+  "auto_retry": false,
+  "auto_return": false,
+  "production_real_gate_changed": false,
+  "production_tracking_backend_validated": false,
+  "baseline": {
+    "controllers_rc": 0,
+    "controllers_raw": "franka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  active\njoint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               active\n",
+    "active_controllers": [
+      "franka_robot_state_broadcaster",
+      "joint_state_broadcaster"
+    ],
+    "unexpected_active_controllers": [],
+    "robot_state_read_attempts": [
+      {
+        "attempt": 1,
+        "strategy": "default",
+        "return_code": 0,
+        "received": true
+      }
+    ],
+    "robot_state_raw": "header:\n  stamp:\n    sec: 1791128684\n    nanosec: 126945217\n  frame_id: ''\ncollision_indicators:\n  is_cartesian_linear_collision:\n    x: 0.0\n    y: 0.0\n    z: 0.0\n  is_cartesian_angular_collision:\n    x: 0.0\n    y: 0.0\n    z: 0.0\n  is_cartesian_linear_contact:\n    x: 0.0\n    y: 0.0\n    z: 0.0\n  is_cartesian_angular_contact:\n    x: 0.0\n    y: 0.0\n    z: 0.0\n  is_joint_collision:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  is_joint_contact:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\nmeasured_joint_state:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  name:\n  - fr3_joint1\n  - fr3_joint2\n  - fr3_joint3\n  - fr3_joint4\n  - fr3_joint5\n  - fr3_joint6\n  - fr3_joint7\n  position:\n  - -0.8841692209243774\n  - 1.264318823814392\n  - 1.4023351669311523\n  - -1.606917381286621\n  - 0.08901462703943253\n  - 0.8280550837516785\n  - -0.8440515995025635\n  velocity:\n  - -0.0001614278880879283\n  - -0.00035660271532833576\n  - -0.0004163114936091006\n  - 0.001985348993912339\n  - 0.00035386174567975104\n  - -0.0011407654965296388\n  - -0.0020314198918640614\n  effort:\n  - 0.8585962057113647\n  - -36.63360595703125\n  - 29.803184509277344\n  - 6.2918171882629395\n  - 4.8613128662109375\n  - -0.8731227517127991\n  - 0.18300199508666992\ndesired_joint_state:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  name:\n  - fr3_joint1\n  - fr3_joint2\n  - fr3_joint3\n  - fr3_joint4\n  - fr3_joint5\n  - fr3_joint6\n  - fr3_joint7\n  position:\n  - -0.8841538429260254\n  - 1.2639448642730713\n  - 1.4036298990249634\n  - -1.6069285869598389\n  - 0.08991965651512146\n  - 0.8278584480285645\n  - -0.8440502882003784\n  velocity:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  effort:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\nmeasured_joint_motor_state:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  name:\n  - fr3_joint1\n  - fr3_joint2\n  - fr3_joint3\n  - fr3_joint4\n  - fr3_joint5\n  - fr3_joint6\n  - fr3_joint7\n  position:\n  - -0.8841066956520081\n  - 1.2616833448410034\n  - 1.4045672416687012\n  - -1.606445550918579\n  - 0.08958927541971207\n  - 0.8279518485069275\n  - -0.8440298438072205\n  velocity:\n  - 0.0\n  - -0.025759508833289146\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  effort:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\nddq_d:\n- 0.0\n- 0.0\n- 0.0\n- 0.0\n- 0.0\n- 0.0\n- 0.0\ndtau_j:\n- -56.37229537963867\n- -38.16688919067383\n- 42.52552795410156\n- -40.199119567871094\n- 30.17934799194336\n- 19.751205444335938\n- 88.29460906982422\ntau_ext_hat_filtered:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  name:\n  - fr3_joint1\n  - fr3_joint2\n  - fr3_joint3\n  - fr3_joint4\n  - fr3_joint5\n  - fr3_joint6\n  - fr3_joint7\n  position:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  velocity:\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  - 0.0\n  effort:\n  - 0.8663673400878906\n  - -2.9702088832855225\n  - 5.979371070861816\n  - 0.35935017466545105\n  - 3.1828784942626953\n  - -0.7750616669654846\n  - 0.18758469820022583\nelbow:\n  position:\n  - 1.4023351669311523\n  - -1.0\n  desired_position:\n  - 1.4036298990249634\n  - -1.0\n  commanded_position:\n  - 0.0\n  - 0.0\n  commanded_velocity:\n  - 0.0\n  - 0.0\n  commanded_acceleration:\n  - 0.0\n  - 0.0\nk_f_ext_hat_k:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: fr3_link2\n  wrench:\n    force:\n      x: 9.739314079284668\n      y: -12.606467247009277\n      z: 1.0110622644424438\n    torque:\n      x: 1.3018755912780762\n      y: 0.9022005796432495\n      z: 0.15246132016181946\no_f_ext_hat_k:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  wrench:\n    force:\n      x: -1.4490708112716675\n      y: 1.5706616640090942\n      z: 15.818745613098145\n    torque:\n      x: 0.9336029887199402\n      y: -7.004215240478516\n      z: 0.873272180557251\ninertia_ee:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: fr3_link2\n  inertia:\n    m: 0.0\n    com:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    ixx: 0.0\n    ixy: 0.0\n    ixz: 0.0\n    iyy: 0.0\n    iyz: 0.0\n    izz: 0.0\ninertia_load:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: fr3_link2\n  inertia:\n    m: 0.0\n    com:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    ixx: 0.0\n    ixy: 0.0\n    ixz: 0.0\n    iyy: 0.0\n    iyz: 0.0\n    izz: 0.0\ninertia_total:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: fr3_link2\n  inertia:\n    m: 0.0\n    com:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    ixx: 0.0\n    ixy: 0.0\n    ixz: 0.0\n    iyy: 0.0\n    iyz: 0.0\n    izz: 0.0\no_t_ee:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  pose:\n    position:\n      x: 0.5115184783935547\n      y: 0.08945607393980026\n      z: 0.34611859917640686\n    orientation:\n      x: -0.3868272308358193\n      y: -0.6085854799517114\n      z: 0.2903913022321375\n      w: 0.6290161343354115\no_t_ee_d:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  pose:\n    position:\n      x: 0.5114424824714661\n      y: 0.08967596292495728\n      z: 0.34689661860466003\n    orientation:\n      x: -0.3863996984030406\n      y: -0.6090280072341338\n      z: 0.2900592306994605\n      w: 0.6290038222686138\no_t_ee_c:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  pose:\n    position:\n      x: 0.5114424824714661\n      y: 0.08967596292495728\n      z: 0.34689661860466003\n    orientation:\n      x: -0.3863996984030406\n      y: -0.6090280072341338\n      z: 0.2900592306994605\n      w: 0.6290038222686138\nf_t_ee:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: fr3_link2\n  pose:\n    position:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n      w: 1.0\nee_t_k:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: fr3_link2\n  pose:\n    position:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n      w: 1.0\no_dp_ee_d:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  twist:\n    linear:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    angular:\n      x: 0.0\n      y: 0.0\n      z: 0.0\no_dp_ee_c:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  twist:\n    linear:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    angular:\n      x: 0.0\n      y: 0.0\n      z: 0.0\no_ddp_ee_c:\n  header:\n    stamp:\n      sec: 1791128684\n      nanosec: 126945217\n    frame_id: base\n  accel:\n    linear:\n      x: 0.0\n      y: 0.0\n      z: 0.0\n    angular:\n      x: 0.0\n      y: 0.0\n      z: 0.0\ntime: 49473.714\ncontrol_command_success_rate: 0.0\nrobot_mode: 1\ncurrent_errors:\n  joint_position_limits_violation: false\n  cartesian_position_limits_violation: false\n  self_collision_avoidance_violation: false\n  joint_velocity_violation: false\n  cartesian_velocity_violation: false\n  force_control_safety_violation: false\n  joint_reflex: false\n  cartesian_reflex: false\n  max_goal_pose_deviation_violation: false\n  max_path_pose_deviation_violation: false\n  cartesian_velocity_profile_safety_violation: false\n  joint_position_motion_generator_start_pose_invalid: false\n  joint_motion_generator_position_limits_violation: false\n  joint_motion_generator_velocity_limits_violation: false\n  joint_motion_generator_velocity_discontinuity: false\n  joint_motion_generator_acceleration_discontinuity: false\n  cartesian_position_motion_generator_start_pose_invalid: false\n  cartesian_motion_generator_elbow_limit_violation: false\n  cartesian_motion_generator_velocity_limits_violation: false\n  cartesian_motion_generator_velocity_discontinuity: false\n  cartesian_motion_generator_acceleration_discontinuity: false\n  cartesian_motion_generator_elbow_sign_inconsistent: false\n  cartesian_motion_generator_start_elbow_invalid: false\n  cartesian_motion_generator_joint_position_limits_violation: false\n  cartesian_motion_generator_joint_velocity_limits_violation: false\n  cartesian_motion_generator_joint_velocity_discontinuity: false\n  cartesian_motion_generator_joint_acceleration_discontinuity: false\n  cartesian_position_motion_generator_invalid_frame: false\n  force_controller_desired_force_tolerance_violation: false\n  controller_torque_discontinuity: false\n  start_elbow_sign_inconsistent: false\n  communication_constraints_violation: false\n  power_limit_violation: false\n  joint_p2p_insufficient_torque_for_planning: false\n  tau_j_range_violation: false\n  instability_detected: false\nlast_motion_errors:\n  joint_position_limits_violation: false\n  cartesian_position_limits_violation: false\n  self_collision_avoidance_violation: false\n  joint_velocity_violation: false\n  cartesian_velocity_violation: false\n  force_control_safety_violation: false\n  joint_reflex: false\n  cartesian_reflex: false\n  max_goal_pose_deviation_violation: false\n  max_path_pose_deviation_violation: false\n  cartesian_velocity_profile_safety_violation: false\n  joint_position_motion_generator_start_pose_invalid: false\n  joint_motion_generator_position_limits_violation: false\n  joint_motion_generator_velocity_limits_violation: false\n  joint_motion_generator_velocity_discontinuity: false\n  joint_motion_generator_acceleration_discontinuity: false\n  cartesian_position_motion_generator_start_pose_invalid: false\n  cartesian_motion_generator_elbow_limit_violation: false\n  cartesian_motion_generator_velocity_limits_violation: false\n  cartesian_motion_generator_velocity_discontinuity: false\n  cartesian_motion_generator_acceleration_discontinuity: false\n  cartesian_motion_generator_elbow_sign_inconsistent: false\n  cartesian_motion_generator_start_elbow_invalid: false\n  cartesian_motion_generator_joint_position_limits_violation: false\n  cartesian_motion_generator_joint_velocity_limits_violation: false\n  cartesian_motion_generator_joint_velocity_discontinuity: false\n  cartesian_motion_generator_joint_acceleration_discontinuity: false\n  cartesian_position_motion_generator_invalid_frame: false\n  force_controller_desired_force_tolerance_violation: false\n  controller_torque_discontinuity: false\n  start_elbow_sign_inconsistent: false\n  communication_constraints_violation: false\n  power_limit_violation: false\n  joint_p2p_insufficient_torque_for_planning: false\n  tau_j_range_violation: false\n  instability_detected: false\n---\n",
+    "robot_mode": 1,
+    "health_flags": {
+      "joint_reflex": false,
+      "cartesian_reflex": false,
+      "communication_constraints_violation": false,
+      "instability_detected": false
+    },
+    "ros2_control_node_count": 1,
+    "robot_state_publisher_count": 1,
+    "move_group_count": 0
+  },
+  "production_real_gate_ok": false,
+  "production_real_gate_blockers": [
+    "fr3.real_execution_enabled=false",
+    "fr3.tracking_backend_validated=false",
+    "xhand.combined_motion_enabled=false",
+    "xhand.real_grasp_enabled=false"
+  ],
+  "preactivation_xyz": [
+    0.5115179960165895,
+    0.0894571646295114,
+    0.3461197667419838
+  ],
+  "preactivation_q": [
+    -0.8841679692268372,
+    1.2643193006515503,
+    1.4023373126983643,
+    -1.6069235801696777,
+    0.08901139348745346,
+    0.8280574679374695,
+    -0.8440463542938232
+  ],
+  "activation": {
+    "tf_cartesian_shift_m_diagnostic": 0.0,
+    "max_joint_shift_rad": 0.0008521080017089844,
+    "max_hold_range_rad": 1.3768672943115234e-05,
+    "model_fk_cartesian_shift_m": 0.0005879714152347539
+  },
+  "live_tf_diagnostic": {
+    "cartesian_error_m": 0.0005887993836328995,
+    "orientation_error_deg": 0.05172601435775875
+  },
+  "active_start_xyz": [
+    0.5115683415308286,
+    0.08926602999196172,
+    0.3455651338961378
+  ],
+  "test_target_xyz": [
+    0.5099340785720282,
+    0.08654882970600808,
+    0.34943114051634766
+  ],
+  "plan_json": "/home/gu/rehab_robot_ws/validation_logs/runtime/rehab_v3_2_position_fr3_test_plan_20261004_234441.json",
+  "moveit_log": "/home/gu/rehab_robot_ws/validation_logs/runtime/rehab_v3_2_position_fr3_test_moveit_20261004_234441.log",
+  "planned_duration_s": 4.319706776647803,
+  "plan_audit": {
+    "dense_sample_count": 61,
+    "moveit_unique_knot_count": 6,
+    "max_fk_spacing_m": 0.00027639385311489854,
+    "start_fk_error_m": 0.0,
+    "final_error_m": 2.7971193391116666e-07,
+    "max_cross_track_m": 9.672003549183275e-07,
+    "max_orientation_error_deg": 7.444984522759444e-05,
+    "minimum_joint_limit_margin_rad": 0.335148847879036,
+    "minimum_joint_limit_margin_joint": "fr3_joint6",
+    "max_velocity_rad_s": 0.00462962962962963,
+    "max_acceleration_rad_s2": 0.02088217119464797,
+    "dense_path_length_m": 0.004999864681810422
+  },
+  "action": {
+    "ros_status": 6,
+    "error_code": -1,
+    "error_string": "Current goal cancelled during deactivate transition.",
+    "action_succeeded": false
+  },
+  "completed": false,
+  "fault": "TrajectoryError: fresh FR3 joint state unavailable",
+  "position_controller_deactivate_rc": 1,
+  "position_controller_unload_rc": 0,
+  "post_cleanup": {
+    "ok": false,
+    "blockers": [
+      "STATE_UNAVAILABLE: robot_state not received"
+    ],
+    "data": {
+      "controllers_rc": 0,
+      "controllers_raw": "franka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  inactive\njoint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               inactive\n",
+      "active_controllers": [],
+      "unexpected_active_controllers": [],
+      "robot_state_read_attempts": [
+        {
+          "attempt": 1,
+          "strategy": "default",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 1,
+          "strategy": "sensor_data",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 1,
+          "strategy": "best_effort",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 2,
+          "strategy": "default",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 2,
+          "strategy": "sensor_data",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 2,
+          "strategy": "best_effort",
+          "return_code": 124,
+          "received": false
+        }
+      ],
+      "robot_state_raw": "\n[TIMEOUT]",
+      "robot_state_topic_info_rc": 0,
+      "robot_state_topic_info": "Type: franka_msgs/msg/FrankaRobotState\n\nPublisher count: 1\n\nNode name: franka_robot_state_broadcaster\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: PUBLISHER\nGID: 01.10.e3.6c.23.e4.ed.58.21.d8.06.0d.00.00.c5.03\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): KEEP_LAST (1)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\nSubscription count: 2\n\nNode name: _ros2cli_175795\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: SUBSCRIPTION\nGID: 01.10.d3.db.f2.3c.76.a1.f3.8d.91.25.00.00.0a.04\nQoS profile:\n  Reliability: BEST_EFFORT\n  History (Depth): KEEP_LAST (5)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\nNode name: _ros2cli_175781\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: SUBSCRIPTION\nGID: 01.10.e4.78.92.22.b0.34.43.15.a0.b5.00.00.0a.04\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): KEEP_LAST (5)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\n",
+      "robot_state_topic_type_rc": 0,
+      "robot_state_topic_type": "franka_msgs/msg/FrankaRobotState\n",
+      "ros2_control_node_count": 1,
+      "robot_state_publisher_count": 1,
+      "move_group_count": 0
+    }
+  },
+  "hard_fault": true
+}

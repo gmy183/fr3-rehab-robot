@@ -1,0 +1,18 @@
+============================================================
+VS Code 全量重装 + 康复机械臂 ROS 2 配置
+============================================================
+
+========== 1/9 前置检查 ==========
+[PASS] 系统与工程检查通过
+
+========== 2/9 备份旧 VS Code 配置 ==========
+[BACKUP] /home/gu/.config/Code -> /home/gu/vscode_reinstall_backup_20260815_215452/Code-config
+[BACKUP] /home/gu/.vscode -> /home/gu/vscode_reinstall_backup_20260815_215452/vscode-user
+[BACKUP] /home/gu/snap/code -> /home/gu/vscode_reinstall_backup_20260815_215452/snap-code-user
+[BACKUP] /home/gu/rehab_robot_ws/.vscode -> /home/gu/vscode_reinstall_backup_20260815_215452/rehab_robot_ws-vscode
+[PASS] 旧配置已备份到：/home/gu/vscode_reinstall_backup_20260815_215452
+
+========== 3/9 卸载现有 VS Code ==========
+错误：snap "code" has "auto-refresh" change in progress
+[ERROR] 第 59 行停止，退出码=10
+日志：/home/gu/vscode_reinstall_20260815_215452.log

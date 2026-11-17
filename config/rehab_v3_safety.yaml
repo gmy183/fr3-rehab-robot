@@ -1,0 +1,28 @@
+schema: rehab_safety_v3
+
+planning:
+  cartesian_max_step_m: 0.001
+  minimum_fraction: 0.995
+  avoid_collisions: true
+  moveit_velocity_scaling: 0.05
+  moveit_acceleration_scaling: 0.05
+
+trajectory:
+  max_joint_velocity_rad_s: 0.010
+  max_joint_acceleration_rad_s2: 0.050
+  minimum_joint_limit_margin_rad: 0.050
+  maximum_cartesian_cross_track_m: 0.002
+  maximum_orientation_error_deg: 0.50
+  maximum_waypoint_error_m: 0.003
+  maximum_final_error_m: 0.003
+  maximum_start_joint_error_rad: 0.003
+  dense_fk_target_spacing_m: 0.00075
+  dense_fk_max_spacing_m: 0.002
+  time_scale_margin: 1.03
+
+fault_policy:
+  auto_retry: false
+  auto_return: false
+  auto_release: false
+  auto_error_recovery: false
+  latch_fault: true

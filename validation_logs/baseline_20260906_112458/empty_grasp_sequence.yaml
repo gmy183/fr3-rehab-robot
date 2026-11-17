@@ -1,0 +1,80 @@
+project:
+  name: rehab_robot
+  sequence: fr3_xhand_empty_grasp
+  mode: relative_safe_recovery
+frames:
+  base_frame: fr3_link0
+  tcp_frame: xhand_grasp_center
+preflight:
+  require_fr3_state: true
+  require_xhand_state: true
+  require_xhand_command_interface: true
+  require_fr3_ptp_action: true
+  d435i_required_for_motion: false
+  d435i_keep_online_if_available: true
+xhand:
+  joint_count: 12
+  excluded_joints:
+  - index_bend_joint
+  single_joint_test:
+    enabled: true
+    joint_name: index_joint1
+    delta_rad: 0.005
+    effort_limit_ma: 150
+  whole_hand_test:
+    enabled: true
+    delta_rad: 0.005
+    effort_limit_ma: 220
+  grasp:
+    default_close_delta_rad: 0.005
+    maximum_effort_limit_ma: 220
+  watchdog:
+    command_timeout_s: 0.5
+    refresh_hold_while_waiting_for_fr3: true
+    disable_frames: 3
+  inactive_joint:
+    mode: 0
+    kp: 0
+    ki: 0
+    kd: 0
+    tor_max: 0
+  active_control:
+    mode: 3
+    gains:
+      verified: false
+      kp: 225
+      ki: 0
+      kd: 0
+    note: mode=3 with kp=225, ki=0, kd=0 is a 2026-08-30 real-device micro-validation
+      candidate. It is not claimed to be the unrecovered historical rehab-project
+      gain set. Formal combined-motion gate remains closed.
+  motion_enable_gate:
+    require_verified_active_gains: true
+    require_live_direction_check: true
+    require_empty_load_only: true
+fr3:
+  motion_mode: relative_from_live_joint_state
+  pregrasp_delta_joint1_rad: 0.005
+  grasp_delta_joint1_rad: 0.01
+  return_delta_joint1_rad: 0.005
+  max_joint_velocity_rad_s: 0.02
+  rehab_stage_1:
+    delta_joint1_rad: 0.005
+  automatic_recovery_on_fault: false
+  automatic_return_on_fault: false
+timing:
+  settle_time_s: 1.0
+  hold_time_s: 1.0
+sequence:
+- preflight_readonly
+- xhand_single_joint_0p005
+- xhand_whole_hand_0p005
+- fr3_relative_pregrasp
+- xhand_grasp
+- fr3_relative_grasp
+- fr3_rehab_stage_1
+- controlled_finish
+fault_behavior:
+  send_no_automatic_fr3_return_motion: true
+  xhand_multiframe_disable: true
+  require_operator_recovery: true

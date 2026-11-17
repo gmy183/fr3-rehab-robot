@@ -1,0 +1,1003 @@
+============================================================
+FR3 + XHand EMPTY-GRASP LIVE PREFLIGHT
+READ-ONLY / NO MOTION
+============================================================
+log=/home/gu/rehab_robot_ws/validation_logs/runtime/empty_grasp_preflight_20260906_100619.log
+
+========== 0. 软件总检查 ==========
+============================================================
+FR3 + XHand Empty-Grasp FINAL CHECK
+SOFTWARE ONLY
+============================================================
+
+========== A. 配置一致性 ==========
+xhand_motion_profile = {'verified': False, 'source': 'real_device_micro_validation_candidate_20260830', 'kp': 225, 'ki': 0, 'kd': 0}
+empty_grasp_sequence = {'verified': False, 'kp': 225, 'ki': 0, 'kd': 0}
+[PASS] configuration consistency
+[PASS] combined real-motion gate remains CLOSED
+
+========== B. Python / Shell syntax ==========
+[PASS] Python syntax
+[PASS] run_empty_grasp.sh syntax
+
+========== C. merged workspace build ==========
+Starting >>> rehab_robot_interfaces
+Starting >>> rehab_robot_bringup
+Finished <<< rehab_robot_interfaces [5.28s]
+Starting >>> rehab_robot_control
+Finished <<< rehab_robot_bringup [11.3s]
+Finished <<< rehab_robot_control [6.20s]
+
+Summary: 3 packages finished [13.8s]
+build_result=0
+
+========== D. merged workspace tests ==========
+Starting >>> rehab_robot_interfaces
+Finished <<< rehab_robot_interfaces [0.71s]
+Starting >>> rehab_robot_control
+Finished <<< rehab_robot_control [3.45s]
+
+Summary: 2 packages finished [5.16s]
+Summary: 67 tests, 0 errors, 0 failures, 0 skipped
+test_command_result=0
+test_result_result=0
+
+========== E. software-only dry-run ==========
+============================================================
+FR3 + XHand Empty-Grasp software plan
+============================================================
+
+sequence:
+  01. preflight_readonly
+  02. xhand_single_joint_0p005
+  03. xhand_whole_hand_0p005
+  04. fr3_relative_pregrasp
+  05. xhand_grasp
+  06. fr3_relative_grasp
+  07. fr3_rehab_stage_1
+  08. controlled_finish
+
+FR3:
+  software limits: loaded
+  max velocity: 0.020 rad/s
+  relative PTP goals: 3
+  goal1: [0.005, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal2: [0.015, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal3: [0.02, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+
+XHand single:
+  joints = ['index_joint1']
+  delta = 0.005
+  limit = 150 mA
+
+XHand safe whole-hand group:
+  joints = ['thumb_bend_joint', 'index_joint1', 'index_joint2', 'mid_joint1', 'mid_joint2', 'ring_joint1', 'ring_joint2', 'pinky_joint1', 'pinky_joint2']
+  delta = 0.005
+  limit = 220 mA
+
+[PASS] DRY-RUN ONLY
+No ROS Action goal sent.
+No XHand command sent.
+No hardware opened.
+dry_run_result=0
+
+========== F. 防止 synthetic FR3 goal 被误认为实机目标 ==========
+[INFO] current dry-run still contains _safe_fr3_midpoint()
+[PASS] it is classified as SOFTWARE-ONLY and must not feed the real executor
+
+========== G. 当前 real execute gate 应继续拒绝 ==========
+Traceback (most recent call last):
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 159, in require_real_execution_gate
+    require_verified_gains(
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py", line 59, in require_verified_gains
+    raise XHandMotionGateError(
+rehab_robot_control.xhand_motion_contract.XHandMotionGateError: XHand active kp/ki/kd are not verified
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 306, in <module>
+    main()
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 282, in main
+    require_real_execution_gate()
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 163, in require_real_execution_gate
+    raise EmptyGraspExecutionBlocked(
+EmptyGraspExecutionBlocked: XHand active kp/ki/kd are not verified
+============================================================
+FR3 + XHand Empty-Grasp software plan
+============================================================
+
+sequence:
+  01. preflight_readonly
+  02. xhand_single_joint_0p005
+  03. xhand_whole_hand_0p005
+  04. fr3_relative_pregrasp
+  05. xhand_grasp
+  06. fr3_relative_grasp
+  07. fr3_rehab_stage_1
+  08. controlled_finish
+
+FR3:
+  software limits: loaded
+  max velocity: 0.020 rad/s
+  relative PTP goals: 3
+  goal1: [0.005, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal2: [0.015, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal3: [0.02, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+
+XHand single:
+  joints = ['index_joint1']
+  delta = 0.005
+  limit = 150 mA
+
+XHand safe whole-hand group:
+  joints = ['thumb_bend_joint', 'index_joint1', 'index_joint2', 'mid_joint1', 'mid_joint2', 'ring_joint1', 'ring_joint2', 'pinky_joint1', 'pinky_joint2']
+  delta = 0.005
+  limit = 220 mA
+
+[CHECK] real execution gate
+
+[PASS] current real execution gate is CLOSED
+
+========== H. 下一阶段所需真实接口快照 ==========
+
+----- fr3_ptp_client.py -----
+from __future__ import annotations
+
+from rclpy.action import ActionClient
+
+from franka_msgs.action import PTPMotion
+
+from .fr3_ptp_contract import (
+    FR3PTPContractError,
+    PTP_ACTION_TYPE,
+    build_goal,
+    discover_unique_ptp_action,
+)
+
+
+class FR3PTPExecutionGateError(RuntimeError):
+    pass
+
+
+def discover_from_node(node):
+    graph = node.get_action_names_and_types()
+
+    return discover_unique_ptp_action(
+        graph
+    )
+
+
+class FR3PTPClient:
+    """
+    Real ActionClient wrapper.
+
+    Merely constructing this object does not send a goal.
+    """
+
+    def __init__(
+        self,
+        node,
+        action_name: str,
+    ):
+        if not action_name:
+            raise FR3PTPContractError(
+                "PTP action name must not be empty"
+            )
+
+        self._node = node
+        self._action_name = action_name
+
+        self._client = ActionClient(
+            node,
+            PTPMotion,
+            action_name,
+        )
+
+    @property
+    def action_name(self):
+        return self._action_name
+
+    def wait_ready(self, timeout_sec=2.0):
+        return self._client.wait_for_server(
+            timeout_sec=float(timeout_sec)
+        )
+
+    def build_goal(
+        self,
+        target,
+        *,
+        maximum_velocity_rad_s=0.020,
+        goal_tolerance=0.001,
+    ):
+        return build_goal(
+            target,
+            maximum_velocity_rad_s=(
+                maximum_velocity_rad_s
+            ),
+            goal_tolerance=goal_tolerance,
+        )
+
+    def send_goal_async(
+        self,
+        goal,
+        *,
+        execute=False,
+    ):
+        if not execute:
+            raise FR3PTPExecutionGateError(
+                "PTP goal blocked: execute flag is false"
+            )
+
+        return self._client.send_goal_async(
+            goal
+        )
+
+----- fr3_ptp_contract.py -----
+from __future__ import annotations
+
+from pathlib import Path
+import math
+
+import yaml
+
+from franka_msgs.action import PTPMotion
+
+
+PTP_ACTION_TYPE = "franka_msgs/action/PTPMotion"
+
+JOINT_NAMES = tuple(
+    f"fr3_joint{i}"
+    for i in range(1, 8)
+)
+
+
+class FR3PTPContractError(ValueError):
+    pass
+
+
+def load_joint_limits(
+    path: Path | None = None,
+):
+    if path is None:
+        path = (
+            Path.home()
+            / "rehab_robot_ws/config/"
+              "fr3_joint_limits_resolved.yaml"
+        )
+
+    data = yaml.safe_load(
+        path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    joints = data["joints"]
+
+    for name in JOINT_NAMES:
+        if name not in joints:
+            raise FR3PTPContractError(
+                f"missing joint limit: {name}"
+            )
+
+    return joints
+
+
+def validate_target(
+    target,
+    *,
+    limits=None,
+):
+    values = tuple(
+        float(v)
+        for v in target
+    )
+
+    if len(values) != 7:
+        raise FR3PTPContractError(
+            "FR3 target must contain exactly 7 joints"
+        )
+
+    if not all(
+        math.isfinite(v)
+        for v in values
+    ):
+        raise FR3PTPContractError(
+            "FR3 target contains non-finite value"
+        )
+
+    if limits is None:
+        limits = load_joint_limits()
+
+    for index, (
+        name,
+        value,
+    ) in enumerate(
+        zip(
+            JOINT_NAMES,
+            values,
+        )
+    ):
+        item = limits[name]
+
+        lower = float(
+            item["safe_lower_rad"]
+        )
+        upper = float(
+            item["safe_upper_rad"]
+        )
+
+        if not lower <= value <= upper:
+            raise FR3PTPContractError(
+                f"{name} target {value:.6f} "
+                f"outside safe "
+                f"[{lower:.6f}, {upper:.6f}]"
+            )
+
+    return values
+
+
+def relative_target(
+    current,
+    *,
+    joint_index: int,
+    delta_rad: float,
+    limits=None,
+):
+    base = tuple(
+        float(v)
+        for v in current
+    )
+
+    if len(base) != 7:
+        raise FR3PTPContractError(
+            "current FR3 state must contain 7 joints"
+        )
+
+    if not 0 <= joint_index < 7:
+        raise FR3PTPContractError(
+            "joint_index must be in [0, 6]"
+        )
+
+    target = list(base)
+
+    target[joint_index] += float(
+        delta_rad
+    )
+
+    return validate_target(
+        target,
+        limits=limits,
+    )
+
+
+def build_goal(
+    target,
+    *,
+    maximum_velocity_rad_s: float = 0.020,
+    goal_tolerance: float = 0.001,
+    limits=None,
+):
+    target = validate_target(
+        target,
+        limits=limits,
+    )
+
+    velocity = float(
+        maximum_velocity_rad_s
+    )
+
+    if not 0.0 < velocity <= 0.020:
+        raise FR3PTPContractError(
+            "maximum velocity must be in (0, 0.020]"
+        )
+
+    tolerance = float(
+        goal_tolerance
+    )
+
+    if tolerance <= 0.0:
+        raise FR3PTPContractError(
+            "goal_tolerance must be > 0"
+        )
+
+    goal = PTPMotion.Goal()
+
+    goal.goal_joint_configuration = list(
+        target
+    )
+
+    goal.maximum_joint_velocities = [
+        velocity
+    ] * 7
+
+    goal.goal_tolerance = tolerance
+
+    return goal
+
+
+def discover_unique_ptp_action(
+    action_names_and_types,
+):
+    matches = []
+
+    for name, types in action_names_and_types:
+        if PTP_ACTION_TYPE in types:
+            matches.append(name)
+
+    if len(matches) == 0:
+        raise FR3PTPContractError(
+            "no PTPMotion action server discovered"
+        )
+
+    if len(matches) > 1:
+        raise FR3PTPContractError(
+            "multiple PTPMotion action servers discovered: "
+            + ", ".join(matches)
+        )
+
+    return matches[0]
+
+----- empty_grasp_dry_run.py main / gate -----
+        profile=profile,
+    )
+
+    return {
+        "sequence": seq["sequence"],
+        "fr3_start": fr3_start,
+        "fr3_goals": fr3_goals,
+        "xhand_single": single,
+        "xhand_whole": whole,
+    }
+
+
+def require_real_execution_gate():
+    profile = load_profile()
+    gains = load_active_gains(
+        profile
+    )
+
+    try:
+        require_verified_gains(
+            gains
+        )
+    except XHandMotionGateError as exc:
+        raise EmptyGraspExecutionBlocked(
+            str(exc)
+        ) from exc
+
+
+def main(args=None):
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+    )
+
+    ns = parser.parse_args(args)
+
+    plan = build_dry_run_plan()
+
+    print("=" * 60)
+    print("FR3 + XHand Empty-Grasp software plan")
+    print("=" * 60)
+
+    print()
+    print("sequence:")
+
+    for index, stage in enumerate(
+        plan["sequence"],
+        1,
+    ):
+        print(
+            f"  {index:02d}. {stage}"
+        )
+
+    print()
+    print("FR3:")
+    print(
+        "  software limits: loaded"
+    )
+    print(
+        "  max velocity: 0.020 rad/s"
+    )
+    print(
+        "  relative PTP goals: 3"
+    )
+
+    for i, goal in enumerate(
+        plan["fr3_goals"],
+        1,
+    ):
+        print(
+            f"  goal{i}: "
+            f"{list(goal.goal_joint_configuration)}"
+        )
+
+    print()
+    print("XHand single:")
+    print(
+        "  joints =",
+        list(
+            plan[
+                "xhand_single"
+            ][
+                "active_joints"
+            ]
+        ),
+    )
+    print(
+        "  delta =",
+        plan[
+            "xhand_single"
+        ][
+            "delta_rad"
+        ],
+    )
+    print(
+        "  limit =",
+        plan[
+            "xhand_single"
+        ][
+            "effort_limit_ma"
+        ],
+        "mA",
+    )
+
+    print()
+    print("XHand safe whole-hand group:")
+    print(
+        "  joints =",
+        list(
+            plan[
+                "xhand_whole"
+            ][
+                "active_joints"
+            ]
+        ),
+    )
+    print(
+        "  delta =",
+        plan[
+            "xhand_whole"
+        ][
+            "delta_rad"
+        ],
+    )
+    print(
+        "  limit =",
+        plan[
+            "xhand_whole"
+        ][
+            "effort_limit_ma"
+        ],
+        "mA",
+    )
+
+    if ns.execute:
+        print()
+        print(
+            "[CHECK] real execution gate"
+        )
+
+        require_real_execution_gate()
+
+        # No real execution implementation is reached
+        # in the current stage.
+        raise EmptyGraspExecutionBlocked(
+            "real execution backend is not enabled"
+        )
+
+    print()
+    print(
+        "[PASS] DRY-RUN ONLY"
+    )
+    print(
+        "No ROS Action goal sent."
+    )
+    print(
+        "No XHand command sent."
+    )
+    print(
+        "No hardware opened."
+    )
+
+
+if __name__ == "__main__":
+    main()
+
+----- xhand_motion_contract.py -----
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+import math
+from typing import Optional
+
+import yaml
+
+from .xhand_sdk_adapter import (
+    JointCommandSpec,
+    build_command,
+)
+from .xhand_state_mapper import JOINT_NAMES
+
+
+class XHandMotionGateError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class ActiveGains:
+    mode: int
+    kp: Optional[int]
+    ki: Optional[int]
+    kd: Optional[int]
+    verified: bool
+
+
+def load_profile(path: Path | None = None):
+    if path is None:
+        path = (
+            Path.home()
+            / "rehab_robot_ws/config/xhand_motion_profile.yaml"
+        )
+
+    return yaml.safe_load(
+        path.read_text(encoding="utf-8")
+    )["xhand"]
+
+
+def load_active_gains(profile=None) -> ActiveGains:
+    if profile is None:
+        profile = load_profile()
+
+    gains = profile["active_gains"]
+
+    return ActiveGains(
+        mode=int(profile["mode"]),
+        kp=gains["kp"],
+        ki=gains["ki"],
+        kd=gains["kd"],
+        verified=bool(gains["verified"]),
+    )
+
+
+def require_verified_gains(gains: ActiveGains) -> None:
+    if not gains.verified:
+        raise XHandMotionGateError(
+            "XHand active kp/ki/kd are not verified"
+        )
+
+    if None in (gains.kp, gains.ki, gains.kd):
+        raise XHandMotionGateError(
+            "verified XHand gains contain missing values"
+        )
+
+
+def validate_positions(values):
+    result = tuple(float(v) for v in values)
+
+    if len(result) != 12:
+        raise XHandMotionGateError(
+            "XHand position vector must contain 12 joints"
+        )
+
+    if not all(math.isfinite(v) for v in result):
+        raise XHandMotionGateError(
+            "XHand position vector contains non-finite value"
+        )
+
+    return result
+
+
+def validate_active_joints(names, profile=None):
+    if profile is None:
+        profile = load_profile()
+
+    names = tuple(names)
+
+    unknown = [
+        name for name in names
+        if name not in JOINT_NAMES
+    ]
+
+    if unknown:
+        raise XHandMotionGateError(
+            "unknown XHand joints: "
+            + ", ".join(unknown)
+        )
+
+    forbidden = set(
+        profile["fixed_joints"]
+        + profile["excluded_joints"]
+    )
+
+    bad = [
+        name for name in names
+        if name in forbidden
+    ]
+
+    if bad:
+        raise XHandMotionGateError(
+            "forbidden active XHand joints: "
+            + ", ".join(bad)
+        )
+
+    return names
+
+
+def plan_relative_motion(
+    current_positions,
+    *,
+    active_joints,
+    delta_rad,
+    effort_limit_ma,
+    profile=None,
+):
+    if profile is None:
+        profile = load_profile()
+
+    current = validate_positions(
+        current_positions
+    )
+
+    active_joints = validate_active_joints(
+        active_joints,
+        profile=profile,
+    )
+
+    delta = float(delta_rad)
+
+    if not math.isfinite(delta):
+        raise XHandMotionGateError(
+            "delta_rad must be finite"
+        )
+
+    if abs(delta) > 0.005 + 1e-12:
+        raise XHandMotionGateError(
+            "first-stage XHand delta exceeds 0.005 rad"
+        )
+
+    effort = int(effort_limit_ma)
+
+    if effort <= 0 or effort > 220:
+        raise XHandMotionGateError(
+            "XHand effort limit must be in (0, 220] mA"
+        )
+
+    target = list(current)
+
+    active_set = set(active_joints)
+
+    for index, name in enumerate(JOINT_NAMES):
+        if name in active_set:
+            target[index] += delta
+
+    return {
+        "active_joints": active_joints,
+        "current_positions": current,
+        "target_positions": tuple(target),
+        "delta_rad": delta,
+        "effort_limit_ma": effort,
+    }
+
+
+def build_verified_sdk_command(
+    plan,
+    *,
+    gains: ActiveGains,
+):
+    require_verified_gains(gains)
+
+    active = set(
+        plan["active_joints"]
+    )
+
+    specs = []
+
+    for index, name in enumerate(JOINT_NAMES):
+        if name in active:
+            specs.append(
+                JointCommandSpec(
+                    position=plan[
+                        "target_positions"
+                    ][index],
+                    effort_limit=int(
+                        plan["effort_limit_ma"]
+                    ),
+                    mode=int(gains.mode),
+                    kp=int(gains.kp),
+                    ki=int(gains.ki),
+                    kd=int(gains.kd),
+                )
+            )
+        else:
+            specs.append(
+                JointCommandSpec(
+                    position=plan[
+                        "current_positions"
+                    ][index],
+                    effort_limit=0,
+                    mode=0,
+                    kp=0,
+                    ki=0,
+                    kd=0,
+                )
+            )
+
+    return build_command(specs)
+
+============================================================
+[PASS] EMPTY-GRASP SOFTWARE CHECK
+============================================================
+
+Real motion status: CLOSED
+
+This check did NOT:
+  start FR3
+  open XHand EtherCAT
+  send XHand command
+  send FR3 PTP goal
+  start D435i
+
+build_result=0
+test_command_result=0
+test_result_result=0
+dry_run_result=0
+execute_gate_return=1
+============================================================
+[PASS] software check
+
+========== 1. sudo ==========
+[PASS] sudo
+
+========== 2. FR3 网络 ==========
+enp4s0           UP             2c:ea:7f:fe:5d:ae <BROADCAST,MULTICAST,UP,LOWER_UP> 
+enp4s0           UP             192.168.1.100/24 
+PING 192.168.1.25 (192.168.1.25) from 192.168.1.100 enp4s0: 56(84) bytes of data.
+64 bytes from 192.168.1.25: icmp_seq=1 ttl=64 time=0.107 ms
+64 bytes from 192.168.1.25: icmp_seq=2 ttl=64 time=0.277 ms
+64 bytes from 192.168.1.25: icmp_seq=3 ttl=64 time=3.40 ms
+
+--- 192.168.1.25 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2043ms
+rtt min/avg/max/mdev = 0.107/1.261/3.400/1.513 ms
+[PASS] FR3 network
+
+========== 3. XHand EtherCAT 网络 ==========
+enx6c1ff7641594  UP             6c:1f:f7:64:15:94 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+carrier=1
+[PASS] XHand physical link
+
+========== 4. XHand 冲突进程 ==========
+[PASS] no conflicting XHand process
+
+========== 5. FR3 Bringup ==========
+starting official franka.launch.py
+fr3_log=/home/gu/rehab_robot_ws/validation_logs/runtime/fr3_empty_grasp_preflight_20260906_100741.log
+fr3_launcher_pid=11465
+[PASS] FR3 bringup running
+
+========== 6. 等待 FR3 状态 broadcaster 真正就绪 ==========
+
+--- final controller state ---
+joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               active
+franka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  active
+[PASS] joint_state_broadcaster active
+[PASS] franka_robot_state_broadcaster active
+[PASS] no motion controller is active
+
+========== 7. FR3 live q + PTP Action + 未来目标检查 ==========
+
+[FAIL] PreflightError: unique PTPMotion action server not discovered
+
+========== FR3 live state ==========
+fr3_joint1 q=+0.016372 dq=-0.000901
+fr3_joint2 q=-0.674892 dq=+0.000299
+fr3_joint3 q=+0.005821 dq=-0.000536
+fr3_joint4 q=-2.522798 dq=-0.000747
+fr3_joint5 q=-0.018427 dq=+0.000687
+fr3_joint6 q=+1.557625 dq=-0.000206
+fr3_joint7 q=+1.579519 dq=-0.001407
+max |dq| = 0.001407 rad/s
+observed receive rate ≈ 1007.2 Hz
+
+[FAIL] FR3 live preflight
+
+--- FR3 log tail ---
+[ros2_control_node-2] [INFO] [1788660462.267678686] [action_server]: Action server started
+[ros2_control_node-2] [INFO] [1788660462.267729885] [controller_manager]: Successful initialization of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1788660462.267967836] [FrankaHardwareInterface]: Register joint-based command interfaces
+[ros2_control_node-2] [INFO] [1788660462.267978399] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface position with index 0
+[ros2_control_node-2] [INFO] [1788660462.267983418] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface velocity with index 0
+[ros2_control_node-2] [INFO] [1788660462.267987355] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface effort with index 0
+[ros2_control_node-2] [INFO] [1788660462.267991009] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface position with index 1
+[ros2_control_node-2] [INFO] [1788660462.267995016] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface velocity with index 1
+[ros2_control_node-2] [INFO] [1788660462.267999560] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface effort with index 1
+[ros2_control_node-2] [INFO] [1788660462.268003614] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface position with index 2
+[ros2_control_node-2] [INFO] [1788660462.268009783] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface velocity with index 2
+[ros2_control_node-2] [INFO] [1788660462.268014203] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface effort with index 2
+[ros2_control_node-2] [INFO] [1788660462.268018812] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface position with index 3
+[ros2_control_node-2] [INFO] [1788660462.268022865] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface velocity with index 3
+[ros2_control_node-2] [INFO] [1788660462.268026882] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface effort with index 3
+[ros2_control_node-2] [INFO] [1788660462.268031073] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface position with index 4
+[ros2_control_node-2] [INFO] [1788660462.268034842] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface velocity with index 4
+[ros2_control_node-2] [INFO] [1788660462.268041108] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface effort with index 4
+[ros2_control_node-2] [INFO] [1788660462.268078380] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface position with index 5
+[ros2_control_node-2] [INFO] [1788660462.268083997] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface velocity with index 5
+[ros2_control_node-2] [INFO] [1788660462.268087475] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface effort with index 5
+[ros2_control_node-2] [INFO] [1788660462.268091194] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface position with index 6
+[ros2_control_node-2] [INFO] [1788660462.268094776] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface velocity with index 6
+[ros2_control_node-2] [INFO] [1788660462.268098274] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface effort with index 6
+[ros2_control_node-2] [INFO] [1788660462.268101520] [FrankaHardwareInterface]: Register general purpose command interfaces
+[ros2_control_node-2] [INFO] [1788660462.268107076] [FrankaHardwareInterface]: Registering command interface: vx for command interface cartesian_velocity with index 0
+[ros2_control_node-2] [INFO] [1788660462.268115904] [FrankaHardwareInterface]: Registering command interface: vy for command interface cartesian_velocity with index 1
+[ros2_control_node-2] [INFO] [1788660462.268120377] [FrankaHardwareInterface]: Registering command interface: vz for command interface cartesian_velocity with index 2
+[ros2_control_node-2] [INFO] [1788660462.268124288] [FrankaHardwareInterface]: Registering command interface: wx for command interface cartesian_velocity with index 3
+[ros2_control_node-2] [INFO] [1788660462.268128656] [FrankaHardwareInterface]: Registering command interface: wy for command interface cartesian_velocity with index 4
+[ros2_control_node-2] [INFO] [1788660462.268132940] [FrankaHardwareInterface]: Registering command interface: wz for command interface cartesian_velocity with index 5
+[ros2_control_node-2] [INFO] [1788660462.268136947] [FrankaHardwareInterface]: Registering command interface: 0 for command interface cartesian_pose_command with index 0
+[ros2_control_node-2] [INFO] [1788660462.268147691] [FrankaHardwareInterface]: Registering command interface: 1 for command interface cartesian_pose_command with index 1
+[ros2_control_node-2] [INFO] [1788660462.268152607] [FrankaHardwareInterface]: Registering command interface: 2 for command interface cartesian_pose_command with index 2
+[ros2_control_node-2] [INFO] [1788660462.268157075] [FrankaHardwareInterface]: Registering command interface: 3 for command interface cartesian_pose_command with index 3
+[ros2_control_node-2] [INFO] [1788660462.268161278] [FrankaHardwareInterface]: Registering command interface: 4 for command interface cartesian_pose_command with index 4
+[ros2_control_node-2] [INFO] [1788660462.268165155] [FrankaHardwareInterface]: Registering command interface: 5 for command interface cartesian_pose_command with index 5
+[ros2_control_node-2] [INFO] [1788660462.268168580] [FrankaHardwareInterface]: Registering command interface: 6 for command interface cartesian_pose_command with index 6
+[ros2_control_node-2] [INFO] [1788660462.268171732] [FrankaHardwareInterface]: Registering command interface: 7 for command interface cartesian_pose_command with index 7
+[ros2_control_node-2] [INFO] [1788660462.268175057] [FrankaHardwareInterface]: Registering command interface: 8 for command interface cartesian_pose_command with index 8
+[ros2_control_node-2] [INFO] [1788660462.268178468] [FrankaHardwareInterface]: Registering command interface: 9 for command interface cartesian_pose_command with index 9
+[ros2_control_node-2] [INFO] [1788660462.268182368] [FrankaHardwareInterface]: Registering command interface: 10 for command interface cartesian_pose_command with index 10
+[ros2_control_node-2] [INFO] [1788660462.268186423] [FrankaHardwareInterface]: Registering command interface: 11 for command interface cartesian_pose_command with index 11
+[ros2_control_node-2] [INFO] [1788660462.268189989] [FrankaHardwareInterface]: Registering command interface: 12 for command interface cartesian_pose_command with index 12
+[ros2_control_node-2] [INFO] [1788660462.268193777] [FrankaHardwareInterface]: Registering command interface: 13 for command interface cartesian_pose_command with index 13
+[ros2_control_node-2] [INFO] [1788660462.268197245] [FrankaHardwareInterface]: Registering command interface: 14 for command interface cartesian_pose_command with index 14
+[ros2_control_node-2] [INFO] [1788660462.268200900] [FrankaHardwareInterface]: Registering command interface: 15 for command interface cartesian_pose_command with index 15
+[ros2_control_node-2] [INFO] [1788660462.268213284] [FrankaHardwareInterface]: Registering command interface: joint_3_position for command interface elbow_command with index 0
+[ros2_control_node-2] [INFO] [1788660462.268217747] [FrankaHardwareInterface]: Registering command interface: joint_4_sign for command interface elbow_command with index 1
+[ros2_control_node-2] [INFO] [1788660462.268515268] [controller_manager]: Activating component 'FrankaHardwareInterface'.
+[ros2_control_node-2] [INFO] [1788660462.268538430] [resource_manager]: 'configure' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1788660462.268544204] [resource_manager]: Successful 'configure' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1788660462.268560820] [resource_manager]: 'activate' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1788660462.268741610] [resource_manager]: Successful 'activate' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1788660462.268776169] [controller_manager]: Registering statistics for : FrankaHardwareInterface
+[ros2_control_node-2] [INFO] [1788660462.268842779] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[joint_state_publisher-3] [INFO] [1788660462.277463988] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-3] [INFO] [1788660462.282046249] [joint_state_publisher]: Got description, configuring robot
+[ros2_control_node-2] [INFO] [1788660462.301081897] [controller_manager]: Loading controller : 'franka_robot_state_broadcaster' of type 'franka_robot_state_broadcaster/FrankaRobotStateBroadcaster'
+[ros2_control_node-2] [INFO] [1788660462.301112729] [controller_manager]: Loading controller 'franka_robot_state_broadcaster'
+[ros2_control_node-2] [INFO] [1788660462.303165234] [controller_manager]: Controller 'franka_robot_state_broadcaster' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_xf1tqk0z --params-file /tmp/launch_params_7ezqx69a --params-file /tmp/launch_params_1toc0rq7 --params-file /tmp/launch_params_6v420_x3 
+[spawner-5] [INFO] [1788660462.320738987] [spawner_franka_robot_state_broadcaster]: Loaded franka_robot_state_broadcaster
+[ros2_control_node-2] [INFO] [1788660462.321428817] [controller_manager]: Configuring controller: 'franka_robot_state_broadcaster'
+[ros2_control_node-2] [INFO] [1788660462.326932340] [franka_robot_state_broadcaster]: Convenience topics at 1000 Hz, full state at 1000 Hz
+[ros2_control_node-2] [INFO] [1788660462.328418260] [controller_manager]: Activating controllers: [ franka_robot_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1788660462.331323086] [franka_robot_state_broadcaster]: Publish thread started with SCHED_FIFO priority 50.
+[ros2_control_node-2] [INFO] [1788660462.331411062] [controller_manager]: Successfully switched controllers!
+[spawner-5] [INFO] [1788660462.332753430] [spawner_franka_robot_state_broadcaster]: Configured and activated franka_robot_state_broadcaster
+[INFO] [spawner-5]: process has finished cleanly [pid 11479]
+[spawner-4] [INFO] [1788660462.652715889] [spawner_joint_state_broadcaster]: Setting controller param "node_options_args" to "['--remap', 'joint_states:=franka/joint_states']" for joint_state_broadcaster
+[ros2_control_node-2] [INFO] [1788660462.653691117] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-2] [INFO] [1788660462.653716903] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1788660462.656608341] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_xf1tqk0z --params-file /tmp/launch_params_7ezqx69a --params-file /tmp/launch_params_1toc0rq7 --params-file /tmp/launch_params_6v420_x3 --ros-args --remap joint_states:=franka/joint_states 
+[spawner-4] [INFO] [1788660462.662610636] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ros2_control_node-2] [INFO] [1788660462.663314142] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1788660462.663401342] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-2] [INFO] [1788660462.673832831] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1788660462.674585461] [controller_manager]: Successfully switched controllers!
+[spawner-4] [INFO] [1788660462.676689251] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[INFO] [spawner-4]: process has finished cleanly [pid 11478]
+
+[SAFE] stopping preflight-started FR3 bringup
+[PASS] preflight FR3 bringup stopped
+
+============================================================
+[FAIL] EMPTY-GRASP LIVE PREFLIGHT
+============================================================
+Real combined motion gate: CLOSED
+No FR3 PTP goal was sent.
+No XHand send_command() API call was made.
+D435i was not started.
+log=/home/gu/rehab_robot_ws/validation_logs/runtime/empty_grasp_preflight_20260906_100619.log

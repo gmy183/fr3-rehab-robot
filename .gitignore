@@ -1,0 +1,36 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# Runtime and IDE
+.runtime/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.swp
+*.swo
+
+# Local hardware configuration
+**/hardware_profile.env
+**/.env
+.env
+!.env.example
+
+# Credentials and private keys
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.p12
+*.pfx
+
+# Sensitive environment snapshot
+releases/rehab_robot_fr3_xhand_baseline_r1_20260906/ENVIRONMENT_SNAPSHOT.txt
+
+# Temporary files
+*.tmp
+*.bak~
+*~
+.DS_Store

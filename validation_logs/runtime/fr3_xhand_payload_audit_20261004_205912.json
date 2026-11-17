@@ -1,0 +1,56 @@
+{
+  "schema": "fr3_xhand_payload_audit_v1",
+  "read_only": true,
+  "load_changed": false,
+  "controllers_raw": "joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               active\nfranka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  active\n",
+  "robot_state_health_lines": [
+    "robot_mode: 1",
+    "  joint_reflex: false",
+    "  cartesian_reflex: false",
+    "  communication_constraints_violation: false",
+    "  instability_detected: false",
+    "  joint_reflex: false",
+    "  cartesian_reflex: false",
+    "  communication_constraints_violation: false",
+    "  instability_detected: false"
+  ],
+  "load_related_services": [
+    "/controller_manager/load_controller [controller_manager_msgs/srv/LoadController]",
+    "/controller_manager/reload_controller_libraries [controller_manager_msgs/srv/ReloadControllerLibraries]",
+    "/controller_manager/unload_controller [controller_manager_msgs/srv/UnloadController]",
+    "/service_server/set_load [franka_msgs/srv/SetLoad]"
+  ],
+  "setload_service_candidates": [
+    "/service_server/set_load [franka_msgs/srv/SetLoad]"
+  ],
+  "setload_interface_available": true,
+  "setload_interface_raw": "# The mass of the object\nfloat64 mass\n# Position of the center of mass\nfloat64[3] center_of_mass\n# Inertia of the object - the provided 3x3 matrix is in column major form.\nfloat64[9] load_inertia\n---\nbool success\nstring error\n\n",
+  "runtime_payload_readback_lines": [],
+  "runtime_payload_readback_available": false,
+  "payload_parameter_hits": {
+    "/frankahardwareinterface": [],
+    "/service_server": [],
+    "/franka_robot_state_broadcaster": [],
+    "/controller_manager": []
+  },
+  "robot_description_available": true,
+  "base_link_present": true,
+  "downstream_records": [],
+  "possible_xhand_tool_matches": [],
+  "urdf_payload_candidate": {
+    "modeled_links": [],
+    "unresolved_links": [],
+    "total_resolved_mass_kg": 0.0,
+    "combined_com_fr3_link8_m": null,
+    "combined_inertia_at_com_fr3_link8_kgm2": null
+  },
+  "automatic_conclusions": [
+    "SETLOAD_INTERFACE_PRESENT",
+    "RUNTIME_PAYLOAD_READBACK_NOT_EXPOSED",
+    "NO_CLEAR_XHAND_MODEL_IN_RUNTIME_URDF",
+    "URDF_DOWNSTREAM_MASS_MISSING_OR_ZERO",
+    "MEASURED_PAYLOAD_DATA_STILL_REQUIRED"
+  ],
+  "safe_to_auto_apply_load": false,
+  "reason_auto_apply_disabled": "audit-only workflow; payload must be verified before writing robot-side load model"
+}

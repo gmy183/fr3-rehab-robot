@@ -1,0 +1,1011 @@
+"""Official-MoveIt executor for the eight-point FR3 teach path."""
+
+from __future__ import annotations
+
+import argparse
+import math
+import time
+
+import rclpy
+
+from action_msgs.msg import GoalStatus
+from geometry_msgs.msg import Pose
+from moveit_msgs.action import ExecuteTrajectory
+from moveit_msgs.msg import MoveItErrorCodes
+from moveit_msgs.srv import GetCartesianPath
+from rclpy.node import Node
+from rclpy.time import Time
+from sensor_msgs.msg import JointState
+from tf2_ros import Buffer, TransformListener
+
+from .fr3_moveit_client import (
+    FR3_JOINT_NAMES,
+    FR3MoveItClient,
+)
+from .fr3_teach_path import (
+    DEFAULT_END,
+    DEFAULT_MAX_STEP_M,
+    DEFAULT_START,
+    build_route,
+    edge_summaries,
+    load_teach_path,
+    polyline_length,
+)
+
+
+GROUP_NAME = "fr3_arm"
+
+MAX_STEP_M = 0.015
+VELOCITY_SCALING = 0.05
+ACCELERATION_SCALING = 0.05
+MAX_CARTESIAN_SPEED_M_S = 0.020
+
+# Execution is permitted only when the arm is already
+# close to the taught route start.
+START_GATE_M = 0.030
+
+# Temporary functional sanity threshold.
+# Precision optimization is intentionally deferred.
+FINAL_SANITY_M = 0.050
+
+
+class P15Error(RuntimeError):
+    pass
+
+
+class OfficialTeachMoveItClient(FR3MoveItClient):
+    """Task-specific extension of the official MoveIt adapter."""
+
+    def compute_cartesian_async(
+        self,
+        request: GetCartesianPath.Request,
+    ):
+        return self._cartesian_path.call_async(
+            request
+        )
+
+    def send_trajectory_async(
+        self,
+        trajectory,
+        *,
+        timeout_sec: float = 5.0,
+    ):
+        if not self._execute_trajectory.wait_for_server(
+            timeout_sec=float(timeout_sec)
+        ):
+            raise P15Error(
+                "ExecuteTrajectory action unavailable"
+            )
+
+        goal = ExecuteTrajectory.Goal()
+        goal.trajectory = trajectory
+
+        return self._execute_trajectory.send_goal_async(
+            goal
+        )
+
+
+class P15Node(Node):
+    def __init__(self):
+        super().__init__(
+            "p15_fr3_teach_path_executor"
+        )
+
+        self.joint_positions = None
+        self.joint_stamp = None
+
+        self.create_subscription(
+            JointState,
+            "/franka/joint_states",
+            self._joint_cb,
+            10,
+        )
+
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(
+            self.tf_buffer,
+            self,
+        )
+
+    def _joint_cb(self, msg):
+        table = dict(
+            zip(
+                msg.name,
+                msg.position,
+            )
+        )
+
+        if all(
+            name in table
+            for name in FR3_JOINT_NAMES
+        ):
+            self.joint_positions = [
+                float(table[name])
+                for name in FR3_JOINT_NAMES
+            ]
+
+            self.joint_stamp = (
+                time.monotonic()
+            )
+
+
+def spin_until(
+    node,
+    predicate,
+    timeout_s,
+):
+    deadline = (
+        time.monotonic()
+        + float(timeout_s)
+    )
+
+    while (
+        rclpy.ok()
+        and time.monotonic() < deadline
+    ):
+        rclpy.spin_once(
+            node,
+            timeout_sec=0.1,
+        )
+
+        if predicate():
+            return True
+
+    return False
+
+
+def wait_fresh_joint_state(
+    node: P15Node,
+    timeout_s=5.0,
+):
+    def good():
+        return (
+            node.joint_positions is not None
+            and node.joint_stamp is not None
+            and (
+                time.monotonic()
+                - node.joint_stamp
+            )
+            < 0.5
+        )
+
+    return spin_until(
+        node,
+        good,
+        timeout_s,
+    )
+
+
+def lookup_tool_pose(
+    node: P15Node,
+    frame: str,
+    tool: str,
+    timeout_s=5.0,
+):
+    deadline = (
+        time.monotonic()
+        + float(timeout_s)
+    )
+
+    last_error = None
+
+    while (
+        rclpy.ok()
+        and time.monotonic() < deadline
+    ):
+        rclpy.spin_once(
+            node,
+            timeout_sec=0.1,
+        )
+
+        try:
+            transform = (
+                node.tf_buffer
+                .lookup_transform(
+                    frame,
+                    tool,
+                    Time(),
+                )
+            )
+
+            return transform
+
+        except Exception as exc:
+            last_error = exc
+
+    raise P15Error(
+        "TF unavailable "
+        f"{frame} -> {tool}: "
+        f"{last_error}"
+    )
+
+
+def transform_xyz(transform):
+    t = transform.transform.translation
+
+    return (
+        float(t.x),
+        float(t.y),
+        float(t.z),
+    )
+
+
+def make_waypoints(
+    route,
+    orientation,
+):
+    result = []
+
+    for point in route:
+        pose = Pose()
+
+        pose.position.x = (
+            point.position_m[0]
+        )
+        pose.position.y = (
+            point.position_m[1]
+        )
+        pose.position.z = (
+            point.position_m[2]
+        )
+
+        pose.orientation.x = (
+            orientation.x
+        )
+        pose.orientation.y = (
+            orientation.y
+        )
+        pose.orientation.z = (
+            orientation.z
+        )
+        pose.orientation.w = (
+            orientation.w
+        )
+
+        result.append(pose)
+
+    return result
+
+
+def make_start_state(
+    node: P15Node,
+):
+    msg = JointState()
+
+    msg.header.stamp = (
+        node.get_clock()
+        .now()
+        .to_msg()
+    )
+
+    msg.name = list(
+        FR3_JOINT_NAMES
+    )
+
+    msg.position = list(
+        node.joint_positions
+    )
+
+    return msg
+
+
+def trajectory_duration_s(
+    trajectory,
+):
+    points = (
+        trajectory
+        .joint_trajectory
+        .points
+    )
+
+    if not points:
+        return 0.0
+
+    t = points[-1].time_from_start
+
+    return (
+        float(t.sec)
+        + float(t.nanosec) * 1e-9
+    )
+
+
+def trajectory_time_valid(
+    trajectory,
+):
+    points = (
+        trajectory
+        .joint_trajectory
+        .points
+    )
+
+    if len(points) < 2:
+        return False
+
+    times = []
+
+    for point in points:
+        t = point.time_from_start
+
+        times.append(
+            float(t.sec)
+            + float(t.nanosec)
+            * 1e-9
+        )
+
+    return all(
+        second > first
+        for first, second in zip(
+            times[:-1],
+            times[1:],
+        )
+    )
+
+
+def wait_future(
+    node,
+    future,
+    timeout_s,
+):
+    deadline = (
+        time.monotonic()
+        + float(timeout_s)
+    )
+
+    while (
+        rclpy.ok()
+        and not future.done()
+        and time.monotonic()
+        < deadline
+    ):
+        rclpy.spin_once(
+            node,
+            timeout_sec=0.1,
+        )
+
+    return future.done()
+
+
+def main(args=None):
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--start",
+        default=DEFAULT_START,
+    )
+
+    parser.add_argument(
+        "--end",
+        default=DEFAULT_END,
+    )
+
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--confirm",
+        default="",
+    )
+
+    ns = parser.parse_args(args)
+
+    path = load_teach_path()
+
+    route = build_route(
+        path,
+        ns.start,
+        ns.end,
+    )
+
+    edges = edge_summaries(
+        route,
+        DEFAULT_MAX_STEP_M,
+    )
+
+    print("=" * 68)
+    print(
+        "P15 - FR3 OFFICIAL MOVEIT "
+        "8-POINT TEACH PATH"
+    )
+    print("=" * 68)
+
+    print(
+        f"profile = {path.name}"
+    )
+
+    print(
+        "route   = "
+        + " -> ".join(
+            point.point_id
+            for point in route
+        )
+    )
+
+    print(f"frame   = {path.frame}")
+    print(f"tool    = {path.tool}")
+
+    print(
+        "orientation = "
+        "hold task-start fr3_link8 orientation"
+    )
+
+    print(
+        f"polyline length = "
+        f"{polyline_length(route):.6f} m"
+    )
+
+    print(
+        f"MoveIt max_step = "
+        f"{MAX_STEP_M * 1000.0:.1f} mm"
+    )
+
+    print(
+        f"velocity scaling = "
+        f"{VELOCITY_SCALING:.3f}"
+    )
+
+    print(
+        f"max Cartesian speed = "
+        f"{MAX_CARTESIAN_SPEED_M_S:.3f} m/s"
+    )
+
+    print()
+    print("========== ROUTE ==========")
+
+    estimated = 0
+
+    for (
+        first,
+        second,
+        distance,
+        segments,
+    ) in edges:
+        estimated += segments
+
+        print(
+            f"{first} -> {second}: "
+            f"{distance * 1000.0:.1f} mm, "
+            f"~{segments} interpolation steps"
+        )
+
+    print(
+        f"estimated total steps = "
+        f"{estimated}"
+    )
+
+    print()
+    print("========== YAML STATUS ==========")
+    print(
+        f"historical validated = "
+        f"{path.validated}"
+    )
+    print(
+        f"historical full_path_enabled = "
+        f"{path.full_path_enabled}"
+    )
+    print(
+        "P15 uses an explicit runtime "
+        "execution gate instead."
+    )
+
+    rclpy.init()
+
+    node = P15Node()
+
+    client = OfficialTeachMoveItClient(
+        node
+    )
+
+    try:
+        print()
+        print(
+            "========== LIVE FR3 STATE =========="
+        )
+
+        if not wait_fresh_joint_state(
+            node,
+            timeout_s=5.0,
+        ):
+            raise P15Error(
+                "fresh real FR3 joint state unavailable"
+            )
+
+        print(
+            "[PASS] fresh real FR3 "
+            "joint state"
+        )
+
+        transform = lookup_tool_pose(
+            node,
+            path.frame,
+            path.tool,
+            timeout_s=5.0,
+        )
+
+        current_xyz = (
+            transform_xyz(
+                transform
+            )
+        )
+
+        first_xyz = (
+            route[0].position_m
+        )
+
+        start_error = math.dist(
+            current_xyz,
+            first_xyz,
+        )
+
+        print(
+            f"current xyz = "
+            f"[{current_xyz[0]:.6f}, "
+            f"{current_xyz[1]:.6f}, "
+            f"{current_xyz[2]:.6f}]"
+        )
+
+        print(
+            f"{route[0].point_id} xyz = "
+            f"[{first_xyz[0]:.6f}, "
+            f"{first_xyz[1]:.6f}, "
+            f"{first_xyz[2]:.6f}]"
+        )
+
+        print(
+            f"start error = "
+            f"{start_error * 1000.0:.3f} mm"
+        )
+
+        orientation = (
+            transform
+            .transform
+            .rotation
+        )
+
+        print()
+        print(
+            "========== MOVEIT READINESS =========="
+        )
+
+        deadline = (
+            time.monotonic()
+            + 10.0
+        )
+
+        readiness = None
+
+        while time.monotonic() < deadline:
+            rclpy.spin_once(
+                node,
+                timeout_sec=0.1,
+            )
+
+            readiness = (
+                client.readiness()
+            )
+
+            if (
+                readiness
+                .execution_ready
+            ):
+                break
+
+        print(
+            f"move_group         = "
+            f"{readiness.move_group}"
+        )
+        print(
+            f"execute_trajectory = "
+            f"{readiness.execute_trajectory}"
+        )
+        print(
+            f"cartesian_path     = "
+            f"{readiness.cartesian_path}"
+        )
+        print(
+            f"position_ik        = "
+            f"{readiness.position_ik}"
+        )
+        print(
+            f"motion_plan        = "
+            f"{readiness.motion_plan}"
+        )
+
+        if not readiness.execution_ready:
+            raise P15Error(
+                "official MoveIt interfaces "
+                "not ready"
+            )
+
+        request = (
+            GetCartesianPath.Request()
+        )
+
+        request.header.stamp = (
+            node.get_clock()
+            .now()
+            .to_msg()
+        )
+
+        request.header.frame_id = (
+            path.frame
+        )
+
+        request.start_state.is_diff = (
+            False
+        )
+
+        request.start_state.joint_state = (
+            make_start_state(node)
+        )
+
+        request.group_name = (
+            GROUP_NAME
+        )
+
+        request.link_name = (
+            path.tool
+        )
+
+        request.waypoints = (
+            make_waypoints(
+                route,
+                orientation,
+            )
+        )
+
+        request.max_step = (
+            MAX_STEP_M
+        )
+
+        request.jump_threshold = 0.0
+        request.prismatic_jump_threshold = 0.0
+        request.revolute_jump_threshold = 0.0
+
+        request.avoid_collisions = True
+
+        request.max_velocity_scaling_factor = (
+            VELOCITY_SCALING
+        )
+
+        request.max_acceleration_scaling_factor = (
+            ACCELERATION_SCALING
+        )
+
+        request.cartesian_speed_limited_link = (
+            path.tool
+        )
+
+        request.max_cartesian_speed = (
+            MAX_CARTESIAN_SPEED_M_S
+        )
+
+        print()
+        print(
+            "========== CARTESIAN PLAN =========="
+        )
+        print(
+            "[SEND] /compute_cartesian_path"
+        )
+
+        future = (
+            client
+            .compute_cartesian_async(
+                request
+            )
+        )
+
+        if not wait_future(
+            node,
+            future,
+            timeout_s=20.0,
+        ):
+            raise P15Error(
+                "Cartesian planning timeout"
+            )
+
+        response = future.result()
+
+        if response is None:
+            raise P15Error(
+                "empty Cartesian response"
+            )
+
+        code = int(
+            response.error_code.val
+        )
+
+        trajectory = (
+            response.solution
+        )
+
+        trajectory_points = len(
+            trajectory
+            .joint_trajectory
+            .points
+        )
+
+        duration_s = (
+            trajectory_duration_s(
+                trajectory
+            )
+        )
+
+        print(
+            f"moveit_error_code = {code}"
+        )
+        print(
+            f"fraction          = "
+            f"{response.fraction:.9f}"
+        )
+        print(
+            f"trajectory_points = "
+            f"{trajectory_points}"
+        )
+        print(
+            f"duration          = "
+            f"{duration_s:.3f} s"
+        )
+
+        if (
+            code
+            != MoveItErrorCodes.SUCCESS
+        ):
+            raise P15Error(
+                "Cartesian planner "
+                f"returned {code}"
+            )
+
+        if response.fraction < 0.999:
+            raise P15Error(
+                "Cartesian fraction "
+                f"{response.fraction:.6f} "
+                "< 0.999"
+            )
+
+        if trajectory_points < 2:
+            raise P15Error(
+                "Cartesian trajectory "
+                "contains too few points"
+            )
+
+        if not trajectory_time_valid(
+            trajectory
+        ):
+            raise P15Error(
+                "trajectory timing is "
+                "not strictly increasing"
+            )
+
+        print(
+            "[PASS] full P8 -> P1 "
+            "Cartesian trajectory planned"
+        )
+
+        if not ns.execute:
+            print()
+            print("=" * 68)
+            print("[PASS] P15 PLAN-ONLY")
+            print("NO trajectory executed")
+            print("NO FR3 command sent")
+            print("NO XHand command")
+            print("NO automatic return")
+            print("NO automatic recovery")
+            print("=" * 68)
+            return
+
+        expected = (
+            f"EXECUTE-P15-"
+            f"{ns.start}-{ns.end}"
+        )
+
+        if ns.confirm != expected:
+            raise P15Error(
+                "real-motion confirmation "
+                f"must be exactly {expected}"
+            )
+
+        if start_error > START_GATE_M:
+            raise P15Error(
+                "robot is not close enough "
+                f"to {route[0].point_id}: "
+                f"{start_error * 1000.0:.1f} mm "
+                f"> {START_GATE_M * 1000.0:.1f} mm"
+            )
+
+        print()
+        print(
+            "========== REAL EXECUTION =========="
+        )
+
+        print(
+            "[SEND] official "
+            "/execute_trajectory"
+        )
+
+        send_future = (
+            client
+            .send_trajectory_async(
+                trajectory,
+                timeout_sec=5.0,
+            )
+        )
+
+        if not wait_future(
+            node,
+            send_future,
+            timeout_s=5.0,
+        ):
+            raise P15Error(
+                "execution goal send timeout"
+            )
+
+        handle = send_future.result()
+
+        if (
+            handle is None
+            or not handle.accepted
+        ):
+            raise P15Error(
+                "ExecuteTrajectory goal rejected"
+            )
+
+        print(
+            "[PASS] execution goal accepted"
+        )
+
+        result_future = (
+            handle.get_result_async()
+        )
+
+        # Route duration can be long at
+        # deliberately low rehabilitation speed.
+        timeout_s = max(
+            60.0,
+            duration_s * 2.0 + 20.0,
+        )
+
+        if not wait_future(
+            node,
+            result_future,
+            timeout_s=timeout_s,
+        ):
+            raise P15Error(
+                "execution result timeout"
+            )
+
+        wrapped = (
+            result_future.result()
+        )
+
+        if wrapped is None:
+            raise P15Error(
+                "empty execution result"
+            )
+
+        result_code = int(
+            wrapped
+            .result
+            .error_code
+            .val
+        )
+
+        print(
+            f"action_status     = "
+            f"{wrapped.status}"
+        )
+        print(
+            f"moveit_error_code = "
+            f"{result_code}"
+        )
+
+        if (
+            wrapped.status
+            != GoalStatus.STATUS_SUCCEEDED
+            or result_code
+            != MoveItErrorCodes.SUCCESS
+        ):
+            raise P15Error(
+                "official MoveIt "
+                "execution failed"
+            )
+
+        # Allow TF / state broadcaster to settle.
+        settle_deadline = (
+            time.monotonic()
+            + 1.0
+        )
+
+        while (
+            rclpy.ok()
+            and time.monotonic()
+            < settle_deadline
+        ):
+            rclpy.spin_once(
+                node,
+                timeout_sec=0.05,
+            )
+
+        final_transform = (
+            lookup_tool_pose(
+                node,
+                path.frame,
+                path.tool,
+                timeout_s=3.0,
+            )
+        )
+
+        final_xyz = (
+            transform_xyz(
+                final_transform
+            )
+        )
+
+        target_xyz = (
+            route[-1].position_m
+        )
+
+        final_error = math.dist(
+            final_xyz,
+            target_xyz,
+        )
+
+        print()
+        print(
+            "========== FINAL =========="
+        )
+
+        print(
+            f"target = {route[-1].point_id}"
+        )
+
+        print(
+            f"final xyz = "
+            f"[{final_xyz[0]:.6f}, "
+            f"{final_xyz[1]:.6f}, "
+            f"{final_xyz[2]:.6f}]"
+        )
+
+        print(
+            f"Cartesian error = "
+            f"{final_error * 1000.0:.3f} mm"
+        )
+
+        if final_error > FINAL_SANITY_M:
+            raise P15Error(
+                "final Cartesian error "
+                "exceeds temporary "
+                "functional sanity limit"
+            )
+
+        print()
+        print(
+            "[PASS] P15 official MoveIt "
+            "8-point real execution"
+        )
+
+        print(
+            "NO retry / NO auto-return / "
+            "NO recovery"
+        )
+
+    except Exception as exc:
+        print()
+        print(
+            f"[FAULT] {type(exc).__name__}: "
+            f"{exc}"
+        )
+        print("[SAFE] task stopped")
+        print("[SAFE] no automatic retry")
+        print("[SAFE] no automatic return")
+        print("[SAFE] no automatic recovery")
+        raise SystemExit(2)
+
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()

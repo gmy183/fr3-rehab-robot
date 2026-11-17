@@ -1,0 +1,32 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 linux-headers-6.17.0-14-generic
+  linux-hwe-6.17-headers-6.17.0-14 linux-hwe-6.17-tools-6.17.0-14
+  linux-image-6.17.0-14-generic linux-modules-6.17.0-14-generic
+  linux-modules-extra-6.17.0-14-generic linux-tools-6.17.0-14-generic
+  mesa-libgallium:i386 ocl-icd-libopencl1:i386
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  at libv4l2rds0t64 v4l-utils
+Suggested packages:
+  default-mta | mail-transport-agent
+The following NEW packages will be installed:
+  at librealsense2-udev-rules libv4l2rds0t64 v4l-utils
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Inst at (3.2.5-2.1ubuntu3 Ubuntu:24.04/noble [amd64])
+Inst libv4l2rds0t64 (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Inst v4l-utils (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Inst librealsense2-udev-rules (2.58.3-0~realsense.19622 Artifactory:noble [amd64])
+Conf at (3.2.5-2.1ubuntu3 Ubuntu:24.04/noble [amd64])
+Conf libv4l2rds0t64 (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Conf v4l-utils (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Conf librealsense2-udev-rules (2.58.3-0~realsense.19622 Artifactory:noble [amd64])

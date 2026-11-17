@@ -1,0 +1,20 @@
+from pathlib import Path
+
+from rehab_robot_control.v3.contracts import RunMode
+from rehab_robot_control.v3.fr3_test_runner import FR3TestRunner
+
+
+def test_fr3_test_mode_registered():
+    assert RunMode.FR3_TEST.value == "fr3-test"
+
+
+def test_fr3_test_is_constrained():
+    assert FR3TestRunner.TEST_DISTANCE_M == 0.005
+    assert FR3TestRunner.TEST_MAX_JOINT_VELOCITY <= 0.005
+    assert FR3TestRunner.TEST_MAX_JOINT_ACCELERATION <= 0.025
+    assert FR3TestRunner.CONFIRM == "EXECUTE-FR3-V3.2-POSITION-5MM"
+
+
+def test_fr3_test_does_not_relax_production_quality():
+    assert FR3TestRunner.QUALITY_FINAL_JOINT_ERROR_RAD <= 0.005
+    assert FR3TestRunner.QUALITY_FINAL_CART_ERROR_M <= 0.003

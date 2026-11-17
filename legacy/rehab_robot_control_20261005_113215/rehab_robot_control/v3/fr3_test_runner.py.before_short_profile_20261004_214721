@@ -1,0 +1,460 @@
+from __future__ import annotations
+
+import json
+import math
+import os
+import subprocess
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Sequence
+
+from .config import V3Config, expand_path
+from .safety_supervisor import SafetySupervisor
+from .teach_path import TeachPath, distance
+from .trajectory_manager import PlanningServer, RosMoveItPlanner, max_abs_delta
+
+
+class FR3TestError(RuntimeError):
+    pass
+
+
+class FR3TestRunner:
+    """Constrained FR3-only real-motion validation for V3.1.
+
+    This mode intentionally bypasses the *production* REAL gate without changing it.
+    It executes exactly one short Cartesian trajectory after the effort JTC is
+    activated and allowed to settle. XHand is never commanded.
+
+    No automatic retry, return motion, ErrorRecovery, or PTP is permitted.
+    """
+
+    TEST_DISTANCE_M = 0.005
+    TEST_MAX_JOINT_VELOCITY = 0.005
+    TEST_MAX_JOINT_ACCELERATION = 0.025
+    SETTLE_INITIAL_S = 2.0
+    SETTLE_SAMPLE_S = 1.5
+    SETTLE_MAX_JOINT_RANGE_RAD = 0.0015
+    ACTIVATION_MAX_CART_SHIFT_M = 0.020
+    ACTIVATION_MAX_JOINT_SHIFT_RAD = 0.030
+    START_REVALIDATE_RAD = 0.003
+    ACTION_PATH_TOL_RAD = 0.050
+    ACTION_GOAL_TOL_RAD = 0.020
+    HARD_FINAL_JOINT_ERROR_RAD = 0.030
+    HARD_FINAL_CART_ERROR_M = 0.012
+    QUALITY_FINAL_JOINT_ERROR_RAD = 0.005
+    QUALITY_FINAL_CART_ERROR_M = 0.003
+
+    CONFIRM = "EXECUTE-FR3-V3.1-5MM"
+
+    def __init__(self, config: V3Config):
+        self.config = config
+        self.safety = SafetySupervisor(config)
+        self.teach = TeachPath(config.task["teach_points"], config.task["route_order"])
+        self.runtime_dir = config.root / "validation_logs" / "runtime"
+        self.runtime_dir.mkdir(parents=True, exist_ok=True)
+        self.stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.result_path = self.runtime_dir / f"rehab_v3_1_fr3_test_{self.stamp}.json"
+        self.plan_path = self.runtime_dir / f"rehab_v3_1_fr3_test_plan_{self.stamp}.json"
+        self.moveit_log = self.runtime_dir / f"rehab_v3_1_fr3_test_moveit_{self.stamp}.log"
+        self.loaded = False
+        self.active = False
+        self.result: Dict[str, Any] = {
+            "schema": "rehab_v3_1_fr3_test",
+            "mode": "fr3-test",
+            "test_distance_m": self.TEST_DISTANCE_M,
+            "xhand_commanded": False,
+            "ptp_used": False,
+            "error_recovery_used": False,
+            "auto_retry": False,
+            "auto_return": False,
+            "production_real_gate_changed": False,
+            "production_tracking_backend_validated": False,
+        }
+
+    @staticmethod
+    def _run(args: Sequence[str], timeout: float = 8.0) -> tuple[int, str]:
+        try:
+            p = subprocess.run(
+                list(args),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )
+            return p.returncode, p.stdout
+        except subprocess.TimeoutExpired as exc:
+            out = exc.stdout or ""
+            if isinstance(out, bytes):
+                out = out.decode(errors="replace")
+            return 124, out + "\n[TIMEOUT]"
+
+    def _save(self) -> None:
+        self.result_path.write_text(
+            json.dumps(self.result, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+
+    def _controller_state(self) -> Optional[str]:
+        rc, text = self._run(["ros2", "control", "list_controllers"], timeout=5.0)
+        if rc != 0:
+            return None
+        for line in text.splitlines():
+            parts = line.split()
+            if parts and parts[0] == str(self.config.hardware["fr3"]["trajectory_controller"]):
+                return parts[-1]
+        return None
+
+    def _register_load_configure(self) -> None:
+        fr3 = self.config.hardware["fr3"]
+        cm = str(fr3["controller_manager"])
+        name = str(fr3["trajectory_controller"])
+        ctype = str(fr3["controller_type"])
+        params = expand_path(str(fr3["controller_param_file"]))
+
+        rc, out = self._run(["ros2", "param", "set", cm, f"{name}.type", ctype])
+        print(out.rstrip())
+        if rc != 0 or "successful" not in out.lower():
+            raise FR3TestError("failed to register trajectory controller type")
+
+        rc, current = self._run(["ros2", "param", "get", cm, f"{name}.params_file"])
+        if params not in current:
+            rc, out = self._run(
+                ["ros2", "param", "set", cm, f"{name}.params_file", f"['{params}']"]
+            )
+            print(out.rstrip())
+            if rc != 0 or "successful" not in out.lower():
+                raise FR3TestError("failed to register trajectory controller params_file")
+
+        rc, out = self._run([
+            "ros2", "service", "call", f"{cm}/load_controller",
+            "controller_manager_msgs/srv/LoadController", f"{{name: '{name}'}}",
+        ])
+        print(out.rstrip())
+        if rc != 0 or not ("ok=True" in out or "ok: true" in out):
+            raise FR3TestError("load_controller failed")
+        self.loaded = True
+
+        rc, out = self._run([
+            "ros2", "service", "call", f"{cm}/configure_controller",
+            "controller_manager_msgs/srv/ConfigureController", f"{{name: '{name}'}}",
+        ])
+        print(out.rstrip())
+        if rc != 0 or not ("ok=True" in out or "ok: true" in out):
+            raise FR3TestError("configure_controller failed")
+
+        if self._controller_state() != "inactive":
+            raise FR3TestError("trajectory controller did not reach inactive state")
+
+    def _activate(self) -> None:
+        fr3 = self.config.hardware["fr3"]
+        cm = str(fr3["controller_manager"])
+        name = str(fr3["trajectory_controller"])
+        rc, out = self._run([
+            "ros2", "control", "switch_controllers",
+            "--activate", name,
+            "--strict",
+            "-c", cm,
+        ])
+        print(out.rstrip())
+        if rc != 0 or self._controller_state() != "active":
+            raise FR3TestError("trajectory controller activation failed")
+        self.active = True
+
+    def _cleanup_controller(self) -> None:
+        fr3 = self.config.hardware["fr3"]
+        cm = str(fr3["controller_manager"])
+        name = str(fr3["trajectory_controller"])
+        if self.active:
+            print("[SAFE] deactivating fr3_arm_controller")
+            self._run([
+                "ros2", "control", "switch_controllers",
+                "--deactivate", name,
+                "--strict",
+                "-c", cm,
+            ])
+            self.active = False
+        if self.loaded:
+            print("[SAFE] unloading fr3_arm_controller")
+            self._run(["ros2", "control", "unload_controller", "-c", cm, name])
+            self.loaded = False
+
+    def _settle(self, planner: RosMoveItPlanner, before) -> Any:
+        print(f"[WAIT] effort controller equilibrium settling {self.SETTLE_INITIAL_S:.1f} s")
+        time.sleep(self.SETTLE_INITIAL_S)
+        samples: List[List[float]] = []
+        deadline = time.monotonic() + self.SETTLE_SAMPLE_S
+        while time.monotonic() < deadline:
+            samples.append(planner.capture_live_state().q)
+            time.sleep(0.04)
+        after = planner.capture_live_state()
+        if len(samples) < 8:
+            raise FR3TestError("insufficient active-hold settling samples")
+
+        ranges = [max(q[j] for q in samples) - min(q[j] for q in samples) for j in range(7)]
+        max_range = max(ranges)
+        joint_shift = max_abs_delta(before.q, after.q)
+        cart_shift = distance(before.xyz, after.xyz)
+
+        print(f"activation Cartesian shift = {cart_shift * 1000.0:.3f} mm")
+        print(f"activation max joint shift = {joint_shift:.6f} rad")
+        print(f"active-hold max joint range = {max_range:.6f} rad")
+
+        self.result["activation"] = {
+            "cartesian_shift_m": cart_shift,
+            "max_joint_shift_rad": joint_shift,
+            "max_hold_range_rad": max_range,
+        }
+
+        if cart_shift > self.ACTIVATION_MAX_CART_SHIFT_M:
+            raise FR3TestError("activation Cartesian shift exceeded 20 mm hard gate")
+        if joint_shift > self.ACTIVATION_MAX_JOINT_SHIFT_RAD:
+            raise FR3TestError("activation joint shift exceeded 0.030 rad hard gate")
+        if max_range > self.SETTLE_MAX_JOINT_RANGE_RAD:
+            raise FR3TestError("effort controller did not settle")
+        print("[PASS] ACTIVE-HOLD equilibrium stable")
+        return after
+
+    def _build_target(self, active_state) -> tuple[float, float, float]:
+        p2 = self.teach.points["P2"]
+        vector = [p2[i] - active_state.xyz[i] for i in range(3)]
+        remaining = math.sqrt(sum(v * v for v in vector))
+        if remaining < 0.020:
+            raise FR3TestError("current pose is too close to P2 for constrained 5 mm test")
+        direction = [v / remaining for v in vector]
+        return tuple(active_state.xyz[i] + self.TEST_DISTANCE_M * direction[i] for i in range(3))
+
+    @staticmethod
+    def _duration_msg(seconds: float):
+        from builtin_interfaces.msg import Duration
+        sec = int(math.floor(seconds))
+        ns = int(round((seconds - sec) * 1e9))
+        if ns >= 1_000_000_000:
+            sec += 1
+            ns -= 1_000_000_000
+        msg = Duration()
+        msg.sec = sec
+        msg.nanosec = ns
+        return msg
+
+    def _execute_goal(self, planner: RosMoveItPlanner, plan: Dict[str, Any]) -> Dict[str, Any]:
+        from action_msgs.msg import GoalStatus
+        from control_msgs.action import FollowJointTrajectory
+        from control_msgs.msg import JointTolerance
+        from rclpy.action import ActionClient
+        from trajectory_msgs.msg import JointTrajectoryPoint
+
+        live = planner.capture_live_state()
+        start_error = max_abs_delta(live.q, plan["start_q"])
+        print(f"pre-goal active start q error = {start_error:.6f} rad")
+        if start_error > self.START_REVALIDATE_RAD:
+            raise FR3TestError("active equilibrium moved after planning; no goal sent")
+
+        action_name = str(self.config.hardware["fr3"]["trajectory_action"])
+        client = ActionClient(planner.node, FollowJointTrajectory, action_name)
+        if not client.wait_for_server(timeout_sec=5.0):
+            raise FR3TestError("FollowJointTrajectory server unavailable")
+
+        goal = FollowJointTrajectory.Goal()
+        goal.trajectory.joint_names = list(plan["joint_names"])
+        for item in plan["trajectory_points"]:
+            pt = JointTrajectoryPoint()
+            pt.positions = [float(x) for x in item["positions"]]
+            pt.velocities = [float(x) for x in item["velocities"]]
+            pt.accelerations = [float(x) for x in item["accelerations"]]
+            pt.time_from_start = self._duration_msg(float(item["time_from_start_s"]))
+            goal.trajectory.points.append(pt)
+
+        # Test-mode tolerances are explicit so ROS action success is not unconstrained.
+        for name in plan["joint_names"]:
+            path_tol = JointTolerance()
+            path_tol.name = name
+            path_tol.position = self.ACTION_PATH_TOL_RAD
+            goal.path_tolerance.append(path_tol)
+            goal_tol = JointTolerance()
+            goal_tol.name = name
+            goal_tol.position = self.ACTION_GOAL_TOL_RAD
+            goal.goal_tolerance.append(goal_tol)
+        goal.goal_time_tolerance = self._duration_msg(3.0)
+
+        send_future = client.send_goal_async(goal)
+        planner.rclpy.spin_until_future_complete(planner.node, send_future, timeout_sec=5.0)
+        if not send_future.done() or send_future.result() is None:
+            raise FR3TestError("trajectory goal acceptance timeout")
+        handle = send_future.result()
+        if not handle.accepted:
+            raise FR3TestError("trajectory goal rejected")
+        print("[EXEC] ONE constrained FollowJointTrajectory goal accepted")
+
+        result_future = handle.get_result_async()
+        timeout = float(plan["duration_s"]) + 12.0
+        planner.rclpy.spin_until_future_complete(planner.node, result_future, timeout_sec=timeout)
+        if not result_future.done():
+            print("[FAULT] trajectory result timeout; cancel requested once")
+            cancel = handle.cancel_goal_async()
+            planner.rclpy.spin_until_future_complete(planner.node, cancel, timeout_sec=3.0)
+            raise FR3TestError("trajectory result timeout")
+
+        wrapped = result_future.result()
+        if wrapped is None:
+            raise FR3TestError("missing trajectory result")
+        status = int(wrapped.status)
+        code = int(wrapped.result.error_code)
+        text = str(wrapped.result.error_string)
+        print(f"ROS action status = {status}")
+        print(f"trajectory error_code = {code}")
+        print(f"trajectory error_string = {text!r}")
+
+        return {
+            "ros_status": status,
+            "error_code": code,
+            "error_string": text,
+            "action_succeeded": status == GoalStatus.STATUS_SUCCEEDED and code == 0,
+        }
+
+    def run(self) -> int:
+        planner: Optional[RosMoveItPlanner] = None
+        hard_fault = False
+        try:
+            print("=" * 72)
+            print("REHAB ROBOT V3.1 FR3-TEST REAL-MOTION MODE")
+            print("FR3 ONLY / ONE 5 mm TRAJECTORY / XHAND DISABLED")
+            print("production REAL gate remains CLOSED")
+            print("=" * 72)
+
+            baseline = self.safety.check_runtime(require_idle=True, require_no_motion_controller=True)
+            if not baseline.ok:
+                raise FR3TestError("baseline safety check failed: " + "; ".join(baseline.blockers))
+            print("[PASS] baseline safety check")
+            self.result["baseline"] = baseline.data
+
+            # This is intentionally independent of production real_mode_gate().
+            production_gate = self.safety.real_mode_gate()
+            self.result["production_real_gate_ok"] = production_gate.ok
+            self.result["production_real_gate_blockers"] = production_gate.blockers
+            print("[PASS] production REAL gate left unchanged/closed")
+
+            planner = RosMoveItPlanner(self.config, self.teach)
+            before = planner.capture_live_state()
+            self.result["preactivation_xyz"] = list(before.xyz)
+            self.result["preactivation_q"] = list(before.q)
+
+            print()
+            print("REAL-MOTION SAFETY GATE")
+            print("The effort controller activation itself previously shifted the arm ~7 mm.")
+            print("Confirm Desk=EXEC, FCI=ON, joints unlocked, hand-guiding OFF,")
+            print("workspace completely clear, NO human/ankle contact, XHand not commanded.")
+            print(f"Type exactly: {self.CONFIRM}")
+            if input().strip() != self.CONFIRM:
+                raise FR3TestError("user confirmation not received")
+
+            print("[STEP] load/configure official effort JointTrajectoryController")
+            self._register_load_configure()
+            print("[STEP] activate trajectory controller")
+            self._activate()
+            active_state = self._settle(planner, before)
+
+            target = self._build_target(active_state)
+            self.result["active_start_xyz"] = list(active_state.xyz)
+            self.result["test_target_xyz"] = list(target)
+            print(f"active start xyz = {[round(x, 6) for x in active_state.xyz]}")
+            print(f"5 mm target xyz = {[round(x, 6) for x in target]}")
+
+            # Conservative FR3-test runtime limits only. Production YAML is not modified.
+            traj_cfg = self.config.safety["trajectory"]
+            original_v = traj_cfg["max_joint_velocity_rad_s"]
+            original_a = traj_cfg["max_joint_acceleration_rad_s2"]
+            traj_cfg["max_joint_velocity_rad_s"] = self.TEST_MAX_JOINT_VELOCITY
+            traj_cfg["max_joint_acceleration_rad_s2"] = self.TEST_MAX_JOINT_ACCELERATION
+
+            self.teach.points["FR3_TEST_TARGET"] = tuple(target)
+            try:
+                with PlanningServer(self.config, self.moveit_log):
+                    # Re-capture after MoveIt starts while JTC remains active.
+                    start = planner.capture_live_state()
+                    plan = planner.plan_stage(
+                        "fr3_test_5mm",
+                        start.q,
+                        start.xyz,
+                        start.quat,
+                        ["FR3_TEST_TARGET"],
+                    )
+            finally:
+                traj_cfg["max_joint_velocity_rad_s"] = original_v
+                traj_cfg["max_joint_acceleration_rad_s2"] = original_a
+
+            self.plan_path.write_text(json.dumps(plan, indent=2, ensure_ascii=False), encoding="utf-8")
+            self.result["plan_json"] = str(self.plan_path)
+            self.result["moveit_log"] = str(self.moveit_log)
+            self.result["planned_duration_s"] = plan["duration_s"]
+            self.result["plan_audit"] = plan["audit"]
+            print(f"[PASS] active-state 5 mm plan audited, duration={plan['duration_s']:.3f}s")
+
+            action_result = self._execute_goal(planner, plan)
+            self.result["action"] = action_result
+
+            final = planner.capture_live_state()
+            final_joint_error = max_abs_delta(final.q, plan["end_q"])
+            final_cart_error = distance(final.xyz, target)
+            quality_ok = (
+                final_joint_error <= self.QUALITY_FINAL_JOINT_ERROR_RAD
+                and final_cart_error <= self.QUALITY_FINAL_CART_ERROR_M
+            )
+            hard_envelope_ok = (
+                final_joint_error <= self.HARD_FINAL_JOINT_ERROR_RAD
+                and final_cart_error <= self.HARD_FINAL_CART_ERROR_M
+            )
+            self.result["final"] = {
+                "xyz": list(final.xyz),
+                "max_joint_error_rad": final_joint_error,
+                "cartesian_target_error_m": final_cart_error,
+                "tracking_quality_pass": quality_ok,
+                "hard_test_envelope_pass": hard_envelope_ok,
+            }
+            print(f"final max joint error = {final_joint_error:.6f} rad")
+            print(f"final Cartesian target error = {final_cart_error * 1000.0:.3f} mm")
+
+            if not action_result["action_succeeded"]:
+                raise FR3TestError("FollowJointTrajectory action did not succeed")
+            if not hard_envelope_ok:
+                raise FR3TestError("final tracking error exceeded FR3-test hard envelope")
+
+            print("[PASS] REAL TRAJECTORY CHANNEL completed inside FR3-test hard envelope")
+            if quality_ok:
+                print("[PASS] tracking quality also meets production-quality threshold")
+            else:
+                print("[WARN] tracking quality does NOT meet production threshold")
+                print("[SAFE] fr3.tracking_backend_validated remains false")
+
+            self.result["completed"] = True
+            self.result["tracking_backend_validated"] = False
+            self._save()
+            return 0
+
+        except Exception as exc:
+            hard_fault = True
+            self.result["completed"] = False
+            self.result["fault"] = f"{type(exc).__name__}: {exc}"
+            print(f"[FAULT] {type(exc).__name__}: {exc}")
+            print("[SAFE] no retry / no auto-return / no PTP / no ErrorRecovery")
+            self._save()
+            return 2
+
+        finally:
+            self._cleanup_controller()
+            if planner is not None:
+                try:
+                    planner.close()
+                except Exception:
+                    pass
+            post = self.safety.check_runtime(require_idle=True, require_no_motion_controller=True)
+            self.result["post_cleanup"] = {
+                "ok": post.ok,
+                "blockers": post.blockers,
+                "data": post.data,
+            }
+            self.result["hard_fault"] = hard_fault
+            self._save()
+            print(f"result_json={self.result_path}")
+            print("[SAFE] production REAL/XHand gates were not changed")

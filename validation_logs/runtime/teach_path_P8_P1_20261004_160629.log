@@ -1,0 +1,27 @@
+====================================================================
+FR3 FINAL TEACH PATH EXECUTOR
+====================================================================
+profile = manual_8point_approach_v1
+route   = P8 -> P7 -> P6 -> P5 -> P4 -> P3 -> P2 -> P1
+frame   = fr3_link0
+tool    = fr3_link8
+orientation = hold task-start fr3_link8 orientation
+polyline length = 0.913 m
+estimated subsegments = 64
+
+  P8 -> P7: 23.9 mm, ~2 segments
+  P7 -> P6: 123.8 mm, ~9 segments
+  P6 -> P5: 177.5 mm, ~12 segments
+  P5 -> P4: 65.8 mm, ~5 segments
+  P4 -> P3: 187.5 mm, ~13 segments
+  P3 -> P2: 219.9 mm, ~15 segments
+  P2 -> P1: 114.5 mm, ~8 segments
+
+current xyz = [0.282923, 0.514733, 0.29717]
+P8 xyz = [0.259547, 0.521461, 0.30278]
+start error = 24.963 mm
+
+[FAULT] TeachPathError: robot is not sufficiently close to P8
+[SAFE] task stopped
+[SAFE] no automatic return
+[SAFE] no automatic error recovery

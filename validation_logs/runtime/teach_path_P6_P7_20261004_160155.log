@@ -1,0 +1,173 @@
+====================================================================
+FR3 FINAL TEACH PATH EXECUTOR
+====================================================================
+profile = manual_8point_approach_v1
+route   = P6 -> P7
+frame   = fr3_link0
+tool    = fr3_link8
+orientation = hold task-start fr3_link8 orientation
+polyline length = 0.124 m
+estimated subsegments = 9
+
+  P6 -> P7: 123.8 mm, ~9 segments
+
+current xyz = [0.38854, 0.451199, 0.304706]
+P6 xyz = [0.388255, 0.451693, 0.306911]
+start error = 2.278 mm
+
+================================================
+REAL EXECUTION READY
+================================================
+PTP speed = 0.015 rad/s
+max Cartesian segment = 15.0 mm
+orientation = fixed task-start orientation
+fault = stop immediately
+automatic return = DISABLED
+automatic recovery = DISABLED
+XHand = NO COMMAND
+Camera = NOT USED
+
+输入 EXECUTE-P6-P7 才执行：
+====================================================================
+EDGE 1/1: P6 -> P7
+====================================================================
+edge start error = 2.278 mm
+live edge length = 124.1 mm
+subsegments = 9
+
+  --- SEGMENT 1/9 ---
+    current = [0.38854, 0.4512, 0.304703]
+    target  = [0.376738, 0.458314, 0.304097]
+    actual distance = 13.79 mm
+    fraction = 1.000000
+    max joint delta = 0.032419 rad
+    [E1S1] PTP accepted
+    [E1S1] ROS status = 4
+    [E1S1] PTP status = 2
+    [E1S1] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S1] joint error = 0.001228 rad
+    Cartesian error = 0.982 mm
+
+  --- SEGMENT 2/9 ---
+    current = [0.376954, 0.458062, 0.303072]
+    target  = [0.364937, 0.465429, 0.303489]
+    actual distance = 14.10 mm
+    fraction = 1.000000
+    max joint delta = 0.031878 rad
+    [E1S2] PTP accepted
+    [E1S2] ROS status = 4
+    [E1S2] PTP status = 2
+    [E1S2] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S2] joint error = 0.001281 rad
+    Cartesian error = 1.112 mm
+
+  --- SEGMENT 3/9 ---
+    current = [0.365161, 0.465198, 0.30262]
+    target  = [0.353136, 0.472543, 0.302881]
+    actual distance = 14.09 mm
+    fraction = 1.000000
+    max joint delta = 0.031436 rad
+    [E1S3] PTP accepted
+    [E1S3] ROS status = 4
+    [E1S3] PTP status = 2
+    [E1S3] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S3] joint error = 0.001276 rad
+    Cartesian error = 1.072 mm
+
+  --- SEGMENT 4/9 ---
+    current = [0.353397, 0.472292, 0.301885]
+    target  = [0.341335, 0.479658, 0.302272]
+    actual distance = 14.14 mm
+    fraction = 1.000000
+    max joint delta = 0.031032 rad
+    [E1S4] PTP accepted
+    [E1S4] ROS status = 4
+    [E1S4] PTP status = 2
+    [E1S4] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S4] joint error = 0.001289 rad
+    Cartesian error = 0.947 mm
+
+  --- SEGMENT 5/9 ---
+    current = [0.341735, 0.479233, 0.300678]
+    target  = [0.329534, 0.486773, 0.301664]
+    actual distance = 14.38 mm
+    fraction = 1.000000
+    max joint delta = 0.030595 rad
+    [E1S5] PTP accepted
+    [E1S5] ROS status = 4
+    [E1S5] PTP status = 2
+    [E1S5] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S5] joint error = 0.001292 rad
+    Cartesian error = 1.078 mm
+
+  --- SEGMENT 6/9 ---
+    current = [0.329801, 0.48653, 0.300659]
+    target  = [0.317733, 0.493887, 0.301055]
+    actual distance = 14.14 mm
+    fraction = 1.000000
+    max joint delta = 0.030198 rad
+    [E1S6] PTP accepted
+    [E1S6] ROS status = 4
+    [E1S6] PTP status = 2
+    [E1S6] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S6] joint error = 0.001378 rad
+    Cartesian error = 0.973 mm
+
+  --- SEGMENT 7/9 ---
+    current = [0.318128, 0.493522, 0.299675]
+    target  = [0.305931, 0.501002, 0.300447]
+    actual distance = 14.33 mm
+    fraction = 1.000000
+    max joint delta = 0.029761 rad
+    [E1S7] PTP accepted
+    [E1S7] ROS status = 4
+    [E1S7] PTP status = 2
+    [E1S7] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S7] joint error = 0.001428 rad
+    Cartesian error = 0.997 mm
+
+  --- SEGMENT 8/9 ---
+    current = [0.306252, 0.500703, 0.299281]
+    target  = [0.29413, 0.508116, 0.299838]
+    actual distance = 14.22 mm
+    fraction = 1.000000
+    max joint delta = 0.029354 rad
+    [E1S8] PTP accepted
+    [E1S8] ROS status = 4
+    [E1S8] PTP status = 2
+    [E1S8] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S8] joint error = 0.001373 rad
+    Cartesian error = 1.037 mm
+
+  --- SEGMENT 9/9 ---
+    current = [0.294406, 0.507875, 0.298829]
+    target  = [0.282329, 0.515231, 0.29923]
+    actual distance = 14.15 mm
+    fraction = 1.000000
+    max joint delta = 0.028922 rad
+    [E1S9] PTP accepted
+    [E1S9] ROS status = 4
+    [E1S9] PTP status = 2
+    [E1S9] waiting MOVE -> IDLE...
+[WAIT] robot_mode=MOVE, waiting for IDLE...
+    [E1S9] joint error = 0.001270 rad
+    Cartesian error = 0.876 mm
+
+[EDGE PASS] P6 -> P7
+waypoint error = 0.876 mm
+
+====================================================================
+[PASS] COMPLETE TEACH PATH EXECUTION
+route = P6 -> P7
+completed segments = 9
+final Cartesian error = 0.876 mm
+[SAFE] robot remains at P7
+====================================================================

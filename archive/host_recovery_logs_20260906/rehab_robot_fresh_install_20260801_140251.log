@@ -1,0 +1,36 @@
+
+============================================================
+0/12 安装前检查
+============================================================
+installer=2026.07.28-v1
+user=gu
+root=/dev/sdb2
+filesystem=ext4
+mount_options=rw,relatime
+kernel=7.0.0-28-generic
+文件系统       类型  大小  已用  可用 已用% 挂载点
+/dev/sdb2      ext4  457G   18G  416G    5% /
+文件系统         Inodes  已用I    可用I 已用I% 挂载点
+/dev/sdb2      30457856 274755 30183101     1% /
+[PASS] Ubuntu 24.04、用户权限和根文件系统检查通过
+
+============================================================
+1/12 基础工具、磁盘监测与开发环境
+============================================================
+命中:1 http://archive.ubuntu.com/ubuntu noble InRelease
+获取:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+获取:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+命中:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+获取:5 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1,681 kB]
+获取:6 http://archive.ubuntu.com/ubuntu noble-updates/universe i386 Packages [1,136 kB]
+已下载 3,068 kB，耗时 7秒 (424 kB/s)
+正在读取软件包列表...
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+E: 无法定位软件包 python3-colcon-common-extensions
+E: 无法定位软件包 python3-vcstool
+E: 无法定位软件包 python3-rosdep
+
+[ERROR] 第 178 行停止，退出码=100
+日志：/home/gu/rehab_robot_fresh_install_20260801_140251.log

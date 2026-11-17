@@ -1,0 +1,43 @@
+FR3 + XHand restoration baseline
+Date: 2026-09-06
+
+STATUS:
+- Core combined hardware chain restored
+- Segmented real-hardware validation PASS
+- Full uninterrupted one-shot execute NOT YET formally accepted
+
+XHand validated micro parameters:
+- mode = 3
+- kp = 225
+- ki = 0
+- kd = 0
+- tor_max = 150 mA
+- delta = 0.005 rad
+- refresh = 20 Hz
+- watchdog = 0.5 s
+
+Formal active_gains.verified:
+- FALSE
+
+Validated:
+- XHand single-joint micro motion
+- XHand 9-joint bounded micro motion
+- XHand 20 Hz hold for 3 s
+- FR3 PTP real motion
+- FR3 pregrasp segment
+- FR3 grasp segment
+- FR3 rehab +0.005 segment
+- XHand hold during FR3 PTP
+- XHand powerless x3 on finish/fault
+
+Final recovery run:
+- FR3 q_start joint1 ~= 0.035968 rad
+- FR3 target joint1  ~= 0.040968 rad
+- planned delta = +0.005 rad
+- pre-send pose error = 0.000003 rad
+- max final error = 0.001283 rad
+- RESUME_RESULT = 0
+
+Safety:
+- no automatic FR3 return
+- no automatic FR3 recovery

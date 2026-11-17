@@ -1,0 +1,26 @@
+fr3:
+  joint_count: 7
+  joint_state_topic: /franka/joint_states
+  ptp:
+    action_type: franka_msgs/action/PTPMotion
+    action_name:
+      strategy: discover_unique_by_type
+      type: franka_msgs/action/PTPMotion
+      value: null
+      runtime_verified: false
+    maximum_joint_velocity_rad_s: 0.02
+  joint_limits:
+    source: official_franka_description
+    safety_margin_rad: 0.05
+    loaded: true
+    resolved_file: config/fr3_joint_limits_resolved.yaml
+  target_policy:
+    require_7_values: true
+    require_finite_values: true
+    require_software_joint_limit_check: true
+    allow_absolute_targets_before_validation: false
+  recovery:
+    automatic_return_on_fault: false
+    record_start_joint_state: true
+    manual_return_requires_confirmation: true
+    manual_return_confirmation_text: RETURN

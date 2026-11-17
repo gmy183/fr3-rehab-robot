@@ -1,0 +1,2047 @@
+============================================================
+XHand SDK 恢复接口审计
+============================================================
+2026年 08月 17日 星期一 22:04:54 CST
+
+========== 1. XHand DEB ==========
+Package=xhand
+Version=1.1.15.0-release
+Status=install ok installed
+
+========== 2. Python 包 ==========
+xhand_controller = /usr/local/lib/python3.12/dist-packages/xhand_controller/__init__.py
+xhand_control    = /usr/local/lib/python3.12/dist-packages/xhand_controller/xhand_control.cpython-312-x86_64-linux-gnu.so
+
+xhand_control public names:
+  CalibrationErrorInfo
+  CalibrationParams
+  CalibrationUnion
+  DeviceInfo_t
+  ErrorStruct
+  FingerCommand_t
+  FingerState_t
+  HandActioCtrl_t
+  HandActionCounter_t
+  HandActionErrorInfo_t
+  HandActionFeedback_t
+  HandActionGroup_t
+  HandAnglePose_t
+  HandCommand_t
+  HandParam_t
+  HandState_t
+  JointActionCounter_t
+  PXSR_ForceData
+  SenserData_t
+  XHandControl
+
+========== 3. 厂商源码仓库 ==========
+repo=/usr/local/xhand_controller
+bc7a851694fb30e89b50b21a83099473b4170fe2
+v1.5.1
+?? xhand_controller/packages/
+
+========== 4. 厂商关键源码文件 ==========
+/usr/local/xhand_controller/CMakeLists.txt
+/usr/local/xhand_controller/include/communiation_interface.hpp
+/usr/local/xhand_controller/include/data_type.hpp
+/usr/local/xhand_controller/include/error_manager.hpp
+/usr/local/xhand_controller/include/ethercat_communication.hpp
+/usr/local/xhand_controller/include/ev_boot.h
+/usr/local/xhand_controller/include/parse_data.h
+/usr/local/xhand_controller/include/serial_communication.hpp
+/usr/local/xhand_controller/include/visibility_control.h
+/usr/local/xhand_controller/include/xhand_control.hpp
+/usr/local/xhand_controller/serial/include/serial/impl/unix.h
+/usr/local/xhand_controller/serial/include/serial/impl/win.h
+/usr/local/xhand_controller/serial/include/serial/serial.h
+/usr/local/xhand_controller/serial/include/serial/v8stdint.h
+/usr/local/xhand_controller/serial/src/impl/list_ports/list_ports_linux.cc
+/usr/local/xhand_controller/serial/src/impl/list_ports/list_ports_osx.cc
+/usr/local/xhand_controller/serial/src/impl/list_ports/list_ports_win.cc
+/usr/local/xhand_controller/serial/src/impl/unix.cc
+/usr/local/xhand_controller/serial/src/impl/win.cc
+/usr/local/xhand_controller/serial/src/serial.cc
+/usr/local/xhand_controller/SOEM/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/osal/erika/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/intime/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/linux/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/macosx/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/osal.h
+/usr/local/xhand_controller/SOEM/osal/rtems/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/rtk/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/vxworks/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/win32/inttypes.h
+/usr/local/xhand_controller/SOEM/osal/win32/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/win32/osal_win32.h
+/usr/local/xhand_controller/SOEM/osal/win32/stdint.h
+/usr/local/xhand_controller/SOEM/oshw/erika/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/erika/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/intime/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/intime/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/linux/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/linux/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/macosx/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/macosx/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/rtems/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/rtems/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/fec/fec_ecat.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/lw_mac/lw_emac.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/vxworks/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/vxworks/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/win32/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/win32/oshw.h
+/usr/local/xhand_controller/SOEM/soem/ethercatbase.h
+/usr/local/xhand_controller/SOEM/soem/ethercatcoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercatconfig.h
+/usr/local/xhand_controller/SOEM/soem/ethercatconfiglist.h
+/usr/local/xhand_controller/SOEM/soem/ethercatdc.h
+/usr/local/xhand_controller/SOEM/soem/ethercateoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercatfoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercat.h
+/usr/local/xhand_controller/SOEM/soem/ethercatmain.h
+/usr/local/xhand_controller/SOEM/soem/ethercatprint.h
+/usr/local/xhand_controller/SOEM/soem/ethercatsoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercattype.h
+/usr/local/xhand_controller/SOEM/test/linux/eepromtool/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/linux/simple_test/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/linux/slaveinfo/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/simple_ng/CMakeLists.txt
+/usr/local/xhand_controller/src/crc16.cpp
+/usr/local/xhand_controller/src/error_manager.cpp
+/usr/local/xhand_controller/src/ethercat_communication.cpp
+/usr/local/xhand_controller/src/ev_boot.cpp
+/usr/local/xhand_controller/src/parse_data.cpp
+/usr/local/xhand_controller/src/serial_communication.cpp
+/usr/local/xhand_controller/src/xhand_control.cpp
+/usr/local/xhand_controller/tests/CMakeLists.txt
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp
+/usr/local/xhand_controller/tests/src/serial_test.cpp
+/usr/local/xhand_controller/xhanc_control_py/data_type.py
+/usr/local/xhand_controller/xhanc_control_py/parse_data.py
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py
+/usr/local/xhand_controller/xhand_controller/build/lib.linux-x86_64-cpython-312/xhand_controller/__init__.py
+/usr/local/xhand_controller/xhand_controller/build/lib.linux-x86_64-cpython-312/xhand_controller/xhand_controller.py
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp
+/usr/local/xhand_controller/xhand_controller/include/error_manager.hpp
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp
+/usr/local/xhand_controller/xhand_controller/include/ev_boot.h
+/usr/local/xhand_controller/xhand_controller/include/ip_util.hpp
+/usr/local/xhand_controller/xhand_controller/include/parse_data.h
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatbase.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatcoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatconfig.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatconfiglist.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatdc.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercateoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatfoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercat.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatmain.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatprint.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatsoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercattype.h
+/usr/local/xhand_controller/xhand_controller/include/soem/nicdrv.h
+/usr/local/xhand_controller/xhand_controller/include/soem/osal_defs.h
+/usr/local/xhand_controller/xhand_controller/include/soem/osal.h
+/usr/local/xhand_controller/xhand_controller/include/soem/oshw.h
+/usr/local/xhand_controller/xhand_controller/include/visibility_control.h
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp
+/usr/local/xhand_controller/xhand_controller/setup.py
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp
+/usr/local/xhand_controller/xhand_controller/tests/CMakeLists.txt
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/SN_ethercat_test.cpp
+/usr/local/xhand_controller/xhand_controller/xhand_controller/__init__.py
+/usr/local/xhand_controller/xhand_controller/xhand_controller/xhand_controller.py
+
+========== 5. Python XHandControl 接口 ==========
+
+------------------------------------------------------------
+XHandControl
+------------------------------------------------------------
+signature unavailable: no signature found for builtin <built-in method __init__ of PyCapsule object at 0x7db845055fb0>
+members:
+  action_group_run()
+  action_group_set()
+  calibrate_joint()
+  calibrate_joint_by_mold()
+  clear_actions_count()
+  close_device()
+  enumerate_devices()
+  get_action_counts()
+  get_hand_name()
+  get_hand_type()
+  get_sdk_version()
+  get_serial_number()
+  list_hands_id()
+  open_ethercat()
+  open_serial()
+  read_device_info()
+  read_firmware_state()
+  read_parameters()
+  read_state()
+  read_version()
+  reset_sensor()
+  send_command()
+  set_firmware_state()
+  set_hand_id()
+  set_hand_name()
+  set_parameters()
+  upgrade_device()
+
+------------------------------------------------------------
+FingerCommand_t
+------------------------------------------------------------
+signature unavailable: no signature found for builtin <built-in method __init__ of PyCapsule object at 0x7db845075530>
+members:
+  id
+  kd
+  ki
+  kp
+  mode
+  position
+  res0
+  res1
+  res2
+  res3
+  tor_max
+
+------------------------------------------------------------
+HandCommand_t
+------------------------------------------------------------
+signature unavailable: no signature found for builtin <built-in method __init__ of PyCapsule object at 0x7db845075f80>
+members:
+  finger_command
+
+------------------------------------------------------------
+FingerState_t
+------------------------------------------------------------
+signature unavailable: no signature found for builtin <built-in method __init__ of PyCapsule object at 0x7db845057f30>
+members:
+  commboard_err
+  default5
+  default6
+  default7
+  id
+  jonitboard_err
+  position
+  raw_position
+  sensor_id
+  temperature
+  tipboard_err
+  torque
+
+------------------------------------------------------------
+HandState_t
+------------------------------------------------------------
+signature unavailable: no signature found for builtin <built-in method __init__ of PyCapsule object at 0x7db845075320>
+members:
+  finger_state
+  sensor_data
+
+========== 6. wrapper 中的命令字段 ==========
+/usr/local/xhand_controller/xhand_controller/tests/src/SN_ethercat_test.cpp:38:  auto ret = xhand_control.open_ethercat(device_name);
+/usr/local/xhand_controller/xhand_controller/tests/src/SN_ethercat_test.cpp:69:  xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:20:  int open_log = 0;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:26:    if (arg == "--open_log" && i + 1 < argc) {
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:27:        open_log = atoi(argv[i + 1]);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:53:  //   xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:54:  //   ret = xhand_control.open_serial("/dev/ttyUSB0", 3000000);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:59:  auto ret = xhand_control.open_serial("/dev/ttyUSB0", 3000000);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:60:  int mode = 3;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:61:  int kp = 100;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:62:  int ki = 0;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:63:  int kd = 0;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:64:  int tor_max = 300;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:69:    std::cout << "RS485 opened successfully" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:72:    std::cout << "Failed to open serial device! error_code: " << ret.error_code
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:79:  HandCommand_t command;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:84:    command.finger_command[i].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:85:    command.finger_command[i].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:86:    command.finger_command[i].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:87:    command.finger_command[i].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:90:  auto current_ret = xhand_control.read_state(hand_list[0], true);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:101:        command.finger_command[i].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:102:        command.finger_command[i].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:103:        command.finger_command[i].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:104:        command.finger_command[i].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:105:        command.finger_command[i].tor_max = tor_max;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:107:      auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:119:      auto ret = xhand_control.read_state(hand_list[0], true);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:123:          if (open_log == 1)
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:128:                      << "\tcontrol mode: "
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp:148:  xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:31:  auto ret = xhand_control.open_serial("/dev/ttyUSB0", 3000000);
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:32:  int mode = 3;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:33:  int kp = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:34:  int ki = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:35:  int kd = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:40:    std::cout << "RS485 opened successfully" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:43:    std::cout << "Failed to open serial device" << ret.error_code
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:50:  HandCommand_t command;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:58:        command.finger_command[i].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:59:        command.finger_command[i].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:60:        command.finger_command[i].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:61:        command.finger_command[i].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:62:        command.finger_command[i].tor_max = 350;
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:64:      auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:79:        auto ret = xhand_control.read_state(hand_list[0], true);
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:84:                    << " control mode: "
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp:100:  xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:34:  auto ret = xhand_control.open_ethercat(device_name);
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:35:  int mode = 3;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:36:  int kp = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:37:  int ki = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:38:  int kd = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:40:    std::cout << "Ethercat opened successfully" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:66:      auto ret = xhand_control.set_hand_name(hand_list[0], "xhand");
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:139:      std::cout << "select follow num to choose fingure mode:" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:150:          xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:157:              std::cout << "Selected mode: Powerless" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:160:              std::cout << "Selected mode: Powerful" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:161:              kp = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:162:              ki = 0;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:163:              kd = 12000;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:166:              std::cout << "Invalid choice. Please select a valid mode." << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:169:      mode = choice;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:172:    // if (xhand_control.reset_hand(hand_list[0])) {
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:180:    std::cout << "Failed to open EtherCAT device" << ret.error_code
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:186:  HandCommand_t command;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:191:    command.finger_command[i].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:192:    command.finger_command[i].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:193:    command.finger_command[i].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:194:    command.finger_command[i].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:211:    command.finger_command[finger_id].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:212:    command.finger_command[finger_id].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:213:    command.finger_command[finger_id].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:214:    command.finger_command[finger_id].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:215:    command.finger_command[finger_id].tor_max = 350;
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:216:    auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:226:      auto ret = xhand_control.read_state(hand_list[0]);
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:232:                  << " control mode: "
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:243:        //             << " control mode: "
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp:259:  xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:36:  auto ret = xhand_control.open_serial("/dev/ttyUSB0", 3000000);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:37:  int mode = 3;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:38:  int kp = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:39:  int ki = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:40:  int kd = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:42:    std::cout << "RS485 opened successfully" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:58:      auto ret = xhand_control.set_hand_name(hand_list[0], "xhand");
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:162:      std::cout << "select follow num to choose fingure mode:" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:173:          xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:180:              std::cout << "Selected mode: Powerless" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:183:              std::cout << "Selected mode: Powerful" << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:184:              kp = 225;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:185:              ki = 0;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:186:              kd = 12000;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:189:              std::cout << "Invalid choice. Please select a valid mode." << std::endl;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:192:      mode = choice;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:196:    std::cout << "Failed to open serial device " << ret.error_code
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:202:  HandCommand_t command;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:207:    command.finger_command[i].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:208:    command.finger_command[i].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:209:    command.finger_command[i].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:210:    command.finger_command[i].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:228:    command.finger_command[finger_id].kp = kp;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:229:    command.finger_command[finger_id].ki = ki;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:230:    command.finger_command[finger_id].kd = kd;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:231:    command.finger_command[finger_id].mode = mode;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:232:    command.finger_command[finger_id].tor_max = 350;
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:233:    auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:243:      auto ret = xhand_control.read_state(hand_list[0], false);
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:249:                  << " control mode: "
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:263:        //             << " control mode: "
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp:279:  xhand_control.close_device();
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:16:      .def("open_serial", &XHandControl::open_serial,
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:18:      .def("open_ethercat", &XHandControl::open_ethercat,
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:22:      .def("send_command", &XHandControl::send_command,
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:24:      .def("read_state", &XHandControl::read_state,
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:37:      .def("close_device", &XHandControl::close_device, "close device")
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:42:      .def("set_hand_name", &XHandControl::set_hand_name, "set_hand_name")
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:44:      .def("set_hand_id", &XHandControl::set_hand_id, "set_hand_id")
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:145:  // 绑定 FingerCommand_t 结构体
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:146:  py::class_<FingerCommand_t>(m, "FingerCommand_t")
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:148:      .def_readwrite("id", &FingerCommand_t::id)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:149:      .def_readwrite("kp", &FingerCommand_t::kp)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:150:      .def_readwrite("kd", &FingerCommand_t::kd)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:151:      .def_readwrite("ki", &FingerCommand_t::ki)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:152:      .def_readwrite("position", &FingerCommand_t::position)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:153:      .def_readwrite("tor_max", &FingerCommand_t::tor_max)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:154:      .def_readwrite("mode", &FingerCommand_t::mode)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:155:      .def_readwrite("res0", &FingerCommand_t::res0)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:156:      .def_readwrite("res1", &FingerCommand_t::res1)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:157:      .def_readwrite("res2", &FingerCommand_t::res2)
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:158:      .def_readwrite("res3", &FingerCommand_t::res3);
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:160:  // 绑定 HandCommand_t 结构体
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:161:  py::class_<HandCommand_t>(m, "HandCommand_t")
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp:163:      .def_readwrite("finger_command", &HandCommand_t::finger_command);
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercattype.h:321:   /** CANopen over EtherCAT mailbox type */
+/usr/local/xhand_controller/xhand_controller/include/soem/nicdrv.h:97:int ec_closenic(void);
+/usr/local/xhand_controller/xhand_controller/include/soem/nicdrv.h:108:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatmain.h:228:   /** Boolean for tracking whether the slave is (not) responding, not used/set by the SOEM library */
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatmain.h:452:void ec_close(void);
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatmain.h:495:void ecx_close(ecx_contextt *context);
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:86:  virtual bool open_device(xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:91:  virtual bool send_command(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:92:                            const HandCommand_t& command,
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:94:  virtual HandState_t read_state(uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:125:  virtual void close_device() {}
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:131:  virtual bool set_hand_name(const uint8_t device_id, const std::string& name,
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:135:  virtual bool set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:138:  virtual bool set_hand_parameters(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:157:  virtual bool set_silent_mode(const uint8_t device_id, uint8_t mode, xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp:158:  virtual int8_t read_silent_mode(const uint8_t device_id, xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:131:  int16_t kp;        // 比例增益参数
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:132:  int16_t ki;        // 积分系数
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:133:  int16_t kd;        // 微分增益参数
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:135:  int16_t tor_max;  // 力矩上限
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:136:  uint16_t mode;     // 模式
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:141:} __attribute__((packed)) FingerCommand_t;
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:144:  std::array<FingerCommand_t, 12> finger_command;
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp:145:} __attribute__((packed)) HandCommand_t;
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:21:  bool open_device(xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:27:  virtual bool send_command(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:28:                            const HandCommand_t& command,
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:31:  virtual HandState_t read_state(uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:51:  virtual void close_device() override;
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:59:  virtual bool set_hand_name(const uint8_t device_id, const std::string& name,
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:63:  virtual bool set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:66:  virtual bool set_hand_parameters(
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:85:  virtual bool set_silent_mode(const uint8_t device_id, uint8_t mode, xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:86:  virtual int8_t read_silent_mode(const uint8_t device_id, xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp:133:  HandCommand_t hand_command_;
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:45:   * @param port  The name of the serial port to open.
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:50:  XHAND_CONTROL_PUBLIC ErrorStruct open_serial(const std::string& port,
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:60:  XHAND_CONTROL_PUBLIC ErrorStruct open_ethercat(const std::string& ifname);
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:80:  XHAND_CONTROL_PUBLIC ErrorStruct send_command(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:81:                                                const HandCommand_t& command);
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:92:  XHAND_CONTROL_PUBLIC std::pair<ErrorStruct, HandState_t> read_state(
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:182:  XHAND_CONTROL_PUBLIC void close_device();
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:220:  XHAND_CONTROL_PUBLIC ErrorStruct set_hand_name(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:241:  XHAND_CONTROL_PUBLIC ErrorStruct set_hand_id(uint8_t old_id, uint8_t new_id);
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:308:  std::vector<uint8_t> xhand_mode_lists_;
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:310:  bool checkModeValid(const HandCommand_t& command, xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp:313:  void get_sn_and_save_read_state_sdk_error(const HandState_t& state, const ErrorStructPtr& error, bool sn_is_unknown, uint8_t device_id);
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:87:  virtual bool open_device(xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:92:  virtual bool send_command(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:93:                            const HandCommand_t& command,
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:95:  virtual HandState_t read_state(uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:126:  virtual void close_device() {}
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:132:  virtual bool set_hand_name(const uint8_t device_id, const std::string& name,
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:136:  virtual bool set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:139:  virtual bool set_hand_parameters(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:158:  virtual bool set_silent_mode(const uint8_t device_id, uint8_t mode, xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp:159:  virtual int8_t read_silent_mode(const uint8_t device_id, xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/xhand_controller/include/visibility_control.h:4:// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+/usr/local/xhand_controller/xhand_controller/include/visibility_control.h:5://     https://gcc.gnu.org/wiki/Visibility
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:23:using PdModePdoOutputType = FingerCommand_t;
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:34:  bool open_device(xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:40:  virtual bool send_command(const uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:41:                            const HandCommand_t& command,
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:44:  virtual HandState_t read_state(uint8_t device_id,
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:64:  virtual void close_device() override;
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:72:  virtual bool set_hand_name(const uint8_t device_id, const std::string& name,
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:76:  virtual bool set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:79:  virtual bool set_hand_parameters(
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:98:  virtual bool set_silent_mode(const uint8_t device_id, uint8_t mode, xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:99:  virtual int8_t read_silent_mode(const uint8_t device_id, xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp:139:  std::map<uint8_t, HandCommand_t> hand_command_;
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:34:    def open_device(self, device_identifier: dict) -> bool:
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:41:            self._device.open()
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:44:            return self.open_ethercat(device_identifier["ip"], device_identifier["id"])
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:61:    def send_command(self, command: dict):
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:62:        cmd = data_type.HandCommand()
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:64:        cmd.finger_command[command["finger_idx"]].kp = 300
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:65:        cmd.finger_command[command["finger_idx"]].kd = 1
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:67:        cmd.finger_command[command["finger_idx"]].tor_max = 300
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:68:        cmd.finger_command[command["finger_idx"]].mode = 3
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:70:        if self._device.send_command(cmd):
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:125:        d.open_device(
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py:135:    print(d.send_command({"finger_idx": 0, "pos_des": 15}))
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:15:    HandCommand,
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:48:        if self.serial and self.serial.is_open:
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:49:            self.serial.close()
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:55:    def open(self):
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:57:        if not self.serial.is_open:
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:58:            self.serial.open()
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:59:        if self.serial.is_open:
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:60:            print("Serial port opened successfully")
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:81:            if self.serial.is_open and self.serial.in_waiting > 0:
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py:115:    def send_command(self, command):
+/usr/local/xhand_controller/xhanc_control_py/parse_data.py:35:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/parse_data.py:46:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:26:        self._hand_command = xhand_control.HandCommand_t()
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:29:            self._hand_command.finger_command[i].kp = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:30:            self._hand_command.finger_command[i].kd = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:32:            self._hand_command.finger_command[i].tor_max = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:33:            self._hand_command.finger_command[i].mode = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:64:    def open_device(self, device_identifier: dict):
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:66:            ret = self._device.open_serial(
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:76:            ret = self._device.open_ethercat("enp8s0")
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:108:    def send_command(self, command: dict):
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:113:        self._hand_command.finger_command[command["finger_idx"]].kp = 100
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:114:        self._hand_command.finger_command[command["finger_idx"]].kd = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:118:        self._hand_command.finger_command[command["finger_idx"]].tor_max = 300
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:119:        self._hand_command.finger_command[command["finger_idx"]].mode = 3
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:121:        if self._device.send_command(0,self._hand_command):
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:126:    def send_command_unforce(self, command: dict):
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:127:        print("==================send_command_unforce command = ", command)
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:132:        self._hand_command.finger_command[command["finger_idx"]].kp = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:133:        self._hand_command.finger_command[command["finger_idx"]].kd = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:135:        self._hand_command.finger_command[command["finger_idx"]].tor_max = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:136:        self._hand_command.finger_command[command["finger_idx"]].mode = 0
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:138:        if self._device.send_command(0,self._hand_command):
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:144:        state = self._device.read_state(0)
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:242:    def close_device(self):
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:243:        self._device.close_device()
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:252:        d.open_device(
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py:264:    print(d.send_command({"finger_idx": 0, "cmd": {"pos_des": 0}}))
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:14:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:27:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:41:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:50:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:56:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:59:# Define FingerCommand
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:60:class FingerCommand(ctypes.Structure):
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:63:        ("kp", ctypes.c_uint16),
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:64:        ("kd", ctypes.c_uint16),
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:66:        ("tor_max", ctypes.c_uint16),
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:67:        ("mode", ctypes.c_uint16),
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:70:    _pack_ = 1  # Set packing to 1 byte
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:73:# Define HandCommand
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:74:class HandCommand(ctypes.Structure):
+/usr/local/xhand_controller/xhanc_control_py/data_type.py:75:    _fields_ = [("finger_command", FingerCommand * 12)]
+/usr/local/xhand_controller/serial/include/serial/impl/unix.h:78:  open ();
+/usr/local/xhand_controller/serial/include/serial/impl/unix.h:81:  close ();
+/usr/local/xhand_controller/serial/include/serial/impl/unix.h:198:  bool is_open_;
+/usr/local/xhand_controller/serial/include/serial/impl/win.h:67:  open ();
+/usr/local/xhand_controller/serial/include/serial/impl/win.h:70:  close ();
+/usr/local/xhand_controller/serial/include/serial/impl/win.h:187:  bool is_open_;
+/usr/local/xhand_controller/serial/include/serial/serial.h:150:   * Creates a Serial object and opens the port if a port is specified,
+/usr/local/xhand_controller/serial/include/serial/serial.h:151:   * otherwise it remains closed until serial::Serial::open is called.
+/usr/local/xhand_controller/serial/include/serial/serial.h:193:   * already open.
+/usr/local/xhand_controller/serial/include/serial/serial.h:195:   * If the port is provided to the constructor then an explicit call to open
+/usr/local/xhand_controller/serial/include/serial/serial.h:205:  open ();
+/usr/local/xhand_controller/serial/include/serial/serial.h:207:  /*! Gets the open status of the serial port.
+/usr/local/xhand_controller/serial/include/serial/serial.h:209:   * \return Returns true if the port is open, false otherwise.
+/usr/local/xhand_controller/serial/include/serial/serial.h:216:  close ();
+/usr/local/xhand_controller/serial/include/serial/serial.h:453:   * A timeout of 0 enables non-blocking mode.
+/usr/local/xhand_controller/serial/include/serial/serial.h:609:  /*! Set the RTS handshaking line to the given level.  Defaults to true. */
+/usr/local/xhand_controller/serial/include/serial/serial.h:613:  /*! Set the DTR handshaking line to the given level.  Defaults to true. */
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:33:  auto ret = xhand_control.open_ethercat("enp8s0");
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:35:    std::cout << "Ethercat opened successfully" << std::endl;
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:60:    //   auto ret = xhand_control.set_hand_name(hand_list[0], "xhand");
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:180:    // if (xhand_control.reset_hand(hand_list[0])) {
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:188:    std::cout << "Failed to open EtherCAT device" << ret.error_code
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:195:    HandCommand_t command;
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:212:    command.finger_command[finger_id].kp = 150;
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:213:    command.finger_command[finger_id].kd = 0;
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:214:    command.finger_command[finger_id].mode = 3;
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:215:    command.finger_command[finger_id].tor_max = 350;
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:216:    auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:226:      auto ret = xhand_control.read_state(hand_list[0]);
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:233:                  << " control mode: "
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:244:        //             << " control mode: "
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp:260:  xhand_control.close_device();
+/usr/local/xhand_controller/tests/src/serial_test.cpp:43:  auto ret = xhand_control.open_serial("/dev/ttyUSB0", 3000000);
+/usr/local/xhand_controller/tests/src/serial_test.cpp:45:    std::cout << "RS485 opened successfully" << std::endl;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:70:      auto ret = xhand_control.set_hand_name(hand_list[0], "xhand");
+/usr/local/xhand_controller/tests/src/serial_test.cpp:137:          HandCommand_t command;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:142:            command.finger_command[i].kp = 0;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:143:            command.finger_command[i].kd = 0;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:144:            command.finger_command[i].mode = 0;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:146:          auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/tests/src/serial_test.cpp:212:    std::cout << "Failed to open serial device" << ret.error_code
+/usr/local/xhand_controller/tests/src/serial_test.cpp:218:  HandCommand_t command;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:223:  //   command.finger_command[i].kp = 0;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:224:  //   command.finger_command[i].kd = 0;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:225:  //   command.finger_command[i].mode = 3;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:243:    // command.finger_command[finger_id].kp = 150;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:244:    // command.finger_command[finger_id].kd = 0;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:245:    // command.finger_command[finger_id].mode = 3;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:246:    // command.finger_command[finger_id].tor_max = 350;
+/usr/local/xhand_controller/tests/src/serial_test.cpp:247:    // auto ret = xhand_control.send_command(hand_list[0], command);
+/usr/local/xhand_controller/tests/src/serial_test.cpp:257:      auto ret = xhand_control.read_state(hand_list[0], true);
+/usr/local/xhand_controller/tests/src/serial_test.cpp:263:                  << " control mode: "
+/usr/local/xhand_controller/tests/src/serial_test.cpp:278:        //             << " control mode: "
+/usr/local/xhand_controller/tests/src/serial_test.cpp:294:  xhand_control.close_device();
+/usr/local/xhand_controller/src/serial_communication.cpp:39:      serial_->close();
+/usr/local/xhand_controller/src/serial_communication.cpp:61:void SerialCommunication::close_device() {
+/usr/local/xhand_controller/src/serial_communication.cpp:70:      serial_->close();
+/usr/local/xhand_controller/src/serial_communication.cpp:75:bool SerialCommunication::open_device(xhand_control::ErrorStructPtr error) {
+/usr/local/xhand_controller/src/serial_communication.cpp:77:  if (!serial_->isOpen()) serial_->open();
+/usr/local/xhand_controller/src/serial_communication.cpp:118:bool SerialCommunication::send_command(const uint8_t device_id,
+/usr/local/xhand_controller/src/serial_communication.cpp:119:                                       const HandCommand_t& command,
+/usr/local/xhand_controller/src/serial_communication.cpp:126:  std::vector<uint8_t> buffer(sizeof(HandCommand_t));
+/usr/local/xhand_controller/src/serial_communication.cpp:127:  std::memcpy(buffer.data(), &command, sizeof(HandCommand_t));
+/usr/local/xhand_controller/src/serial_communication.cpp:131:HandState_t SerialCommunication::read_state(uint8_t device_id,
+/usr/local/xhand_controller/src/serial_communication.cpp:136:    send_command(device_id, hand_command_, error);
+/usr/local/xhand_controller/src/serial_communication.cpp:513:bool SerialCommunication::set_hand_name(const uint8_t device_id,
+/usr/local/xhand_controller/src/serial_communication.cpp:539:bool SerialCommunication::set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/src/serial_communication.cpp:556:bool SerialCommunication::set_hand_parameters(
+/usr/local/xhand_controller/src/error_manager.cpp:199:     "Received incorrect operating mode"},
+/usr/local/xhand_controller/src/error_manager.cpp:215:    {static_cast<int>(ErrorCode::OPEN_DEVICE_FAILED), "Failed to open device"},
+/usr/local/xhand_controller/src/ev_boot.cpp:117:  ifs.open(app_file_name, std ::ios::in | std ::ios::binary);
+/usr/local/xhand_controller/src/ev_boot.cpp:118:  if (!ifs.is_open()) {
+/usr/local/xhand_controller/src/ev_boot.cpp:119:    perror("Failed to open file");
+/usr/local/xhand_controller/src/ev_boot.cpp:135:    ifs.close();
+/usr/local/xhand_controller/src/ev_boot.cpp:146:    ifs.close();
+/usr/local/xhand_controller/src/ev_boot.cpp:149:  ifs.close();
+/usr/local/xhand_controller/src/ev_boot.cpp:292:; ifs.open( file_path , std ::ios::in | std ::ios::binary); if (!ifs.is_open())
+/usr/local/xhand_controller/src/ev_boot.cpp:293:{ perror("Failed to open file"); return -1;
+/usr/local/xhand_controller/src/ev_boot.cpp:304:  //   ifs.close();
+/usr/local/xhand_controller/src/ev_boot.cpp:312:  ifs.close();
+/usr/local/xhand_controller/src/xhand_control.cpp:55:      ss << "Value of joint " << i << " close to boundary";
+/usr/local/xhand_controller/src/xhand_control.cpp:95:ErrorStruct XHandControl::open_serial(const std::string& port,
+/usr/local/xhand_controller/src/xhand_control.cpp:101:    device_->open_device(error_);
+/usr/local/xhand_controller/src/xhand_control.cpp:113:ErrorStruct XHandControl::open_ethercat(const std::string& ifname) {
+/usr/local/xhand_controller/src/xhand_control.cpp:118:    device_->open_device(error_);
+/usr/local/xhand_controller/src/xhand_control.cpp:139:ErrorStruct XHandControl::send_command(const uint8_t device_id,
+/usr/local/xhand_controller/src/xhand_control.cpp:140:                                       const HandCommand_t& command) {
+/usr/local/xhand_controller/src/xhand_control.cpp:143:    device_->send_command(device_id, command, error_);
+/usr/local/xhand_controller/src/xhand_control.cpp:148:std::pair<ErrorStruct, HandState_t> XHandControl::read_state(
+/usr/local/xhand_controller/src/xhand_control.cpp:152:    auto state = device_->read_state(device_id, error_, force_update);
+/usr/local/xhand_controller/src/xhand_control.cpp:170:    device_->set_hand_parameters(device_id, parameters, error_);
+/usr/local/xhand_controller/src/xhand_control.cpp:208:  auto ret = read_state(device_id, true);
+/usr/local/xhand_controller/src/xhand_control.cpp:299:void XHandControl::close_device() {
+/usr/local/xhand_controller/src/xhand_control.cpp:300:  if (device_) device_->close_device();
+/usr/local/xhand_controller/src/xhand_control.cpp:325:ErrorStruct XHandControl::set_hand_name(const uint8_t device_id,
+/usr/local/xhand_controller/src/xhand_control.cpp:329:    device_->set_hand_name(device_id, name, error_);
+/usr/local/xhand_controller/src/xhand_control.cpp:343:ErrorStruct XHandControl::set_hand_id(uint8_t old_id, uint8_t new_id) {
+/usr/local/xhand_controller/src/xhand_control.cpp:346:    device_->set_hand_id(old_id, new_id, error_);
+/usr/local/xhand_controller/src/ethercat_communication.cpp:53:      /* stop SOEM, close socket */
+/usr/local/xhand_controller/src/ethercat_communication.cpp:54:      ec_close();
+/usr/local/xhand_controller/src/ethercat_communication.cpp:72:bool EthercatCommunication::open_device(xhand_control::ErrorStructPtr error) {
+/usr/local/xhand_controller/src/ethercat_communication.cpp:91:    /* stop SOEM, close socket */
+/usr/local/xhand_controller/src/ethercat_communication.cpp:92:    ec_close();
+/usr/local/xhand_controller/src/ethercat_communication.cpp:102:    /* stop SOEM, close socket */
+/usr/local/xhand_controller/src/ethercat_communication.cpp:103:    ec_close();
+/usr/local/xhand_controller/src/ethercat_communication.cpp:211:        HandCommand_t command;
+/usr/local/xhand_controller/src/ethercat_communication.cpp:256:bool EthercatCommunication::send_command(const uint8_t device_id,
+/usr/local/xhand_controller/src/ethercat_communication.cpp:257:                                         const HandCommand_t& command,
+/usr/local/xhand_controller/src/ethercat_communication.cpp:279:HandState_t EthercatCommunication::read_state(
+/usr/local/xhand_controller/src/ethercat_communication.cpp:435:              if (open_device(error)) {
+/usr/local/xhand_controller/src/ethercat_communication.cpp:437:                printf("open device ok\r\n");
+/usr/local/xhand_controller/src/ethercat_communication.cpp:655:void EthercatCommunication::close_device() {
+/usr/local/xhand_controller/src/ethercat_communication.cpp:662:  ec_close();
+/usr/local/xhand_controller/src/ethercat_communication.cpp:785:        pdo_output->kp = command.finger_command[finger_index_].kp;
+/usr/local/xhand_controller/src/ethercat_communication.cpp:786:        pdo_output->kd = command.finger_command[finger_index_].kd;
+/usr/local/xhand_controller/src/ethercat_communication.cpp:787:        // pdo_output->ki = command.finger_command[finger_index_].ki;
+/usr/local/xhand_controller/src/ethercat_communication.cpp:788:        pdo_output->tor_max = command.finger_command[finger_index_].tor_max;
+/usr/local/xhand_controller/src/ethercat_communication.cpp:789:        pdo_output->mode = command.finger_command[finger_index_].mode;
+/usr/local/xhand_controller/src/ethercat_communication.cpp:1036:bool EthercatCommunication::set_hand_name(const uint8_t device_id,
+/usr/local/xhand_controller/src/ethercat_communication.cpp:1062:bool EthercatCommunication::set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/src/ethercat_communication.cpp:1085:bool EthercatCommunication::set_hand_parameters(
+/usr/local/xhand_controller/SOEM/soem/ethercattype.h:321:   /** CANopen over EtherCAT mailbox type */
+/usr/local/xhand_controller/SOEM/soem/ethercatmain.h:228:   /** Boolean for tracking whether the slave is (not) responding, not used/set by the SOEM library */
+/usr/local/xhand_controller/SOEM/soem/ethercatmain.h:452:void ec_close(void);
+/usr/local/xhand_controller/SOEM/soem/ethercatmain.h:495:void ecx_close(ecx_contextt *context);
+/usr/local/xhand_controller/SOEM/oshw/win32/nicdrv.h:100:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/win32/nicdrv.h:111:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:57:	It includes all new definitions (structures and functions like pcap_open().
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:91:	This indicates a file, i.e. the user want to open a capture from a local file.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:98:	This indicates a local interface, i.e. the user want to open a capture from
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:106:	This indicates a remote interface, i.e. the user want to open a capture from
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:119:	The formats allowed by the pcap_open() are the following:
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:120:	- file://path_and_filename [opens a local file]
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:121:	- rpcap://devicename [opens the selected device devices available on the local host, without using the RPCAP protocol]
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:122:	- rpcap://host/devicename [opens the selected device available on a remote host]
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:123:	- rpcap://host:port/devicename [opens the selected device available on a remote host, using a non-standard port for RPCAP]
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:124:	- adaptername [to open a local adapter; kept for compability, but it is strongly discouraged]
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:125:	- (NULL) [to open the first local adapter; kept for compability, but it is strongly discouraged]
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:160:	that contains all the information required to open the source.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:162:	This string indicates that the user wants to open a capture from a local file.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:170:	that contains all the information required to open the source.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:172:	This string indicates that the user wants to open a capture from a network interface.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:188:	\addtogroup remote_open_flags
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:193:	\brief Defines if the adapter has to go in promiscuous mode.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:195:	It is '1' if you have to open the adapter in promiscuous mode, '0' otherwise.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:197:	mode for some other reason (for example because another capture process with
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:198:	promiscuous mode enabled is currently using that interface).
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:310:	authentication is successful (and the user has the right to open network devices)
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:398://! Maximum length of an host name (needed for the RPCAP active mode)
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:417:pcap_t *pcap_open(const char *source, int snaplen, int flags, int read_timeout, struct pcap_rmtauth *auth, char *errbuf);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h:433:int pcap_remoteact_close(const char *host, char *errbuf);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:63:// Working modes
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:64:#define PACKET_MODE_CAPT 0x0 ///< Capture mode
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:65:#define PACKET_MODE_STAT 0x1 ///< Statistical mode
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:66:#define PACKET_MODE_MON 0x2 ///< Monitoring mode
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:67:#define PACKET_MODE_DUMP 0x10 ///< Dump mode
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:121:	USHORT	code;		///< Instruction type and addressing mode.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:207:typedef struct WAN_ADAPTER_INT WAN_ADAPTER; ///< Describes an opened wan (dialup, VPN...) network adapter using the NetMon API
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:208:typedef WAN_ADAPTER *PWAN_ADAPTER; ///< Describes an opened wan (dialup, VPN...) network adapter using the NetMon API
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:214:#define INFO_FLAG_DONT_EXPORT		8	///< Flag for ADAPTER_INFO: when this flag is set, the adapter will not be listed or openend by winpcap. This allows to prevent exporting broken network adapters, like for example FireWire ones.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:219:  \brief Describes an opened network adapter.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:225:	HANDLE hFile;				///< \internal Handle to an open instance of the NPF driver.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:226:	CHAR  SymbolicLink[MAX_LINK_NAME_LENGTH]; ///< \internal A string containing the name of the network adapter currently opened.
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h:320:BOOLEAN PacketSetMode(LPADAPTER AdapterObject,int mode);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:1:/* -*- Mode: c; tab-width: 8; indent-tabs-mode: 1; c-basic-offset: 8; -*- */
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:225:	char *name;		/* name to hand to "pcap_open_live()" */
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:250: * failure of a call that returns these codes by checking for a
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:258:#define PCAP_ERROR_RFMON_NOTSUP		-6	/* this device doesn't support rfmon (monitor) mode */
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:259:#define PCAP_ERROR_NOT_RFMON		-7	/* operation supported only in monitor mode */
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:260:#define PCAP_ERROR_PERM_DENIED		-8	/* no permission to open the device */
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:269:#define PCAP_WARNING_PROMISC_NOTSUP	2	/* this device doesn't support promiscuous mode */
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:283:pcap_t	*pcap_open_live(const char *, int, int, int, char *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:284:pcap_t	*pcap_open_dead(int, int);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:285:pcap_t	*pcap_open_offline(const char *, char *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:287:pcap_t  *pcap_hopen_offline(intptr_t, char *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:289:#define pcap_fopen_offline(f,b) \
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:290:	pcap_hopen_offline(_get_osfhandle(_fileno(f)), b)
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:292:static pcap_t *pcap_fopen_offline(FILE *, char *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:295:pcap_t	*pcap_fopen_offline(FILE *, char *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:298:void	pcap_close(pcap_t *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:340:pcap_dumper_t *pcap_dump_open(pcap_t *, const char *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:341:pcap_dumper_t *pcap_dump_fopen(pcap_t *, FILE *fp);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:345:void	pcap_dump_close(pcap_dumper_t *);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h:366:int pcap_setmode(pcap_t *p, int mode);
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bpf.h:115: * Do *NOT* add new values to this list without asking
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bpf.h:314: * header including Prism monitor mode information plus an 802.11
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bpf.h:447: * Note the capture is done in "Linux-cooked" mode, so each packet include
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bpf.h:557: * QOS profiles, cookies, etc..
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bpf.h:746: *	http://www.ax25.net/kiss.htm
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/usb.h:40: * possible transfer mode
+/usr/local/xhand_controller/SOEM/oshw/rtems/nicdrv.h:97:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/rtems/nicdrv.h:108:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/erika/nicdrv.h:96:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/erika/nicdrv.h:108:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/macosx/nicdrv.h:97:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/macosx/nicdrv.h:108:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/intime/nicdrv.h:98:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/intime/nicdrv.h:108:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/vxworks/nicdrv.h:25:   void             *pCookie;
+/usr/local/xhand_controller/SOEM/oshw/vxworks/nicdrv.h:107:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/vxworks/nicdrv.h:118:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/linux/nicdrv.h:97:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/linux/nicdrv.h:108:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/rtk/nicdrv.h:90:int ec_closenic(void);
+/usr/local/xhand_controller/SOEM/oshw/rtk/nicdrv.h:101:int ecx_closenic(ecx_portt *port);
+/usr/local/xhand_controller/SOEM/oshw/rtk/fec/fec_ecat.h:42:int fec_ecat_init (const fec_mac_address_t * mac_address, bool phy_loopback_mode);
+/usr/local/xhand_controller/SOEM/osal/win32/stdint.h:45:// For Visual Studio 6 in C++ mode and for many Visual Studio versions when
+/usr/local/xhand_controller/include/communiation_interface.hpp:67:  virtual bool open_device(xhand_control::ErrorStructPtr error) = 0;
+/usr/local/xhand_controller/include/communiation_interface.hpp:72:  virtual bool send_command(const uint8_t device_id,
+/usr/local/xhand_controller/include/communiation_interface.hpp:73:                            const HandCommand_t& command,
+/usr/local/xhand_controller/include/communiation_interface.hpp:75:  virtual HandState_t read_state(uint8_t device_id,
+/usr/local/xhand_controller/include/communiation_interface.hpp:106:  virtual void close_device() {}
+/usr/local/xhand_controller/include/communiation_interface.hpp:112:  virtual bool set_hand_name(const uint8_t device_id, const std::string& name,
+/usr/local/xhand_controller/include/communiation_interface.hpp:116:  virtual bool set_hand_id(uint8_t old_id, uint8_t new_id,
+/usr/local/xhand_controller/include/communiation_interface.hpp:119:  virtual bool set_hand_parameters(const uint8_t device_id,
+/usr/local/xhand_controller/include/data_type.hpp:122:  int16_t kp;        // 比例增益参数
+/usr/local/xhand_controller/include/data_type.hpp:123:  int16_t ki;        // 积分系数
+/usr/local/xhand_controller/include/data_type.hpp:124:  int16_t kd;        // 微分增益参数
+/usr/local/xhand_controller/include/data_type.hpp:126:  uint16_t tor_max;  // 力矩上限
+/usr/local/xhand_controller/include/data_type.hpp:127:  uint16_t mode;     // 模式
+/usr/local/xhand_controller/include/data_type.hpp:132:} __attribute__((packed)) FingerCommand_t;
+/usr/local/xhand_controller/include/data_type.hpp:135:  std::array<FingerCommand_t, 12> finger_command;
+/usr/local/xhand_controller/include/data_type.hpp:136:} __attribute__((packed)) HandCommand_t;
+/usr/local/xhand_controller/include/serial_communication.hpp:21:  bool open_device(xhand_control::ErrorStructPtr error);
+/usr/local/xhand_controller/include/serial_communication.hpp:27:  virtual bool send_command(const uint8_t device_id,
+/usr/local/xhand_controller/include/serial_communication.hpp:28:                            const HandCommand_t& command,
+/usr/local/xhand_controller/include/serial_communication.hpp:31:  virtual HandState_t read_state(uint8_t device_id,
+/usr/local/xhand_controller/include/serial_communication.hpp:51:  virtual void close_device() override;
+
+========== 7. ROS / ROS2 相关内容 ==========
+
+========== 8. 厂商启动文件 ==========
+
+----- /start_xhand.sh -----
+#!/usr/bin/bash
+
+# 定义锁文件, 防止重复多次执行
+LOCK_FILE="/tmp/xhand_controller.lock"
+
+# 检查是否已有锁文件，表示程序已在运行
+if [ -f "$LOCK_FILE" ]; then
+    # 使用 notify-send 弹出提示框告知用户程序正在运行
+    notify-send "提示" "XHAND 已经在运行，请勿重复启动。"
+    exit 1  # 退出脚本
+else
+    # 创建锁文件
+    echo $$ > "$LOCK_FILE"
+    trap 'rm -f "$LOCK_FILE"' EXIT
+fi
+
+notify-send "提示" "XHAND 正在启动, 大约需要 1 分钟！"
+
+# 定义日志文件路径
+LOG_FILE_1="/tmp/xhand_setup_1.log"
+
+# 检查日志文件是否存在，如果不存在则创建它
+if [ ! -f "$LOG_FILE_1" ]; then
+    touch "$LOG_FILE_1"
+
+    # 检查创建日志文件是否成功
+    if [ $? -eq 0 ]; then
+        chmod 666 "$LOG_FILE_1"  # 赋予读写权限，确保日志文件可写
+        echo "$(date): 1日志文件已创建" | tee -a "$LOG_FILE_1"
+    else
+        LOG_FILE_1=""  # 创建失败，将LOG_FILE_1指向空
+        echo "$(date): 日志文件创建失败，LOG_FILE_1已指向空" | tee -a /dev/stderr
+    fi
+fi
+
+# 检查Redis是否正在运行（检查端口 6379）
+if ! nc -z localhost 6379; then
+    echo "$(date): Redis 未运行，正在启动 Redis..." | tee -a "$LOG_FILE_1"
+    nohup /usr/local/redis7.4/bin/redis-server >> "$LOG_FILE_1" 2>&1 &
+    echo "$(date): Redis 已启动" | tee -a "$LOG_FILE_1"
+else
+    echo "$(date): Redis 已经在运行" | tee -a "$LOG_FILE_1"
+fi
+
+## 安装 xhand_controller
+#echo "$(date): 正在安装 xhand_controller..." | tee -a "$LOG_FILE_1"
+#/usr/bin/pip3 install /usr/local/xhand_controller/xhand_controller/. >> "$LOG_FILE_1" 2>&1
+#if [ $? -eq 0 ]; then
+#    echo "$(date): xhand_controller 安装完成" | tee -a "$LOG_FILE_1"
+#else
+#    echo "$(date): xhand_controller 安装失败" | tee -a "$LOG_FILE_1"
+#    exit 1
+#fi
+
+# sudo 启动Python应用, pkexec 执行获取密码输入框
+echo "$(date): 启动pkexec脚本..." | tee -a "$LOG_FILE_1"
+pkexec bash start_pkexec.sh >> "$LOG_FILE_1" 2>&1
+if [ $? -eq 0 ]; then
+    echo "$(date): pkexec 启动完成" | tee -a "$LOG_FILE_1"
+    notify-send "提示" "XHAND 启动完成！"
+else
+    echo "$(date): pkexec 启动失败" | tee -a "$LOG_FILE_1"
+    notify-send "错误" "XHAND 启动失败，尝试重新启动！"
+    exit 1
+fi
+
+sleep 3
+# 使用系统默认浏览器打开网址 http://127.0.0.1:1888
+xdg-open http://127.0.0.1:1888
+echo "$(date): 打开网址 http://127.0.0.1:1888" | tee -a "$LOG_FILE_1"
+
+
+## sudo 启动监视浏览器脚本
+#echo "$(date): 启动监视浏览器脚本..." | tee -a "$LOG_FILE_1"
+#pkexec bash monitor_browser_pkexec.sh >> "$LOG_FILE_1" 2>&1
+
+========== 9. DEB 安装文件 ==========
+/.
+/monitor_browser_pkexec.sh
+/start_pkexec.sh
+/start_xhand.sh
+/usr
+/usr/local
+/usr/local/apache-iotdb-1.3.0-all-bin
+/usr/local/apache-iotdb-1.3.0-all-bin/conf
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/confignode-env.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/confignode-env.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/datanode-env.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/datanode-env.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/iotdb-common.properties
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/iotdb-confignode.properties
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/iotdb-datanode.properties
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/jmx.access
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/jmx.password
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/logback-confignode.xml
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/logback-datanode.xml
+/usr/local/apache-iotdb-1.3.0-all-bin/conf/logback-tool.xml
+/usr/local/apache-iotdb-1.3.0-all-bin/lib
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/accessors-smart-2.5.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/airline-0.9.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/antlr4-runtime-4.9.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/aopalliance-repackaged-2.6.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/asm-9.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/bcpkix-jdk18on-1.75.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/bcprov-jdk18on-1.75.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/bcutil-jdk18on-1.75.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/bsd-core-0.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/bsd-generator-0.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/bugsnag-3.7.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/caffeine-2.9.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/cglib-3.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/checker-qual-3.38.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/common-api-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-cli-1.5.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-codec-1.16.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-collections4-4.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-csv-1.10.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-io-2.13.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-jexl3-3.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-lang3-3.13.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-logging-1.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/commons-pool2-2.11.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/concurrent-206.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/content-type-2.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/disruptor-3.4.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/error_prone_annotations-2.18.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/external-api-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/failureaccess-1.0.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/gson-2.10.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/guava-32.1.2-jre.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/h2-mvstore-2.1.212.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/HdrHistogram-2.1.9.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/HikariCP-2.4.7.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/hk2-api-2.6.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/hk2-locator-2.6.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/hk2-utils-2.6.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/httpclient-4.5.14.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/httpcore-4.4.16.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-antlr-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-cli-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-confignode-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-consensus-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-jdbc-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-server-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-session-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-thrift-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-thrift-commons-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-thrift-confignode-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/iotdb-thrift-consensus-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/isession-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/istack-commons-runtime-3.0.12.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/j2objc-annotations-2.8.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-annotations-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-core-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-databind-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-dataformat-yaml-2.14.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-datatype-jsr310-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-jaxrs-base-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-jaxrs-json-provider-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jackson-module-jaxb-annotations-2.15.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.activation-api-1.2.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.annotation-api-1.3.5.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.inject-2.6.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.servlet-api-4.0.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.validation-api-2.0.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.ws.rs-api-2.1.6.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jakarta.xml.bind-api-2.3.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/javassist-3.28.0-GA.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/Java-WebSocket-1.5.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jaxb-runtime-2.3.6.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jcip-annotations-1.0-1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jersey-client-2.40.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jersey-common-2.40.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jersey-container-servlet-core-2.40.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jersey-hk2-2.40.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jersey-media-multipart-2.40.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jersey-server-2.40.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-http-9.4.53.v20231009.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-io-9.4.52.v20230823.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-security-9.4.53.v20231009.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-server-9.4.53.v20231009.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-servlet-9.4.53.v20231009.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-util-9.4.53.v20231009.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jetty-util-ajax-9.4.53.v20231009.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jjwt-api-0.11.5.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jline-3.23.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jmxutils-1.21.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jol-core-0.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/json-smart-2.5.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/jsr305-3.0.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/lang-tag-1.7.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/LatencyUtils-2.0.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/librato-java-2.1.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/libthrift-0.14.1.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/log-206.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/logback-classic-1.3.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/logback-core-1.3.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/lz4-java-1.8.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/metrics-core-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/metrics-core-4.2.19.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/metrics-interface-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/metrics-jmx-4.2.19.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/metrics-jvm-3.2.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/metrics-librato-5.1.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/micrometer-commons-1.11.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/micrometer-core-1.11.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/micrometer-observation-1.11.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/mimepull-1.9.15.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/moquette-broker-0.17.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-buffer-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-codec-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-codec-dns-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-codec-http2-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-codec-http-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-codec-mqtt-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-codec-socks-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-common-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-handler-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-handler-proxy-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-resolver-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-resolver-dns-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-resolver-dns-classes-macos-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-resolver-dns-native-macos-4.1.97.Final-osx-x86_64.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-transport-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-transport-classes-epoll-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-transport-native-epoll-4.1.97.Final-linux-x86_64.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/netty-transport-native-unix-common-4.1.97.Final.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/nimbus-jose-jwt-9.34.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/node-commons-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/oauth2-oidc-sdk-10.15.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/openapi-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/osgi.cmpn-7.0.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/osgi.core-7.0.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/osgi-resource-locator-1.0.3.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/pax-jdbc-common-1.5.6.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/pipe-api-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-client-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-common-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-grpc-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-metrics-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-proto-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-server-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-server-api-2.5.2-0f5f95d-SNAPSHOT.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/ratis-thirdparty-misc-1.0.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/reactive-streams-1.0.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/reactor-core-3.5.10.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/reactor-netty-core-1.1.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/reactor-netty-http-1.1.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/reflections-0.10.2.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/reload4j-1.2.22.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/sdk-core-0.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/sdk-server-0.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/service-rpc-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/slf4j-api-2.0.9.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/slf4j-reload4j-1.7.36.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/slice-0.41.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/snakeyaml-2.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/snappy-java-1.1.10.4.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/stack-core-0.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/stack-server-0.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/stats-206.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/swagger-annotations-1.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/swagger-core-1.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/swagger-jaxrs-1.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/swagger-models-1.6.11.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/trigger-api-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/tsfile-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/txw2-2.3.6.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/udf-api-1.3.0.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/units-1.7.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/xz-1.9.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/lib/zstd-jni-1.5.5-5.jar
+/usr/local/apache-iotdb-1.3.0-all-bin/LICENSE
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/CDDL License 1.1
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/Eclipse Public License 1.0 (EPL-1.0)
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/Eclipse Public License version 2.0 (EPL-2.0)
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/The 2-Clause BSD License
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/The 3-Clause BSD License
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/The MIT License (progressbar)
+/usr/local/apache-iotdb-1.3.0-all-bin/licenses/The MIT License (QOS.ch)
+/usr/local/apache-iotdb-1.3.0-all-bin/NOTICE
+/usr/local/apache-iotdb-1.3.0-all-bin/README.md
+/usr/local/apache-iotdb-1.3.0-all-bin/README_ZH.md
+/usr/local/apache-iotdb-1.3.0-all-bin/RELEASE_NOTES.md
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/iotdb-common.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/remove-confignode.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/remove-confignode.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/remove-datanode.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/remove-datanode.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-cli.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-cli.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-confignode.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-confignode.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-datanode.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-datanode.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-standalone.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/start-standalone.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/stop-confignode.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/stop-confignode.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/stop-datanode.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/stop-datanode.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/stop-standalone.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/sbin/stop-standalone.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/export-csv.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/export-csv.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/export-tsfile.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/export-tsfile.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/import-csv.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/import-csv.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/load-tsfile.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/load-tsfile.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/schema
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/schema/print-pb-tree-file.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/schema/print-pb-tree-file.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/schema/print-schema-log.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/schema/print-schema-log.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/check-overlap-sequence-files-and-repair.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/check-overlap-sequence-files-and-repair.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/overlap-statistic-tool.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/overlap-statistic-tool.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/print-iotdb-data-dir.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/print-iotdb-data-dir.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/print-tsfile.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/print-tsfile-resource-files.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/print-tsfile-resource-files.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/print-tsfile.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/settle-tsfile.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/settle-tsfile.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/split-tsfile-tool.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/split-tsfile-tool.sh
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/validate-tsfile.bat
+/usr/local/apache-iotdb-1.3.0-all-bin/tools/tsfile/validate-tsfile.sh
+/usr/local/bin
+/usr/local/bin/.gitkeep
+/usr/local/redis7.4
+/usr/local/redis7.4/bin
+/usr/local/redis7.4/bin/redis-benchmark
+/usr/local/redis7.4/bin/redis-check-aof
+/usr/local/redis7.4/bin/redis-check-rdb
+/usr/local/redis7.4/bin/redis-cli
+/usr/local/redis7.4/bin/redis-sentinel
+/usr/local/redis7.4/bin/redis-server
+/usr/local@tmp
+/usr/local/xhand
+/usr/local/xhand_controller
+/usr/local/xhand_controller/CMakeLists.txt
+/usr/local/xhand_controller/.git
+/usr/local/xhand_controller/.git/branches
+/usr/local/xhand_controller/.git/config
+/usr/local/xhand_controller/.git/description
+/usr/local/xhand_controller/.git/FETCH_HEAD
+/usr/local/xhand_controller/.git/HEAD
+/usr/local/xhand_controller/.git/hooks
+/usr/local/xhand_controller/.git/hooks/applypatch-msg.sample
+/usr/local/xhand_controller/.git/hooks/commit-msg.sample
+/usr/local/xhand_controller/.git/hooks/fsmonitor-watchman.sample
+/usr/local/xhand_controller/.git/hooks/post-update.sample
+/usr/local/xhand_controller/.git/hooks/pre-applypatch.sample
+/usr/local/xhand_controller/.git/hooks/pre-commit.sample
+/usr/local/xhand_controller/.git/hooks/pre-merge-commit.sample
+/usr/local/xhand_controller/.git/hooks/prepare-commit-msg.sample
+/usr/local/xhand_controller/.git/hooks/pre-push.sample
+/usr/local/xhand_controller/.git/hooks/pre-rebase.sample
+/usr/local/xhand_controller/.git/hooks/pre-receive.sample
+/usr/local/xhand_controller/.git/hooks/push-to-checkout.sample
+/usr/local/xhand_controller/.git/hooks/update.sample
+/usr/local/xhand_controller/.gitignore
+/usr/local/xhand_controller/.git/index
+/usr/local/xhand_controller/.git/info
+/usr/local/xhand_controller/.git/info/exclude
+/usr/local/xhand_controller/.git/logs
+/usr/local/xhand_controller/.git/logs/HEAD
+/usr/local/xhand_controller/.git/logs/refs
+/usr/local/xhand_controller/.git/logs/refs/heads
+/usr/local/xhand_controller/.git/logs/refs/heads/main
+/usr/local/xhand_controller/.git/logs/refs/heads/pre-release0
+/usr/local/xhand_controller/.git/logs/refs/remotes
+/usr/local/xhand_controller/.git/logs/refs/remotes/origin
+/usr/local/xhand_controller/.git/logs/refs/remotes/origin/dev
+/usr/local/xhand_controller/.git/logs/refs/remotes/origin/feature
+/usr/local/xhand_controller/.git/logs/refs/remotes/origin/feature/action_count
+/usr/local/xhand_controller/.git/logs/refs/remotes/origin/HEAD
+/usr/local/xhand_controller/.git/objects
+/usr/local/xhand_controller/.git/objects/00
+/usr/local/xhand_controller/.git/objects/00/3dd6e27329ae075881b567e4b6134196a990e6
+/usr/local/xhand_controller/.git/objects/02
+/usr/local/xhand_controller/.git/objects/02/0c7a546fded5fb1c88b78e0c84e3ee6fd218f9
+/usr/local/xhand_controller/.git/objects/02/5e1baa5bd6b7a8592de1896dc2b95d0e2018df
+/usr/local/xhand_controller/.git/objects/02/aa4ce5f9140152524ee2a37dcf512acf169816
+/usr/local/xhand_controller/.git/objects/02/d5548dc3486297bfbd099e4e227cbcc3f3e872
+/usr/local/xhand_controller/.git/objects/03
+/usr/local/xhand_controller/.git/objects/03/2b47a5b7e6bf5fc762b38e01e8681a3ac584ef
+/usr/local/xhand_controller/.git/objects/04
+/usr/local/xhand_controller/.git/objects/04/dcfbc1eecf5eee03afc9d314f0329d1b9a2ae7
+/usr/local/xhand_controller/.git/objects/06
+/usr/local/xhand_controller/.git/objects/06/184e062947dc1c9468c29f8e2678d9c50ef56f
+/usr/local/xhand_controller/.git/objects/06/e679310ffa503cec1a25aa66872d40aec3e445
+/usr/local/xhand_controller/.git/objects/07
+/usr/local/xhand_controller/.git/objects/07/31a5bb736e2c6d37b3233c67c59abc6ab42a7c
+/usr/local/xhand_controller/.git/objects/07/bafc687a81129a7abcef0a42b332e4495a7887
+/usr/local/xhand_controller/.git/objects/08
+/usr/local/xhand_controller/.git/objects/08/ab5987b4c1bee95d1c2465347aa9501a805629
+/usr/local/xhand_controller/.git/objects/09
+/usr/local/xhand_controller/.git/objects/09/1d92b0cd36608fe60b09999a4aa369700cdb3f
+/usr/local/xhand_controller/.git/objects/09/8cd75e5f2c5ba4b0d33cf3f66e062287f5e71d
+/usr/local/xhand_controller/.git/objects/09/dd16010fd6e33647f4700a9e4845543f02f159
+/usr/local/xhand_controller/.git/objects/09/f38e3457fb09b58e2432456a9d9bd8ecc1a522
+/usr/local/xhand_controller/.git/objects/0a
+/usr/local/xhand_controller/.git/objects/0a/00dbb57390c0662217166b0976d643041de914
+/usr/local/xhand_controller/.git/objects/0a/154c4bd86926aa8d70b2ed0e59ee570a379101
+/usr/local/xhand_controller/.git/objects/0a/2a852860c5ce139ba26532f44f84f373f71319
+/usr/local/xhand_controller/.git/objects/0a/ee79b7dc15091280145a183263579a49be312f
+/usr/local/xhand_controller/.git/objects/0b
+/usr/local/xhand_controller/.git/objects/0b/64d27d1688c436d415b8757c6a9ff6dbf89e87
+/usr/local/xhand_controller/.git/objects/0c
+/usr/local/xhand_controller/.git/objects/0c/99887d2cbe8b0d28cf4fecd9df751a6229ebf3
+/usr/local/xhand_controller/.git/objects/0c/a62810675a5875f03d44ad9c62c7687aa98e1c
+/usr/local/xhand_controller/.git/objects/0c/d59fa45fddcfe65c47bcc906f05bb95a8f678e
+/usr/local/xhand_controller/.git/objects/0e
+/usr/local/xhand_controller/.git/objects/0e/274f6132267a4399cdc3002921a926e72e7a4f
+/usr/local/xhand_controller/.git/objects/0e/3e12603341ff62f63810bc00fdb13d7a213de5
+/usr/local/xhand_controller/.git/objects/0e/c992c1a0e521bfdd178bc2e57f7e6a28d99b3d
+/usr/local/xhand_controller/.git/objects/10
+/usr/local/xhand_controller/.git/objects/10/5acf93b1f8204065d09aca3bba370e0fda2874
+/usr/local/xhand_controller/.git/objects/10/af7bbf76bae74ed1b6f1c141f68a6c5ff92c8e
+/usr/local/xhand_controller/.git/objects/10/c7c40a697db6437ecf6568e7f843aaaf984dab
+/usr/local/xhand_controller/.git/objects/12
+/usr/local/xhand_controller/.git/objects/12/28dafb66b8076083b7313034aa8d77a68f6027
+/usr/local/xhand_controller/.git/objects/13
+/usr/local/xhand_controller/.git/objects/13/80bc3f7eee3a3ae5db49f97fe9d705b22733d2
+/usr/local/xhand_controller/.git/objects/15
+/usr/local/xhand_controller/.git/objects/15/4f0ea18e36c8cb4bd9d4ce9793d6036a484dac
+/usr/local/xhand_controller/.git/objects/15/f9624802c04259cfac5c161962c6e480ccb293
+/usr/local/xhand_controller/.git/objects/16
+/usr/local/xhand_controller/.git/objects/16/3ac8244a0b78ccce0d830a4b94ab5a013f6404
+/usr/local/xhand_controller/.git/objects/16/81e0bd96ac6810f013a190ced09c5052a49b46
+/usr/local/xhand_controller/.git/objects/16/af2b322fc3ee54f45deb5252bd06f65b8cb9c5
+/usr/local/xhand_controller/.git/objects/16/f410c77a49f83834c405cb5b3abb4d1eacf488
+/usr/local/xhand_controller/.git/objects/17
+/usr/local/xhand_controller/.git/objects/17/9251c1ebef31fb739c303b3fb29ffd45b32937
+/usr/local/xhand_controller/.git/objects/17/9f9e24fc61fd9e60196fb7d14917d2e18dc18a
+/usr/local/xhand_controller/.git/objects/19
+/usr/local/xhand_controller/.git/objects/19/1c5c5f2ea376a473dac405f016ffb2261f22b5
+/usr/local/xhand_controller/.git/objects/19/73d921ec7e26d54682d7411afc35147d9291f0
+/usr/local/xhand_controller/.git/objects/19/a8a93a86aa6249ee838e8178fbce3d0bf65560
+/usr/local/xhand_controller/.git/objects/19/a90808d2aefb167d58eacafb5cd0ee1b796cb3
+/usr/local/xhand_controller/.git/objects/19/e61f3142824a3b3cf2eef6653440a9cd49d30b
+/usr/local/xhand_controller/.git/objects/1a
+/usr/local/xhand_controller/.git/objects/1a/8dffa3a98c456bb460d22b23ed5f3e42332d0f
+/usr/local/xhand_controller/.git/objects/1c
+/usr/local/xhand_controller/.git/objects/1c/a4be8bd3638adb75a43099cf53e7c969ee4701
+/usr/local/xhand_controller/.git/objects/1c/f522c01f465678a1265cedb09927c448318033
+/usr/local/xhand_controller/.git/objects/1d
+/usr/local/xhand_controller/.git/objects/1d/a123761021c8054974138af6f73d6a731059cc
+/usr/local/xhand_controller/.git/objects/1d/a2149c71e7199371cfd2f10a8cf80cb87cd929
+/usr/local/xhand_controller/.git/objects/1e
+/usr/local/xhand_controller/.git/objects/1e/d2a20a47f4a91f8c1edd4a883d35e4b2cae2c8
+/usr/local/xhand_controller/.git/objects/1e/e06de22292228b28d623b3853f26df4ac0c95b
+/usr/local/xhand_controller/.git/objects/1f
+/usr/local/xhand_controller/.git/objects/1f/f7481c603b5dc66c6451224091af2f895212b1
+/usr/local/xhand_controller/.git/objects/20
+/usr/local/xhand_controller/.git/objects/20/65d505d5f84161fb55d5128e5d1c9a67fc5b37
+/usr/local/xhand_controller/.git/objects/20/816aabdf2c531088caa1c978dfff72e1e185a1
+/usr/local/xhand_controller/.git/objects/20/84904dc0aa32745a8eda0554b3df43115ef833
+/usr/local/xhand_controller/.git/objects/20/86b595cce74b842fd34944729789bb51a9ddfd
+/usr/local/xhand_controller/.git/objects/20/ac3e236d2b8d67616c3bc2ee0d508c7c947895
+/usr/local/xhand_controller/.git/objects/22
+/usr/local/xhand_controller/.git/objects/22/bd8165c5cc9e9feb549b789db89702bce3c3b3
+/usr/local/xhand_controller/.git/objects/23
+/usr/local/xhand_controller/.git/objects/23/a030e56cc23a916f2c4cb409e4f3ddadb69a73
+/usr/local/xhand_controller/.git/objects/26
+/usr/local/xhand_controller/.git/objects/26/5af624c842c35cde9baeae78bb902e42686fc3
+/usr/local/xhand_controller/.git/objects/26/7b531ba649575a952e671ed729b200d7986e55
+/usr/local/xhand_controller/.git/objects/26/84610952bd4e86c61cda860d67709ef290630a
+/usr/local/xhand_controller/.git/objects/26/a4426f3e9b55e4629e8e51df4eb0957a15e19e
+/usr/local/xhand_controller/.git/objects/27
+/usr/local/xhand_controller/.git/objects/27/3b43a31cf2be89c985044f89687920a18a856b
+/usr/local/xhand_controller/.git/objects/27/96bcc6a9a2b73fa98beef22c480ed1d5ef381e
+/usr/local/xhand_controller/.git/objects/27/b3b0745f537123057085319cbebd2ff113ecdf
+/usr/local/xhand_controller/.git/objects/27/b681a6eaa6c2b6a41cc05b68c4142424f14e6f
+/usr/local/xhand_controller/.git/objects/28
+/usr/local/xhand_controller/.git/objects/28/02f3abf96d47e8bab90b1007a05b2260d09589
+/usr/local/xhand_controller/.git/objects/28/650b55cd3b81d2a9ae05df2b3f8a0639ddc60d
+/usr/local/xhand_controller/.git/objects/2a
+/usr/local/xhand_controller/.git/objects/2a/2f690c4dc253bd8f42cb768e729671124f121e
+/usr/local/xhand_controller/.git/objects/2a/695ef3acb30dd445bb7f0fec0592528da599dd
+/usr/local/xhand_controller/.git/objects/2a/6a725062036c15c358d11318b432abcf53b6c3
+/usr/local/xhand_controller/.git/objects/2b
+/usr/local/xhand_controller/.git/objects/2b/238e7919b14f3aa3d2d417a328ab2b427c05a7
+/usr/local/xhand_controller/.git/objects/2c
+/usr/local/xhand_controller/.git/objects/2c/1e8e766512473816c08e8a62855a6be4a48513
+/usr/local/xhand_controller/.git/objects/2c/59ec773eb39de8730534c0d68b85de72d42d2b
+/usr/local/xhand_controller/.git/objects/2c/dbdf2423b20ced07aa66f5b865b293a47e2823
+/usr/local/xhand_controller/.git/objects/2d
+/usr/local/xhand_controller/.git/objects/2d/43da43bd24cf1f6052b82bd9e95dc4a9c25804
+/usr/local/xhand_controller/.git/objects/2d/79339a9e3396dbfe984bea20b84afc20f50c85
+/usr/local/xhand_controller/.git/objects/2d/9c908ac5ef66b2d64bbe2ea4ae5b17e00e2a6a
+/usr/local/xhand_controller/.git/objects/2e
+/usr/local/xhand_controller/.git/objects/2e/174095896107d6c28f1d5c035c0593bcc6c20e
+/usr/local/xhand_controller/.git/objects/2f
+/usr/local/xhand_controller/.git/objects/2f/222d76b925506fa1d73f021135e602a63b3de0
+/usr/local/xhand_controller/.git/objects/30
+/usr/local/xhand_controller/.git/objects/30/a655e9ef82f5fecff08370b553103d06002391
+/usr/local/xhand_controller/.git/objects/31
+/usr/local/xhand_controller/.git/objects/31/274a79349a6caf48b4ab9d228da2a184f473f0
+/usr/local/xhand_controller/.git/objects/31/bccdd1241980e53945441710a783edf5372642
+/usr/local/xhand_controller/.git/objects/32
+/usr/local/xhand_controller/.git/objects/32/f094317e5ade2848bfd03dcb4a2fdd21058fd5
+/usr/local/xhand_controller/.git/objects/33
+/usr/local/xhand_controller/.git/objects/33/5dc9e28d71f0513d8bd39892ea06023aac18cd
+/usr/local/xhand_controller/.git/objects/33/6fc168d092a9fe8a65c76ce64953ac5ab5c305
+/usr/local/xhand_controller/.git/objects/34
+/usr/local/xhand_controller/.git/objects/34/1137e4f13e12d467e23722c3729e069cca326d
+/usr/local/xhand_controller/.git/objects/34/5af83a3ab7dca52292765f2ab7ef5f4e46f953
+/usr/local/xhand_controller/.git/objects/34/710cecec351a97eaed5a3ac3300f4d1986910c
+/usr/local/xhand_controller/.git/objects/35
+/usr/local/xhand_controller/.git/objects/35/6174a81cb2b9608d79d1cee2e21ea85a3f1289
+/usr/local/xhand_controller/.git/objects/35/ecb8761d0744a9e8b4007f2d28b73bbbb5cfdc
+/usr/local/xhand_controller/.git/objects/37
+/usr/local/xhand_controller/.git/objects/37/f85fc299656f173dd061d525d5d7e91c57f80f
+/usr/local/xhand_controller/.git/objects/38
+/usr/local/xhand_controller/.git/objects/38/a77b8c16467f191b01fb5b77a5b27683a60478
+/usr/local/xhand_controller/.git/objects/38/db2998bffab499d4ff930a573cf373d62dbf14
+/usr/local/xhand_controller/.git/objects/39
+/usr/local/xhand_controller/.git/objects/39/b63d6ee27716115e5af65af0bd8d4b64f5601b
+/usr/local/xhand_controller/.git/objects/39/f04d718306f84086382b8c869dde8a5d7bf4c3
+/usr/local/xhand_controller/.git/objects/3b
+/usr/local/xhand_controller/.git/objects/3b/18d5d7079041d22573d09b49807b3ab527197c
+/usr/local/xhand_controller/.git/objects/3b/94e9fa83668cab6a9ee43dc582b1030811a122
+/usr/local/xhand_controller/.git/objects/3c
+/usr/local/xhand_controller/.git/objects/3c/2942f7649c74a1bd577a27665e15f537c403c7
+/usr/local/xhand_controller/.git/objects/3d
+/usr/local/xhand_controller/.git/objects/3d/f1903c755f008825959bc5906dc395b99aed2e
+/usr/local/xhand_controller/.git/objects/3e
+/usr/local/xhand_controller/.git/objects/3e/869c9955ee7c28b0d1e1798671938dd6b5e25f
+/usr/local/xhand_controller/.git/objects/3f
+/usr/local/xhand_controller/.git/objects/3f/0abd6cf502734e2f839240bbb8e28c4de541d3
+/usr/local/xhand_controller/.git/objects/3f/2d78563b9174a16ad1c796188ca0b08f319936
+/usr/local/xhand_controller/.git/objects/40
+/usr/local/xhand_controller/.git/objects/40/0113367251f62a12c042ed6ceb6960b07de384
+/usr/local/xhand_controller/.git/objects/40/20571c8f017d40a0f11289375aaf00257c8a5e
+/usr/local/xhand_controller/.git/objects/40/553915a8b120b325f3b6e30a28dd1a081b7e5e
+/usr/local/xhand_controller/.git/objects/40/ed69c8fe290f07b3273c9eb615c570af0a2aae
+/usr/local/xhand_controller/.git/objects/41
+/usr/local/xhand_controller/.git/objects/41/217e1587a664725a593ae45a4cb5ca2982c00a
+/usr/local/xhand_controller/.git/objects/41/d968ebbb369740d4ede9831433848219753e86
+/usr/local/xhand_controller/.git/objects/42
+/usr/local/xhand_controller/.git/objects/42/5da0768a24c97a2781907e832a28c1c4b07f45
+/usr/local/xhand_controller/.git/objects/43
+/usr/local/xhand_controller/.git/objects/43/f833740e249a9774a231dc3258b60ddf2e1e98
+/usr/local/xhand_controller/.git/objects/45
+/usr/local/xhand_controller/.git/objects/45/2ff9686aaa86a2f54d6cc6e02f2b0e0696e875
+/usr/local/xhand_controller/.git/objects/45/3d4379c88168090291f5d1f3d1ec0af52dbbb1
+/usr/local/xhand_controller/.git/objects/46
+/usr/local/xhand_controller/.git/objects/46/03fc1982952e3c54db5b1b03505f9fc65e1467
+/usr/local/xhand_controller/.git/objects/46/98fe39a86ed95ecc46f7db2c9a50c961287275
+/usr/local/xhand_controller/.git/objects/48
+/usr/local/xhand_controller/.git/objects/48/e3a6d90d1a19059f6d42915902a4834f0a9567
+/usr/local/xhand_controller/.git/objects/49
+/usr/local/xhand_controller/.git/objects/49/72da77322520919c9d792601d37f3e8f7346de
+/usr/local/xhand_controller/.git/objects/4a
+/usr/local/xhand_controller/.git/objects/4a/d9b7af8f8a7d7de87ee9201741fdfc774160db
+/usr/local/xhand_controller/.git/objects/4a/db8402d7de93c975ebe78db997cb9bd10e794a
+/usr/local/xhand_controller/.git/objects/4a/e26658074ae20e6d5924aa64622a84e473dad2
+/usr/local/xhand_controller/.git/objects/4a/e946332eb982cb3629a496d1eb3d91dacd4dfd
+/usr/local/xhand_controller/.git/objects/4b
+/usr/local/xhand_controller/.git/objects/4b/0685634e9864fe2324625ced36204d780761c6
+/usr/local/xhand_controller/.git/objects/4b/64c3d403b29a22cf656f38378415114e4d599a
+/usr/local/xhand_controller/.git/objects/4b/6ffcca7fbd93e0308d7723bb687bd70861762d
+/usr/local/xhand_controller/.git/objects/4b/85537ba91fc473c70cfac8c0c373f27329c77a
+/usr/local/xhand_controller/.git/objects/4c
+/usr/local/xhand_controller/.git/objects/4c/6a251e011823ab2e5335fbe3b638e20e09977d
+/usr/local/xhand_controller/.git/objects/4c/a014a573e9286ba013bdca0e48f3bb5593152f
+/usr/local/xhand_controller/.git/objects/4c/d344ab7997e472fe53a1b891cea8d10e23966e
+/usr/local/xhand_controller/.git/objects/4d
+/usr/local/xhand_controller/.git/objects/4d/317570b6e478e589a1ff222fd862aa161e193f
+/usr/local/xhand_controller/.git/objects/4e
+/usr/local/xhand_controller/.git/objects/4e/abab93e9737fc4e24d084552d59b50970e8773
+/usr/local/xhand_controller/.git/objects/51
+/usr/local/xhand_controller/.git/objects/51/baf2fec49da4fca5cff6cac486b4ac718eddf1
+/usr/local/xhand_controller/.git/objects/52
+/usr/local/xhand_controller/.git/objects/52/188555683129da92c8140437932170052d945f
+/usr/local/xhand_controller/.git/objects/53
+/usr/local/xhand_controller/.git/objects/53/866dce7a8348589975e7b135d960b4e50a44c2
+/usr/local/xhand_controller/.git/objects/53/ab2af3db1af62069fc13b40012b47d31043a57
+/usr/local/xhand_controller/.git/objects/55
+/usr/local/xhand_controller/.git/objects/55/3328babd9f797325a8b885c08fe20d0fd880d0
+/usr/local/xhand_controller/.git/objects/55/3b8e9b8248f9e898925695f933ac5fdd85814c
+/usr/local/xhand_controller/.git/objects/55/f46ba6758c462fa86f73b600ac540c34b9c8d4
+/usr/local/xhand_controller/.git/objects/57
+/usr/local/xhand_controller/.git/objects/57/9ce207a3f7b774ca022aa433d839b197fcff17
+/usr/local/xhand_controller/.git/objects/59
+/usr/local/xhand_controller/.git/objects/59/1cf1ba3c25995209666140e4c8170d9778fca7
+/usr/local/xhand_controller/.git/objects/5a
+/usr/local/xhand_controller/.git/objects/5a/7aa09cf5c1c395f75c4a43c68ae41c2ea33c19
+/usr/local/xhand_controller/.git/objects/5b
+/usr/local/xhand_controller/.git/objects/5b/62dcfd9342c34cd897b283c1633e330cb806db
+/usr/local/xhand_controller/.git/objects/5b/f330d71750ac6d42133f2ae9d9544da37099b5
+/usr/local/xhand_controller/.git/objects/5c
+/usr/local/xhand_controller/.git/objects/5c/369ea015c999b05e0654c666d579326bfb7f93
+/usr/local/xhand_controller/.git/objects/5c/558306fd2c4fc4932aa540b47c6fdef2bcf7f0
+/usr/local/xhand_controller/.git/objects/5c/cfc743146e3fe232aabe8f08101496d9300145
+/usr/local/xhand_controller/.git/objects/5e
+/usr/local/xhand_controller/.git/objects/5e/4f61673fba40c0fbcc8b391dbb8eff4def79c1
+/usr/local/xhand_controller/.git/objects/5f
+/usr/local/xhand_controller/.git/objects/5f/73a2ee6b32b8c701651937b5813004821dd9ee
+/usr/local/xhand_controller/.git/objects/5f/7f7fb12c90bef3a5ebdec9f8db78e46f477913
+/usr/local/xhand_controller/.git/objects/5f/a00ef7e69c51fed659c0c2b4f8d875dc5f7679
+/usr/local/xhand_controller/.git/objects/60
+/usr/local/xhand_controller/.git/objects/60/dee1129f998c628ff296581cac4313e58be482
+/usr/local/xhand_controller/.git/objects/61
+/usr/local/xhand_controller/.git/objects/61/534b848c220ee099c167d53aff0dcc23f027e6
+/usr/local/xhand_controller/.git/objects/61/cab9ed109243a31884e7e1a98e8ae0c42919b1
+/usr/local/xhand_controller/.git/objects/62
+/usr/local/xhand_controller/.git/objects/62/a9da27f6eae79fa6a1c202e343e902b0efc7cb
+/usr/local/xhand_controller/.git/objects/64
+/usr/local/xhand_controller/.git/objects/64/79831afaf6f5a34cfd90697795018ac72e860c
+/usr/local/xhand_controller/.git/objects/64/d5883916ea1f996ad80332bd9f50f87c594d51
+/usr/local/xhand_controller/.git/objects/64/e76c16dfa9732a211916e6d75e72946c2bfe2c
+/usr/local/xhand_controller/.git/objects/65
+/usr/local/xhand_controller/.git/objects/65/64755128802b95c97fd737894baaadc1fd64c9
+/usr/local/xhand_controller/.git/objects/65/75c81c8cf1b79017be56f43299e31ce1db5dd2
+/usr/local/xhand_controller/.git/objects/66
+/usr/local/xhand_controller/.git/objects/66/a62ae632e25f34c4f8b072cd30a59b60ec82e7
+/usr/local/xhand_controller/.git/objects/66/b6d3ddaaa93cd53e08f4d2d69b4df51e0522ea
+/usr/local/xhand_controller/.git/objects/67
+/usr/local/xhand_controller/.git/objects/67/b8a2d80f7396dadfc0a33e8cfaf9a1d708a492
+/usr/local/xhand_controller/.git/objects/68
+/usr/local/xhand_controller/.git/objects/68/75ad6590221b9634352e2a13813b504c3ba95c
+/usr/local/xhand_controller/.git/objects/68/fb8e4ce241ef25e528bf2ddf6d5dd1def2a9d3
+/usr/local/xhand_controller/.git/objects/69
+/usr/local/xhand_controller/.git/objects/69/0776affd1a9c5ac43a8be5bbf711fa6c658d24
+/usr/local/xhand_controller/.git/objects/6a
+/usr/local/xhand_controller/.git/objects/6a/faecb969585ecdb065f1e9a5f51590559fc844
+/usr/local/xhand_controller/.git/objects/6b
+/usr/local/xhand_controller/.git/objects/6b/556890096653fdf771fede23798dcee7b2182f
+/usr/local/xhand_controller/.git/objects/6c
+/usr/local/xhand_controller/.git/objects/6c/65097825d9c1256220a0d94e23d333d864730c
+/usr/local/xhand_controller/.git/objects/6c/8412d481857de97a314ea71949405b8b94785a
+/usr/local/xhand_controller/.git/objects/6d
+/usr/local/xhand_controller/.git/objects/6d/4d85266f6e0fff6e4b51b4fa7e5e13028c5ee3
+/usr/local/xhand_controller/.git/objects/6e
+/usr/local/xhand_controller/.git/objects/6e/4d62675873b34eccd8ef6cd301224af1904195
+/usr/local/xhand_controller/.git/objects/6e/97b0cab7ae7d1786c0ec8bfc5830d7e6944731
+/usr/local/xhand_controller/.git/objects/70
+/usr/local/xhand_controller/.git/objects/70/2f97d5da3b43e2a64746181d6167c5692737de
+/usr/local/xhand_controller/.git/objects/72
+/usr/local/xhand_controller/.git/objects/72/2a037eba0af7a07f9b91159a6e06c330b67900
+/usr/local/xhand_controller/.git/objects/72/41d891224971062ccf5ddd72b1597eba1a36da
+/usr/local/xhand_controller/.git/objects/73
+/usr/local/xhand_controller/.git/objects/73/9223bdda30c6db01d3fe02ced3437b8b5308b2
+/usr/local/xhand_controller/.git/objects/74
+/usr/local/xhand_controller/.git/objects/74/d9923def0d015cb5b564ba3049901402751fe7
+/usr/local/xhand_controller/.git/objects/75
+/usr/local/xhand_controller/.git/objects/75/6982103cd1bb37b7e587997d6a158d3b202b1e
+/usr/local/xhand_controller/.git/objects/79
+/usr/local/xhand_controller/.git/objects/79/5dab49c10b850e5c43e0d9bda316a5a8a705ef
+/usr/local/xhand_controller/.git/objects/79/898ade634e15855306e24be7ae9dc8d0e122df
+/usr/local/xhand_controller/.git/objects/79/9896522a03afee1554d0db12ee7b68ac3e8231
+/usr/local/xhand_controller/.git/objects/7a
+/usr/local/xhand_controller/.git/objects/7a/efd770685381aaba236759a5689ea648b49d64
+/usr/local/xhand_controller/.git/objects/7b
+/usr/local/xhand_controller/.git/objects/7b/feb983ea604076aeb119e1cfaf3d8cab74d357
+/usr/local/xhand_controller/.git/objects/7c
+/usr/local/xhand_controller/.git/objects/7c/5a5c0a026fefab8536e4b5d8e1fa7b02f2729d
+/usr/local/xhand_controller/.git/objects/7d
+/usr/local/xhand_controller/.git/objects/7d/0b11523faf941c140ac73445ee4a6255817d4d
+/usr/local/xhand_controller/.git/objects/80
+/usr/local/xhand_controller/.git/objects/80/8db887b6beed4b69996ff6bf09a1e81e1f9f85
+/usr/local/xhand_controller/.git/objects/81
+/usr/local/xhand_controller/.git/objects/81/7937c66ac86a7a4bc7c5b0316e2db7c38ec156
+/usr/local/xhand_controller/.git/objects/82
+/usr/local/xhand_controller/.git/objects/82/0b94207ac2a65fdc754456b0324c40ae76b89c
+/usr/local/xhand_controller/.git/objects/82/9cab8ec5c78de742dc92e0198a0835d25554b3
+/usr/local/xhand_controller/.git/objects/82/e414b17cca114839d9895b30569c55e665813a
+/usr/local/xhand_controller/.git/objects/83
+/usr/local/xhand_controller/.git/objects/83/8381a735f1a8a6613437394c70805bb0f0cc20
+/usr/local/xhand_controller/.git/objects/83/a0c2782c92e72e29e0799447a3771adf3f3218
+/usr/local/xhand_controller/.git/objects/83/fe8baefa8c345ef3aabe8dbe41fb9eee1829b5
+/usr/local/xhand_controller/.git/objects/84
+/usr/local/xhand_controller/.git/objects/84/ac6c41e0e5263497ce93ba77db5fb6c527bf92
+/usr/local/xhand_controller/.git/objects/85
+/usr/local/xhand_controller/.git/objects/85/81eb08e8c46814994bfac658353d2398627d04
+/usr/local/xhand_controller/.git/objects/86
+/usr/local/xhand_controller/.git/objects/86/e74464770fdcf17ff5e75eeb07b4c81b92e301
+/usr/local/xhand_controller/.git/objects/88
+/usr/local/xhand_controller/.git/objects/88/bcfaf651fdddeb4868e6fbc24a7435b1c53d7f
+/usr/local/xhand_controller/.git/objects/89
+/usr/local/xhand_controller/.git/objects/89/07de61c3276453710335b90602f790e9288e4a
+/usr/local/xhand_controller/.git/objects/89/5e66354b41929f4955a44ddf747d6bc7b28546
+/usr/local/xhand_controller/.git/objects/8a
+/usr/local/xhand_controller/.git/objects/8a/10cf53a264e5666290ed644c2a2ed95a2e160a
+/usr/local/xhand_controller/.git/objects/8a/73783ab5478ad2a0378a72b6106b086f0d6700
+/usr/local/xhand_controller/.git/objects/8a/c5c7eceef176843e310033c10c3828cda6c5a4
+/usr/local/xhand_controller/.git/objects/8a/e94f77b0cf10486773a6cb1cbf5446187eaa1c
+/usr/local/xhand_controller/.git/objects/8a/f0dbbc83bca780e77bf30cdd4aa88f6570d442
+/usr/local/xhand_controller/.git/objects/8a/f404bf91ed11258546badff90f1b90be23c70d
+/usr/local/xhand_controller/.git/objects/8b
+/usr/local/xhand_controller/.git/objects/8b/61ec8167c478455e74ebebc60594e920736bd6
+/usr/local/xhand_controller/.git/objects/8c
+/usr/local/xhand_controller/.git/objects/8c/2dd00fac96a5c2a4601d585e8e65f590ba7fec
+/usr/local/xhand_controller/.git/objects/8f
+/usr/local/xhand_controller/.git/objects/8f/78ac6c9f3d4cb06b298a0b9c211da7767102b0
+/usr/local/xhand_controller/.git/objects/8f/792588ab1ca87fbce464ea8f6496726faaf0b8
+/usr/local/xhand_controller/.git/objects/90
+/usr/local/xhand_controller/.git/objects/90/12d4d3499011faef9c3ec0a902518ce88a6423
+/usr/local/xhand_controller/.git/objects/90/37d665d3f8a2345968c252fffb47ef0cf1fa6e
+/usr/local/xhand_controller/.git/objects/90/3f5d0b49e84bfa021d9901e76dc9b57e7782d9
+/usr/local/xhand_controller/.git/objects/91
+/usr/local/xhand_controller/.git/objects/91/7b5ba807f6740728e8762d85cbcf4d39ad2c5c
+/usr/local/xhand_controller/.git/objects/92
+/usr/local/xhand_controller/.git/objects/92/56e8a7400cad62e4fd632d2da77993a3a44474
+/usr/local/xhand_controller/.git/objects/93
+/usr/local/xhand_controller/.git/objects/93/0f9f64f0bb2b4d18efe5e806fdc2f5debdc504
+/usr/local/xhand_controller/.git/objects/94
+/usr/local/xhand_controller/.git/objects/94/e733afcba3f478c3504bac838b4ff2ec062890
+/usr/local/xhand_controller/.git/objects/95
+/usr/local/xhand_controller/.git/objects/95/05008d8aa05e31826cd671562c17f40832bd62
+/usr/local/xhand_controller/.git/objects/95/3db829a4b4edd48c5091526022a527ed471856
+/usr/local/xhand_controller/.git/objects/97
+/usr/local/xhand_controller/.git/objects/97/096ae5582d02f4f334c6b1c6ab2800c14f45e2
+/usr/local/xhand_controller/.git/objects/97/826b4a59073e03f2b6e161b8f67ed83dcc000b
+/usr/local/xhand_controller/.git/objects/97/bcb3275fd858a05f9c6751d53d9ce2f7e27563
+/usr/local/xhand_controller/.git/objects/99
+/usr/local/xhand_controller/.git/objects/99/1854c95945b5fd01656232d36b2ab6fdb6efb1
+/usr/local/xhand_controller/.git/objects/99/9cef113607682179501207bc12eb76ee4e0d58
+/usr/local/xhand_controller/.git/objects/9a
+/usr/local/xhand_controller/.git/objects/9a/f5281c7eb8e06ee86f5f4dbae08c2775d792ca
+/usr/local/xhand_controller/.git/objects/9b
+/usr/local/xhand_controller/.git/objects/9b/a5f149a07d822334cd43cb6ff7619fea546821
+/usr/local/xhand_controller/.git/objects/9c
+/usr/local/xhand_controller/.git/objects/9c/3b85fe27ca15cb8d25769802bac75c502462a7
+/usr/local/xhand_controller/.git/objects/9c/8014fee1e513c0afcd89e77f577dcf77627680
+/usr/local/xhand_controller/.git/objects/9d
+/usr/local/xhand_controller/.git/objects/9d/e1d772ef628fdba87d58234b11017a2e3e917d
+/usr/local/xhand_controller/.git/objects/9e
+/usr/local/xhand_controller/.git/objects/9e/e7115db7e60be16e55082c13bf654f8a9616bc
+/usr/local/xhand_controller/.git/objects/a0
+/usr/local/xhand_controller/.git/objects/a0/27db7930c8fb1328e9bbd6f2821ee80e1dd07a
+/usr/local/xhand_controller/.git/objects/a0/503db9e12ec082155622d0aba1e79bd8d4ef77
+/usr/local/xhand_controller/.git/objects/a0/a2869fcf1337abbec065aff921e08e2e2a76a9
+/usr/local/xhand_controller/.git/objects/a0/c41d4e95ac5f129c0bb985d84dbd52b655af9a
+/usr/local/xhand_controller/.git/objects/a0/fcae8a20ac3d855cc6b0e12305d7360ac9b69c
+/usr/local/xhand_controller/.git/objects/a2
+/usr/local/xhand_controller/.git/objects/a2/062c062460be34fbf61d0d113c1d08d1a653ae
+/usr/local/xhand_controller/.git/objects/a2/6c2c8ea3716d1efee3fb47dd9212572c715b1f
+/usr/local/xhand_controller/.git/objects/a2/ba5b516abcf53ae80109c202156f403cea0bcd
+/usr/local/xhand_controller/.git/objects/a3
+/usr/local/xhand_controller/.git/objects/a3/a46666f4a084a81054ea2481df4e7725c9dd3c
+/usr/local/xhand_controller/.git/objects/a4
+/usr/local/xhand_controller/.git/objects/a4/1a453c862d98b9272ecf62d94c6866a7b03565
+/usr/local/xhand_controller/.git/objects/a4/ce0d32dc208f3be25f0552ef149a72196613b3
+/usr/local/xhand_controller/.git/objects/a5
+/usr/local/xhand_controller/.git/objects/a5/1cda839f4ae8bcd3774d8bcb9f31bc5e45c8f5
+/usr/local/xhand_controller/.git/objects/a5/44f42852e0b94eabd72e3b35a6b17e5bfe0ec3
+/usr/local/xhand_controller/.git/objects/a7
+/usr/local/xhand_controller/.git/objects/a7/08f73b2dad985000b813bc698bb02bae25af61
+/usr/local/xhand_controller/.git/objects/a7/3206606ac51ac6e34b47f4329b10d4ff9e767a
+/usr/local/xhand_controller/.git/objects/a8
+/usr/local/xhand_controller/.git/objects/a8/3cec46f1f4be63ec1267859dc49a8742348117
+/usr/local/xhand_controller/.git/objects/a8/d448c41bffc9330f8347cc3d21208750979ea1
+/usr/local/xhand_controller/.git/objects/ab
+/usr/local/xhand_controller/.git/objects/ab/5deae6a7149e4b886b10547de85ee3ddb1f651
+/usr/local/xhand_controller/.git/objects/ab/964dcfc365dc9221f508bf1b8b26a97bd79057
+/usr/local/xhand_controller/.git/objects/ab/eb204596240bfba5ea07e1efad44a156a62a5c
+/usr/local/xhand_controller/.git/objects/ac
+/usr/local/xhand_controller/.git/objects/ac/76982dc668da5015ae6d5a67abb2e840f81545
+/usr/local/xhand_controller/.git/objects/ac/dee0e26bf19bc713c8bd195a101b2469ff3033
+/usr/local/xhand_controller/.git/objects/ad
+/usr/local/xhand_controller/.git/objects/ad/2aa4697e412ac36465f8d4a379ca8cb5326578
+/usr/local/xhand_controller/.git/objects/ad/30f96416333adadb83a264e1cf4f9495049e72
+/usr/local/xhand_controller/.git/objects/ad/8bfa89655df854254905edeadbb395ade55ef1
+/usr/local/xhand_controller/.git/objects/ae
+/usr/local/xhand_controller/.git/objects/ae/df8c93f703e2085802bd06eee30e24f158fea1
+/usr/local/xhand_controller/.git/objects/af
+/usr/local/xhand_controller/.git/objects/af/35ed8042ea014b7e11d0fcc272f3db83961a3a
+/usr/local/xhand_controller/.git/objects/af/8829dcaedb1ff43bb0346b9559f81672138621
+/usr/local/xhand_controller/.git/objects/b0
+/usr/local/xhand_controller/.git/objects/b0/830b3e5eb04305c5f434fdbbcbb3bfd5dfba1d
+/usr/local/xhand_controller/.git/objects/b1
+/usr/local/xhand_controller/.git/objects/b1/ceb51b7a9388aea815cff34efd37690a2c61ad
+/usr/local/xhand_controller/.git/objects/b2
+/usr/local/xhand_controller/.git/objects/b2/4c85a2fdbd88d8555597ae072c8a9a1a3ad917
+/usr/local/xhand_controller/.git/objects/b2/f175d06bdfb42b67a0f2c149475db43706f9a3
+/usr/local/xhand_controller/.git/objects/b5
+/usr/local/xhand_controller/.git/objects/b5/288b40b916fc165b27d8abbe30844b6e5ca5b4
+/usr/local/xhand_controller/.git/objects/b5/cc80a6953725aa8abc94495b76c4447d792190
+/usr/local/xhand_controller/.git/objects/b6
+/usr/local/xhand_controller/.git/objects/b6/7970dd33304d49e632f545e5801aba651c180a
+/usr/local/xhand_controller/.git/objects/b6/d2796f8e73ccadf94784e0aadaf5dd15d6bbf5
+/usr/local/xhand_controller/.git/objects/b9
+/usr/local/xhand_controller/.git/objects/b9/721df9f7c5402622e88a38fc40c2f4d5030c07
+/usr/local/xhand_controller/.git/objects/bc
+/usr/local/xhand_controller/.git/objects/bc/7a851694fb30e89b50b21a83099473b4170fe2
+/usr/local/xhand_controller/.git/objects/bd
+/usr/local/xhand_controller/.git/objects/bd/4373eea18f7dcf31eb2563a53eed8160c56350
+/usr/local/xhand_controller/.git/objects/be
+/usr/local/xhand_controller/.git/objects/be/7c373edbd5d86266b6f709b768f8d4eeeb279c
+/usr/local/xhand_controller/.git/objects/bf
+/usr/local/xhand_controller/.git/objects/bf/214ed4146f112b2b4308033b82f018bd75ed9e
+/usr/local/xhand_controller/.git/objects/c1
+/usr/local/xhand_controller/.git/objects/c1/de8756f1325d16865ef2e55917338e3bf9c6bd
+/usr/local/xhand_controller/.git/objects/c1/e82c031c71e96f0c5eec6d0f9af7f10cb9fe4b
+/usr/local/xhand_controller/.git/objects/c2
+/usr/local/xhand_controller/.git/objects/c2/2bd0f28df63f29d9bf3dfe0c274b6dfdf3efec
+/usr/local/xhand_controller/.git/objects/c3
+/usr/local/xhand_controller/.git/objects/c3/c857a068510246fb3959898d5237a67e0abb62
+/usr/local/xhand_controller/.git/objects/c3/f4cee91a4e5782fa9899dc6a651200f849fe08
+/usr/local/xhand_controller/.git/objects/c4
+/usr/local/xhand_controller/.git/objects/c4/4efb2bf8e36b45f9e0d5602ee1a2a5929a3c22
+/usr/local/xhand_controller/.git/objects/c4/5158ad7b66fdac4a4fbbd1859387ba171af64a
+/usr/local/xhand_controller/.git/objects/c4/d464343ac8a5ff96feb63f2dc2473510a86619
+/usr/local/xhand_controller/.git/objects/c4/fb5c18b697c77ed2b0cd17e765386d3626587d
+/usr/local/xhand_controller/.git/objects/c6
+/usr/local/xhand_controller/.git/objects/c6/18d29ef4539b5b2902fff4cc36d09dc43ff4f2
+/usr/local/xhand_controller/.git/objects/c7
+/usr/local/xhand_controller/.git/objects/c7/e342b0212e1e99a2efc799a9a116e36f63c1b0
+/usr/local/xhand_controller/.git/objects/c8
+/usr/local/xhand_controller/.git/objects/c8/046cc213382676d319d937b238dd447818b99d
+/usr/local/xhand_controller/.git/objects/c8/849a023f8935d7d14d33ec38cc866a81fd2f4a
+/usr/local/xhand_controller/.git/objects/c8/a7c33c17b3f8b966f203a362854d77afb7ab76
+/usr/local/xhand_controller/.git/objects/c8/f0aaa54afe9c378c735b3d3f379fecc6ef1286
+/usr/local/xhand_controller/.git/objects/c9
+/usr/local/xhand_controller/.git/objects/c9/3bbb461a25937a2ec926f94b2f8a5a16691be0
+/usr/local/xhand_controller/.git/objects/c9/43a05a209e31b03d1318e57e13f75acf3bfbc8
+/usr/local/xhand_controller/.git/objects/c9/c357c09ea8304d53d789e9cebc017d6f788f36
+/usr/local/xhand_controller/.git/objects/ca
+/usr/local/xhand_controller/.git/objects/ca/753bfb21542f700f38e2a54f759bdd6a97d0c9
+/usr/local/xhand_controller/.git/objects/cd
+/usr/local/xhand_controller/.git/objects/cd/256ce7bf26d6791e51aa47395884e3897a5ce5
+/usr/local/xhand_controller/.git/objects/cf
+/usr/local/xhand_controller/.git/objects/cf/7efe68b3ea3c91c0ca0b84f1ddd7da2530ed39
+/usr/local/xhand_controller/.git/objects/d0
+/usr/local/xhand_controller/.git/objects/d0/54040db15301fe3b840dc1608b9ff779659b8a
+/usr/local/xhand_controller/.git/objects/d0/b6af0197808974dc8d0f5ac4d48bf90c9ffdff
+/usr/local/xhand_controller/.git/objects/d0/b80e483bc9205bcac3b9757e29ebc21befd49e
+/usr/local/xhand_controller/.git/objects/d0/b82c386e44f31bcd03837d90b61e96ed65c8a4
+/usr/local/xhand_controller/.git/objects/d0/dff86b55760822cf459e587863cd5d229e73c3
+/usr/local/xhand_controller/.git/objects/d2
+/usr/local/xhand_controller/.git/objects/d2/537a5cefa4cbad4be21ece3b62e22e5c105927
+/usr/local/xhand_controller/.git/objects/d2/7740180c5c57dc39750c442eb4d848eee8dc8c
+/usr/local/xhand_controller/.git/objects/d2/7a692ca2eed04cc9a584ba801837d1f0eadc02
+/usr/local/xhand_controller/.git/objects/d3
+/usr/local/xhand_controller/.git/objects/d3/17339f2422c7e1501a2d666faa36d007c987d1
+/usr/local/xhand_controller/.git/objects/d3/303441383dd39dfde4cfe41f03d51156d6ba9a
+/usr/local/xhand_controller/.git/objects/d3/5f86330e81dd8cc93018f4000d32851859240d
+/usr/local/xhand_controller/.git/objects/d3/b50440cf2bbe408d42053d170c504fcda4b065
+/usr/local/xhand_controller/.git/objects/d6
+/usr/local/xhand_controller/.git/objects/d6/8aaa577a9a036e641768346dbac52900a3251b
+/usr/local/xhand_controller/.git/objects/d6/b86357c8ab30b0ca0a8b2a572ec29822941ec5
+/usr/local/xhand_controller/.git/objects/d6/cdab5d70379c8cfba25588a79c5fb258b912c6
+/usr/local/xhand_controller/.git/objects/d6/eea7ec71fa13331aa544cfc33592e29bfb9f1c
+/usr/local/xhand_controller/.git/objects/d9
+/usr/local/xhand_controller/.git/objects/d9/691d7c91faca24cf3931584bffb1e843ca3a4a
+/usr/local/xhand_controller/.git/objects/d9/9563e62b9ca73b2c111ff56c9e7a5e992edbc2
+/usr/local/xhand_controller/.git/objects/d9/95be66b6a121bc7203ec01dc2d38eb90632c9c
+/usr/local/xhand_controller/.git/objects/d9/b8df6a5943416643924dc44ee4e37591beebcc
+/usr/local/xhand_controller/.git/objects/da
+/usr/local/xhand_controller/.git/objects/da/2e76d398df486bcfcb1f013659a5b39f137fc9
+/usr/local/xhand_controller/.git/objects/da/300405f1a4e1432a120848c0184571f4a2ab41
+/usr/local/xhand_controller/.git/objects/da/45790351942057584e2f6aea221066f1c3c01b
+/usr/local/xhand_controller/.git/objects/da/e8724917a608ace65159d71ae090e97375dfaa
+/usr/local/xhand_controller/.git/objects/db
+/usr/local/xhand_controller/.git/objects/db/c384bc9115fd6c44087a3ed2c9545ea14b76f7
+/usr/local/xhand_controller/.git/objects/df
+/usr/local/xhand_controller/.git/objects/df/0863f8c80680f2a980866e9d09b02d3348c034
+/usr/local/xhand_controller/.git/objects/df/0998968a7e755e5033f5ccf8322473361e119b
+/usr/local/xhand_controller/.git/objects/df/727c3525e2675bc99c4950032221b3811fdd0a
+/usr/local/xhand_controller/.git/objects/e1
+/usr/local/xhand_controller/.git/objects/e1/30c20bbaca2ff7e7b77a8e5e923cad4667a1b1
+/usr/local/xhand_controller/.git/objects/e2
+/usr/local/xhand_controller/.git/objects/e2/a292988bf60473d6f2723822822080b1f6a6a2
+/usr/local/xhand_controller/.git/objects/e3
+/usr/local/xhand_controller/.git/objects/e3/4cef39e87b826e3bfb92454b7ad6412bc66073
+/usr/local/xhand_controller/.git/objects/e4
+/usr/local/xhand_controller/.git/objects/e4/10de2d3cec853bc486ba2f9ecd7f7047661ba9
+/usr/local/xhand_controller/.git/objects/e4/9c50dd8cdcd11f886b8325385bea72f1c856c8
+/usr/local/xhand_controller/.git/objects/e5
+/usr/local/xhand_controller/.git/objects/e5/86edc143c4236fe9a813850290844c7085f24d
+/usr/local/xhand_controller/.git/objects/e6
+/usr/local/xhand_controller/.git/objects/e6/5ff318dbd4b13f7cd7992572b815e8740cb17d
+/usr/local/xhand_controller/.git/objects/e6/6d3c13f8a97a209980f2f968757aba56cde92a
+/usr/local/xhand_controller/.git/objects/e7
+/usr/local/xhand_controller/.git/objects/e7/921dddc2c38f3fbd330750334afc3e250d35b5
+/usr/local/xhand_controller/.git/objects/e7/bc643ff6846a7759b04682cd54a008fd6e5a4e
+/usr/local/xhand_controller/.git/objects/e7/cce5932d313cfec3b941120175aa4688e0333f
+/usr/local/xhand_controller/.git/objects/e8
+/usr/local/xhand_controller/.git/objects/e8/2b6c1232c156bea6583911dfab969dc1ad2334
+/usr/local/xhand_controller/.git/objects/e9
+/usr/local/xhand_controller/.git/objects/e9/18c0ec8b037fd9cd330f2f3e02ad8ddfa292bb
+/usr/local/xhand_controller/.git/objects/ea
+/usr/local/xhand_controller/.git/objects/ea/1c5fa0901244b985e4a847f00bc6ba924c740d
+/usr/local/xhand_controller/.git/objects/ea/87b51c1eb1622d0dbeb64af099858b795919d4
+/usr/local/xhand_controller/.git/objects/eb
+/usr/local/xhand_controller/.git/objects/eb/38c1c9dcdc26c242fdc84e03dbbb97f17af008
+/usr/local/xhand_controller/.git/objects/ee
+/usr/local/xhand_controller/.git/objects/ee/5453d6a449ab5b201e6a2c20bc7248e972bb37
+/usr/local/xhand_controller/.git/objects/ee/7db64295c80e6958ac0b8be67c9791c219d72a
+/usr/local/xhand_controller/.git/objects/ee/ad028d3046bdd8ed57af77c6c12f21050253a7
+/usr/local/xhand_controller/.git/objects/ef
+/usr/local/xhand_controller/.git/objects/ef/c7731cc3c763c25b0a6e866b7ac1ce0187f6c8
+/usr/local/xhand_controller/.git/objects/ef/eb22745afe7ec435d7ad837248194e5982cb97
+/usr/local/xhand_controller/.git/objects/f1
+/usr/local/xhand_controller/.git/objects/f1/16aaf9804dd03bc764de404f9f89bb33214290
+/usr/local/xhand_controller/.git/objects/f1/6865d18c601d280dff0e58fa0ffb8f0f285454
+/usr/local/xhand_controller/.git/objects/f1/c6785c6e6e7c4355e07b4ed0d94dc3b4fc1dc7
+/usr/local/xhand_controller/.git/objects/f3
+/usr/local/xhand_controller/.git/objects/f3/4f574fbf51a56923084d26095689b4dcbdc81d
+/usr/local/xhand_controller/.git/objects/f4
+/usr/local/xhand_controller/.git/objects/f4/2d9d5e3ec5f8f177eefedb3ce7606d164ed302
+/usr/local/xhand_controller/.git/objects/f4/f4e3726ddfd81386735add3be58c99ca573d38
+/usr/local/xhand_controller/.git/objects/f4/fa9584db332d5315ac849f08a848c07d4b1294
+/usr/local/xhand_controller/.git/objects/f5
+/usr/local/xhand_controller/.git/objects/f5/2468d5dd4e8e18bdfcef32d2536988059ebbc2
+/usr/local/xhand_controller/.git/objects/f6
+/usr/local/xhand_controller/.git/objects/f6/3397431cc7740416a1c7913068968ad9cbdb6a
+/usr/local/xhand_controller/.git/objects/f6/8472431e7178c3f5ddc2541c3f1719bcaebe10
+/usr/local/xhand_controller/.git/objects/f7
+/usr/local/xhand_controller/.git/objects/f7/cd492bce68b8b3d1a6d1a0222e4eebde8019de
+/usr/local/xhand_controller/.git/objects/f9
+/usr/local/xhand_controller/.git/objects/f9/4e83fb4408517727194f99f0853692605155be
+/usr/local/xhand_controller/.git/objects/fa
+/usr/local/xhand_controller/.git/objects/fa/e2c4fa99e7b669e2c599850d62e80021308ec1
+/usr/local/xhand_controller/.git/objects/fb
+/usr/local/xhand_controller/.git/objects/fb/20a8071b1e3ea77a5419e2c525b399ea570d2c
+/usr/local/xhand_controller/.git/objects/fc
+/usr/local/xhand_controller/.git/objects/fc/23bc32ae790d1fe190a7b3b53cda47e09f0b50
+/usr/local/xhand_controller/.git/objects/fc/47755887ee9959aa03fbd5c0d19c55726f5f0c
+/usr/local/xhand_controller/.git/objects/fc/df94c751dbc8a81302da01010d9812a916185e
+/usr/local/xhand_controller/.git/objects/fe
+/usr/local/xhand_controller/.git/objects/fe/2b842afba23b1e87f75cdd2d627a0885785a45
+/usr/local/xhand_controller/.git/objects/fe/7dddee05d1b7a8ed5fb61a8c5fae66a09d5c3b
+/usr/local/xhand_controller/.git/objects/fe/d51a32f978a30bd78a5e88bad95605d84dbdd2
+/usr/local/xhand_controller/.git/objects/ff
+/usr/local/xhand_controller/.git/objects/ff/2c3f60c8ec39312af46aea6c33fa0a8a767eb6
+/usr/local/xhand_controller/.git/objects/ff/3c4b72c10dc967fa4f5d044134a67953c28fbf
+/usr/local/xhand_controller/.git/objects/info
+/usr/local/xhand_controller/.git/objects/pack
+/usr/local/xhand_controller/.git/objects/pack/pack-24040a06fd169cefefffd86b79933e2330c48575.idx
+/usr/local/xhand_controller/.git/objects/pack/pack-24040a06fd169cefefffd86b79933e2330c48575.pack
+/usr/local/xhand_controller/.git/objects/pack/pack-fedb9137bfa370413bc28e70dc01c27ba022cd14.idx
+/usr/local/xhand_controller/.git/objects/pack/pack-fedb9137bfa370413bc28e70dc01c27ba022cd14.pack
+/usr/local/xhand_controller/.git/packed-refs
+/usr/local/xhand_controller/.git/refs
+/usr/local/xhand_controller/.git/refs/heads
+/usr/local/xhand_controller/.git/refs/heads/main
+/usr/local/xhand_controller/.git/refs/heads/pre-release0
+/usr/local/xhand_controller/.git/refs/remotes
+/usr/local/xhand_controller/.git/refs/remotes/origin
+/usr/local/xhand_controller/.git/refs/remotes/origin/dev
+/usr/local/xhand_controller/.git/refs/remotes/origin/feature
+/usr/local/xhand_controller/.git/refs/remotes/origin/feature/action_count
+/usr/local/xhand_controller/.git/refs/remotes/origin/HEAD
+/usr/local/xhand_controller/.git/refs/tags
+/usr/local/xhand_controller/.git/refs/tags/push
+/usr/local/xhand_controller/.git/refs/tags/v1.2.10
+/usr/local/xhand_controller/.git/refs/tags/v1.2.11
+/usr/local/xhand_controller/.git/refs/tags/v1.2.12
+/usr/local/xhand_controller/.git/refs/tags/v1.2.13
+/usr/local/xhand_controller/.git/refs/tags/v1.2.14
+/usr/local/xhand_controller/.git/refs/tags/v1.2.15
+/usr/local/xhand_controller/.git/refs/tags/v1.2.16
+/usr/local/xhand_controller/.git/refs/tags/v1.2.6
+/usr/local/xhand_controller/.git/refs/tags/v1.2.7
+/usr/local/xhand_controller/.git/refs/tags/v1.2.8
+/usr/local/xhand_controller/.git/refs/tags/v1.2.9
+/usr/local/xhand_controller/.git/refs/tags/v1.3.0
+/usr/local/xhand_controller/.git/refs/tags/v1.3.1
+/usr/local/xhand_controller/.git/refs/tags/v1.3.2
+/usr/local/xhand_controller/.git/refs/tags/v1.4.0
+/usr/local/xhand_controller/.git/refs/tags/v1.4.1
+/usr/local/xhand_controller/.git/refs/tags/v1.4.3
+/usr/local/xhand_controller/.git/refs/tags/v1.4.4
+/usr/local/xhand_controller/.git/refs/tags/v1.4.5
+/usr/local/xhand_controller/.git/refs/tags/v1.4.6
+/usr/local/xhand_controller/.git/refs/tags/v1.4.7
+/usr/local/xhand_controller/.git/refs/tags/v1.4.8
+/usr/local/xhand_controller/.git/refs/tags/v1.5.0
+/usr/local/xhand_controller/.git/refs/tags/v1.5.1
+/usr/local/xhand_controller/include
+/usr/local/xhand_controller/include/communiation_interface.hpp
+/usr/local/xhand_controller/include/data_type.hpp
+/usr/local/xhand_controller/include/error_manager.hpp
+/usr/local/xhand_controller/include/ethercat_communication.hpp
+/usr/local/xhand_controller/include/ev_boot.h
+/usr/local/xhand_controller/include/parse_data.h
+/usr/local/xhand_controller/include/serial_communication.hpp
+/usr/local/xhand_controller/include/visibility_control.h
+/usr/local/xhand_controller/include/xhand_control.hpp
+/usr/local/xhand_controller/README.md
+/usr/local/xhand_controller/serial
+/usr/local/xhand_controller/serial/include
+/usr/local/xhand_controller/serial/include/serial
+/usr/local/xhand_controller/serial/include/serial/impl
+/usr/local/xhand_controller/serial/include/serial/impl/unix.h
+/usr/local/xhand_controller/serial/include/serial/impl/win.h
+/usr/local/xhand_controller/serial/include/serial/serial.h
+/usr/local/xhand_controller/serial/include/serial/v8stdint.h
+/usr/local/xhand_controller/serial/src
+/usr/local/xhand_controller/serial/src/impl
+/usr/local/xhand_controller/serial/src/impl/list_ports
+/usr/local/xhand_controller/serial/src/impl/list_ports/list_ports_linux.cc
+/usr/local/xhand_controller/serial/src/impl/list_ports/list_ports_osx.cc
+/usr/local/xhand_controller/serial/src/impl/list_ports/list_ports_win.cc
+/usr/local/xhand_controller/serial/src/impl/unix.cc
+/usr/local/xhand_controller/serial/src/impl/win.cc
+/usr/local/xhand_controller/serial/src/serial.cc
+/usr/local/xhand_controller/SOEM
+/usr/local/xhand_controller/SOEM/ChangeLog
+/usr/local/xhand_controller/SOEM/cmake
+/usr/local/xhand_controller/SOEM/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/cmake/Modules
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform/rtems.cmake
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform/rt-kernel-C.cmake
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform/rt-kernel.cmake
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform/rt-kernel-gcc-bfin.cmake
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform/rt-kernel-gcc.cmake
+/usr/local/xhand_controller/SOEM/cmake/Modules/Platform/rt-kernel-gcc-kinetis.cmake
+/usr/local/xhand_controller/SOEM/cmake/Toolchains
+/usr/local/xhand_controller/SOEM/cmake/Toolchains/rt-kernel-bfin.cmake
+/usr/local/xhand_controller/SOEM/cmake/Toolchains/rt-kernel-kinetis.cmake
+/usr/local/xhand_controller/SOEM/doc
+/usr/local/xhand_controller/SOEM/doc/images
+/usr/local/xhand_controller/SOEM/doc/images/legacy_iomap.png
+/usr/local/xhand_controller/SOEM/doc/images/memory_layout.png
+/usr/local/xhand_controller/SOEM/doc/images/overlapping_iomap.png
+/usr/local/xhand_controller/SOEM/doc/soem.dox
+/usr/local/xhand_controller/SOEM/doc/tutorial.txt
+/usr/local/xhand_controller/SOEM/Doxyfile
+/usr/local/xhand_controller/SOEM/drvcomment.txt
+/usr/local/xhand_controller/SOEM/.gitattributes
+/usr/local/xhand_controller/SOEM/.gitignore
+/usr/local/xhand_controller/SOEM/LICENSE
+/usr/local/xhand_controller/SOEM/osal
+/usr/local/xhand_controller/SOEM/osal/erika
+/usr/local/xhand_controller/SOEM/osal/erika/osal.c
+/usr/local/xhand_controller/SOEM/osal/erika/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/intime
+/usr/local/xhand_controller/SOEM/osal/intime/osal.c
+/usr/local/xhand_controller/SOEM/osal/intime/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/linux
+/usr/local/xhand_controller/SOEM/osal/linux/osal.c
+/usr/local/xhand_controller/SOEM/osal/linux/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/macosx
+/usr/local/xhand_controller/SOEM/osal/macosx/osal.c
+/usr/local/xhand_controller/SOEM/osal/macosx/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/osal.h
+/usr/local/xhand_controller/SOEM/osal/rtems
+/usr/local/xhand_controller/SOEM/osal/rtems/osal.c
+/usr/local/xhand_controller/SOEM/osal/rtems/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/rtk
+/usr/local/xhand_controller/SOEM/osal/rtk/osal.c
+/usr/local/xhand_controller/SOEM/osal/rtk/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/vxworks
+/usr/local/xhand_controller/SOEM/osal/vxworks/osal.c
+/usr/local/xhand_controller/SOEM/osal/vxworks/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/win32
+/usr/local/xhand_controller/SOEM/osal/win32/inttypes.h
+/usr/local/xhand_controller/SOEM/osal/win32/osal.c
+/usr/local/xhand_controller/SOEM/osal/win32/osal_defs.h
+/usr/local/xhand_controller/SOEM/osal/win32/osal_win32.h
+/usr/local/xhand_controller/SOEM/osal/win32/stdint.h
+/usr/local/xhand_controller/SOEM/oshw
+/usr/local/xhand_controller/SOEM/oshw/erika
+/usr/local/xhand_controller/SOEM/oshw/erika/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/erika/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/erika/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/erika/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/intime
+/usr/local/xhand_controller/SOEM/oshw/intime/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/intime/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/intime/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/intime/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/linux
+/usr/local/xhand_controller/SOEM/oshw/linux/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/linux/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/linux/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/linux/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/macosx
+/usr/local/xhand_controller/SOEM/oshw/macosx/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/macosx/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/macosx/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/macosx/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/rtems
+/usr/local/xhand_controller/SOEM/oshw/rtems/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/rtems/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/rtems/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/rtems/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/rtk
+/usr/local/xhand_controller/SOEM/oshw/rtk/fec
+/usr/local/xhand_controller/SOEM/oshw/rtk/fec/fec_ecat.c
+/usr/local/xhand_controller/SOEM/oshw/rtk/fec/fec_ecat.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/lw_mac
+/usr/local/xhand_controller/SOEM/oshw/rtk/lw_mac/lw_emac.c
+/usr/local/xhand_controller/SOEM/oshw/rtk/lw_mac/lw_emac.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/rtk/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/rtk/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/rtk/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/vxworks
+/usr/local/xhand_controller/SOEM/oshw/vxworks/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/vxworks/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/vxworks/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/vxworks/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/win32
+/usr/local/xhand_controller/SOEM/oshw/win32/nicdrv.c
+/usr/local/xhand_controller/SOEM/oshw/win32/nicdrv.h
+/usr/local/xhand_controller/SOEM/oshw/win32/oshw.c
+/usr/local/xhand_controller/SOEM/oshw/win32/oshw.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/bittypes.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/ip6_misc.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Packet32.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bluetooth.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap-bpf.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/bpf.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap-namedb.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/namedb.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/pcap.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/sll.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap-stdinc.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/usb.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/pcap/vlan.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/remote-ext.h
+/usr/local/xhand_controller/SOEM/oshw/win32/wpcap/Include/Win32-Extensions.h
+/usr/local/xhand_controller/SOEM/README.md
+/usr/local/xhand_controller/SOEM/soem
+/usr/local/xhand_controller/SOEM/soem/ethercatbase.c
+/usr/local/xhand_controller/SOEM/soem/ethercatbase.h
+/usr/local/xhand_controller/SOEM/soem/ethercatcoe.c
+/usr/local/xhand_controller/SOEM/soem/ethercatcoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercatconfig.c
+/usr/local/xhand_controller/SOEM/soem/ethercatconfig.h
+/usr/local/xhand_controller/SOEM/soem/ethercatconfiglist.h
+/usr/local/xhand_controller/SOEM/soem/ethercatdc.c
+/usr/local/xhand_controller/SOEM/soem/ethercatdc.h
+/usr/local/xhand_controller/SOEM/soem/ethercateoe.c
+/usr/local/xhand_controller/SOEM/soem/ethercateoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercatfoe.c
+/usr/local/xhand_controller/SOEM/soem/ethercatfoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercat.h
+/usr/local/xhand_controller/SOEM/soem/ethercatmain.c
+/usr/local/xhand_controller/SOEM/soem/ethercatmain.h
+/usr/local/xhand_controller/SOEM/soem/ethercatprint.c
+/usr/local/xhand_controller/SOEM/soem/ethercatprint.h
+/usr/local/xhand_controller/SOEM/soem/ethercatsoe.c
+/usr/local/xhand_controller/SOEM/soem/ethercatsoe.h
+/usr/local/xhand_controller/SOEM/soem/ethercattype.h
+/usr/local/xhand_controller/SOEM/test
+/usr/local/xhand_controller/SOEM/test/intime
+/usr/local/xhand_controller/SOEM/test/intime/ec_master
+/usr/local/xhand_controller/SOEM/test/intime/ec_master/ec_master.c
+/usr/local/xhand_controller/SOEM/test/linux
+/usr/local/xhand_controller/SOEM/test/linux/aliastool.c
+/usr/local/xhand_controller/SOEM/test/linux/ebox
+/usr/local/xhand_controller/SOEM/test/linux/ebox/ebox.c
+/usr/local/xhand_controller/SOEM/test/linux/eepromtool
+/usr/local/xhand_controller/SOEM/test/linux/eepromtool/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/linux/eepromtool/eepromtool.c
+/usr/local/xhand_controller/SOEM/test/linux/eoe_test
+/usr/local/xhand_controller/SOEM/test/linux/eoe_test/eoe_test.c
+/usr/local/xhand_controller/SOEM/test/linux/firm_update
+/usr/local/xhand_controller/SOEM/test/linux/firm_update/firm_update.c
+/usr/local/xhand_controller/SOEM/test/linux/red_test
+/usr/local/xhand_controller/SOEM/test/linux/red_test/red_test.c
+/usr/local/xhand_controller/SOEM/test/linux/simple_test
+/usr/local/xhand_controller/SOEM/test/linux/simple_test/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/linux/simple_test/simple_test.c
+/usr/local/xhand_controller/SOEM/test/linux/slaveinfo
+/usr/local/xhand_controller/SOEM/test/linux/slaveinfo/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/linux/slaveinfo/slaveinfo.c
+/usr/local/xhand_controller/SOEM/test/rtk
+/usr/local/xhand_controller/SOEM/test/rtk/main.c
+/usr/local/xhand_controller/SOEM/test/rtk/schedule.tt
+/usr/local/xhand_controller/SOEM/test/simple_ng
+/usr/local/xhand_controller/SOEM/test/simple_ng/CMakeLists.txt
+/usr/local/xhand_controller/SOEM/test/simple_ng/simple_ng.c
+/usr/local/xhand_controller/SOEM/test/win32
+/usr/local/xhand_controller/SOEM/test/win32/ebox
+/usr/local/xhand_controller/SOEM/test/win32/ebox/ebox.c
+/usr/local/xhand_controller/SOEM/test/win32/eepromtool
+/usr/local/xhand_controller/SOEM/test/win32/eepromtool/eepromtool.c
+/usr/local/xhand_controller/SOEM/test/win32/firm_update
+/usr/local/xhand_controller/SOEM/test/win32/firm_update/firm_update.c
+/usr/local/xhand_controller/SOEM/test/win32/red_test
+/usr/local/xhand_controller/SOEM/test/win32/red_test/red_test.c
+/usr/local/xhand_controller/SOEM/test/win32/simple_test
+/usr/local/xhand_controller/SOEM/test/win32/simple_test/simple_test.c
+/usr/local/xhand_controller/SOEM/test/win32/slaveinfo
+/usr/local/xhand_controller/SOEM/test/win32/slaveinfo/slaveinfo.c
+/usr/local/xhand_controller/src
+/usr/local/xhand_controller/src/crc16.cpp
+/usr/local/xhand_controller/src/error_manager.cpp
+/usr/local/xhand_controller/src/ethercat_communication.cpp
+/usr/local/xhand_controller/src/ev_boot.cpp
+/usr/local/xhand_controller/src/parse_data.cpp
+/usr/local/xhand_controller/src/serial_communication.cpp
+/usr/local/xhand_controller/src/xhand_control.cpp
+/usr/local/xhand_controller/tests
+/usr/local/xhand_controller/tests/CMakeLists.txt
+/usr/local/xhand_controller/tests/src
+/usr/local/xhand_controller/tests/src/ethercat_test.cpp
+/usr/local/xhand_controller/tests/src/serial_test.cpp
+/usr/local/xhand_controller/VersionConfig.cmake
+/usr/local/xhand_controller/version.h.in
+/usr/local/xhand_controller/xhanc_control_py
+/usr/local/xhand_controller/xhanc_control_py/data_type.py
+/usr/local/xhand_controller/xhanc_control_py/parse_data.py
+/usr/local/xhand_controller/xhanc_control_py/serial_communication.py
+/usr/local/xhand_controller/xhanc_control_py/xhand_controller_wrapper.py
+/usr/local/xhand_controller/xhanc_control_py/xhand_control.py
+/usr/local/xhand_controller/xhand_controller
+/usr/local/xhand_controller/xhand_controller/用户协议.md
+/usr/local/xhand_controller/xhand_controller/include
+/usr/local/xhand_controller/xhand_controller/include/communiation_interface.hpp
+/usr/local/xhand_controller/xhand_controller/include/communication_interface.hpp
+/usr/local/xhand_controller/xhand_controller/include/data_type.hpp
+/usr/local/xhand_controller/xhand_controller/include/error_manager.hpp
+/usr/local/xhand_controller/xhand_controller/include/ethercat_communication.hpp
+/usr/local/xhand_controller/xhand_controller/include/ev_boot.h
+/usr/local/xhand_controller/xhand_controller/include/ip_util.hpp
+/usr/local/xhand_controller/xhand_controller/include/parse_data.h
+/usr/local/xhand_controller/xhand_controller/include/serial_communication.hpp
+/usr/local/xhand_controller/xhand_controller/include/soem
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatbase.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatcoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatconfig.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatconfiglist.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatdc.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercateoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatfoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercat.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatmain.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatprint.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercatsoe.h
+/usr/local/xhand_controller/xhand_controller/include/soem/ethercattype.h
+/usr/local/xhand_controller/xhand_controller/include/soem/nicdrv.h
+/usr/local/xhand_controller/xhand_controller/include/soem/osal_defs.h
+/usr/local/xhand_controller/xhand_controller/include/soem/osal.h
+/usr/local/xhand_controller/xhand_controller/include/soem/oshw.h
+/usr/local/xhand_controller/xhand_controller/include/visibility_control.h
+/usr/local/xhand_controller/xhand_controller/include/xhand_control.hpp
+/usr/local/xhand_controller/xhand_controller/lib
+/usr/local/xhand_controller/xhand_controller/lib/libxhand_control.so
+/usr/local/xhand_controller/xhand_controller/packages
+/usr/local/xhand_controller/xhand_controller/packages/pybind11-2.13.1-py3-none-any.whl
+/usr/local/xhand_controller/xhand_controller/pyproject.toml
+/usr/local/xhand_controller/xhand_controller/README.md
+/usr/local/xhand_controller/xhand_controller/README.zh-CN.md
+/usr/local/xhand_controller/xhand_controller/requirements.txt
+/usr/local/xhand_controller/xhand_controller/run.sh
+/usr/local/xhand_controller/xhand_controller/setup.py
+/usr/local/xhand_controller/xhand_controller/src
+/usr/local/xhand_controller/xhand_controller/src/xhand_control.cpp
+/usr/local/xhand_controller/xhand_controller/tests
+/usr/local/xhand_controller/xhand_controller/tests/CMakeLists.txt
+/usr/local/xhand_controller/xhand_controller/tests/src
+/usr/local/xhand_controller/xhand_controller/tests/src/ethercat_test.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/send_and_read.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_send_and_read.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/serial_test.cpp
+/usr/local/xhand_controller/xhand_controller/tests/src/SN_ethercat_test.cpp
+/usr/local/xhand_controller/xhand_controller/USER_AGREEMENT.md
+/usr/local/xhand_controller/xhand_controller/xhand_controller
+/usr/local/xhand_controller/xhand_controller/xhand_controller/__init__.py
+/usr/local/xhand_controller/xhand_controller/xhand_controller/xhand_controller.py
+/usr/local/xhand/.gitkeep
+/usr/local/xhand/hand_main
+/usr/share
+/usr/share/applications
+/usr/share/applications/xhand.desktop
+/usr/share/icons
+/usr/share/icons/hicolor
+/usr/share/icons/hicolor/256x256
+/usr/share/icons/hicolor/256x256/apps
+/usr/share/icons/hicolor/256x256/apps/xhand.png
+
+============================================================
+审计结束
+只读取软件；未启动任何机器人设备。
+============================================================

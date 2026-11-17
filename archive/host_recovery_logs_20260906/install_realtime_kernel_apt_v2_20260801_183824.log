@@ -1,0 +1,235 @@
+============================================================
+Ubuntu 24.04 APT 直装实时内核 v2
+============================================================
+
+========== 1/7 系统检查 ==========
+current_kernel=7.0.0-28-generic
+current_realtime=0
+/dev/sdb2 ext4   rw,relatime
+文件系统       类型  大小  已用  可用 已用% 挂载点
+/dev/sdb2      ext4  457G   25G  410G    6% /
+[PASS] 系统检查通过
+
+========== 2/7 更新 APT 索引 ==========
+命中:1 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+命中:4 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:5 http://security.ubuntu.com/ubuntu noble-security InRelease
+正在读取软件包列表...
+正在添加组件‘universe’到所有软件源。
+命中:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:2 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:3 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+正在读取软件包列表...
+[PASS] APT 软件源更新完成
+
+========== 3/7 检查实时内核候选版本 ==========
+
+ubuntu-realtime:
+  已安装：(无)
+  候选： 1.1.2~24.04.1
+  版本列表：
+     1.1.2~24.04.1 500
+        500 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages
+parsed_candidate=1.1.2~24.04.1
+
+linux-realtime:
+  已安装：(无)
+  候选： 6.8.1-1015.16
+  版本列表：
+     6.8.1-1015.16 500
+        500 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages
+parsed_candidate=6.8.1-1015.16
+
+linux-image-realtime:
+  已安装：(无)
+  候选： 6.8.1-1015.16
+  版本列表：
+     6.8.1-1015.16 500
+        500 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages
+parsed_candidate=6.8.1-1015.16
+
+linux-headers-realtime:
+  已安装：(无)
+  候选： 6.8.1-1015.16
+  版本列表：
+     6.8.1-1015.16 500
+        500 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages
+parsed_candidate=6.8.1-1015.16
+[PASS] 实时内核包均有候选版本
+
+========== 4/7 安装实时内核 ==========
+[INSTALL] ubuntu-realtime
+[INSTALL] rt-tests
+[INSTALL] linux-tools-realtime
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+下列软件包是自动安装的并且现在不需要了：
+  libfwupd2 libnvidia-cfg1-535 libnvidia-common-535 libnvidia-compute-535
+  libnvidia-decode-535 libnvidia-encode-535 libnvidia-extra-535
+  libnvidia-fbc1-535 libnvidia-gl-535 nvidia-compute-utils-535
+  nvidia-firmware-535-535.288.01 nvidia-kernel-source-535 nvidia-utils-535
+  xserver-xorg-video-nvidia-535
+使用'sudo apt autoremove'来卸载它(它们)。
+将会同时安装下列软件：
+  linux-headers-6.8.1-1015-realtime linux-headers-realtime
+  linux-image-6.8.1-1015-realtime linux-image-realtime
+  linux-modules-6.8.1-1015-realtime linux-modules-extra-6.8.1-1015-realtime
+  linux-realtime linux-realtime-headers-6.8.1-1015
+  linux-realtime-tools-6.8.1-1015 linux-tools-6.8.1-1015-realtime
+建议安装：
+  fdutils linux-realtime-tools
+下列【新】软件包将被安装：
+  linux-headers-6.8.1-1015-realtime linux-headers-realtime
+  linux-image-6.8.1-1015-realtime linux-image-realtime
+  linux-modules-6.8.1-1015-realtime linux-modules-extra-6.8.1-1015-realtime
+  linux-realtime linux-realtime-headers-6.8.1-1015
+  linux-realtime-tools-6.8.1-1015 linux-tools-6.8.1-1015-realtime
+  linux-tools-realtime rt-tests ubuntu-realtime
+升级了 0 个软件包，新安装了 13 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+需要下载 189 MB 的归档。
+解压缩后会消耗 298 MB 的额外空间。
+获取:1 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-realtime-headers-6.8.1-1015 all 6.8.1-1015.16 [13.8 MB]
+获取:2 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-headers-6.8.1-1015-realtime amd64 6.8.1-1015.16 [3,836 kB]
+获取:3 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-headers-realtime amd64 6.8.1-1015.16 [9,938 B]
+获取:4 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-modules-6.8.1-1015-realtime amd64 6.8.1-1015.16 [37.0 MB]
+获取:5 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-image-6.8.1-1015-realtime amd64 6.8.1-1015.16 [14.6 MB]
+获取:6 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-modules-extra-6.8.1-1015-realtime amd64 6.8.1-1015.16 [114 MB]
+获取:7 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-image-realtime amd64 6.8.1-1015.16 [10.1 kB]
+获取:8 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-realtime amd64 6.8.1-1015.16 [10.0 kB]
+获取:9 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-realtime-tools-6.8.1-1015 amd64 6.8.1-1015.16 [5,284 kB]
+获取:10 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-tools-6.8.1-1015-realtime amd64 6.8.1-1015.16 [400 kB]
+获取:11 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 linux-tools-realtime amd64 6.8.1-1015.16 [9,954 B]
+获取:12 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 ubuntu-realtime amd64 1.1.2~24.04.1 [2,288 B]
+获取:13 http://archive.ubuntu.com/ubuntu noble/universe amd64 rt-tests amd64 2.5-1 [139 kB]
+已下载 189 MB，耗时 1分 56秒 (1,622 kB/s)
+正在选中未选择的软件包 linux-realtime-headers-6.8.1-1015。
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 339161 个文件和目录。)
+准备解压 .../00-linux-realtime-headers-6.8.1-1015_6.8.1-1015.16_all.deb  ...
+正在解压 linux-realtime-headers-6.8.1-1015 (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-headers-6.8.1-1015-realtime。
+准备解压 .../01-linux-headers-6.8.1-1015-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-headers-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-headers-realtime。
+准备解压 .../02-linux-headers-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-headers-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-modules-6.8.1-1015-realtime。
+准备解压 .../03-linux-modules-6.8.1-1015-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-modules-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-image-6.8.1-1015-realtime。
+准备解压 .../04-linux-image-6.8.1-1015-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-image-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-modules-extra-6.8.1-1015-realtime。
+准备解压 .../05-linux-modules-extra-6.8.1-1015-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-modules-extra-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-image-realtime。
+准备解压 .../06-linux-image-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-image-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-realtime。
+准备解压 .../07-linux-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-realtime-tools-6.8.1-1015。
+准备解压 .../08-linux-realtime-tools-6.8.1-1015_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-realtime-tools-6.8.1-1015 (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-tools-6.8.1-1015-realtime。
+准备解压 .../09-linux-tools-6.8.1-1015-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-tools-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 linux-tools-realtime。
+准备解压 .../10-linux-tools-realtime_6.8.1-1015.16_amd64.deb  ...
+正在解压 linux-tools-realtime (6.8.1-1015.16) ...
+正在选中未选择的软件包 ubuntu-realtime。
+准备解压 .../11-ubuntu-realtime_1.1.2~24.04.1_amd64.deb  ...
+正在解压 ubuntu-realtime (1.1.2~24.04.1) ...
+正在选中未选择的软件包 rt-tests。
+准备解压 .../12-rt-tests_2.5-1_amd64.deb  ...
+正在解压 rt-tests (2.5-1) ...
+正在设置 rt-tests (2.5-1) ...
+正在设置 linux-realtime-headers-6.8.1-1015 (6.8.1-1015.16) ...
+正在设置 linux-realtime-tools-6.8.1-1015 (6.8.1-1015.16) ...
+正在设置 linux-modules-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在设置 linux-tools-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在设置 linux-headers-6.8.1-1015-realtime (6.8.1-1015.16) ...
+/etc/kernel/header_postinst.d/dkms:
+ * dkms: running auto installation service for kernel 6.8.1-1015-realtime
+Sign command: /usr/bin/kmodsign
+Signing key: /var/lib/shim-signed/mok/MOK.priv
+Public certificate (MOK): /var/lib/shim-signed/mok/MOK.der
+
+Building module:
+Cleaning build area...
+unset ARCH; [ ! -h /usr/bin/cc ] && export CC=/usr/bin/gcc; env NV_VERBOSE=1 'make' -j8 NV_EXCLUDE_BUILD_MODULES='' KERNEL_UNAME=6.8.1-1015-realtime IGNORE_XEN_PRESENCE=1 IGNORE_CC_MISMATCH=1 SYSSRC=/lib/modules/6.8.1-1015-realtime/build LD=/usr/bin/ld.bfd CONFIG_X86_KERNEL_IBT= modules...(bad exit status: 2)
+Error! Bad return status for module build on kernel: 6.8.1-1015-realtime (x86_64)
+Consult /var/lib/dkms/nvidia/580.173.02/build/make.log for more information.
+dkms autoinstall on 6.8.1-1015-realtime/x86_64 failed for nvidia(10)
+Error! One or more modules failed to install during autoinstall.
+Refer to previous errors for more information.
+ * dkms: autoinstall for kernel 6.8.1-1015-realtime
+   ...fail!
+run-parts: /etc/kernel/header_postinst.d/dkms exited with return code 11
+dpkg: 处理软件包 linux-headers-6.8.1-1015-realtime (--configure)时出错：
+ 已安装 linux-headers-6.8.1-1015-realtime 软件包 post-installation 脚本 子进程返回错误状态 11
+正在设置 linux-tools-realtime (6.8.1-1015.16) ...
+正在设置 linux-modules-extra-6.8.1-1015-realtime (6.8.1-1015.16) ...
+正在设置 linux-image-6.8.1-1015-realtime (6.8.1-1015.16) ...
+I: /boot/vmlinuz.old is now a symlink to vmlinuz-7.0.0-28-generic
+I: /boot/initrd.img.old is now a symlink to initrd.img-7.0.0-28-generic
+I: /boot/vmlinuz is now a symlink to vmlinuz-6.8.1-1015-realtime
+I: /boot/initrd.img is now a symlink to initrd.img-6.8.1-1015-realtime
+dpkg: 依赖关系问题使得 linux-headers-realtime 的配置工作不能继续：
+ linux-headers-realtime 依赖于 linux-headers-6.8.1-1015-realtime；然而：
+  软件包 linux-headers-6.8.1-1015-realtime 尚未配置。
+
+dpkg: 处理软件包 linux-headers-realtime (--configure)时出错：
+ 依赖关系问题 - 仍未被配置
+正在设置 linux-image-realtime (6.8.1-1015.16) ...
+因为错误消息指示这是由于上一个问题导致的错误，没有写入 apport 报告。
+dpkg: 依赖关系问题使得 linux-realtime 的配置工作不能继续：
+ linux-realtime 依赖于 linux-headers-realtime (= 6.8.1-1015.16)；然而：
+  软件包 linux-headers-realtime 尚未配置。
+
+dpkg: 处理软件包 linux-realtime (--configure)时出错：
+ 依赖关系问题 - 仍未被配置
+dpkg: 依赖关系问题使得 ubuntu-realtime 的配置工作不能继续：
+ ubuntu-realtime 依赖于 linux-realtime；然而：
+  软件包 linux-realtime 尚未配置。
+
+dpkg: 处理软件包 ubuntu-realtime (--configure)时出错：
+ 依赖关系问题 - 仍未被配置
+因为错误消息指示这是由于上一个问题导致的错误，没有写入 apport 报告。
+由于已经达到 MaxReports 限制，没有写入 apport 报告。
+正在处理用于 man-db (2.12.0-4build2) 的触发器 ...
+正在处理用于 linux-image-6.8.1-1015-realtime (6.8.1-1015.16) 的触发器 ...
+/etc/kernel/postinst.d/dkms:
+ * dkms: running auto installation service for kernel 6.8.1-1015-realtime
+Sign command: /usr/bin/kmodsign
+Signing key: /var/lib/shim-signed/mok/MOK.priv
+Public certificate (MOK): /var/lib/shim-signed/mok/MOK.der
+
+Building module:
+Cleaning build area...
+unset ARCH; [ ! -h /usr/bin/cc ] && export CC=/usr/bin/gcc; env NV_VERBOSE=1 'make' -j8 NV_EXCLUDE_BUILD_MODULES='' KERNEL_UNAME=6.8.1-1015-realtime IGNORE_XEN_PRESENCE=1 IGNORE_CC_MISMATCH=1 SYSSRC=/lib/modules/6.8.1-1015-realtime/build LD=/usr/bin/ld.bfd CONFIG_X86_KERNEL_IBT= modules...(bad exit status: 2)
+ERROR: Cannot create report: [Errno 17] File exists: '/var/crash/nvidia-dkms-580.0.crash'
+Error! Bad return status for module build on kernel: 6.8.1-1015-realtime (x86_64)
+Consult /var/lib/dkms/nvidia/580.173.02/build/make.log for more information.
+dkms autoinstall on 6.8.1-1015-realtime/x86_64 failed for nvidia(10)
+Error! One or more modules failed to install during autoinstall.
+Refer to previous errors for more information.
+ * dkms: autoinstall for kernel 6.8.1-1015-realtime
+   ...fail!
+run-parts: /etc/kernel/postinst.d/dkms exited with return code 11
+dpkg: 处理软件包 linux-image-6.8.1-1015-realtime (--configure)时出错：
+ 已安装 linux-image-6.8.1-1015-realtime 软件包 post-installation 脚本 子进程返回错误状态 11
+由于已经达到 MaxReports 限制，没有写入 apport 报告。
+在处理时有错误发生：
+ linux-headers-6.8.1-1015-realtime
+ linux-headers-realtime
+ linux-realtime
+ ubuntu-realtime
+ linux-image-6.8.1-1015-realtime
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+[ERROR] 第 94 行停止，退出码=100
+日志：/home/gu/install_realtime_kernel_apt_v2_20260801_183824.log

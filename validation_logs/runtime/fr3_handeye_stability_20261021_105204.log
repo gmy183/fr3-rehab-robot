@@ -1,0 +1,24 @@
+[START] 180-second static monitoring
+[RUNNING] 10/180 s | samples=647 | max_age=0.001s | max_drift=0.0000rad
+[RUNNING] 20/180 s | samples=1294 | max_age=0.002s | max_drift=0.0001rad
+[RUNNING] 30/180 s | samples=1941 | max_age=0.002s | max_drift=0.0001rad
+[RUNNING] 40/180 s | samples=2588 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 50/180 s | samples=3236 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 60/180 s | samples=3884 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 70/180 s | samples=4531 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 80/180 s | samples=5179 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 90/180 s | samples=5826 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 100/180 s | samples=6474 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 110/180 s | samples=7121 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 120/180 s | samples=7769 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 130/180 s | samples=8416 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 140/180 s | samples=9063 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 150/180 s | samples=9711 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 160/180 s | samples=10358 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 170/180 s | samples=11006 | max_age=0.003s | max_drift=0.0001rad
+[RUNNING] 180/180 s | samples=11653 | max_age=0.003s | max_drift=0.0001rad
+[PASS] 180-second joint-state monitoring completed
+samples = 11653
+max_age_s = 0.0033
+max_velocity_rad_s = 0.00448
+max_position_drift_rad = 8e-05

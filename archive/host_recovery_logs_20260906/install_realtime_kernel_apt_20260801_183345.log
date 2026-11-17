@@ -1,0 +1,37 @@
+============================================================
+Ubuntu 24.04 APT 直装实时内核
+============================================================
+
+========== 1/7 系统检查 ==========
+current_kernel=7.0.0-28-generic
+current_realtime=0
+/dev/sdb2 ext4   rw,relatime
+文件系统       类型  大小  已用  可用 已用% 挂载点
+/dev/sdb2      ext4  457G   25G  410G    6% /
+[PASS] 系统检查通过
+
+========== 2/7 启用 Universe 并更新索引 ==========
+命中:1 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:3 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+正在读取软件包列表...
+正在添加组件‘universe’到所有软件源。
+命中:1 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+命中:5 http://packages.ros.org/ros2/ubuntu noble InRelease
+正在读取软件包列表...
+[PASS] APT 软件源更新完成
+
+========== 3/7 检查实时内核候选版本 ==========
+
+ubuntu-realtime:
+  已安装：(无)
+  候选： 1.1.2~24.04.1
+  版本列表：
+     1.1.2~24.04.1 500
+        500 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages
+[ERROR] ubuntu-realtime 没有可安装候选版本

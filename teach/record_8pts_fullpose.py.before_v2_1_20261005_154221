@@ -1,0 +1,349 @@
+from __future__ import annotations
+
+import math
+import time
+from datetime import datetime
+from pathlib import Path
+
+import rclpy
+import yaml
+
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from rclpy.time import Time
+from sensor_msgs.msg import JointState
+from tf2_ros import Buffer, TransformListener
+
+
+FR3_JOINT_NAMES = (
+    "fr3_joint1",
+    "fr3_joint2",
+    "fr3_joint3",
+    "fr3_joint4",
+    "fr3_joint5",
+    "fr3_joint6",
+    "fr3_joint7",
+)
+
+FRAME = "fr3_link0"
+TOOL = "fr3_link8"
+
+OUT = (
+    Path.home()
+    / "rehab_robot_ws"
+    / "teach"
+    / "teach_path_8pts_v2_fullpose.yaml"
+)
+
+
+class TeachRecorder(Node):
+    def __init__(self):
+        super().__init__("fr3_8point_fullpose_recorder")
+
+        self.q = None
+        self.q_stamp = None
+        self.q_source = None
+
+        self.create_subscription(
+            JointState,
+            "/joint_states",
+            lambda msg: self._joint_cb(
+                msg,
+                "/joint_states",
+            ),
+            qos_profile_sensor_data,
+        )
+
+        self.create_subscription(
+            JointState,
+            "/franka/joint_states",
+            lambda msg: self._joint_cb(
+                msg,
+                "/franka/joint_states",
+            ),
+            qos_profile_sensor_data,
+        )
+
+        self.tf_buffer = Buffer()
+
+        self.tf_listener = TransformListener(
+            self.tf_buffer,
+            self,
+        )
+
+    def _joint_cb(self, msg, source):
+        table = dict(
+            zip(
+                msg.name,
+                msg.position,
+            )
+        )
+
+        if all(
+            name in table
+            for name in FR3_JOINT_NAMES
+        ):
+            self.q = [
+                float(table[name])
+                for name in FR3_JOINT_NAMES
+            ]
+
+            self.q_stamp = time.monotonic()
+            self.q_source = source
+
+
+def spin_some(node, duration=0.5):
+    deadline = time.monotonic() + duration
+
+    while (
+        rclpy.ok()
+        and time.monotonic() < deadline
+    ):
+        rclpy.spin_once(
+            node,
+            timeout_sec=0.05,
+        )
+
+
+def get_sample(node):
+    spin_some(node, 0.5)
+
+    if (
+        node.q is None
+        or node.q_stamp is None
+        or time.monotonic() - node.q_stamp > 0.5
+    ):
+        raise RuntimeError(
+            "fresh FR3 joint state unavailable"
+        )
+
+    tf = node.tf_buffer.lookup_transform(
+        FRAME,
+        TOOL,
+        Time(),
+    )
+
+    t = tf.transform.translation
+    r = tf.transform.rotation
+
+    xyz = [
+        float(t.x),
+        float(t.y),
+        float(t.z),
+    ]
+
+    quat = [
+        float(r.x),
+        float(r.y),
+        float(r.z),
+        float(r.w),
+    ]
+
+    norm = math.sqrt(
+        sum(value * value for value in quat)
+    )
+
+    if norm < 1e-9:
+        raise RuntimeError(
+            "invalid zero quaternion"
+        )
+
+    quat = [
+        value / norm
+        for value in quat
+    ]
+
+    return {
+        "position_m": xyz,
+        "orientation_xyzw": quat,
+        "joint_position_rad": list(node.q),
+    }
+
+
+def fmt(values, digits=9):
+    return (
+        "["
+        + ", ".join(
+            f"{value:.{digits}f}"
+            for value in values
+        )
+        + "]"
+    )
+
+
+rclpy.init()
+node = TeachRecorder()
+
+try:
+    print("=" * 72)
+    print("FR3 - 8 POINT FULL-POSE TEACH RECORDER")
+    print("READ ONLY / NO ROBOT MOTION COMMAND")
+    print("=" * 72)
+    print(f"frame = {FRAME}")
+    print(f"tool  = {TOOL}")
+    print(f"output = {OUT}")
+    print()
+    print("Record order: P1 -> P2 -> ... -> P8")
+    print()
+    print("At each point:")
+    print("  1. Manually position the robot")
+    print("  2. Make sure the robot is stationary")
+    print("  3. Press ENTER")
+    print()
+    print("Type q then ENTER to abort.")
+    print()
+
+    spin_some(node, 1.0)
+
+    if node.q is None:
+        raise RuntimeError(
+            "no FR3 joint state received"
+        )
+
+    print(
+        f"[PASS] joint state source = "
+        f"{node.q_source}"
+    )
+
+    points = []
+
+    for index in range(1, 9):
+        point_id = f"P{index}"
+
+        while True:
+            answer = input(
+                f"\n[{point_id}] "
+                "Move robot to point, then press ENTER "
+                "(q=abort): "
+            ).strip().lower()
+
+            if answer == "q":
+                raise KeyboardInterrupt
+
+            try:
+                sample = get_sample(node)
+            except Exception as exc:
+                print(
+                    f"[RETRY] sample failed: {exc}"
+                )
+                continue
+
+            print()
+            print(f"  {point_id}")
+            print(
+                "  position_m         = "
+                + fmt(
+                    sample["position_m"],
+                    6,
+                )
+            )
+            print(
+                "  orientation_xyzw   = "
+                + fmt(
+                    sample[
+                        "orientation_xyzw"
+                    ],
+                    9,
+                )
+            )
+            print(
+                "  joint_position_rad = "
+                + fmt(
+                    sample[
+                        "joint_position_rad"
+                    ],
+                    9,
+                )
+            )
+
+            confirm = input(
+                "  Save this point? "
+                "[y=save / r=record again / q=abort]: "
+            ).strip().lower()
+
+            if confirm == "q":
+                raise KeyboardInterrupt
+
+            if confirm == "r":
+                continue
+
+            if confirm != "y":
+                print(
+                    "[INFO] not saved; record again"
+                )
+                continue
+
+            points.append(
+                {
+                    "id": point_id,
+                    **sample,
+                }
+            )
+
+            print(
+                f"[PASS] {point_id} saved"
+            )
+            break
+
+    data = {
+        "teach_path": {
+            "version": 2,
+            "name": (
+                "manual_8point_fullpose_v2"
+            ),
+            "frame": FRAME,
+            "tool": TOOL,
+            "source": (
+                "manual_hand_guiding"
+            ),
+            "pose_mode": (
+                "recorded_per_point"
+            ),
+            "recorded_at": (
+                datetime.now()
+                .astimezone()
+                .isoformat(
+                    timespec="seconds"
+                )
+            ),
+            "execution": {
+                "validated": False,
+                "full_path_enabled": False,
+                "collision_model_validated": False,
+            },
+            "points": points,
+        }
+    }
+
+    OUT.write_text(
+        yaml.safe_dump(
+            data,
+            sort_keys=False,
+            allow_unicode=True,
+        ),
+        encoding="utf-8",
+    )
+
+    print()
+    print("=" * 72)
+    print("[PASS] 8 points recorded")
+    print(f"[PASS] saved to: {OUT}")
+    print("[SAFE] execution remains disabled")
+    print("=" * 72)
+
+except KeyboardInterrupt:
+    print()
+    print("[ABORT] recording cancelled")
+    print("[SAFE] incomplete path not written")
+
+finally:
+    try:
+        node.destroy_node()
+    except Exception:
+        pass
+
+    try:
+        if rclpy.ok():
+            rclpy.shutdown()
+    except Exception:
+        pass

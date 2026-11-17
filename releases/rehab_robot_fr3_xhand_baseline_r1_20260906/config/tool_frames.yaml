@@ -1,0 +1,42 @@
+frames:
+  parent_frame: fr3_link8
+
+  # 旧工程审查要求：
+  # 已知安装平移保留；
+  # RPY 未完成实机标定前，不把抓握中心当作已验证 TCP。
+  calibration:
+    rotation_verified: false
+    grasp_tcp_verified: false
+
+  xhand_mount:
+    frame: xhand_base_link
+
+    translation_m:
+      x: 0.000
+      y: 0.000
+      z: 0.081
+
+    rotation_rpy_rad:
+      verified: false
+      value: null
+
+  d435i_mount:
+    frame: camera_link
+
+    translation_m:
+      x: -0.090
+      y: 0.000
+      z: 0.051
+
+    rotation_rpy_rad:
+      verified: false
+      value: null
+
+  xhand_grasp_center:
+    frame: xhand_grasp_center
+
+    publish_tf: false
+    reason: >
+      抓握中心和旋转外参在旧工程审查中仍要求真机标定。
+      空握软件执行器可以使用该逻辑名称，
+      但在物理标定完成前不得将其发布为已验证 TCP。

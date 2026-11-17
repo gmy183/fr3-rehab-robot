@@ -1,0 +1,32 @@
+{
+  "schema": "rehab_v3_1_fr3_test",
+  "mode": "fr3-test",
+  "test_distance_m": 0.005,
+  "xhand_commanded": false,
+  "ptp_used": false,
+  "error_recovery_used": false,
+  "auto_retry": false,
+  "auto_return": false,
+  "production_real_gate_changed": false,
+  "production_tracking_backend_validated": false,
+  "completed": false,
+  "fault": "FR3TestError: baseline safety check failed: robot_state read failed",
+  "post_cleanup": {
+    "ok": false,
+    "blockers": [
+      "robot_state read failed"
+    ],
+    "data": {
+      "controllers_rc": 0,
+      "controllers_raw": "joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               inactive\nfranka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  inactive\n",
+      "active_controllers": [],
+      "unexpected_active_controllers": [],
+      "robot_state_rc": 124,
+      "robot_state_raw": "\n[TIMEOUT]",
+      "ros2_control_node_count": 1,
+      "robot_state_publisher_count": 1,
+      "move_group_count": 0
+    }
+  },
+  "hard_fault": true
+}

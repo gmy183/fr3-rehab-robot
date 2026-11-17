@@ -1,0 +1,73 @@
+{
+  "schema": "rehab_v3_1_5_fr3_test",
+  "mode": "fr3-test",
+  "test_distance_m": 0.005,
+  "xhand_commanded": false,
+  "ptp_used": false,
+  "error_recovery_used": false,
+  "auto_retry": false,
+  "auto_return": false,
+  "production_real_gate_changed": false,
+  "production_tracking_backend_validated": false,
+  "completed": false,
+  "fault": "FR3TestError: baseline safety check failed: STATE_UNAVAILABLE: robot_state not received",
+  "post_cleanup": {
+    "ok": false,
+    "blockers": [
+      "STATE_UNAVAILABLE: robot_state not received"
+    ],
+    "data": {
+      "controllers_rc": 0,
+      "controllers_raw": "joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               inactive\nfranka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  inactive\n",
+      "active_controllers": [],
+      "unexpected_active_controllers": [],
+      "robot_state_read_attempts": [
+        {
+          "attempt": 1,
+          "strategy": "default",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 1,
+          "strategy": "sensor_data",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 1,
+          "strategy": "best_effort",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 2,
+          "strategy": "default",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 2,
+          "strategy": "sensor_data",
+          "return_code": 124,
+          "received": false
+        },
+        {
+          "attempt": 2,
+          "strategy": "best_effort",
+          "return_code": 124,
+          "received": false
+        }
+      ],
+      "robot_state_raw": "\n[TIMEOUT]",
+      "robot_state_topic_info_rc": 0,
+      "robot_state_topic_info": "Type: franka_msgs/msg/FrankaRobotState\n\nPublisher count: 1\n\nNode name: franka_robot_state_broadcaster\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: PUBLISHER\nGID: 01.10.b2.ad.bc.d2.df.b2.7a.4a.0b.26.00.00.ad.03\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): KEEP_LAST (1)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\nSubscription count: 3\n\nNode name: _ros2cli_167326\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: SUBSCRIPTION\nGID: 01.10.1c.c5.44.54.2e.58.6c.36.5b.7b.00.00.0a.04\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): KEEP_LAST (5)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\nNode name: _ros2cli_167353\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: SUBSCRIPTION\nGID: 01.10.57.5f.1f.29.c8.67.9d.22.9b.a7.00.00.0a.04\nQoS profile:\n  Reliability: BEST_EFFORT\n  History (Depth): KEEP_LAST (5)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\nNode name: _ros2cli_167340\nNode namespace: /\nTopic type: franka_msgs/msg/FrankaRobotState\nTopic type hash: RIHS01_fd225b337bab54d06047858c866442b98e3a882a4717cefc6ddd783fcbf17332\nEndpoint type: SUBSCRIPTION\nGID: 01.10.f3.d4.3d.8e.fd.88.59.69.2c.5c.00.00.0a.04\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): KEEP_LAST (5)\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\n",
+      "robot_state_topic_type_rc": 0,
+      "robot_state_topic_type": "franka_msgs/msg/FrankaRobotState\n",
+      "ros2_control_node_count": 1,
+      "robot_state_publisher_count": 1,
+      "move_group_count": 0
+    }
+  },
+  "hard_fault": true
+}

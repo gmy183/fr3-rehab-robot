@@ -1,0 +1,46 @@
+============================================================
+XHand Phase-1 一键工具：静态门禁
+============================================================
+[PASS] index_joint1 SDK index = 4
+[PASS] production motion gate remains CLOSED
+[PASS] single = 0.005 rad / 150 mA
+[PASS] candidate = mode=3 kp=225 ki=0 kd=0
+[PASS] other 11 joints = fully powerless
+[PASS] watchdog = 0.5 s / disable frames = 3
+
+[PASS] STATIC CHECK COMPLETE
+No EtherCAT opened.
+No send_command() called.
+
+============================================================
+REAL XHand Phase-1 single-joint validation
+index_joint1 / +0.005 rad / 150 mA
+FR3 is NOT used.
+============================================================
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x4cb6c88,  24 In:0x4cb6ca0, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+[PASS] EtherCAT open, device_id=0
+serial=012R3201B1217006
+passive baseline: q=+0.017682 rad, I=+72.0 mA
+takeover: drift=+0.000000 rad, max_I=73.0 mA
+active baseline: q=+0.017682 rad, I=+72.0 mA
+move: target_delta=+0.005000, observed_delta=+0.001412 rad, max_I=73.0 mA
+return: error=-0.001412 rad, max_I=73.0 mA
+
+============================================================
+[PASS] XHand single-joint candidate validation
+============================================================
+Production active_gains remains verified=false.
+请观察：刚才 index_joint1 的微小正向动作是否属于预期的屈曲/闭合方向。
+
+[SAFE] 发送多帧 mode=0 并关闭 EtherCAT
+[PASS] XHand powerless + EtherCAT closed

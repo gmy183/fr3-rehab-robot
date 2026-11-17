@@ -1,0 +1,10 @@
+Installer: 2026.08.01-v1.3-overlay
+Ubuntu: 24.04 LTS Noble amd64
+ROS: Jazzy
+libfranka: 0.20.4
+franka_ros2_commit: d812aabfab939317bd16515a392ad2cf1928fa83
+franka_description: 2.7.0
+XHand_expected: 1.1.15.0-release
+D435i_serial: 244222072086
+Generated: 2026-08-01T18:14:12+08:00
+Safety: software-only baseline; no motion nodes are included.

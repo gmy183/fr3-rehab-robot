@@ -1,0 +1,305 @@
+nohup: 忽略输入
+[INFO] [launch]: All log files can be found below /home/gu/.ros/log/2026-10-04-16-52-04-821029-gu-G3-3500-86987
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [87005]
+[INFO] [ros2_control_node-2]: process started with pid [87006]
+[INFO] [joint_state_publisher-3]: process started with pid [87007]
+[INFO] [spawner-4]: process started with pid [87008]
+[INFO] [spawner-5]: process started with pid [87009]
+[robot_state_publisher-1] [INFO] [1791103925.137410971] [robot_state_publisher]: Robot initialized
+[ros2_control_node-2] [INFO] [1791103925.144133950] [controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-2] [INFO] [1791103925.146910599] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[ros2_control_node-2] [INFO] [1791103925.187658980] [controller_manager]: update rate is 1000 Hz
+[ros2_control_node-2] [INFO] [1791103925.187708049] [controller_manager]: Overruns handling is : disabled
+[ros2_control_node-2] [INFO] [1791103925.187716107] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 98
+[ros2_control_node-2] [INFO] [1791103925.190068168] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 98.
+[ros2_control_node-2] [INFO] [1791103925.208263487] [controller_manager]: Received robot description from topic.
+[ros2_control_node-2] [INFO] [1791103925.208306513] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-2] text not specified in the prefix tag
+[ros2_control_node-2] text not specified in the arm_prefix tag
+[ros2_control_node-2] [INFO] [1791103925.212599194] [controller_manager]: Loading hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791103925.220835973] [controller_manager]: Loaded hardware 'FrankaHardwareInterface' from plugin 'franka_hardware/FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791103925.220955403] [controller_manager]: Initialize hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791103925.227269285] [FrankaHardwareInterface]: Parsed Franka ros2_control interface version: 1.0.0
+[ros2_control_node-2] [INFO] [1791103925.227296527] [FrankaHardwareInterface]: Connecting to robot at "192.168.1.25" ...
+[ros2_control_node-2] [INFO] [1791103925.227723937] [FrankaHardwareInterface]: libfranka: Setting thread priority to the highest possible value.
+[ros2_control_node-2] [INFO] [1791103925.236959058] [FrankaHardwareInterface]: Successfully connected to robot
+[ros2_control_node-2] [INFO] [1791103925.246960783] [service_server]: Service started
+[ros2_control_node-2] [INFO] [1791103925.359376542] [action_server]: Action server started
+[ros2_control_node-2] [INFO] [1791103925.359458628] [controller_manager]: Successful initialization of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791103925.359806581] [FrankaHardwareInterface]: Register joint-based command interfaces
+[ros2_control_node-2] [INFO] [1791103925.359821129] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface position with index 0
+[ros2_control_node-2] [INFO] [1791103925.359827318] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface velocity with index 0
+[ros2_control_node-2] [INFO] [1791103925.359831699] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface effort with index 0
+[ros2_control_node-2] [INFO] [1791103925.359835929] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface position with index 1
+[ros2_control_node-2] [INFO] [1791103925.359840252] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface velocity with index 1
+[ros2_control_node-2] [INFO] [1791103925.359844661] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface effort with index 1
+[ros2_control_node-2] [INFO] [1791103925.359849188] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface position with index 2
+[ros2_control_node-2] [INFO] [1791103925.359855466] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface velocity with index 2
+[ros2_control_node-2] [INFO] [1791103925.359860038] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface effort with index 2
+[ros2_control_node-2] [INFO] [1791103925.359864287] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface position with index 3
+[ros2_control_node-2] [INFO] [1791103925.359868194] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface velocity with index 3
+[ros2_control_node-2] [INFO] [1791103925.359872248] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface effort with index 3
+[ros2_control_node-2] [INFO] [1791103925.359876639] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface position with index 4
+[ros2_control_node-2] [INFO] [1791103925.359880814] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface velocity with index 4
+[ros2_control_node-2] [INFO] [1791103925.359887263] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface effort with index 4
+[ros2_control_node-2] [INFO] [1791103925.359933749] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface position with index 5
+[ros2_control_node-2] [INFO] [1791103925.359940026] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface velocity with index 5
+[ros2_control_node-2] [INFO] [1791103925.359944349] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface effort with index 5
+[ros2_control_node-2] [INFO] [1791103925.359948315] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface position with index 6
+[ros2_control_node-2] [INFO] [1791103925.359954724] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface velocity with index 6
+[ros2_control_node-2] [INFO] [1791103925.359958858] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface effort with index 6
+[ros2_control_node-2] [INFO] [1791103925.359962570] [FrankaHardwareInterface]: Register general purpose command interfaces
+[ros2_control_node-2] [INFO] [1791103925.359970470] [FrankaHardwareInterface]: Registering command interface: vx for command interface cartesian_velocity with index 0
+[ros2_control_node-2] [INFO] [1791103925.359975450] [FrankaHardwareInterface]: Registering command interface: vy for command interface cartesian_velocity with index 1
+[ros2_control_node-2] [INFO] [1791103925.359980018] [FrankaHardwareInterface]: Registering command interface: vz for command interface cartesian_velocity with index 2
+[ros2_control_node-2] [INFO] [1791103925.359984603] [FrankaHardwareInterface]: Registering command interface: wx for command interface cartesian_velocity with index 3
+[ros2_control_node-2] [INFO] [1791103925.359988599] [FrankaHardwareInterface]: Registering command interface: wy for command interface cartesian_velocity with index 4
+[ros2_control_node-2] [INFO] [1791103925.359992923] [FrankaHardwareInterface]: Registering command interface: wz for command interface cartesian_velocity with index 5
+[ros2_control_node-2] [INFO] [1791103925.359996952] [FrankaHardwareInterface]: Registering command interface: 0 for command interface cartesian_pose_command with index 0
+[ros2_control_node-2] [INFO] [1791103925.360008574] [FrankaHardwareInterface]: Registering command interface: 1 for command interface cartesian_pose_command with index 1
+[ros2_control_node-2] [INFO] [1791103925.360013071] [FrankaHardwareInterface]: Registering command interface: 2 for command interface cartesian_pose_command with index 2
+[ros2_control_node-2] [INFO] [1791103925.360017433] [FrankaHardwareInterface]: Registering command interface: 3 for command interface cartesian_pose_command with index 3
+[ros2_control_node-2] [INFO] [1791103925.360021499] [FrankaHardwareInterface]: Registering command interface: 4 for command interface cartesian_pose_command with index 4
+[ros2_control_node-2] [INFO] [1791103925.360025695] [FrankaHardwareInterface]: Registering command interface: 5 for command interface cartesian_pose_command with index 5
+[ros2_control_node-2] [INFO] [1791103925.360030016] [FrankaHardwareInterface]: Registering command interface: 6 for command interface cartesian_pose_command with index 6
+[ros2_control_node-2] [INFO] [1791103925.360033797] [FrankaHardwareInterface]: Registering command interface: 7 for command interface cartesian_pose_command with index 7
+[ros2_control_node-2] [INFO] [1791103925.360036407] [FrankaHardwareInterface]: Registering command interface: 8 for command interface cartesian_pose_command with index 8
+[ros2_control_node-2] [INFO] [1791103925.360038835] [FrankaHardwareInterface]: Registering command interface: 9 for command interface cartesian_pose_command with index 9
+[ros2_control_node-2] [INFO] [1791103925.360041335] [FrankaHardwareInterface]: Registering command interface: 10 for command interface cartesian_pose_command with index 10
+[ros2_control_node-2] [INFO] [1791103925.360044099] [FrankaHardwareInterface]: Registering command interface: 11 for command interface cartesian_pose_command with index 11
+[ros2_control_node-2] [INFO] [1791103925.360046503] [FrankaHardwareInterface]: Registering command interface: 12 for command interface cartesian_pose_command with index 12
+[ros2_control_node-2] [INFO] [1791103925.360048898] [FrankaHardwareInterface]: Registering command interface: 13 for command interface cartesian_pose_command with index 13
+[ros2_control_node-2] [INFO] [1791103925.360051349] [FrankaHardwareInterface]: Registering command interface: 14 for command interface cartesian_pose_command with index 14
+[ros2_control_node-2] [INFO] [1791103925.360053721] [FrankaHardwareInterface]: Registering command interface: 15 for command interface cartesian_pose_command with index 15
+[ros2_control_node-2] [INFO] [1791103925.360065370] [FrankaHardwareInterface]: Registering command interface: joint_3_position for command interface elbow_command with index 0
+[ros2_control_node-2] [INFO] [1791103925.360068568] [FrankaHardwareInterface]: Registering command interface: joint_4_sign for command interface elbow_command with index 1
+[ros2_control_node-2] [INFO] [1791103925.360377033] [controller_manager]: Activating component 'FrankaHardwareInterface'.
+[ros2_control_node-2] [INFO] [1791103925.360402013] [resource_manager]: 'configure' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791103925.360406739] [resource_manager]: Successful 'configure' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791103925.360419768] [resource_manager]: 'activate' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791103925.360619768] [resource_manager]: Successful 'activate' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791103925.360670967] [controller_manager]: Registering statistics for : FrankaHardwareInterface
+[ros2_control_node-2] [INFO] [1791103925.360744329] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[joint_state_publisher-3] [INFO] [1791103925.403741435] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-3] [INFO] [1791103925.409882815] [joint_state_publisher]: Got description, configuring robot
+[ros2_control_node-2] [INFO] [1791103925.432097381] [controller_manager]: Loading controller : 'franka_robot_state_broadcaster' of type 'franka_robot_state_broadcaster/FrankaRobotStateBroadcaster'
+[ros2_control_node-2] [INFO] [1791103925.432125614] [controller_manager]: Loading controller 'franka_robot_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791103925.434235990] [controller_manager]: Controller 'franka_robot_state_broadcaster' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf 
+[spawner-5] [INFO] [1791103925.453532528] [spawner_franka_robot_state_broadcaster]: Loaded franka_robot_state_broadcaster
+[ros2_control_node-2] [INFO] [1791103925.454280742] [controller_manager]: Configuring controller: 'franka_robot_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791103925.459046611] [franka_robot_state_broadcaster]: Convenience topics at 1000 Hz, full state at 1000 Hz
+[ros2_control_node-2] [INFO] [1791103925.460749977] [controller_manager]: Activating controllers: [ franka_robot_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1791103925.463552067] [franka_robot_state_broadcaster]: Publish thread started with SCHED_FIFO priority 50.
+[ros2_control_node-2] [INFO] [1791103925.463631531] [controller_manager]: Successfully switched controllers!
+[spawner-5] [INFO] [1791103925.465002455] [spawner_franka_robot_state_broadcaster]: Configured and activated franka_robot_state_broadcaster
+[spawner-4] [INFO] [1791103925.776473589] [spawner_joint_state_broadcaster]: Setting controller param "node_options_args" to "['--remap', 'joint_states:=franka/joint_states']" for joint_state_broadcaster
+[INFO] [spawner-5]: process has finished cleanly [pid 87009]
+[ros2_control_node-2] [INFO] [1791103925.787680625] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-2] [INFO] [1791103925.787728383] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791103925.791473573] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --ros-args --remap joint_states:=franka/joint_states 
+[spawner-4] [INFO] [1791103925.799108075] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ros2_control_node-2] [INFO] [1791103925.800093361] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1791103925.800179142] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-2] [INFO] [1791103925.813137860] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1791103925.813867933] [controller_manager]: Successfully switched controllers!
+[spawner-4] [INFO] [1791103925.816374027] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[INFO] [spawner-4]: process has finished cleanly [pid 87008]
+[ros2_control_node-2] [INFO] [1791104950.640810165] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104952.702391857] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104952.703560947] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [INFO] [1791104953.151829915] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104955.157320765] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104955.158458299] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [INFO] [1791104955.594816432] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104957.554693807] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104957.555833309] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [INFO] [1791104957.994834823] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104959.910499047] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104959.911666576] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [INFO] [1791104960.353044175] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104962.224364920] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104962.225501565] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [INFO] [1791104962.668081938] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104964.493010253] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104964.494139681] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [INFO] [1791104964.940097959] [FrankaHardwareInterface]: Async position control initialized successfully.
+[ros2_control_node-2] [INFO] [1791104967.238741168] [FrankaHardwareInterface]: Async position control stopped successfully.
+[ros2_control_node-2] [INFO] [1791104967.239868448] [action_server]: PTP motion completed successfully
+[ros2_control_node-2] [ERROR] [1791104967.680188235] [FrankaHardwareInterface]: Error while constructing AsyncPositionControlHandler: libfranka: Move received unexpected motion started message.
+[ros2_control_node-2] [ERROR] [1791104967.680293990] [action_server]: Could not start new PTP motion: libfranka: Move received unexpected motion started message.
+[ros2_control_node-2] [ERROR] [1791106273.003249623] [controller_manager]: The 'type' param was not defined for 'fr3_arm_controller'.
+[ros2_control_node-2] [WARN] [1791106728.577274095] [rclcpp]: Failed to get parameters: parameter 'fr3_arm_controller.type' is not initialized
+[ros2_control_node-2] [WARN] [1791106972.143627141] [rclcpp]: Failed to get parameters: parameter 'fr3_arm_controller.type' is not initialized
+[ros2_control_node-2] [WARN] [1791107123.539072561] [rclcpp]: Failed to get parameters: parameter 'fr3_arm_controller.type' is not initialized
+[ros2_control_node-2] [INFO] [1791107130.571761231] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791107130.571802997] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791107130.832309171] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml 
+[ros2_control_node-2] [INFO] [1791107131.635667448] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791107131.636005448] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] [INFO] [1791107131.636124185] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-2] [INFO] [1791107131.636161282] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] [INFO] [1791107131.638143854] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791107131.641088655] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [INFO] [1791107146.349735329] [controller_manager]: Unloading controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791107146.349781861] [controller_manager]: Cleanup controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116250.470952237] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791116250.470985888] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116250.471052217] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml 
+[ros2_control_node-2] [INFO] [1791116251.300960940] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116251.301161693] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] [INFO] [1791116251.301222756] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-2] [INFO] [1791116251.301250881] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] [INFO] [1791116251.302438590] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791116251.305029902] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [INFO] [1791116263.699612280] [controller_manager]: Unloading controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116263.699647659] [controller_manager]: Cleanup controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116763.517491365] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791116763.517525561] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116763.517626919] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml 
+[ros2_control_node-2] [INFO] [1791116764.329246211] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116764.329573227] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] [INFO] [1791116764.329654708] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-2] [INFO] [1791116764.329672353] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] [INFO] [1791116764.331079138] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791116764.333341123] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [INFO] [1791116766.173783771] [controller_manager]: Activating controllers: [ fr3_arm_controller ]
+[ros2_control_node-2] [INFO] [1791116766.174516658] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [INFO] [1791116766.176771598] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791116772.032969152] [controller_manager]: Deactivating controllers: [ fr3_arm_controller ]
+[ros2_control_node-2] [INFO] [1791116772.033307078] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [INFO] [1791116772.036063416] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791116773.261895008] [controller_manager]: Unloading controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116773.261941480] [controller_manager]: Cleanup controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116957.288338235] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791116957.288370646] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116957.288470951] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml 
+[ros2_control_node-2] [INFO] [1791116958.027705779] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791116958.027971645] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] [INFO] [1791116958.028050346] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-2] [INFO] [1791116958.028068102] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] [INFO] [1791116958.029175819] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791116958.031068506] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [WARN] [1791116970.096780935] [rclcpp]: Failed to get parameters: state_publish_rate
+[ros2_control_node-2] [INFO] [1791117005.497310565] [controller_manager]: Unloading controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791117005.497351263] [controller_manager]: Cleanup controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791117724.825220280] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791117724.825256457] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791117724.825339659] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml 
+[ros2_control_node-2] [INFO] [1791117725.656045169] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791117725.656343576] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] [INFO] [1791117725.656411121] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] [INFO] [1791117725.656428411] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] [INFO] [1791117725.657667346] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791117725.659838323] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [INFO] [1791117726.927173242] [controller_manager]: Activating controllers: [ fr3_arm_controller ]
+[ros2_control_node-2] [INFO] [1791117726.927924115] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [INFO] [1791117726.931056967] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791117738.625519535] [fr3_arm_controller]: Received new action goal
+[ros2_control_node-2] [INFO] [1791117738.625563872] [fr3_arm_controller]: Accepted new action goal
+[ros2_control_node-2] [INFO] [1791117743.124374413] [fr3_arm_controller]: Goal reached, success!
+[ros2_control_node-2] [INFO] [1791117745.328264140] [controller_manager]: Deactivating controllers: [ fr3_arm_controller ]
+[ros2_control_node-2] [INFO] [1791117745.329186975] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [INFO] [1791117745.332197238] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791117746.570212965] [controller_manager]: Unloading controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791117746.570246267] [controller_manager]: Cleanup controller 'fr3_arm_controller'
+[ros2_control_node-2] [WARN] [1791118760.872807556] [rclcpp]: Failed to get parameters: parameter 'fr3_arm_controller.fallback_controllers' is not initialized
+[ros2_control_node-2] [INFO] [1791121426.231925413] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-2] [INFO] [1791121426.231962936] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791121426.232049058] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml --params-file /tmp/launch_params_vq_g8xpl --params-file /tmp/launch_params_l2k5tuis --params-file /tmp/launch_params_ksv4hjf7 --params-file /tmp/launch_params_tp503xdf --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml 
+[ros2_control_node-2] [INFO] [1791121427.051196075] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791121427.051526995] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-2] [INFO] [1791121427.051626146] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-2] [INFO] [1791121427.051647409] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-2] [INFO] [1791121427.053189228] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-2] [INFO] [1791121427.056542903] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-2] [INFO] [1791121429.717142547] [controller_manager]: Activating controllers: [ fr3_arm_controller ]
+[ros2_control_node-2] [INFO] [1791121429.717371504] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [INFO] [1791121429.719608656] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791121439.328087393] [controller_manager]: Deactivating controllers: [ fr3_arm_controller ]
+[ros2_control_node-2] [ERROR] [1791121440.387666038] [controller_manager]: Exception of type : N6franka16NetworkExceptionE thrown during read of the component 'FrankaHardwareInterface': libfranka: UDP receive: Timeout
+[ros2_control_node-2] [ERROR] [1791121440.387743631] [controller_manager]: Deactivating following hardware components as their read cycle resulted in an error: [ FrankaHardwareInterface ]
+[ros2_control_node-2] [ERROR] [1791121440.387754691] [controller_manager]: Deactivating following controllers as their hardware components read cycle resulted in an error: [ franka_robot_state_broadcaster joint_state_broadcaster fr3_arm_controller ]
+[ros2_control_node-2] [ERROR] [1791121440.387784641] [controller_manager]: Not acceptable command interfaces combination: 
+[ros2_control_node-2] Start interfaces: 
+[ros2_control_node-2] [
+[ros2_control_node-2] ]
+[ros2_control_node-2] Stop interfaces: 
+[ros2_control_node-2] [
+[ros2_control_node-2]   fr3_joint1/effort
+[ros2_control_node-2]   fr3_joint2/effort
+[ros2_control_node-2]   fr3_joint3/effort
+[ros2_control_node-2]   fr3_joint4/effort
+[ros2_control_node-2]   fr3_joint5/effort
+[ros2_control_node-2]   fr3_joint6/effort
+[ros2_control_node-2]   fr3_joint7/effort
+[ros2_control_node-2] ]
+[ros2_control_node-2] Not available: 
+[ros2_control_node-2] [
+[ros2_control_node-2]  fr3_joint1/effort
+[ros2_control_node-2]  fr3_joint2/effort
+[ros2_control_node-2]  fr3_joint3/effort
+[ros2_control_node-2]  fr3_joint4/effort
+[ros2_control_node-2]  fr3_joint5/effort
+[ros2_control_node-2]  fr3_joint6/effort
+[ros2_control_node-2]  fr3_joint7/effort
+[ros2_control_node-2] ]
+[ros2_control_node-2] 
+[ros2_control_node-2] [ERROR] [1791121440.387796139] [controller_manager]: Error while attempting mode switch when deactivating controllers in read cycle!
+[ros2_control_node-2] [INFO] [1791121440.388004567] [controller_manager]: Requested controller switch from non-realtime loop
+[ros2_control_node-2] [WARN] [1791121440.388031968] [controller_manager]: Component 'FrankaHardwareInterface' is not in INACTIVE or ACTIVE state, skipping the perform switch
+[ros2_control_node-2] [ERROR] [1791121440.388044101] [controller_manager]: Error while performing mode switch.
+[ros2_control_node-2] [INFO] [1791121440.388067538] [controller_manager]: Successfully switched controllers!
+[ros2_control_node-2] [INFO] [1791121441.533829074] [controller_manager]: Unloading controller: 'fr3_arm_controller'
+[ros2_control_node-2] [INFO] [1791121441.533865716] [controller_manager]: Cleanup controller 'fr3_arm_controller'
+[ros2_control_node-2] [WARN] [1791122572.843826084] [controller_manager]: Controller Manager: to switch controllers you need to specify a strictness level of controller_manager_msgs::SwitchController::STRICT (2) or ::BEST_EFFORT (1). When unspecified, the default is BEST_EFFORT
+[ros2_control_node-2] [INFO] [1791122572.843871224] [controller_manager]: Activating controllers: [ joint_state_broadcaster franka_robot_state_broadcaster ]
+[ros2_control_node-2] [WARN] [1791122572.843900347] [controller_manager]: Unable to activate controller 'franka_robot_state_broadcaster' since the state interface 'fr3/robot_state' is not available.
+[ros2_control_node-2] [INFO] [1791122945.350930767] [resource_manager]: 'configure' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791122945.350953691] [resource_manager]: Successful 'configure' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [ERROR] [1791122945.351702828] [controller_manager]: Exception of type : N6franka16NetworkExceptionE thrown during read of the component 'FrankaHardwareInterface': libfranka: TCP connection got interrupted.
+[ros2_control_node-2] [ERROR] [1791122945.351801357] [controller_manager]: Deactivating following hardware components as their read cycle resulted in an error: [ FrankaHardwareInterface ]
+[ros2_control_node-2] [ERROR] [1791122945.351819884] [controller_manager]: Deactivating following controllers as their hardware components read cycle resulted in an error: [ franka_robot_state_broadcaster joint_state_broadcaster fr3_arm_controller ]
+[ros2_control_node-2] [ERROR] [1791122945.351835175] [controller_manager]: Got request to deactivate controller 'fr3_arm_controller' but it is not in the realtime controller list

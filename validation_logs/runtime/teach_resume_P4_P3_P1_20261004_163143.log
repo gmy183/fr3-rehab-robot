@@ -1,0 +1,17 @@
+====================================================================
+FR3 MID-EDGE RESUME CHECK
+====================================================================
+resume edge = P4 -> P3
+final target = P1
+current xyz = [0.519809, 0.191002, 0.348374]
+edge projection = [0.519643, 0.192358, 0.350193]
+edge progress = 53.4%
+cross-track error = 2.275 mm
+resume route = RESUME -> P3 -> P2 -> P1
+remaining polyline = 0.422 m
+estimated subsegments = 29
+[PASS] current pose validated on selected taught edge
+
+[FAULT] TeachPathError: TF unavailable: Could not find a connection between 'fr3_link0' and 'fr3_link8' because they are not part of the same tree.Tf has two or more unconnected trees.
+[SAFE] no automatic retry
+[SAFE] no automatic return

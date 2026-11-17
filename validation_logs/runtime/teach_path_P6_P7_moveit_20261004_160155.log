@@ -1,0 +1,130 @@
+[PASS] FR3 URDF rendered with empty arm_prefix
+[PASS] FR3 SRDF rendered with planning group fr3_arm
+[SAFE] ros2_control node is NOT part of this launch
+[SAFE] trajectory execution is disabled
+[INFO] [launch]: All log files can be found below /home/gu/.ros/log/2026-10-04-16-01-59-251861-gu-G3-3500-75969
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [move_group-1]: process started with pid [75979]
+[move_group-1] [WARN] [1791100919.424828004] [rcl.logging_rosout]: Publisher already registered for node name: 'move_group'. If this is due to multiple nodes with the same name then all logs for the logger named 'move_group' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[move_group-1] [WARN] [1791100919.430140314] [move_group]: Falling back to using the the move_group node namespace (deprecated behavior).
+[move_group-1] [INFO] [1791100919.433737447] [move_group.move_group.moveit.ros.rdf_loader]: Loaded robot model in 0.00336102 seconds
+[move_group-1] [INFO] [1791100919.433794600] [move_group.move_group.moveit.core.robot_model]: Loading robot model 'fr3'...
+[move_group-1] [INFO] [1791100919.442880301] [move_group.move_group.moveit.kinematics.kdl_kinematics_plugin]: Joint weights for group 'fr3_arm': 1 1 1 1 1 1 1
+[move_group-1] [INFO] [1791100919.473145869] [move_group.move_group.moveit.ros.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-1] [INFO] [1791100919.473306646] [move_group.move_group.moveit.ros.moveit_cpp]: Listening to 'joint_states' for joint states
+[move_group-1] [INFO] [1791100919.473878931] [move_group.move_group.moveit.ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[move_group-1] [INFO] [1791100919.474805211] [move_group.move_group.moveit.ros.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[move_group-1] [INFO] [1791100919.474832302] [move_group.move_group.moveit.ros.planning_scene_monitor]: Stopping existing planning scene publisher.
+[move_group-1] [INFO] [1791100919.474994591] [move_group.move_group.moveit.ros.planning_scene_monitor]: Stopped publishing maintained planning scene.
+[move_group-1] [INFO] [1791100919.476274322] [move_group.move_group.moveit.ros.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-1] [INFO] [1791100919.476381052] [move_group.move_group.moveit.ros.planning_scene_monitor]: Starting planning scene monitor
+[move_group-1] [INFO] [1791100919.477861167] [move_group.move_group.moveit.ros.planning_scene_monitor]: Listening to '/planning_scene'
+[move_group-1] [INFO] [1791100919.477907014] [move_group.move_group.moveit.ros.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[move_group-1] [INFO] [1791100919.478544352] [move_group.move_group.moveit.ros.planning_scene_monitor]: Listening to 'collision_object'
+[move_group-1] [INFO] [1791100919.479283824] [move_group.move_group.moveit.ros.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[move_group-1] [WARN] [1791100919.479635344] [move_group.move_group.moveit.ros.occupancy_map_monitor]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[move_group-1] [ERROR] [1791100919.479671071] [move_group.move_group.moveit.ros.occupancy_map_monitor]: No 3D sensor plugin(s) defined for octomap updates
+[move_group-1] [INFO] [1791100919.500210924] [move_group.move_group.moveit.ros.planning_pipeline]: Successfully loaded planner 'OMPL'
+[move_group-1] [INFO] [1791100919.501415991] [move_group]: Try loading adapter 'default_planning_request_adapters/ResolveConstraintFrames'
+[move_group-1] [INFO] [1791100919.502460639] [move_group]: Loaded adapter 'default_planning_request_adapters/ResolveConstraintFrames'
+[move_group-1] [INFO] [1791100919.502482768] [move_group]: Try loading adapter 'default_planning_request_adapters/ValidateWorkspaceBounds'
+[move_group-1] [INFO] [1791100919.502836307] [move_group]: Loaded adapter 'default_planning_request_adapters/ValidateWorkspaceBounds'
+[move_group-1] [INFO] [1791100919.502854920] [move_group]: Try loading adapter 'default_planning_request_adapters/CheckStartStateBounds'
+[move_group-1] [INFO] [1791100919.502894988] [move_group]: Loaded adapter 'default_planning_request_adapters/CheckStartStateBounds'
+[move_group-1] [INFO] [1791100919.502908146] [move_group]: Try loading adapter 'default_planning_request_adapters/CheckStartStateCollision'
+[move_group-1] [INFO] [1791100919.502929878] [move_group]: Loaded adapter 'default_planning_request_adapters/CheckStartStateCollision'
+[move_group-1] [INFO] [1791100919.504215100] [move_group]: Try loading adapter 'default_planning_response_adapters/AddTimeOptimalParameterization'
+[move_group-1] [INFO] [1791100919.506635296] [move_group]: Loaded adapter 'default_planning_response_adapters/AddTimeOptimalParameterization'
+[move_group-1] [INFO] [1791100919.506661825] [move_group]: Try loading adapter 'default_planning_response_adapters/ValidateSolution'
+[move_group-1] [INFO] [1791100919.508361059] [move_group]: Loaded adapter 'default_planning_response_adapters/ValidateSolution'
+[move_group-1] [INFO] [1791100919.508394741] [move_group]: Try loading adapter 'default_planning_response_adapters/DisplayMotionPath'
+[move_group-1] [INFO] [1791100919.509352901] [move_group]: Loaded adapter 'default_planning_response_adapters/DisplayMotionPath'
+[move_group-1] [WARN] [1791100919.510787877] [move_group.move_group.moveit.ros.trajectory_execution_manager]: Parameter '~moveit_controller_manager' is not specified but only one matching plugin was found: 'moveit_simple_controller_manager/MoveItSimpleControllerManager'. Using that one.
+[move_group-1] [WARN] [1791100919.510904584] [rcl.logging_rosout]: Publisher already registered for node name: 'move_group'. If this is due to multiple nodes with the same name then all logs for the logger named 'move_group' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[move_group-1] [ERROR] [1791100919.540448938] [move_group.move_group.moveit.plugins.simple_controller_manager]: No controller_names specified.
+[move_group-1] [INFO] [1791100919.540738956] [move_group.move_group.moveit.plugins.simple_controller_manager]: Returned 0 controllers in list
+[move_group-1] [INFO] [1791100919.540788899] [move_group.move_group.moveit.plugins.simple_controller_manager]: Returned 0 controllers in list
+[move_group-1] [INFO] [1791100919.541360987] [move_group.move_group.moveit.ros.trajectory_execution_manager]: Trajectory execution is not managing controllers
+[move_group-1] [INFO] [1791100919.541386044] [move_group]: MoveGroup debug mode is ON
+[move_group-1] [INFO] [1791100919.571325194] [move_group.move_group.moveit.ros.move_group.executable]: 
+[move_group-1] 
+[move_group-1] ********************************************************
+[move_group-1] * MoveGroup using: 
+[move_group-1] *     - apply_planning_scene_service
+[move_group-1] *     - clear_octomap_service
+[move_group-1] *     - get_group_urdf
+[move_group-1] *     - load_geometry_from_file
+[move_group-1] *     - CartesianPathService
+[move_group-1] *     - execute_trajectory_action
+[move_group-1] *     - get_planning_scene_service
+[move_group-1] *     - kinematics_service
+[move_group-1] *     - move_action
+[move_group-1] *     - motion_plan_service
+[move_group-1] *     - query_planners_service
+[move_group-1] *     - state_validation_service
+[move_group-1] *     - save_geometry_to_file
+[move_group-1] ********************************************************
+[move_group-1] 
+[move_group-1] [INFO] [1791100919.571384947] [move_group.move_group.moveit.ros.move_group.context]: MoveGroup context using pipeline move_group
+[move_group-1] [INFO] [1791100919.571399413] [move_group.move_group.moveit.ros.move_group.context]: MoveGroup context initialization complete
+[move_group-1] [96mLoading 'move_group/ApplyPlanningSceneService'...[0m
+[move_group-1] [96mLoading 'move_group/ClearOctomapService'...[0m
+[move_group-1] [96mLoading 'move_group/GetUrdfService'...[0m
+[move_group-1] [96mLoading 'move_group/LoadGeometryFromFileService'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupCartesianPathService'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupExecuteTrajectoryAction'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupGetPlanningSceneService'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupKinematicsService'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupMoveAction'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupPlanService'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupQueryPlannersService'...[0m
+[move_group-1] [96mLoading 'move_group/MoveGroupStateValidationService'...[0m
+[move_group-1] [96mLoading 'move_group/SaveGeometryToFileService'...[0m
+[move_group-1] 
+[move_group-1] [92mYou can start planning now![0m
+[move_group-1] 
+[move_group-1] [INFO] [1791100925.959131530] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100925.959344145] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100925.960862236] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100925.960888588] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100925.961265004] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 15 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100928.286523122] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100928.286646984] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100928.287859133] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100928.287889456] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100928.288185928] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100930.571550475] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100930.571675262] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100930.572940525] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100930.573027548] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100930.573295986] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100932.827737472] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100932.827892213] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100932.829957351] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100932.830034023] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100932.830485123] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100935.056773893] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100935.056935761] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100935.058890238] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100935.058948840] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100935.059263277] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100937.259498922] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100937.259630817] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100937.261447416] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100937.261501892] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100937.261844784] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100939.431442334] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100939.431541398] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100939.433503221] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100939.433544815] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100939.433859159] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100941.582356129] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100941.582471570] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100941.584453469] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100941.584490442] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100941.584774074] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)
+[move_group-1] [INFO] [1791100943.699469891] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Received request to compute Cartesian path
+[move_group-1] [INFO] [1791100943.699574719] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Attempting to follow 1 waypoints for link 'fr3_link8' using a step of 0.001000 m and jump threshold 0.000000 (in global reference frame)
+[move_group-1] [WARN] [1791100943.700842136] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_velocity_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [WARN] [1791100943.700876770] [move_group.move_group.moveit.core.time_optimal_trajectory_generation]: Invalid max_acceleration_scaling_factor 0.000000 specified, defaulting to 1.000000 instead.
+[move_group-1] [INFO] [1791100943.701087451] [move_group.move_group.moveit.ros.move_group.cartesian_path_service_capability]: Computed Cartesian path with 16 points (followed 100.000000% of requested trajectory)

@@ -1,0 +1,719 @@
+import os
+import time
+import statistics
+
+from rehab_robot_xhand.xhand_driver_core import (
+    VendorXHandBackend,
+    XHandDriverCore,
+)
+from rehab_robot_xhand.xhand_sdk_adapter import (
+    JointCommandSpec,
+    build_command,
+)
+
+IFACE = "enx6c1ff7641594"
+
+NAMES = [
+    "thumb_bend_joint",
+    "thumb_rota_joint1",
+    "thumb_rota_joint2",
+    "index_bend_joint",
+    "index_joint1",
+    "index_joint2",
+    "mid_joint1",
+    "mid_joint2",
+    "ring_joint1",
+    "ring_joint2",
+    "pinky_joint1",
+    "pinky_joint2",
+]
+
+ACTIVE = [0, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+
+MODE = 3
+KP = 225
+KI = 0
+KD = 0
+TOR_MAX = 150
+
+RATE = 20.0
+DT = 1.0 / RATE
+
+WATCHDOG = 0.5
+DISABLE_FRAMES = 3
+
+CURRENT_GUARD = 170.0
+
+# 大范围运动时不再使用“相对初始位置 0.020 rad”门限。
+# 改为：
+# 1. 单帧位置跳变保护
+# 2. 实际位置与当前轨迹目标之间的跟踪误差保护
+JUMP_GUARD = 0.080
+TRACKING_GUARD = 0.150
+
+# 每周期最大目标变化。
+# 20 Hz × 0.008 = 最大约 0.16 rad/s。
+MAX_STEP = 0.008
+
+# thumb_rota_joint2 在高角度回程出现过 181 mA。
+# 单独降到约 0.04 rad/s。
+THUMB2_MAX_STEP = 0.002
+
+OPEN = {
+    0:  0.080000,
+    2:  1.081183,
+    4:  0.276128,
+    5:  0.579768,
+    6:  0.246471,
+    7:  0.674390,
+    8:  0.257769,
+    9:  0.593891,
+    10: 0.343918,
+    11: 0.495031,
+}
+
+GRASP = {
+    0:  0.178681,
+    2:  1.450000,
+    4:  1.900000,
+    5:  0.842452,
+    6:  1.780203,
+    7:  0.836802,
+    8:  1.757607,
+    9:  0.735118,
+    10: 1.612142,
+    11: 0.979442,
+}
+
+if os.environ.get("XHAND_CONFIRM") != \
+        "EXECUTE-XHAND-OPEN-GRASP":
+    raise SystemExit("[ABORT] confirmation missing")
+
+
+def valid_state(driver, attempts=10):
+
+    last = "unknown"
+
+    for _ in range(attempts):
+
+        fresh = driver.read_fresh_state(
+            force_update=True
+        )
+
+        if fresh is None:
+            last = "no fresh state"
+            time.sleep(0.01)
+            continue
+
+        fs = fresh.state.finger_state
+
+        if len(fs) != 12:
+            last = f"joint count={len(fs)}"
+            time.sleep(0.01)
+            continue
+
+        q = []
+        current = []
+        raw = []
+
+        for i, f in enumerate(fs):
+
+            errors = (
+                int(f.commboard_err),
+                int(f.jonitboard_err),
+                int(f.tipboard_err),
+            )
+
+            if any(errors):
+                raise RuntimeError(
+                    f"{NAMES[i]} errors={errors}"
+                )
+
+            q.append(float(f.position))
+            current.append(float(f.torque))
+            raw.append(int(f.raw_position))
+
+        # 拒绝 EtherCAT 启动/运行中的默认零状态
+        if any(v == 0 for v in raw):
+            last = "raw_position zero/default frame"
+            time.sleep(0.01)
+            continue
+
+        if (
+            all(abs(v) < 1e-12 for v in q)
+            and all(abs(v) < 1e-12 for v in current)
+        ):
+            last = "all-zero default frame"
+            time.sleep(0.01)
+            continue
+
+        return q, current
+
+    raise RuntimeError(
+        "no semantically valid state: "
+        + last
+    )
+
+
+def baseline(driver):
+
+    rows = []
+
+    deadline = time.monotonic() + 2.0
+
+    while (
+        len(rows) < 15
+        and time.monotonic() < deadline
+    ):
+
+        try:
+            q, _ = valid_state(driver)
+            rows.append(q)
+        except RuntimeError as exc:
+            if "errors=" in str(exc):
+                raise
+
+        time.sleep(0.01)
+
+    if len(rows) < 15:
+        raise RuntimeError(
+            "baseline acquisition failed"
+        )
+
+    q0 = [
+        statistics.median(
+            row[i]
+            for row in rows
+        )
+        for i in range(12)
+    ]
+
+    spans = [
+        max(row[i] for row in rows)
+        - min(row[i] for row in rows)
+        for i in range(12)
+    ]
+
+    if max(spans) > 0.020:
+        raise RuntimeError(
+            f"baseline unstable: "
+            f"{max(spans):.6f}"
+        )
+
+    print(
+        f"[PASS] baseline "
+        f"worst_span={max(spans):.6f}"
+    )
+
+    return q0
+
+
+def make_command(reference, target, enabled):
+
+    enabled = set(enabled)
+
+    specs = []
+
+    for i in range(12):
+
+        if i in enabled:
+
+            specs.append(
+                JointCommandSpec(
+                    position=float(target[i]),
+                    effort_limit=TOR_MAX,
+                    mode=MODE,
+                    kp=KP,
+                    ki=KI,
+                    kd=KD,
+                )
+            )
+
+        else:
+
+            specs.append(
+                JointCommandSpec(
+                    position=float(reference[i]),
+                    effort_limit=0,
+                    mode=0,
+                    kp=0,
+                    ki=0,
+                    kd=0,
+                )
+            )
+
+    return build_command(specs)
+
+
+def check_sample(
+    q,
+    current,
+    previous_q,
+    target,
+    enabled,
+):
+
+    for i in enabled:
+
+        if abs(current[i]) > CURRENT_GUARD:
+            raise RuntimeError(
+                f"{NAMES[i]} current="
+                f"{current[i]:+.1f}mA"
+            )
+
+        jump = (
+            q[i]
+            - previous_q[i]
+        )
+
+        if abs(jump) > JUMP_GUARD:
+            raise RuntimeError(
+                f"{NAMES[i]} sensor jump="
+                f"{jump:+.6f}rad"
+            )
+
+        error = (
+            target[i]
+            - q[i]
+        )
+
+        if abs(error) > TRACKING_GUARD:
+            raise RuntimeError(
+                f"{NAMES[i]} tracking error="
+                f"{error:+.6f}rad"
+            )
+
+
+def staged_takeover(driver, q0):
+
+    enabled = []
+
+    # 每个关节在“真正加入主动组”的瞬间，
+    # 使用它当时的实时位置作为接管目标。
+    takeover_target = list(q0)
+
+    print()
+    print("========== STAGED TAKEOVER ==========")
+
+    for stage, index in enumerate(
+        ACTIVE,
+        start=1,
+    ):
+
+        # 关键修复：
+        # 不使用最初 q0 判断新关节的一帧跳变。
+        # 先读取当前真实状态。
+        q_pre, current_pre = valid_state(
+            driver
+        )
+
+        if abs(current_pre[index]) > CURRENT_GUARD:
+            raise RuntimeError(
+                f"{NAMES[index]} pre-takeover "
+                f"current={current_pre[index]:+.1f}mA"
+            )
+
+        # 新加入关节就在当前位置无冲击接管。
+        takeover_target[index] = q_pre[index]
+
+        enabled.append(index)
+
+        print(
+            f"[STAGE {stage}/10] "
+            f"enable {NAMES[index]} "
+            f"at q={q_pre[index]:+.6f}"
+        )
+
+        command = make_command(
+            q0,
+            takeover_target,
+            enabled,
+        )
+
+        # jump 必须相对于真正的上一帧，
+        # 而不是几秒前的 baseline。
+        previous_q = list(q_pre)
+
+        deadline = (
+            time.monotonic()
+            + 0.40
+        )
+
+        while time.monotonic() < deadline:
+
+            cycle_start = time.monotonic()
+
+            driver.refresh_active_command(
+                command
+            )
+
+            time.sleep(0.020)
+
+            q, current = valid_state(
+                driver
+            )
+
+            check_sample(
+                q,
+                current,
+                previous_q,
+                takeover_target,
+                enabled,
+            )
+
+            previous_q = list(q)
+
+            driver.poll_watchdog()
+
+            elapsed = (
+                time.monotonic()
+                - cycle_start
+            )
+
+            if elapsed < DT:
+                time.sleep(
+                    DT - elapsed
+                )
+
+        print(
+            f"[PASS] TAKEOVER "
+            f"{stage}/10 "
+            f"{NAMES[index]}"
+        )
+
+    return list(takeover_target)
+
+
+def move_to(
+    driver,
+    start_target,
+    destination,
+    reference,
+    label,
+):
+
+    target = list(start_target)
+
+    previous_q, _ = valid_state(
+        driver
+    )
+
+    cycle = 0
+
+    print()
+    print(
+        f"========== {label} =========="
+    )
+
+    while True:
+
+        cycle += 1
+
+        complete = True
+
+        for i in ACTIVE:
+
+            goal = destination[i]
+
+            diff = (
+                goal
+                - target[i]
+            )
+
+            if abs(diff) > 1e-6:
+
+                complete = False
+
+                step_limit = (
+                    THUMB2_MAX_STEP
+                    if i == 2
+                    else MAX_STEP
+                )
+
+                step = max(
+                    -step_limit,
+                    min(step_limit, diff)
+                )
+
+                target[i] += step
+
+        command = make_command(
+            reference,
+            target,
+            ACTIVE,
+        )
+
+        start = time.monotonic()
+
+        driver.refresh_active_command(
+            command
+        )
+
+        time.sleep(0.020)
+
+        q, current = valid_state(
+            driver
+        )
+
+        check_sample(
+            q,
+            current,
+            previous_q,
+            target,
+            ACTIVE,
+        )
+
+        previous_q = q
+
+        driver.poll_watchdog()
+
+        if cycle % 20 == 0:
+
+            max_error = max(
+                abs(target[i] - q[i])
+                for i in ACTIVE
+            )
+
+            max_current = max(
+                abs(current[i])
+                for i in ACTIVE
+            )
+
+            print(
+                f"{label}: "
+                f"cycle={cycle} "
+                f"max_err={max_error:.4f}rad "
+                f"max_I={max_current:.1f}mA"
+            )
+
+        if complete:
+
+            break
+
+        elapsed = (
+            time.monotonic()
+            - start
+        )
+
+        if elapsed < DT:
+            time.sleep(
+                DT - elapsed
+            )
+
+    # 最终目标保持 1 秒
+    command = make_command(
+        reference,
+        target,
+        ACTIVE,
+    )
+
+    deadline = (
+        time.monotonic()
+        + 1.0
+    )
+
+    while time.monotonic() < deadline:
+
+        start = time.monotonic()
+
+        driver.refresh_active_command(
+            command
+        )
+
+        time.sleep(0.020)
+
+        q, current = valid_state(
+            driver
+        )
+
+        check_sample(
+            q,
+            current,
+            previous_q,
+            target,
+            ACTIVE,
+        )
+
+        previous_q = q
+
+        driver.poll_watchdog()
+
+        elapsed = (
+            time.monotonic()
+            - start
+        )
+
+        if elapsed < DT:
+            time.sleep(
+                DT - elapsed
+            )
+
+    final_error = max(
+        abs(target[i] - q[i])
+        for i in ACTIVE
+    )
+
+    print(
+        f"[PASS] {label} "
+        f"final_max_error="
+        f"{final_error:.6f}rad"
+    )
+
+    return list(target)
+
+
+print("=" * 78)
+print("XHAND REAL OPEN -> GRASP -> OPEN")
+print("=" * 78)
+print("ACTIVE = 10 joints")
+print("thumb_rota_joint1 = POWERLESS")
+print("index_bend_joint   = POWERLESS")
+print("finger speed max   ~= 0.16 rad/s")
+print("thumb2 speed max   ~= 0.04 rad/s")
+print("current guard      = 170 mA")
+print("tracking guard     = 0.150 rad")
+print("NO FR3 MOTION")
+print("=" * 78)
+
+
+backend = VendorXHandBackend()
+
+driver = XHandDriverCore(
+    backend,
+    command_timeout_s=WATCHDOG,
+    disable_frames=DISABLE_FRAMES,
+)
+
+opened = False
+
+try:
+
+    did = driver.open(IFACE)
+    opened = True
+
+    print(
+        f"[PASS] device_id={did}"
+    )
+
+    q0 = baseline(driver)
+
+    print()
+    print("========== START ==========")
+
+    for i in range(12):
+        print(
+            f"{i:02d} "
+            f"{NAMES[i]:20s} "
+            f"{q0[i]:+.6f}"
+        )
+
+    open_target = list(q0)
+    grasp_target = list(q0)
+
+    for i in ACTIVE:
+        open_target[i] = OPEN[i]
+        grasp_target[i] = GRASP[i]
+
+    print()
+    print("========== FINAL TARGETS ==========")
+
+    for i in ACTIVE:
+        print(
+            f"{NAMES[i]:20s} "
+            f"OPEN={open_target[i]:+.6f} "
+            f"GRASP={grasp_target[i]:+.6f}"
+        )
+
+    current_target = staged_takeover(
+        driver,
+        q0,
+    )
+
+    current_target = move_to(
+        driver,
+        current_target,
+        open_target,
+        q0,
+        "MOVE-OPEN",
+    )
+
+    current_target = move_to(
+        driver,
+        current_target,
+        grasp_target,
+        q0,
+        "MOVE-GRASP",
+    )
+
+    # 第一段：
+    # 四指先返回 OPEN，thumb_rota_joint2 保持 GRASP。
+    return_fingers_target = list(
+        open_target
+    )
+
+    return_fingers_target[2] = (
+        grasp_target[2]
+    )
+
+    current_target = move_to(
+        driver,
+        current_target,
+        return_fingers_target,
+        q0,
+        "RETURN-FINGERS",
+    )
+
+    # 第二段：
+    # 四指保持 OPEN，只让 thumb_rota_joint2
+    # 以 0.002 rad/cycle 慢速返回。
+    current_target = move_to(
+        driver,
+        current_target,
+        open_target,
+        q0,
+        "RETURN-THUMB2",
+    )
+
+    print()
+    print(
+        "[PASS] XHAND REAL "
+        "OPEN-GRASP-OPEN COMPLETE"
+    )
+
+except KeyboardInterrupt:
+
+    print()
+    print("[STOP] operator interrupt")
+
+except Exception as exc:
+
+    print()
+    print(
+        f"[FAULT] "
+        f"{type(exc).__name__}: {exc}"
+    )
+
+finally:
+
+    if opened:
+
+        print()
+        print(
+            "[SAFE] powerless x3 "
+            "+ EtherCAT close"
+        )
+
+        try:
+            driver.close()
+
+            print(
+                "[PASS] XHand safely closed"
+            )
+
+        except Exception as exc:
+
+            print(
+                f"[WARN] close: {exc}"
+            )
+
+print("=" * 78)

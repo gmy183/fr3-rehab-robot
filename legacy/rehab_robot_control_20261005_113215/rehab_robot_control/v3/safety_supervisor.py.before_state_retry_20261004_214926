@@ -1,0 +1,137 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+import re
+import subprocess
+from typing import Any, Dict, List, Tuple
+
+from .config import V3Config
+
+
+@dataclass
+class SafetyReport:
+    ok: bool
+    blockers: List[str]
+    data: Dict[str, Any]
+
+
+class SafetySupervisor:
+    """Read-only safety gates. No command is sent to FR3/XHand."""
+
+    def __init__(self, config: V3Config):
+        self.config = config
+
+    @staticmethod
+    def _run(args: List[str], timeout: float = 5.0) -> Tuple[int, str]:
+        try:
+            p = subprocess.run(
+                args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )
+            return p.returncode, p.stdout
+        except subprocess.TimeoutExpired as exc:
+            out = exc.stdout or ""
+            if isinstance(out, bytes):
+                out = out.decode(errors="replace")
+            return 124, out + "\n[TIMEOUT]"
+
+    def check_runtime(self, require_idle: bool = True, require_no_motion_controller: bool = True) -> SafetyReport:
+        blockers: List[str] = []
+        data: Dict[str, Any] = {}
+
+        rc, controllers = self._run(["ros2", "control", "list_controllers"], timeout=5.0)
+        data["controllers_rc"] = rc
+        data["controllers_raw"] = controllers
+        if rc != 0:
+            blockers.append("controller_manager query failed")
+
+        active = []
+        for line in controllers.splitlines():
+            parts = line.split()
+            if len(parts) >= 3 and parts[-1] == "active":
+                active.append(parts[0])
+        data["active_controllers"] = active
+
+        allowed = {
+            "joint_state_broadcaster",
+            "franka_robot_state_broadcaster",
+        }
+        unexpected = [x for x in active if x not in allowed]
+        data["unexpected_active_controllers"] = unexpected
+        if require_no_motion_controller and unexpected:
+            blockers.append(f"unexpected active controller(s): {unexpected}")
+
+        topic = str(self.config.hardware["fr3"]["robot_state_topic"])
+        rc, state = self._run(["ros2", "topic", "echo", topic, "--once"], timeout=4.0)
+        data["robot_state_rc"] = rc
+        data["robot_state_raw"] = state
+        if rc != 0:
+            blockers.append("robot_state read failed")
+        else:
+            mode_match = re.search(r"^robot_mode:\s*(\d+)", state, re.MULTILINE)
+            robot_mode = int(mode_match.group(1)) if mode_match else None
+            data["robot_mode"] = robot_mode
+            required_mode = int(self.config.hardware["fr3"].get("required_idle_robot_mode", 1))
+            if require_idle and robot_mode != required_mode:
+                blockers.append(f"robot_mode={robot_mode}, required={required_mode}")
+
+            bad_flags = {}
+            for field in (
+                "joint_reflex",
+                "cartesian_reflex",
+                "communication_constraints_violation",
+                "instability_detected",
+            ):
+                vals = re.findall(rf"^\s*{re.escape(field)}:\s*(true|false)", state, re.MULTILINE | re.IGNORECASE)
+                bad = any(v.lower() == "true" for v in vals)
+                bad_flags[field] = bad
+                if bad:
+                    blockers.append(f"FR3 health flag true: {field}")
+            data["health_flags"] = bad_flags
+
+        for label, pattern in (
+            ("ros2_control_node_count", "^/opt/ros/jazzy/lib/controller_manager/ros2_control_node "),
+            ("robot_state_publisher_count", "^/opt/ros/jazzy/lib/robot_state_publisher/robot_state_publisher "),
+        ):
+            rc, out = self._run(["pgrep", "-f", pattern], timeout=2.0)
+            count = len([line for line in out.splitlines() if line.strip()]) if rc in (0, 1) else -1
+            data[label] = count
+            if count != 1:
+                blockers.append(f"{label}={count}, expected 1")
+
+        rc, out = self._run(["pgrep", "-f", "^/opt/ros/jazzy/lib/moveit_ros_move_group/move_group"], timeout=2.0)
+        move_group_count = len([line for line in out.splitlines() if line.strip()]) if rc in (0, 1) else -1
+        data["move_group_count"] = move_group_count
+        if move_group_count > 0:
+            blockers.append(f"residual move_group process count={move_group_count}")
+
+        return SafetyReport(ok=not blockers, blockers=blockers, data=data)
+
+    def real_mode_gate(self) -> SafetyReport:
+        blockers: List[str] = []
+        fr3 = self.config.hardware.get("fr3", {})
+        xhand = self.config.hardware.get("xhand", {})
+
+        if not bool(fr3.get("real_execution_enabled", False)):
+            blockers.append("fr3.real_execution_enabled=false")
+        if not bool(fr3.get("tracking_backend_validated", False)):
+            blockers.append("fr3.tracking_backend_validated=false")
+        if not bool(xhand.get("combined_motion_enabled", False)):
+            blockers.append("xhand.combined_motion_enabled=false")
+        if not bool(xhand.get("real_grasp_enabled", False)):
+            blockers.append("xhand.real_grasp_enabled=false")
+
+        return SafetyReport(
+            ok=not blockers,
+            blockers=blockers,
+            data={
+                "fr3_real_execution_enabled": bool(fr3.get("real_execution_enabled", False)),
+                "fr3_tracking_backend_validated": bool(fr3.get("tracking_backend_validated", False)),
+                "xhand_combined_motion_enabled": bool(xhand.get("combined_motion_enabled", False)),
+                "xhand_real_grasp_enabled": bool(xhand.get("real_grasp_enabled", False)),
+            },
+        )

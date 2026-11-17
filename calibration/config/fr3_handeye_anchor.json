@@ -1,0 +1,19 @@
+{
+  "robot": "FR3",
+  "calibration_type": "eye_in_hand",
+  "base_frame": "fr3_link0",
+  "gripper_frame": "fr3_link8",
+  "camera_frame": "camera_color_optical_frame",
+  "marker_dictionary": "DICT_6X6_50",
+  "marker_id": 0,
+  "marker_size_m": 0.075,
+  "anchor_q": [
+    -0.24606642127037048,
+     1.0337215662002563,
+     1.978293776512146,
+    -2.4996323585510254,
+    -0.8823618292808533,
+     1.9783101081848145,
+    -0.42347538471221924
+  ]
+}

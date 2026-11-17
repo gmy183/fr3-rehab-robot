@@ -1,0 +1,814 @@
+#!/usr/bin/env python3
+"""FR3+D435i eye-in-hand capture, V2.4 ArUco + exact-TF buffering (NO MOTION).
+
+Design contract:
+- Image/joint/TF subscriptions and controller health services use separate ROS executors.
+- ArUco detection runs in a latest-frame-only worker; it cannot block the capture loop.
+- Preview/detection has no controller-service, joint, or TF gate.
+- Saving requires one recent verified health result, a new marker image after the
+  request, stationary joint history, timestamp agreement, and exact image-time TF.
+- Delayed exact-time TF retries use the same frozen image; latest TF is never substituted.
+- A lost previously verified health state is latched until the process exits.
+- No motion publishers, controller switches, recovery, or automatic arm motion.
+"""
+from __future__ import annotations
+
+import argparse
+from collections import deque
+import json
+import math
+from pathlib import Path
+import threading
+import time
+import select
+import sys
+
+import cv2
+cv2.setNumThreads(1)
+cv2.ocl.setUseOpenCL(False)
+import numpy as np
+import rclpy
+from rclpy.executors import SingleThreadedExecutor
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data, QoSProfile, ReliabilityPolicy, HistoryPolicy
+from rclpy.time import Time
+from rclpy.duration import Duration
+from sensor_msgs.msg import Image, CameraInfo, JointState
+from controller_manager_msgs.srv import ListControllers, ListHardwareComponents
+from tf2_ros import Buffer, TransformListener
+
+from handeye_math import (transform_matrix, relative_pose, extract_board, image_stamp_sec,
+                          MARKER_DICTIONARY_NAME, MARKER_ID, MARKER_SIZE_M)
+
+CAM_IMAGE = '/camera/camera/color/image_raw'
+CAM_INFO = '/camera/camera/color/camera_info'
+FRANKA_JOINTS = '/franka/joint_states'
+BASE, FLANGE = 'fr3_link0', 'fr3_link8'
+REQUIRED_CONTROLLERS = (
+    'fr3_arm_controller', 'joint_state_broadcaster', 'franka_robot_state_broadcaster')
+JOINT_NAMES = tuple(f'fr3_joint{i}' for i in range(1, 8))
+RMSE_MAX = 0.8
+MAX_AGE_S = 0.5
+MAX_IMAGE_JOINT_S = 0.12
+MAX_BUFFERED_IMAGE_AGE_S = 1.8
+MAX_EXACT_TF_WAIT_S = 1.2
+MAX_TF_STAMP_DELTA_S = 0.12
+MIN_STILL_WINDOW_S = 0.5
+MAX_JOINT_SPEED = 0.025
+MAX_JOINT_DRIFT = 0.003
+MIN_POSE_TRANSLATION = 0.015
+MIN_POSE_ROTATION_DEG = 3.0
+JOINT_CALLBACK_TIMEOUT_S = 1.0
+# Keep the health gate strict, but give verified ROS services enough time
+# to answer independently of the high-rate camera and 1 kHz joint stream.
+HEALTH_SERVICE_TIMEOUT_S = 5.0
+SAVE_PENDING_TIMEOUT_S = 5.0
+
+
+def validate_stamps(wall, image_stamp, joint_stamp, tf_stamp, max_age_s=MAX_AGE_S):
+    """Hard acceptance check; same wall-clock domain must be confirmed in data."""
+    for name, stamp in (
+        ('camera', image_stamp), ('joint', joint_stamp), ('tf', tf_stamp)
+    ):
+        if not math.isfinite(stamp) or stamp <= 0:
+            raise ValueError(f'{name} timestamp is invalid: {stamp!r}')
+    for name, stamp in (('camera', image_stamp), ('joint', joint_stamp)):
+        age = wall - stamp
+        if not 0 <= age < max_age_s:
+            raise ValueError(f'{name} frame stamp age={age:.3f}s is invalid')
+    if abs(image_stamp - joint_stamp) > MAX_IMAGE_JOINT_S:
+        raise ValueError(f'image/joint timestamp separation={abs(image_stamp-joint_stamp):.3f}s')
+    if abs(image_stamp - tf_stamp) > MAX_TF_STAMP_DELTA_S:
+        raise ValueError(f'image/TF timestamp separation={abs(image_stamp-tf_stamp):.3f}s')
+
+
+def validate_stationary(history, now):
+    """history elements: (receive_monotonic, message_stamp, q[7], dq[7], sec, nsec)."""
+    recent = [h for h in history if 0 <= now - h[0] <= 0.8]
+    if len(recent) < 5 or recent[-1][0] - recent[0][0] < MIN_STILL_WINDOW_S:
+        raise ValueError('not enough stationary joint history')
+    q = np.stack([h[2] for h in recent])
+    dq = np.stack([h[3] for h in recent])
+    if not (np.isfinite(q).all() and np.isfinite(dq).all()):
+        raise ValueError('non-finite joint state history')
+    if float(np.max(np.abs(dq))) >= MAX_JOINT_SPEED:
+        raise ValueError('robot joint velocity exceeds stationary threshold')
+    if float(np.max(np.ptp(q, axis=0))) >= MAX_JOINT_DRIFT:
+        raise ValueError('robot joint positions are not stable')
+    return recent
+
+
+def frame_to_bgr(msg: Image):
+    kind = msg.encoding.lower()
+    channels = {'bgr8': 3, 'rgb8': 3, 'mono8': 1, 'bgra8': 4, 'rgba8': 4}.get(kind)
+    if channels is None:
+        raise ValueError(f'unsupported color encoding {msg.encoding!r}')
+    row = np.frombuffer(msg.data, np.uint8)
+    if row.size < msg.step * msg.height:
+        raise ValueError('truncated ROS image buffer')
+    frame = row[:msg.step * msg.height].reshape(msg.height, msg.step)
+    image = np.ascontiguousarray(frame[:, :msg.width * channels])
+    if channels > 1:
+        image = image.reshape(msg.height, msg.width, channels)
+    if kind == 'rgb8':
+        return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    if kind == 'rgba8':
+        return cv2.cvtColor(image, cv2.COLOR_RGBA2BGR)
+    if kind == 'bgra8':
+        return cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+    if kind == 'mono8':
+        return cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+    return image.copy()
+
+
+class AwaitExactTF(Exception):
+    """One exact-time transform is pending, NOT a permission to use latest TF."""
+
+    def __init__(self, snapshot, reason):
+        super().__init__(reason)
+        self.snapshot = snapshot
+
+
+class Capture(Node):
+    def __init__(self, output_dir: Path):
+        super().__init__('fr3_d435i_handeye_capture_v2')
+        self.output_dir = output_dir
+        self.lock = threading.RLock()
+        self.img = None
+        self.img_received = 0.0
+        self.info = None
+        self.joint_received = 0.0
+        self.joint_msg = None
+        self.joint_history = deque(maxlen=80)
+        self.last_history_insert = 0.0
+        self.health_ok = False
+        self.ever_healthy = False
+        self.halted = False
+        self.health_reason = 'waiting for controller + hardware services'
+        self.last_health = 0.0
+        self.last_verified_check_started = 0.0
+        self.check_futures = None  # handled only by ROS executor thread
+        self.check_since = 0.0
+        self.last_check_started = 0.0
+        self.last_display_stamp = -1.0
+        self.last_candidate = None
+        self.last_candidate_msg = None
+        self.last_candidate_info = None
+        self.last_candidate_received = 0.0
+        self.last_rmse = float('nan')
+
+        # Latest-frame-only detector worker: ROS callbacks never run OpenCV,
+        # and slow detection never blocks the capture/GUI state machine.
+        self.image_event = threading.Event()
+        self.stop_detection = threading.Event()
+        self.last_detected_stamp = -1.0
+        self.last_processed_bgr = None
+        self.last_processed_stamp = -1.0
+        self.last_detection_error = ''
+        self.last_detect_ms = float('nan')
+        self.last_diag_print = 0.0
+
+        self.saved = self._existing_samples()
+
+        self.tf_buffer = Buffer(cache_time=Duration(seconds=20.0))
+        self.tf_listener = TransformListener(self.tf_buffer, self, spin_thread=False)
+        self.create_subscription(Image, CAM_IMAGE, self.on_image, qos_profile_sensor_data)
+        self.create_subscription(CameraInfo, CAM_INFO, self.on_info, qos_profile_sensor_data)
+        # Current broadcaster is RELIABLE KEEP_LAST(1). A reliable, small-depth
+        # subscriber is compatible and avoids BEST_EFFORT loss in this setup.
+        joint_qos = QoSProfile(
+            history=HistoryPolicy.KEEP_LAST, depth=10,
+            reliability=ReliabilityPolicy.RELIABLE)
+        self.create_subscription(JointState, FRANKA_JOINTS, self.on_joint, joint_qos)
+        # Service clients and health timer belong to HealthMonitor's own
+        # SingleThreadedExecutor.  High-rate camera/TF/joint callbacks must
+        # never be able to starve health service replies.
+        self.ctrl_client = None
+        self.hw_client = None
+
+    def _existing_samples(self):
+        valid = []
+        for p in sorted(self.output_dir.glob('sample_*.json')):
+            try:
+                sample = json.loads(p.read_text(encoding='utf-8'))
+                if sample.get('schema') == 'fr3_handeye_v2' and sample.get('status') == 'candidate':
+                    target_matches = (
+                        sample.get('calibration_target') == 'aruco'
+                        and sample.get('marker_dictionary') == MARKER_DICTIONARY_NAME
+                        and int(sample.get('marker_id', -1)) == MARKER_ID
+                        and abs(float(sample.get('marker_size_m', -1)) - MARKER_SIZE_M) < 1e-9
+                    )
+                    if not target_matches:
+                        print('[WARN] skipping existing sample from a different target:', p.name,
+                              flush=True)
+                        continue
+                    m = np.asarray(sample['base_T_gripper'], dtype=float)
+                    if m.shape == (4, 4) and np.isfinite(m).all():
+                        valid.append(m)
+            except (ValueError, KeyError, TypeError, OSError):
+                print('[WARN] invalid existing sample:', p)
+        return valid
+
+    # ---- Fast ROS callbacks: NO OpenCV, NO blocking calls. ----
+    def on_image(self, msg):
+        with self.lock:
+            self.img = msg
+            self.img_received = time.monotonic()
+        self.image_event.set()
+
+    def on_info(self, msg):
+        with self.lock:
+            self.info = msg
+
+    def on_joint(self, msg):
+        now = time.monotonic()
+        positions = dict(zip(msg.name, msg.position))
+        speeds = dict(zip(msg.name, msg.velocity)) if len(msg.velocity) == len(msg.name) else {}
+        if not all(j in positions and j in speeds for j in JOINT_NAMES):
+            return
+        if any(not math.isfinite(float(positions[j])) or
+               not math.isfinite(float(speeds[j])) for j in JOINT_NAMES):
+            return
+        q = np.array([positions[j] for j in JOINT_NAMES], dtype=float)
+        dq = np.array([speeds[j] for j in JOINT_NAMES], dtype=float)
+        stamp = image_stamp_sec(msg)
+        with self.lock:
+            self.joint_msg = msg
+            self.joint_received = now
+            if now - self.last_history_insert >= 0.04:
+                self.joint_history.append((now, stamp, q, dq,
+                                               msg.header.stamp.sec, msg.header.stamp.nanosec))
+                self.last_history_insert = now
+
+    def mark_unhealthy(self, reason):
+        with self.lock:
+            self.health_ok = False
+            self.health_reason = reason
+            if self.ever_healthy and not self.halted:
+                self.halted = True
+                print('[HALT] FR3 health verification lost:', reason,
+                      '| no further samples in this process', flush=True)
+
+    def poll_health(self):
+        """This timer is run by the dedicated ROS executor, never HighGUI."""
+        now = time.monotonic()
+        with self.lock:
+            if self.halted:
+                return
+            ever_healthy = self.ever_healthy
+            joint_received = self.joint_received
+        if ever_healthy and (not joint_received or
+                             now - joint_received > JOINT_CALLBACK_TIMEOUT_S):
+            self.mark_unhealthy(
+                f'valid FR3 joint callback age={now-joint_received:.3f}s; stream unverified')
+            return
+
+        if self.check_futures is not None:
+            if now - self.check_since > HEALTH_SERVICE_TIMEOUT_S:
+                self.mark_unhealthy('controller/hardware service response timeout; state unverified')
+                self.check_futures = None
+            return
+        # Avoid flooding the control manager with extra service requests.
+        if now - self.last_check_started < 1.0:
+            return
+        if not self.ctrl_client.service_is_ready() or not self.hw_client.service_is_ready():
+            self.mark_unhealthy('controller/hardware service not ready; state unverified')
+            return
+        try:
+            a = self.ctrl_client.call_async(ListControllers.Request())
+            b = self.hw_client.call_async(ListHardwareComponents.Request())
+        except Exception as exc:
+            self.mark_unhealthy(f'controller/hardware health request failed: {exc}')
+            return
+        self.check_futures = (a, b)
+        self.check_since = now
+        self.last_check_started = now
+        a.add_done_callback(self.receive_health)
+        b.add_done_callback(self.receive_health)
+
+    def receive_health(self, _future):
+        fs = self.check_futures
+        if fs is None or not all(f.done() for f in fs):
+            return
+        started = self.check_since
+        self.check_futures = None
+        # Do not accept an arbitrarily late service response as proof of
+        # current hardware health (even if the timer was briefly delayed).
+        if time.monotonic() - started > HEALTH_SERVICE_TIMEOUT_S:
+            self.mark_unhealthy('controller/hardware service reply exceeded timeout; state unverified')
+            return
+        try:
+            control_result, hardware_result = (f.result() for f in fs)
+            if control_result is None or hardware_result is None:
+                raise ValueError('empty service result')
+            controllers = {c.name: c.state for c in control_result.controller}
+            for name in REQUIRED_CONTROLLERS:
+                if controllers.get(name) != 'active':
+                    raise ValueError(f'{name} state={controllers.get(name)!r}')
+            comps = [c for c in hardware_result.component
+                     if c.name == 'FrankaHardwareInterface']
+            if len(comps) != 1 or comps[0].state.label.lower() != 'active':
+                raise ValueError('FrankaHardwareInterface is not uniquely active')
+        except Exception as exc:
+            self.mark_unhealthy(str(exc))
+            return
+        with self.lock:
+            if not self.halted:
+                self.health_ok = True
+                self.ever_healthy = True
+                self.last_health = time.monotonic()
+                self.last_verified_check_started = started
+                self.health_reason = 'controller + hardware active'
+
+    def state(self):
+        with self.lock:
+            return dict(
+                health_ok=self.health_ok, ever_healthy=self.ever_healthy,
+                halted=self.halted, reason=self.health_reason,
+                last_health=self.last_health,
+                verified_check_started=self.last_verified_check_started,
+                joint_received=self.joint_received,
+                candidate_received=self.last_candidate_received,
+                candidate=self.last_candidate,
+                candidate_msg=self.last_candidate_msg,
+                candidate_info=self.last_candidate_info,
+                joint_msg=self.joint_msg,
+                joint_history=list(self.joint_history),
+            )
+
+    # ---- Independent worker: latest frame only, no queue backlog. ----
+    def detection_loop(self):
+        while not self.stop_detection.is_set():
+            if not self.image_event.wait(timeout=0.1):
+                continue
+            self.image_event.clear()
+
+            with self.lock:
+                msg, received, info = self.img, self.img_received, self.info
+            if msg is None or info is None:
+                continue
+
+            stamp = image_stamp_sec(msg)
+            if stamp == self.last_detected_stamp:
+                continue
+            self.last_detected_stamp = stamp
+            t0 = time.monotonic()
+            result = None
+            bgr = None
+            error = ''
+
+            try:
+                bgr = frame_to_bgr(msg)
+                if info.width != msg.width or info.height != msg.height:
+                    raise ValueError('camera_info resolution differs from image')
+                if (info.header.frame_id and msg.header.frame_id and
+                        info.header.frame_id != msg.header.frame_id):
+                    raise ValueError('camera_info frame_id differs from image')
+                if info.distortion_model not in ('plumb_bob', 'rational_polynomial'):
+                    raise ValueError('unsupported distortion_model: ' + info.distortion_model)
+                K = np.asarray(info.k, dtype=float).reshape(3, 3)
+                D = np.asarray(info.d, dtype=float)
+                if not (np.isfinite(K).all() and np.isfinite(D).all() and
+                        K[0, 0] > 0 and K[1, 1] > 0):
+                    raise ValueError('invalid camera intrinsics')
+
+                result = extract_board(bgr, K, D, marker_size_m=MARKER_SIZE_M)
+                if result is not None:
+                    pts = np.round(result[2].reshape(4, 2)).astype(np.int32)
+                    cv2.polylines(bgr, [pts], True, (0, 255, 0), 2, cv2.LINE_AA)
+                    cv2.putText(
+                        bgr,
+                        f'ARUCO {MARKER_ID} OK | RMSE {result[1]:.2f}px',
+                        (10, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 0), 2
+                    )
+                else:
+                    cv2.putText(
+                        bgr, f'ARUCO {MARKER_ID} NOT FOUND',
+                        (10, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 230), 2
+                    )
+            except Exception as exc:
+                error = f'{type(exc).__name__}: {exc}'
+                if bgr is None:
+                    try:
+                        bgr = frame_to_bgr(msg)
+                    except Exception:
+                        bgr = None
+                if bgr is not None:
+                    cv2.putText(
+                        bgr, 'MARKER DETECTION ERROR',
+                        (10, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 230), 2
+                    )
+
+            elapsed_ms = (time.monotonic() - t0) * 1000.0
+            with self.lock:
+                # A failed latest detection invalidates the previous candidate;
+                # a stale successful frame can never remain capture-eligible.
+                self.last_candidate = result
+                self.last_candidate_msg = msg if result is not None else None
+                self.last_candidate_info = info if result is not None else None
+                self.last_candidate_received = received if result is not None else 0.0
+                self.last_rmse = result[1] if result is not None else float('nan')
+                self.last_processed_bgr = bgr
+                self.last_processed_stamp = stamp
+                self.last_detect_ms = elapsed_ms
+                self.last_detection_error = error
+
+            now_mono = time.monotonic()
+            if now_mono - self.last_diag_print >= 1.0:
+                age_ms = max(0.0, now_mono - received) * 1000.0
+                if result is not None:
+                    print(
+                        f'[MARKER] id={MARKER_ID} FOUND rmse={result[1]:.3f}px '
+                        f'detect_ms={elapsed_ms:.1f} image_age_ms={age_ms:.1f}',
+                        flush=True
+                    )
+                else:
+                    suffix = f' reason={error}' if error else ''
+                    print(
+                        f'[MARKER] id={MARKER_ID} NOT_FOUND '
+                        f'detect_ms={elapsed_ms:.1f} image_age_ms={age_ms:.1f}{suffix}',
+                        flush=True
+                    )
+                self.last_diag_print = now_mono
+
+    # ---- Lightweight GUI accessor: no OpenCV detection in the main loop. ----
+    def view_once(self):
+        with self.lock:
+            frame = self.last_processed_bgr
+            stamp = self.last_processed_stamp
+        if frame is None or stamp == self.last_display_stamp:
+            return None
+        self.last_display_stamp = stamp
+        return frame.copy()
+
+    def save_after_verified_refresh(self, requested_at, frozen=None):
+        """Snapshot exactly one image and wait for its exact-time TF, fail-closed.
+
+        * Never use Time() / latest transform as a replacement for image-time TF.
+        * Never allow motion / failed controller checks while waiting for TF.
+        * Never re-select a newer frame when an older frame awaits TF; that would
+          chase the newest frame forever if robot TF is delayed.
+        """
+        s = self.state()
+        now = time.monotonic()
+        if s['halted']:
+            raise ValueError('hardware health was lost earlier in this session (HALT)')
+        if not s['health_ok'] or now - s['last_health'] > 1.5:
+            raise ValueError('controller + hardware health result is stale or invalid')
+        # One recent verified health result is enough; do not force a duplicate
+        # service round-trip after every keypress. A new image after the request
+        # plus timestamped joint/TF validation is still mandatory.
+        if not s['joint_received'] or now - s['joint_received'] > 0.3:
+            raise ValueError('no fresh validated /franka/joint_states')
+
+        # The first call captures an immutable camera observation + a joint
+        # observation at that camera's actual acquisition timestamp.
+        if frozen is None:
+            if s['candidate'] is None or s['candidate_msg'] is None:
+                raise ValueError(f'ArUco marker {MARKER_ID} not detected')
+            if (s['candidate_received'] < requested_at or
+                    now - s['candidate_received'] > MAX_AGE_S):
+                raise ValueError('new ArUco observation after request is unavailable or stale')
+            if s['candidate_info'] is None:
+                raise ValueError('camera intrinsics not received')
+            rmse = float(s['candidate'][1])
+            if not math.isfinite(rmse) or rmse > RMSE_MAX:
+                raise ValueError(f'RMSE={rmse:.3f}px exceeds {RMSE_MAX}px')
+            hist = validate_stationary(s['joint_history'], now)
+            image_stamp = image_stamp_sec(s['candidate_msg'])
+            joint = min(hist, key=lambda h: abs(h[1] - image_stamp))
+            if abs(image_stamp - joint[1]) > MAX_IMAGE_JOINT_S:
+                raise ValueError('no joint position near image exposure timestamp')
+            frozen = {
+                'msg': s['candidate_msg'],
+                'info': s['candidate_info'],
+                'candidate': s['candidate'],
+                'rmse': rmse,
+                'image_stamp': image_stamp,
+                'joint': joint,
+                'frozen_at': now,
+            }
+            # The original exposure must be genuinely fresh at freeze time.
+            validate_stamps(time.time(), image_stamp, joint[1], image_stamp)
+
+        # When TF publishes with a delay, preserve the *same* captured frame
+        # until its historical transform arrives. Do not silently extend
+        # validity beyond this bounded interval.
+        image_stamp = frozen['image_stamp']
+        image_age = time.time() - image_stamp
+        if not 0 <= image_age < MAX_BUFFERED_IMAGE_AGE_S:
+            raise ValueError(f'buffered camera image age={image_age:.3f}s exceeded limit')
+        if now - frozen['frozen_at'] > MAX_EXACT_TF_WAIT_S:
+            raise ValueError('exact-time TF did not arrive before bounded wait expired')
+
+        # Stillness is checked from just BEFORE image exposure until the
+        # present. This is essential when a buffered image is used.
+        hist = s['joint_history']
+        relevant = [h for h in hist if image_stamp - .65 <= h[1] <= time.time() + .10]
+        if len(relevant) < 5 or relevant[-1][1] - relevant[0][1] < MIN_STILL_WINDOW_S:
+            raise ValueError('insufficient verified joint history while waiting for TF')
+        if relevant[0][1] > image_stamp + MAX_IMAGE_JOINT_S:
+            raise ValueError('joint history no longer covers exposure time')
+        if time.time() - relevant[-1][1] > .3:
+            raise ValueError('joint history not current while awaiting TF')
+        if max(float(np.max(np.abs(h[3]))) for h in relevant) >= MAX_JOINT_SPEED:
+            raise ValueError('robot moved during exact-time TF wait (velocity)')
+        all_q = np.stack([frozen['joint'][2]] + [h[2] for h in relevant])
+        if float(np.max(np.ptp(all_q, axis=0))) >= MAX_JOINT_DRIFT:
+            raise ValueError('robot moved during exact-time TF wait (position)')
+
+        img_time = Time.from_msg(frozen['msg'].header.stamp)
+        try:
+            transform = self.tf_buffer.lookup_transform(BASE, FLANGE, img_time)
+        except Exception as exc:
+            message = str(exc).lower()
+            if 'extrapolation into the future' in message:
+                # GUI main-loop will retry this *frozen* frame (not a new one).
+                raise AwaitExactTF(frozen, str(exc)) from exc
+            raise ValueError(
+                f'cannot get {BASE} -> {FLANGE} at exact image timestamp: {exc}') from exc
+        if transform.header.frame_id != BASE or transform.child_frame_id != FLANGE:
+            raise ValueError('unexpected TF frames for base/flange')
+        tf_stamp = image_stamp_sec(transform)
+        validate_stamps(time.time(), image_stamp, frozen['joint'][1], tf_stamp,
+                        max_age_s=MAX_BUFFERED_IMAGE_AGE_S)
+
+        t = transform.transform.translation
+        r = transform.transform.rotation
+        b_t_g = transform_matrix([t.x, t.y, t.z], [r.x, r.y, r.z, r.w])
+        for existing in self.saved:
+            translation, rotation = relative_pose(existing, b_t_g)
+            if translation < MIN_POSE_TRANSLATION and rotation < MIN_POSE_ROTATION_DEG:
+                raise ValueError(
+                    f'pose too similar to existing sample (d={translation:.3f}m, '
+                    f'r={rotation:.1f}deg)')
+
+        # Re-check hardware+joint health immediately before writing.
+        final = self.state()
+        if (final['halted'] or not final['health_ok'] or
+                time.monotonic() - final['last_health'] > 1.5 or
+                time.monotonic() - final['joint_received'] > .3):
+            raise ValueError('FR3 health or valid joint callbacks lost before file write')
+
+        stamp = frozen['msg'].header.stamp
+        content = {
+            'schema': 'fr3_handeye_v2', 'status': 'candidate',
+            'capture_implementation': 'V2.4 ArUco ID0 + async detection + exact-time TF',
+            'camera_image_stamp': {'sec': stamp.sec, 'nanosec': stamp.nanosec},
+            'joint_state_stamp': {'sec': int(frozen['joint'][4]),
+                                  'nanosec': int(frozen['joint'][5])},
+            'tf_stamp': {'sec': transform.header.stamp.sec,
+                         'nanosec': transform.header.stamp.nanosec},
+            'image_joint_dt_ms': round(abs(image_stamp - frozen['joint'][1]) * 1000, 3),
+            'tf_wait_s': round(time.monotonic() - frozen['frozen_at'], 3),
+            'base_frame': BASE, 'flange_frame': FLANGE,
+            'camera_frame': frozen['msg'].header.frame_id,
+            'calibration_target': 'aruco',
+            'marker_dictionary': MARKER_DICTIONARY_NAME,
+            'marker_id': MARKER_ID,
+            'marker_size_m': MARKER_SIZE_M,
+            'marker_size_definition': 'outer edge including black border',
+            'camera_matrix': list(frozen['info'].k),
+            'distortion': list(frozen['info'].d),
+            'reprojection_rmse_px': frozen['rmse'],
+            'base_T_gripper': b_t_g.tolist(),
+            'camera_T_marker': np.asarray(frozen['candidate'][0]).tolist(),
+            # Compatibility alias for downstream scripts that still read the old key.
+            'camera_T_board': np.asarray(frozen['candidate'][0]).tolist(),
+            'fr3_joint_positions': dict(zip(JOINT_NAMES, [float(x) for x in frozen['joint'][2]])),
+            'note': 'candidate only; buffered exact exposure-time TF; no independent validation',
+        }
+        seq = 1
+        while (self.output_dir / f'sample_{seq:03d}.json').exists():
+            seq += 1
+        path = self.output_dir / f'sample_{seq:03d}.json'
+        with path.open('x', encoding='utf-8') as f:
+            json.dump(content, f, indent=2, ensure_ascii=False)
+        self.saved.append(b_t_g)
+        print(f'[SAVED] {path.name}, RMSE={frozen["rmse"]:.3f}px, '
+              f'|image-joint|={content["image_joint_dt_ms"]:.1f}ms, '
+              f'tf_wait={content["tf_wait_s"]:.3f}s, '
+              'candidate_only=True', flush=True)
+
+
+
+class HealthMonitor(Node):
+    """Independent executor for the two fail-closed controller health services.
+
+    Keep replies completely separate from D435i + 1 kHz FR3 state callbacks.
+    It shares only the Capture lock-protected health state; it NEVER issues
+    motion, controller-switch, or ErrorRecovery commands.
+    """
+
+    def __init__(self, capture):
+        super().__init__('fr3_d435i_handeye_health_v24')
+        capture.ctrl_client = self.create_client(
+            ListControllers, '/controller_manager/list_controllers')
+        capture.hw_client = self.create_client(
+            ListHardwareComponents, '/controller_manager/list_hardware_components')
+        self.create_timer(0.25, capture.poll_health)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='FR3+D435i V2.4 ArUco hand-eye capture; no robot motion')
+    parser.add_argument(
+        '--output', type=Path,
+        default=Path.home() / 'rehab_robot_ws' / 'calibration' /
+        f'fr3_d435i_handeye_v24_{time.strftime("%Y%m%d_%H%M%S")}')
+    parser.add_argument(
+        '--gui', action='store_true',
+        help='show an OpenCV window; default terminal mode avoids Qt/QSocketNotifier warnings')
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=True)
+
+    rclpy.init()
+    node = Capture(args.output)
+    executor = SingleThreadedExecutor(context=node.context)
+    executor.add_node(node)
+    health_node = HealthMonitor(node)
+    health_executor = SingleThreadedExecutor(context=node.context)
+    health_executor.add_node(health_node)
+
+    ros_thread = threading.Thread(target=executor.spin, name='handeye-ros-rx', daemon=True)
+    health_thread = threading.Thread(
+        target=health_executor.spin, name='handeye-service-rx', daemon=True)
+    detector_thread = threading.Thread(
+        target=node.detection_loop, name='handeye-marker-detect', daemon=True)
+    ros_thread.start()
+    health_thread.start()
+    detector_thread.start()
+
+    print('=== FR3 + D435i HAND-EYE V2.4 / ARUCO / NO MOTION ===')
+    print(f'Target: {MARKER_DICTIONARY_NAME}, ID={MARKER_ID}, '
+          f'outer edge={MARKER_SIZE_M * 1000:.1f} mm')
+    print('Preview/detection has NO controller, hardware-service, or TF gate.')
+    print('Sample saving retains recent hardware health, stationary joint state,')
+    print('image-time joint matching, exact-time TF, and final health recheck.')
+    print('NO motion commands, controller switches, or automatic recovery.')
+    if args.gui:
+        print('GUI keys: s=sample, q/ESC=quit.')
+    else:
+        print('Terminal commands: type s + Enter to request one sample; q + Enter to quit.')
+        print('For live video, use rqt_image_view or handeye_marker_view.py in another terminal.')
+
+    last_image = None
+    last_gui = 0.0
+    last_status = 0.0
+    capture_requested_at = None
+    frozen_snapshot = None
+    logged_tf_wait = False
+    window = 'FR3 D435i HandEye V2.4 (NO MOTION)'
+
+    def request_sample():
+        nonlocal capture_requested_at, frozen_snapshot, logged_tf_wait
+        s = node.state()
+        now_local = time.monotonic()
+        if s['halted']:
+            print('[REJECT] HALT latched:', s['reason'], flush=True)
+        elif capture_requested_at is not None:
+            print('[WAIT] A sample request is already pending; do not repeat.', flush=True)
+        elif not s['health_ok'] or now_local - s['last_health'] > 1.5:
+            print('[REJECT] Controller/hardware status is not currently verified:',
+                  s['reason'], flush=True)
+        else:
+            capture_requested_at = now_local
+            frozen_snapshot = None
+            logged_tf_wait = False
+            print('[REQUEST] Waiting for the next valid ArUco frame; keep the robot still.',
+                  flush=True)
+
+    try:
+        while rclpy.ok():
+            now = time.monotonic()
+            s = node.state()
+
+            if args.gui and now - last_gui >= 0.05:
+                last_gui = now
+                result = node.view_once()
+                if result is not None:
+                    last_image = result
+
+            if capture_requested_at is not None:
+                if s['halted']:
+                    print('[REJECT] NO SAMPLE SAVED: health HALT:', s['reason'], flush=True)
+                    capture_requested_at = None
+                    frozen_snapshot = None
+                    logged_tf_wait = False
+                elif now - capture_requested_at > SAVE_PENDING_TIMEOUT_S:
+                    print('[REJECT] NO SAMPLE SAVED: no valid fresh marker/TF within timeout',
+                          flush=True)
+                    capture_requested_at = None
+                    frozen_snapshot = None
+                    logged_tf_wait = False
+                elif (
+                    frozen_snapshot is not None
+                    or (
+                        s['health_ok']
+                        and now - s['last_health'] <= 1.5
+                        and s['candidate'] is not None
+                        and s['candidate_received'] >= capture_requested_at
+                        and s['candidate_received'] > 0
+                        and now - s['candidate_received'] <= MAX_AGE_S
+                    )
+                ):
+                    try:
+                        node.save_after_verified_refresh(capture_requested_at, frozen_snapshot)
+                    except AwaitExactTF as pending:
+                        frozen_snapshot = pending.snapshot
+                        if not logged_tf_wait:
+                            print('[WAIT] Delayed exact-time TF; holding the same image, no latest-TF substitution.',
+                                  flush=True)
+                            logged_tf_wait = True
+                    except Exception as exc:
+                        print('[REJECT] NO SAMPLE SAVED:', exc, flush=True)
+                        capture_requested_at = None
+                        frozen_snapshot = None
+                        logged_tf_wait = False
+                    else:
+                        capture_requested_at = None
+                        frozen_snapshot = None
+                        logged_tf_wait = False
+
+            if not args.gui and now - last_status >= 1.0:
+                last_status = now
+                s = node.state()
+                health_age = (now - s['last_health']) if s['last_health'] else float('inf')
+                candidate_age = (
+                    (now - s['candidate_received']) * 1000.0
+                    if s['candidate_received'] else float('inf')
+                )
+                health_text = 'OK' if s['health_ok'] and health_age <= 1.5 else 'WAIT'
+                marker_text = (
+                    f'OK rmse={s["candidate"][1]:.2f}px age={candidate_age:.0f}ms'
+                    if s['candidate'] is not None and candidate_age <= MAX_AGE_S * 1000
+                    else 'WAIT'
+                )
+                print(f'[STATUS] health={health_text} marker={marker_text} '
+                      f'saved={len(node.saved)}', flush=True)
+
+            if args.gui and last_image is not None:
+                view = last_image.copy()
+                s = node.state()
+                if s['halted']:
+                    label = 'HALT: ' + s['reason']
+                elif not s['health_ok'] or now - s['last_health'] > 1.5:
+                    label = 'WAIT: controller/hardware status unverified'
+                elif not s['joint_received'] or now - s['joint_received'] > 0.3:
+                    label = 'WAIT: FR3 joint stream stale'
+                elif (not s['candidate'] or not s['candidate_received']
+                      or now - s['candidate_received'] > MAX_AGE_S):
+                    label = f'WAIT: fresh ArUco ID {MARKER_ID} needed'
+                elif capture_requested_at is not None:
+                    label = 'CHECKING: exact image-time TF'
+                else:
+                    label = 'FR3 OK: s=sample / q=quit'
+                is_ok = label.startswith('FR3 OK:')
+                cv2.putText(view, label[:86], (10, 28), cv2.FONT_HERSHEY_SIMPLEX,
+                            0.55, (30, 180, 30) if is_ok else (30, 30, 230), 2)
+                cv2.imshow(window, view)
+
+            if args.gui:
+                key = cv2.waitKey(1) & 255
+                if key in (ord('q'), 27):
+                    break
+                if key == ord('s'):
+                    request_sample()
+            else:
+                try:
+                    ready, _, _ = select.select([sys.stdin], [], [], 0.0)
+                    if ready:
+                        command = sys.stdin.readline().strip().lower()
+                        if command in ('q', 'quit', 'exit'):
+                            break
+                        if command in ('s', 'save'):
+                            request_sample()
+                        elif command:
+                            print('[INFO] Use s + Enter to sample, q + Enter to quit.',
+                                  flush=True)
+                except (OSError, ValueError):
+                    pass
+
+            time.sleep(0.005)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.stop_detection.set()
+        node.image_event.set()
+        detector_thread.join(timeout=2.0)
+        health_executor.shutdown(timeout_sec=3.0)
+        executor.shutdown(timeout_sec=3.0)
+        health_thread.join(timeout=3.0)
+        ros_thread.join(timeout=3.0)
+        if detector_thread.is_alive() or health_thread.is_alive() or ros_thread.is_alive():
+            print('[WARN] A worker thread did not exit cleanly', flush=True)
+        health_node.destroy_node()
+        node.destroy_node()
+        rclpy.try_shutdown()
+        if args.gui:
+            cv2.destroyAllWindows()
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

@@ -1,0 +1,1513 @@
+
+============================================================
+0/12 安装前检查
+============================================================
+installer=2026.08.01-v1.3-overlay
+user=gu
+root=/dev/sdb2
+filesystem=ext4
+mount_options=rw,relatime
+kernel=7.0.0-28-generic
+文件系统       类型  大小  已用  可用 已用% 挂载点
+/dev/sdb2      ext4  457G   23G  411G    6% /
+文件系统         Inodes  已用I    可用I 已用I% 挂载点
+/dev/sdb2      30457856 384345 30073511     2% /
+[PASS] Ubuntu 24.04、用户权限和根文件系统检查通过
+
+============================================================
+1/12 基础工具、磁盘监测与开发环境
+============================================================
+命中:1 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:3 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+命中:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:5 http://packages.ros.org/ros2/ubuntu noble InRelease
+正在读取软件包列表...
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+ca-certificates 已经是最新版 (20260601~24.04.1)。
+curl 已经是最新版 (8.5.0-2ubuntu10.11)。
+wget 已经是最新版 (1.21.4-1ubuntu4.4)。
+git 已经是最新版 (1:2.43.0-1ubuntu7.3)。
+git-lfs 已经是最新版 (3.4.1-1ubuntu0.4)。
+gnupg 已经是最新版 (2.4.4-2ubuntu17.4)。
+lsb-release 已经是最新版 (12.0-2)。
+locales 已经是最新版 (2.39-0ubuntu8.8)。
+software-properties-common 已经是最新版 (0.99.49.4)。
+build-essential 已经是最新版 (12.10ubuntu1)。
+cmake 已经是最新版 (3.28.3-1build7)。
+ninja-build 已经是最新版 (1.11.1-2)。
+pkg-config 已经是最新版 (1.8.1-2build1)。
+python3 已经是最新版 (3.12.3-0ubuntu2.1)。
+python3-dev 已经是最新版 (3.12.3-0ubuntu2.1)。
+python3-pip 已经是最新版 (24.0+dfsg-1ubuntu1.3)。
+python3-venv 已经是最新版 (3.12.3-0ubuntu2.1)。
+python3-yaml 已经是最新版 (6.0.1-2build2)。
+python3-pytest 已经是最新版 (7.4.4-1)。
+libeigen3-dev 已经是最新版 (3.4.0-4build0.1)。
+libpoco-dev 已经是最新版 (1.11.0-4.1build2)。
+libfmt-dev 已经是最新版 (9.1.0+ds1-2)。
+pybind11-dev 已经是最新版 (2.11.1-2)。
+libboost-filesystem-dev 已经是最新版 (1.83.0.1ubuntu2)。
+nlohmann-json3-dev 已经是最新版 (3.11.3-1)。
+lsof 已经是最新版 (4.95.0-1build3)。
+network-manager 已经是最新版 (1.46.0-1ubuntu2.7)。
+ethtool 已经是最新版 (1:6.7-1build1)。
+iproute2 已经是最新版 (6.1.0-1ubuntu6.4)。
+iputils-ping 已经是最新版 (3:20240117-1ubuntu0.1)。
+pciutils 已经是最新版 (1:3.10.0-2build1)。
+usbutils 已经是最新版 (1:017-3build1)。
+smartmontools 已经是最新版 (7.4-2build1)。
+nvme-cli 已经是最新版 (2.8-1ubuntu0.1)。
+jq 已经是最新版 (1.7.1-3ubuntu0.24.04.2)。
+下列软件包是自动安装的并且现在不需要了：
+  libfwupd2 libnvidia-cfg1-535 libnvidia-common-535 libnvidia-compute-535
+  libnvidia-decode-535 libnvidia-encode-535 libnvidia-extra-535
+  libnvidia-fbc1-535 libnvidia-gl-535 nvidia-compute-utils-535
+  nvidia-firmware-535-535.288.01 nvidia-kernel-source-535 nvidia-utils-535
+  xserver-xorg-video-nvidia-535
+使用'sudo apt autoremove'来卸载它(它们)。
+升级了 0 个软件包，新安装了 0 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+  zh_CN.UTF-8... done
+Generation complete.
+Git LFS initialized.
+[PASS] 基础工具安装完成
+
+============================================================
+2/12 安装 ROS 2 Jazzy 与机器人依赖
+============================================================
+命中:1 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:3 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+正在读取软件包列表...
+正在添加组件‘universe’到所有软件源。
+命中:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:2 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+命中:5 http://packages.ros.org/ros2/ubuntu noble InRelease
+正在读取软件包列表...
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+ros-jazzy-desktop 已经是最新版 (0.11.0-1noble.20260616.084553)。
+ros-dev-tools 已经是最新版 (1.0.1)。
+ros-jazzy-rmw-cyclonedds-cpp 已经是最新版 (2.2.3-1noble.20260615.123728)。
+ros-jazzy-ros2-control 已经是最新版 (4.45.2-1noble.20260615.175135)。
+ros-jazzy-ros2-controllers 已经是最新版 (4.40.1-1noble.20260616.074625)。
+ros-jazzy-moveit 已经是最新版 (2.12.4-1noble.20260617.161956)。
+ros-jazzy-realsense2-camera 已经是最新版 (4.58.1-1noble.20260615.150439)。
+ros-jazzy-realsense2-camera-msgs 已经是最新版 (4.58.1-1noble.20260615.113224)。
+ros-jazzy-librealsense2 已经是最新版 (2.58.1-1noble.20260524.190754)。
+ros-jazzy-tf2-ros 已经是最新版 (0.36.21-1noble.20260615.145818)。
+ros-jazzy-xacro 已经是最新版 (2.1.1-1noble.20260519.011123)。
+ros-jazzy-controller-manager 已经是最新版 (4.45.2-1noble.20260615.164916)。
+下列软件包是自动安装的并且现在不需要了：
+  libfwupd2 libnvidia-cfg1-535 libnvidia-common-535 libnvidia-compute-535
+  libnvidia-decode-535 libnvidia-encode-535 libnvidia-extra-535
+  libnvidia-fbc1-535 libnvidia-gl-535 nvidia-compute-utils-535
+  nvidia-firmware-535-535.288.01 nvidia-kernel-source-535 nvidia-utils-535
+  xserver-xorg-video-nvidia-535
+使用'sudo apt autoremove'来卸载它(它们)。
+升级了 0 个软件包，新安装了 0 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+/usr/bin/rosdep:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+reading in sources list data from /etc/ros/rosdep/sources.list.d
+Hit https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/osx-homebrew.yaml
+Hit https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/base.yaml
+Hit https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/python.yaml
+Hit https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/ruby.yaml
+Hit https://raw.githubusercontent.com/ros/rosdistro/master/releases/fuerte.yaml
+Query rosdistro index https://raw.githubusercontent.com/ros/rosdistro/master/index-v4.yaml
+Skip end-of-life distro "ardent"
+Skip end-of-life distro "bouncy"
+Skip end-of-life distro "crystal"
+Skip end-of-life distro "dashing"
+Skip end-of-life distro "eloquent"
+Skip end-of-life distro "foxy"
+Skip end-of-life distro "galactic"
+Skip end-of-life distro "groovy"
+Add distro "humble"
+Skip end-of-life distro "hydro"
+Skip end-of-life distro "indigo"
+Skip end-of-life distro "iron"
+Skip end-of-life distro "jade"
+Add distro "jazzy"
+Add distro "kilted"
+Skip end-of-life distro "kinetic"
+Skip end-of-life distro "lunar"
+Add distro "lyrical"
+Skip end-of-life distro "melodic"
+Skip end-of-life distro "noetic"
+Add distro "rolling"
+updated cache in /home/gu/.ros/rosdep/sources.cache
+[PASS] ROS 2 Jazzy、MoveIt、ros2_control、RealSense 安装完成
+
+============================================================
+3/12 安装 libfranka 0.20.4
+============================================================
+[PASS] libfranka 已是 0.20.4
+[PASS] libfranka=0.20.4
+[PASS] libfranka 固定版本安装完成
+
+============================================================
+4/12 构建 Franka ROS 2 v3.3.0 固定源码
+============================================================
+来自 https://github.com/frankarobotics/franka_ros2
+ * branch            d812aabfab939317bd16515a392ad2cf1928fa83 -> FETCH_HEAD
+HEAD 目前位于 d812aab update dependency repositories
+HEAD 现在位于 d812aab update dependency repositories
+来自 https://github.com/frankarobotics/franka_description
+ * tag               2.7.0      -> FETCH_HEAD
+HEAD 目前位于 ec8789e bump release 2.7.0
+HEAD 现在位于 ec8789e bump release 2.7.0
+franka_bringup	src/franka_ros2/franka_bringup	(ros.ament_cmake)
+franka_description	src/franka_description	(ros.ament_cmake)
+franka_example_controllers	src/franka_ros2/franka_example_controllers	(ros.ament_cmake)
+franka_fr3_moveit_config	src/franka_ros2/franka_fr3_moveit_config	(ros.ament_cmake)
+franka_gazebo_bringup	src/franka_ros2/franka_gazebo_bringup	(ros.ament_cmake)
+franka_gripper	src/franka_ros2/franka_gripper	(ros.ament_cmake)
+franka_hardware	src/franka_ros2/franka_hardware	(ros.ament_cmake)
+franka_mobile	src/franka_ros2/franka_mobile	(ros.ament_cmake)
+franka_mobile_fr3_duo_moveit_config	src/franka_ros2/franka_mobile_fr3_duo_moveit_config	(ros.ament_cmake)
+franka_mobile_sensors	src/franka_ros2/franka_mobile_sensors	(ros.ament_cmake)
+franka_msgs	src/franka_ros2/franka_msgs	(ros.ament_cmake)
+franka_robot_state_broadcaster	src/franka_ros2/franka_robot_state_broadcaster	(ros.ament_cmake)
+franka_ros2	src/franka_ros2/franka_ros2	(ros.ament_cmake)
+franka_selfcollision	src/franka_ros2/franka_selfcollision	(ros.ament_cmake)
+franka_semantic_components	src/franka_ros2/franka_semantic_components	(ros.ament_cmake)
+franka_spine_examples	src/franka_ros2/franka_spine/franka_spine_examples	(ros.ament_cmake)
+franka_spine_msgs	src/franka_ros2/franka_spine/franka_spine_msgs	(ros.ament_cmake)
+franka_spine_server	src/franka_ros2/franka_spine/franka_spine_server	(ros.ament_cmake)
+franka_vision_and_manipulation_kit	src/franka_ros2/franka_vision_and_manipulation_kit	(ros.ament_cmake)
+mobile_fr3_duo_trajectory_controller	src/franka_ros2/mobile_fr3_duo_trajectory_controller	(ros.ament_cmake)
+realtime_tools	src/franka_ros2/realtime_tools/realtime_tools	(ros.ament_cmake)
+/usr/bin/rosdep:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+  from pkg_resources import load_entry_point
+#All required rosdeps installed successfully
+[0.306s] WARNING:colcon.colcon_core.package_selection:Some selected packages are already built in one or more underlay workspaces:
+	'realtime_tools' is in: /opt/ros/jazzy
+If a package in a merged underlay workspace is overridden and it installs headers, then all packages in the overlay must sort their include directories by workspace order. Failure to do so may result in build failures or undefined behavior at run time.
+If the overridden package is used by another package in any underlay, then the overriding package in the overlay must be API and ABI compatible or undefined behavior at run time may occur.
+
+If you understand the risks and want to override a package anyways, add the following to the command line:
+	--allow-overriding realtime_tools
+
+This may be promoted to an error in a future release of colcon-override-check.
+Starting >>> franka_msgs
+--- output: franka_msgs
+[  1%] Built target franka_msgs__rs
+[  2%] Built target franka_msgs__rosidl_generator_type_description
+[ 30%] Built target franka_msgs__rosidl_generator_c
+[ 40%] Built target franka_msgs__rosidl_typesupport_fastrtps_c
+[ 49%] Built target franka_msgs__rosidl_typesupport_introspection_c
+[ 58%] Built target franka_msgs__rosidl_typesupport_c
+[ 58%] Built target franka_msgs__cpp
+[ 68%] Built target franka_msgs__rosidl_typesupport_fastrtps_cpp
+[ 78%] Built target franka_msgs__rosidl_typesupport_introspection_cpp
+[ 88%] Built target franka_msgs__rosidl_typesupport_cpp
+[ 88%] Built target franka_msgs
+[ 88%] Built target ament_cmake_python_symlink_franka_msgs
+running egg_info
+writing franka_msgs.egg-info/PKG-INFO
+writing dependency_links to franka_msgs.egg-info/dependency_links.txt
+writing top-level names to franka_msgs.egg-info/top_level.txt
+reading manifest file 'franka_msgs.egg-info/SOURCES.txt'
+writing manifest file 'franka_msgs.egg-info/SOURCES.txt'
+[ 88%] Built target ament_cmake_python_build_franka_msgs_egg
+[ 88%] Built target franka_msgs__py
+[ 97%] Built target franka_msgs__rosidl_generator_py
+[ 98%] Built target franka_msgs_s__rosidl_typesupport_fastrtps_c
+[ 99%] Built target franka_msgs_s__rosidl_typesupport_introspection_c
+[100%] Built target franka_msgs_s__rosidl_typesupport_c
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/ament_index/resource_index/rosidl_interfaces/franka_msgs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/ErrorRecovery.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Grasp.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Homing.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Move.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/PTPMotion.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/CollisionIndicators.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/Elbow.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/Errors.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/FrankaRobotState.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/GraspEpsilon.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/TargetStatus.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetCartesianStiffness.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetTCPFrame.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetForceTorqueCollisionBehavior.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetFullCollisionBehavior.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetJointStiffness.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetStiffnessFrame.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetLoad.json
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/error_recovery.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/grasp.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/homing.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/move.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/ptp_motion.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/collision_indicators.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/elbow.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/errors.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/franka_robot_state.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/grasp_epsilon.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/rosidl_generator_c__visibility_control.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/target_status.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__functions.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__struct.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__type_support.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_cartesian_stiffness.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_force_torque_collision_behavior.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_full_collision_behavior.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_joint_stiffness.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_load.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_stiffness_frame.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_tcp_frame.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/error_recovery.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/grasp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/homing.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/move.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/ptp_motion.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/collision_indicators.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/elbow.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/errors.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/franka_robot_state.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/grasp_epsilon.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/target_status.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__builder.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__struct.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__traits.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__type_support.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_cartesian_stiffness.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_force_torque_collision_behavior.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_full_collision_behavior.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_joint_stiffness.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_load.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_stiffness_frame.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/set_tcp_frame.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/error_recovery__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/grasp__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/homing__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/move__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/action/detail/ptp_motion__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/collision_indicators__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/elbow__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/errors__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/franka_robot_state__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/grasp_epsilon__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/msg/detail/target_status__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_cartesian_stiffness__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_force_torque_collision_behavior__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_full_collision_behavior__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_joint_stiffness__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_load__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_stiffness_frame__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/include/franka_msgs/franka_msgs/srv/detail/set_tcp_frame__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/pythonpath.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/pythonpath.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs-3.3.0-py3.12.egg-info/PKG-INFO
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs-3.3.0-py3.12.egg-info/SOURCES.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs-3.3.0-py3.12.egg-info/dependency_links.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs-3.3.0-py3.12.egg-info/top_level.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/_franka_msgs_s.ep.rosidl_typesupport_c.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/_franka_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/_franka_msgs_s.ep.rosidl_typesupport_introspection_c.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_error_recovery.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_error_recovery_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_grasp.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_grasp_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_homing.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_homing_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_move.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_move_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_ptp_motion.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action/_ptp_motion_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/franka_msgs_s__rosidl_typesupport_c.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/franka_msgs_s__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/franka_msgs_s__rosidl_typesupport_introspection_c.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_collision_indicators.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_collision_indicators_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_elbow.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_elbow_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_errors.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_errors_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_franka_robot_state.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_franka_robot_state_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_grasp_epsilon.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_grasp_epsilon_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_target_status.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg/_target_status_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_cartesian_stiffness.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_cartesian_stiffness_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_force_torque_collision_behavior.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_force_torque_collision_behavior_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_full_collision_behavior.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_full_collision_behavior_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_joint_stiffness.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_joint_stiffness_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_load.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_load_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_stiffness_frame.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_stiffness_frame_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_tcp_frame.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv/_set_tcp_frame_s.c
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/franka_msgs_s__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/franka_msgs_s__rosidl_typesupport_introspection_c.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/franka_msgs_s__rosidl_typesupport_c.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/ament_index/resource_index/rust_packages/franka_msgs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/Cargo.toml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/build.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/action.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/action/rmw.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/lib.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/msg.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/msg/rmw.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/srv.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/rust/src/srv/rmw.rs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/ErrorRecovery.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Grasp.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Homing.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Move.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/PTPMotion.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/CollisionIndicators.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/Elbow.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/Errors.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/FrankaRobotState.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/GraspEpsilon.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/TargetStatus.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetCartesianStiffness.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetTCPFrame.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetForceTorqueCollisionBehavior.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetFullCollisionBehavior.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetJointStiffness.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetStiffnessFrame.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetLoad.idl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/ErrorRecovery.action
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Grasp.action
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Homing.action
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/Move.action
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/action/PTPMotion.action
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/CollisionIndicators.msg
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/Elbow.msg
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/Errors.msg
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/FrankaRobotState.msg
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/GraspEpsilon.msg
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/msg/TargetStatus.msg
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetCartesianStiffness.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetTCPFrame.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetForceTorqueCollisionBehavior.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetFullCollisionBehavior.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetJointStiffness.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetStiffnessFrame.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/srv/SetLoad.srv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/ament_index/resource_index/package_run_dependencies/franka_msgs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/ament_index/resource_index/parent_prefix_path/franka_msgs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/ament_index/resource_index/packages/franka_msgs
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/rosidl_cmake-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/rosidl_cmake_aggregate_target-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgsConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgsConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/package.xml
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_generator_c.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_typesupport_introspection_c.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_typesupport_c.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_typesupport_fastrtps_cpp.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_typesupport_introspection_cpp.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_typesupport_cpp.so
+Listing '/home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs'...
+Listing '/home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/action'...
+Listing '/home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/msg'...
+Listing '/home/gu/franka_ros2_ws/install/franka_msgs/lib/python3.12/site-packages/franka_msgs/srv'...
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/lib/libfranka_msgs__rosidl_generator_py.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_generator_cExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_generator_cExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_typesupport_fastrtps_cExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_introspection_cExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_introspection_cExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_cExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_cExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_generator_cppExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_typesupport_fastrtps_cppExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_introspection_cppExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_introspection_cppExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_cppExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/franka_msgs__rosidl_typesupport_cppExport-release.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_generator_pyExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/franka_msgs/share/franka_msgs/cmake/export_franka_msgs__rosidl_generator_pyExport-release.cmake
+---
+Finished <<< franka_msgs [3.07s]
+Starting >>> realtime_tools
+--- output: realtime_tools
+[ 10%] Built target realtime_tools
+[ 17%] Built target thread_priority
+[ 25%] Built target gmock_main
+[ 35%] Built target gmock
+[ 42%] Built target thread_priority_tests
+[ 50%] Built target realtime_box_tests
+[ 57%] Built target realtime_buffer_tests
+[ 64%] Built target lock_free_queue_tests
+[ 71%] Built target realtime_clock_tests
+[ 78%] Built target realtime_publisher_tests
+[ 85%] Built target realtime_server_goal_handle_tests
+[ 92%] Built target test_async_function_handler
+[100%] Built target realtime_mutex_tests
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/async_function_handler.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/lock_free_queue.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/mutex.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_box.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_box.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_box_best_effort.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_buffer.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_buffer.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_clock.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_clock.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_helpers.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_publisher.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_publisher.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_server_goal_handle.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_server_goal_handle.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/realtime_thread_safe_box.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/include/realtime_tools/realtime_tools/thread_priority.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/ament_index/resource_index/package_run_dependencies/realtime_tools
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/ament_index/resource_index/parent_prefix_path/realtime_tools
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/ament_index/resource_index/packages/realtime_tools
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/cmake/realtime_toolsConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/cmake/realtime_toolsConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/package.xml
+-- Up-to-date: /home/gu/franka_ros2_ws/install/realtime_tools/lib/librealtime_tools.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/realtime_tools/lib/libthread_priority.so
+-- Up-to-date: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/cmake/export_realtime_toolsExport.cmake
+-- Up-to-date: /home/gu/franka_ros2_ws/install/realtime_tools/share/realtime_tools/cmake/export_realtime_toolsExport-release.cmake
+---
+Finished <<< realtime_tools [0.42s]
+Starting >>> franka_hardware
+--- output: franka_hardware
+[ 38%] Built target franka_hardware
+[ 47%] Built target gmock_main
+[ 61%] Built target gmock
+[ 80%] Built target franka_hardware_test
+[ 90%] Built target franka_hardware_command_interface_test
+[100%] Built target franka_hardware_robot_test
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware//franka_hardware.xml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/lib/libfranka_hardware.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/actions_helper/ptp_motion_handler.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/franka_action_server.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/franka_executor.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/franka_hardware_interface.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/franka_param_service_server.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/model.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/robot.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/include/franka_hardware/ros_libfranka_logger.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/ament_index/resource_index/package_run_dependencies/franka_hardware
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/ament_index/resource_index/parent_prefix_path/franka_hardware
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/ament_index/resource_index/packages/franka_hardware
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/ament_index/resource_index/hardware_interface__pluginlib__plugin/franka_hardware
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/cmake/franka_hardwareConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/cmake/franka_hardwareConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_hardware/share/franka_hardware/package.xml
+---
+Finished <<< franka_hardware [0.29s]
+Starting >>> franka_semantic_components
+--- output: franka_semantic_components
+[ 31%] Built target franka_semantic_components
+[ 40%] Built target gmock_main
+[ 54%] Built target gmock
+[ 63%] Built target test_franka_robot_state
+[ 72%] Built target test_franka_robot_model
+[ 81%] Built target franka_semantic_component_interface_test
+[ 90%] Built target franka_cartesian_velocity_interface_test
+[100%] Built target franka_cartesian_pose_interface_test
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/lib/libfranka_semantic_components.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/include/franka_semantic_components/franka_cartesian_pose_interface.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/include/franka_semantic_components/franka_cartesian_velocity_interface.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/include/franka_semantic_components/franka_robot_model.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/include/franka_semantic_components/franka_robot_state.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/include/franka_semantic_components/franka_semantic_component_interface.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/robot_description_test.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/ament_index/resource_index/package_run_dependencies/franka_semantic_components
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/ament_index/resource_index/parent_prefix_path/franka_semantic_components
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/ament_index/resource_index/packages/franka_semantic_components
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/cmake/franka_semantic_componentsConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/cmake/franka_semantic_componentsConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_semantic_components/share/franka_semantic_components/package.xml
+---
+Finished <<< franka_semantic_components [0.35s]
+Starting >>> franka_description
+--- output: franka_description
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/fr3_duo_mount_v0_3/fr3_duo_mount.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/fr3_duo_mount_v0_3/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/fr3_duo_mount_v0_3/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/franka_head_v0_2/franka_head.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/franka_head_v0_2/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/franka_head_v0_2/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/franka_spine_v0_1/franka_spine.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/franka_spine_v0_1/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//accessories/franka_spine_v0_1/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//launch/visualize_franka.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/common/franka_arm.ros2_control.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/common/franka_arm.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/common/franka_arm.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/common/franka_robot.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/common/group_definition.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/common/utils.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/accelerometers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/dynamics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/fer.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/fer.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/joint_limits.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fer/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/accelerometers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/dynamics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/fp3.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/fp3.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/joint_limits.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fp3/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/accelerometers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/dynamics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/fr3.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/fr3.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/joint_limits.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3_duo/fr3_duo.ros2_control.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3_duo/fr3_duo.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3_duo/fr3_duo.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3_duo/fr3_duo.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/accelerometers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/dynamics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/fr3v2.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/fr3v2.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/joint_limits.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/accelerometers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/dynamics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/fr3v2_1.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/fr3v2_1.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/joint_limits.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/fr3v2_1/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/mobile_fr3_duo_v0_2/mobile_fr3_duo.ros2_control.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/mobile_fr3_duo_v0_2/mobile_fr3_duo_v0_2.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/mobile_fr3_duo_v0_2/mobile_fr3_duo_v0_2.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/mobile_fr3_duo_v0_2/mobile_fr3_duo_v0_2.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/argo_drive.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/caster_wheel.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/inertia.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/rocker_arm.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/tmrv0_2.ros2_control.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/tmrv0_2.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//robots/tmrv0_2/tmrv0_2.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/cobot_pump/cobot_pump.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/cobot_pump/cobot_pump_arguments.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/cobot_pump/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/common/ee_with_one_link.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/common/franka_hand.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/common/utils.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/franka_hand/franka_hand.srdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/franka_hand/franka_hand.urdf.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/franka_hand/franka_hand_arguments.xacro
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//end_effectors/franka_hand/inertials.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/fr3_duo_mount_v0_3/collision/fr3_duo_cover.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/fr3_duo_mount_v0_3/collision/fr3_duo_mount.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/fr3_duo_mount_v0_3/visual/fr3_duo_cover.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/fr3_duo_mount_v0_3/visual/fr3_duo_mount.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/franka_head_v0_2/collision/franka_head.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/franka_head_v0_2/visual/franka_head.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/franka_spine_v0_1/collision/franka_spine.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/accessories/franka_spine_v0_1/visual/franka_spine.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/cobot_pump/collision/cobot_pump.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/cobot_pump/visual/cobot_pump.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/franka_hand_black/collision/hand.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/franka_hand_black/visual/finger.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/franka_hand_black/visual/hand.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/franka_hand_white/collision/hand.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/franka_hand_white/visual/finger.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robot_ee/franka_hand_white/visual/hand.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/hand.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link0.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link1.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link2.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link3.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link4.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link5.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link6.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/collision/link7.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/finger.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/hand.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link0.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link1.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link2.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link3.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link4.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link5.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link6.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fer/visual/link7.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link0.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link1.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link2.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link3.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link4.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link5.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link6.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/collision/link7.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link0.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link1.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link2.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link3.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link4.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link5.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link6.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fp3/visual/link7.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link0.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link1.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link2.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link3.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link4.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link5.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link6.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/collision/link7.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link0.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link1.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link2.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link3.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link4.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link5.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link6.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3/visual/link7.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link0.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link1.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link2.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link3.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link4.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link5.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link6.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/collision/link7.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link0.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link1.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link2.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link3.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link4.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link5.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link6.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2/visual/link7.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link0.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link1.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link2.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link3.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link4.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link5.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link6.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/collision/link7.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link0.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link1.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link2.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link3.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link4.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link5.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link6.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/fr3v2_1/visual/link7.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/tmrv0_2/collision/tmrv0_2.stl
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//meshes/robots/tmrv0_2/visual/tmrv0_2.dae
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description//rviz/visualize_franka.rviz
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/ament_index/resource_index/package_run_dependencies/franka_description
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/ament_index/resource_index/parent_prefix_path/franka_description
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/ament_index/resource_index/packages/franka_description
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/cmake/franka_descriptionConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/cmake/franka_descriptionConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_description/share/franka_description/package.xml
+---
+Finished <<< franka_description [0.12s]
+Starting >>> franka_gripper
+--- output: franka_gripper
+[ 50%] Built target gripper_server
+[100%] Built target franka_gripper_node
+[100%] Built target ament_cmake_python_symlink_franka_gripper
+running egg_info
+writing franka_gripper.egg-info/PKG-INFO
+writing dependency_links to franka_gripper.egg-info/dependency_links.txt
+writing top-level names to franka_gripper.egg-info/top_level.txt
+reading manifest file 'franka_gripper.egg-info/SOURCES.txt'
+writing manifest file 'franka_gripper.egg-info/SOURCES.txt'
+[100%] Built target ament_cmake_python_build_franka_gripper_egg
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/franka_gripper/franka_gripper_node
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/libgripper_server.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper//launch/gripper.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper//config/franka_gripper_node.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/environment/pythonpath.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/environment/pythonpath.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/python3.12/site-packages/franka_gripper-3.3.0-py3.12.egg-info/PKG-INFO
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/python3.12/site-packages/franka_gripper-3.3.0-py3.12.egg-info/SOURCES.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/python3.12/site-packages/franka_gripper-3.3.0-py3.12.egg-info/dependency_links.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/python3.12/site-packages/franka_gripper-3.3.0-py3.12.egg-info/top_level.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/python3.12/site-packages/franka_gripper/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/lib/franka_gripper/fake_gripper_state_publisher.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/ament_index/resource_index/package_run_dependencies/franka_gripper
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/ament_index/resource_index/parent_prefix_path/franka_gripper
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/ament_index/resource_index/packages/franka_gripper
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/ament_index/resource_index/rclcpp_components/franka_gripper
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/cmake/franka_gripperConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/cmake/franka_gripperConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_gripper/share/franka_gripper/package.xml
+Listing '/home/gu/franka_ros2_ws/install/franka_gripper/lib/python3.12/site-packages/franka_gripper'...
+---
+Finished <<< franka_gripper [0.60s]
+Starting >>> franka_example_controllers
+--- output: franka_example_controllers
+[ 60%] Built target franka_example_controllers
+[ 67%] Built target ptp_motion_example_node
+[ 75%] Built target gmock_main
+[ 85%] Built target gmock
+[ 92%] Built target franka_example_controllers_gravity_test
+[100%] Built target franka_example_controllers_move_to_start_test
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers//franka_example_controllers.xml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/lib/libfranka_example_controllers.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/async_motions/ptp_motion_example_node.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/default_robot_behavior_utils.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/cartesian_elbow_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/cartesian_orientation_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/cartesian_pose_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/cartesian_velocity_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/elbow_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/gravity_compensation_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/gripper_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/joint_impedance_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/joint_impedance_with_ik_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/joint_position_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/joint_velocity_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/model_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3/move_to_start_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/fr3_duo/fr3_duo_joint_impedance_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/mobile_fr3_duo/mobile_fr3_duo_joint_impedance_example_controller.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/motion_generator.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/robot_utils.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/include/franka_example_controllers/visibility_control.h
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/lib/franka_example_controllers/ptp_motion_example_node
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/ament_index/resource_index/package_run_dependencies/franka_example_controllers
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/ament_index/resource_index/parent_prefix_path/franka_example_controllers
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/ament_index/resource_index/packages/franka_example_controllers
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/ament_index/resource_index/controller_interface__pluginlib__plugin/franka_example_controllers
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/cmake/franka_example_controllersConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/cmake/franka_example_controllersConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_example_controllers/share/franka_example_controllers/package.xml
+---
+Finished <<< franka_example_controllers [0.33s]
+Starting >>> franka_mobile
+--- output: franka_mobile
+[ 12%] Built target swerve_drive_controller_parameters
+[ 50%] Built target franka_mobile
+[ 62%] Built target gtest_main
+[ 75%] Built target gtest
+[ 87%] Built target test_odometry
+[100%] Built target test_swerve_kinematics
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile//controllers.xml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/include/franka_mobile/swerve_drive_controller_parameters.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/lib/libfranka_mobile.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/ament_index/resource_index/package_run_dependencies/franka_mobile
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/ament_index/resource_index/parent_prefix_path/franka_mobile
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/ament_index/resource_index/packages/franka_mobile
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/ament_index/resource_index/controller_interface__pluginlib__plugin/franka_mobile
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/cmake/franka_mobileConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/cmake/franka_mobileConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_mobile/share/franka_mobile/package.xml
+---
+Finished <<< franka_mobile [0.25s]
+Starting >>> franka_robot_state_broadcaster
+--- output: franka_robot_state_broadcaster
+[ 22%] Built target franka_robot_state_broadcaster_parameters
+[ 44%] Built target franka_robot_state_broadcaster
+[ 77%] Built target gmock
+[100%] Built target franka_robot_state_broadcaster_test
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/include/franka_robot_state_broadcaster/franka_robot_state_broadcaster_parameters.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster//franka_robot_state_broadcaster.xml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/lib/libfranka_robot_state_broadcaster.so
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/include/franka_robot_state_broadcaster/async_buffer.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/include/franka_robot_state_broadcaster/franka_robot_state_broadcaster.hpp
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/environment/library_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/environment/library_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/ament_index/resource_index/package_run_dependencies/franka_robot_state_broadcaster
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/ament_index/resource_index/parent_prefix_path/franka_robot_state_broadcaster
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/ament_index/resource_index/packages/franka_robot_state_broadcaster
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/ament_index/resource_index/controller_interface__pluginlib__plugin/franka_robot_state_broadcaster
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/cmake/franka_robot_state_broadcasterConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/cmake/franka_robot_state_broadcasterConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_robot_state_broadcaster/share/franka_robot_state_broadcaster/package.xml
+---
+Finished <<< franka_robot_state_broadcaster [0.20s]
+Starting >>> franka_fr3_moveit_config
+--- output: franka_fr3_moveit_config
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_controllers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_joint_limits.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/kinematics.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/ompl_planning.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/launch/move_group.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/launch/moveit.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/rviz/moveit.rviz
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/ament_index/resource_index/package_run_dependencies/franka_fr3_moveit_config
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/ament_index/resource_index/parent_prefix_path/franka_fr3_moveit_config
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/ament_index/resource_index/packages/franka_fr3_moveit_config
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/cmake/franka_fr3_moveit_configConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/cmake/franka_fr3_moveit_configConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/package.xml
+---
+Finished <<< franka_fr3_moveit_config [0.10s]
+Starting >>> franka_bringup
+--- output: franka_bringup
+Built target ament_cmake_python_symlink_franka_bringup
+running egg_info
+writing franka_bringup.egg-info/PKG-INFO
+writing dependency_links to franka_bringup.egg-info/dependency_links.txt
+writing top-level names to franka_bringup.egg-info/top_level.txt
+reading manifest file 'franka_bringup.egg-info/SOURCES.txt'
+writing manifest file 'franka_bringup.egg-info/SOURCES.txt'
+Built target ament_cmake_python_build_franka_bringup_egg
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/environment/pythonpath.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/environment/pythonpath.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup-3.3.0-py3.12.egg-info/PKG-INFO
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup-3.3.0-py3.12.egg-info/SOURCES.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup-3.3.0-py3.12.egg-info/dependency_links.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup-3.3.0-py3.12.egg-info/top_level.txt
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup/launch_utils.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup/testing/__init__.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup/testing/controller_service_client.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup/testing/controller_test_utils.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/controllers.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/fr3_duo.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/franka.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/mobile_fr3_duo.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/tmr.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/config/xbox.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/launch/example.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/launch/fr3_duo.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/launch/franka.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/launch/joint_impedance_with_ik_example_controller.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/launch/mobile_fr3_duo.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/launch/mobile_teleop.launch.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/test/config/test_0.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/test/config/test_1.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/test/config/test_use_fake_hardware.config.yaml
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/test/test_hardware_example_controllers.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/test/test_hardware_generic_controller.py
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/ament_index/resource_index/package_run_dependencies/franka_bringup
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/ament_index/resource_index/parent_prefix_path/franka_bringup
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/environment/path.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/environment/path.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/local_setup.bash
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/local_setup.sh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/local_setup.zsh
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/local_setup.dsv
+-- Symlinking: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/package.dsv
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/ament_index/resource_index/packages/franka_bringup
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/cmake/franka_bringupConfig.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/cmake/franka_bringupConfig-version.cmake
+-- Up-to-date symlink: /home/gu/franka_ros2_ws/install/franka_bringup/share/franka_bringup/package.xml
+Listing '/home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup'...
+Listing '/home/gu/franka_ros2_ws/install/franka_bringup/lib/python3.12/site-packages/franka_bringup/testing'...
+---
+Finished <<< franka_bringup [0.53s]
+
+Summary: 11 packages finished [6.46s]
+/home/gu/franka_ros2_ws/install/franka_bringup
+/home/gu/franka_ros2_ws/install/franka_hardware
+/home/gu/franka_ros2_ws/install/franka_fr3_moveit_config
+[PASS] Franka ROS 2 固定源码和 PTPMotion Action 构建通过
+
+============================================================
+5/12 安装 XHand 厂商软件
+============================================================
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+xhand 已经是最新版 (1.1.15.0-release)。
+下列软件包是自动安装的并且现在不需要了：
+  libfwupd2 libnvidia-cfg1-535 libnvidia-common-535 libnvidia-compute-535
+  libnvidia-decode-535 libnvidia-encode-535 libnvidia-extra-535
+  libnvidia-fbc1-535 libnvidia-gl-535 nvidia-compute-utils-535
+  nvidia-firmware-535-535.288.01 nvidia-kernel-source-535 nvidia-utils-535
+  xserver-xorg-video-nvidia-535
+使用'sudo apt autoremove'来卸载它(它们)。
+升级了 0 个软件包，新安装了 0 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+[PASS] import xhand_controller
+[PASS] import xhand_controller.xhand_control
+
+============================================================
+6/12 重建 rehab_robot_ws 安全基础工程
+============================================================
+Starting >>> rehab_robot_bringup
+Starting >>> rehab_robot_control
+--- output: rehab_robot_bringup
+running egg_info
+creating ../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info
+writing ../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/PKG-INFO
+writing dependency_links to ../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/dependency_links.txt
+writing requirements to ../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/requires.txt
+writing top-level names to ../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/top_level.txt
+writing manifest file '../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/SOURCES.txt'
+reading manifest file '../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/SOURCES.txt'
+writing manifest file '../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/gu/rehab_robot_ws/build/rehab_robot_bringup/build
+creating /home/gu/rehab_robot_ws/build/rehab_robot_bringup/build/lib
+creating /home/gu/rehab_robot_ws/build/rehab_robot_bringup/build/lib/rehab_robot_bringup
+copying rehab_robot_bringup/__init__.py -> /home/gu/rehab_robot_ws/build/rehab_robot_bringup/build/lib/rehab_robot_bringup
+running install
+running install_lib
+creating /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_bringup
+copying /home/gu/rehab_robot_ws/build/rehab_robot_bringup/build/lib/rehab_robot_bringup/__init__.py -> /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_bringup
+byte-compiling /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_bringup/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/gu/rehab_robot_ws/install/share
+creating /home/gu/rehab_robot_ws/install/share/ament_index
+creating /home/gu/rehab_robot_ws/install/share/ament_index/resource_index
+creating /home/gu/rehab_robot_ws/install/share/ament_index/resource_index/packages
+copying resource/rehab_robot_bringup -> /home/gu/rehab_robot_ws/install/share/ament_index/resource_index/packages
+creating /home/gu/rehab_robot_ws/install/share/rehab_robot_bringup
+copying package.xml -> /home/gu/rehab_robot_ws/install/share/rehab_robot_bringup
+creating /home/gu/rehab_robot_ws/install/share/rehab_robot_bringup/launch
+copying launch/tool_frames.launch.py -> /home/gu/rehab_robot_ws/install/share/rehab_robot_bringup/launch
+running install_egg_info
+Copying ../../build/rehab_robot_bringup/rehab_robot_bringup.egg-info to /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_bringup-0.1.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/gu/rehab_robot_ws/build/rehab_robot_bringup/install.log'
+---
+Finished <<< rehab_robot_bringup [1.54s]
+--- output: rehab_robot_control
+running egg_info
+creating ../../build/rehab_robot_control/rehab_robot_control.egg-info
+writing ../../build/rehab_robot_control/rehab_robot_control.egg-info/PKG-INFO
+writing dependency_links to ../../build/rehab_robot_control/rehab_robot_control.egg-info/dependency_links.txt
+writing entry points to ../../build/rehab_robot_control/rehab_robot_control.egg-info/entry_points.txt
+writing requirements to ../../build/rehab_robot_control/rehab_robot_control.egg-info/requires.txt
+writing top-level names to ../../build/rehab_robot_control/rehab_robot_control.egg-info/top_level.txt
+writing manifest file '../../build/rehab_robot_control/rehab_robot_control.egg-info/SOURCES.txt'
+reading manifest file '../../build/rehab_robot_control/rehab_robot_control.egg-info/SOURCES.txt'
+writing manifest file '../../build/rehab_robot_control/rehab_robot_control.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/gu/rehab_robot_ws/build/rehab_robot_control/build
+creating /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib
+creating /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control
+copying rehab_robot_control/topic_monitor.py -> /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control
+copying rehab_robot_control/torque_codec.py -> /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control
+copying rehab_robot_control/runtime_probe.py -> /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control
+copying rehab_robot_control/__init__.py -> /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control
+copying rehab_robot_control/config_validator.py -> /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control
+running install
+running install_lib
+creating /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control
+copying /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control/topic_monitor.py -> /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control
+copying /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control/torque_codec.py -> /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control
+copying /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control/runtime_probe.py -> /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control
+copying /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control/__init__.py -> /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control
+copying /home/gu/rehab_robot_ws/build/rehab_robot_control/build/lib/rehab_robot_control/config_validator.py -> /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control
+byte-compiling /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control/topic_monitor.py to topic_monitor.cpython-312.pyc
+byte-compiling /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control/torque_codec.py to torque_codec.cpython-312.pyc
+byte-compiling /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control/runtime_probe.py to runtime_probe.cpython-312.pyc
+byte-compiling /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control/config_validator.py to config_validator.cpython-312.pyc
+running install_data
+copying resource/rehab_robot_control -> /home/gu/rehab_robot_ws/install/share/ament_index/resource_index/packages
+creating /home/gu/rehab_robot_ws/install/share/rehab_robot_control
+copying package.xml -> /home/gu/rehab_robot_ws/install/share/rehab_robot_control
+running install_egg_info
+Copying ../../build/rehab_robot_control/rehab_robot_control.egg-info to /home/gu/rehab_robot_ws/install/lib/python3.12/site-packages/rehab_robot_control-0.1.0-py3.12.egg-info
+running install_scripts
+Installing rehab_config_validator script to /home/gu/rehab_robot_ws/install/lib/rehab_robot_control
+Installing rehab_runtime_probe script to /home/gu/rehab_robot_ws/install/lib/rehab_robot_control
+Installing rehab_topic_monitor script to /home/gu/rehab_robot_ws/install/lib/rehab_robot_control
+writing list of installed files to '/home/gu/rehab_robot_ws/build/rehab_robot_control/install.log'
+---
+Finished <<< rehab_robot_control [1.77s]
+
+Summary: 2 packages finished [2.40s]
+[PASS] configuration validated: /home/gu/rehab_robot_ws/config/system.yaml
+[PASS] rehab Python modules and 9-bit torque codec
+[PASS] rehab_robot_ws 安全基础工程构建完成
+
+============================================================
+7/12 配置实时权限和 CPU 性能模式
+============================================================
+Created symlink /etc/systemd/system/multi-user.target.wants/rehab-cpu-performance.service → /etc/systemd/system/rehab-cpu-performance.service.
+[PASS] realtime 用户组、rtprio=99、memlock=unlimited 和性能模式已配置
+
+============================================================
+8/12 安装并固定 Ubuntu 实时内核
+============================================================
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+下列软件包是自动安装的并且现在不需要了：
+  libfwupd2 libnvidia-cfg1-535 libnvidia-common-535 libnvidia-compute-535
+  libnvidia-decode-535 libnvidia-encode-535 libnvidia-extra-535
+  libnvidia-fbc1-535 libnvidia-gl-535 nvidia-compute-utils-535
+  nvidia-firmware-535-535.288.01 nvidia-kernel-source-535 nvidia-utils-535
+  xserver-xorg-video-nvidia-535
+使用'sudo apt autoremove'来卸载它(它们)。
+下列【新】软件包将被安装：
+  ubuntu-advantage-tools
+升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+需要下载 10.9 kB 的归档。
+解压缩后会消耗 84.0 kB 的额外空间。
+获取:1 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 ubuntu-advantage-tools all 37.2ubuntu~24.04.1 [10.9 kB]
+正在预设定软件包 ...
+已下载 10.9 kB，耗时 1秒 (15.8 kB/s)
+正在选中未选择的软件包 ubuntu-advantage-tools。
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 339155 个文件和目录。)
+准备解压 .../ubuntu-advantage-tools_37.2ubuntu~24.04.1_all.deb  ...
+正在解压 ubuntu-advantage-tools (37.2ubuntu~24.04.1) ...
+正在设置 ubuntu-advantage-tools (37.2ubuntu~24.04.1) ...
+Migrating /etc/ubuntu-advantage/uaclient.conf
+Cannot enable services when unattached - nothing to do.
+To use 'realtime-kernel' you need an Ubuntu Pro subscription.
+Personal and community subscriptions are available at no charge.
+See https://ubuntu.com/pro
+
+[WARN] 当前机器尚未绑定 Ubuntu Pro，或 realtime-kernel 未启用。
+Ubuntu Pro 个人订阅可生成 Token。Token 输入不会写入日志文件。
+请输入 Ubuntu Pro Token；直接回车则暂时跳过： 
+[WARN] 本轮跳过实时内核；获得 Token 后重新运行同一脚本。
+[WARN] 未检测到 /boot/vmlinuz-*-realtime。
+
+============================================================
+9/12 创建网卡配置模板（不激活）
+============================================================
+连接 "rehab-fr3" (f235720a-d6cf-4cf5-aa68-f89db4798a3c) 已成功添加。
+连接 "rehab-xhand-ethercat" (96ada535-e37f-4489-9116-d65dd78138d7) 已成功添加。
+[PASS] FR3 和 XHand 网卡模板已创建，但未激活
+
+============================================================
+10/12 VS Code 与工作区入口
+============================================================
+code e4c7e7b1 (来自 Visual Studio Code (vscode**)) installed
+Installing extensions...
+(node:64363) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ms-python.python'...
+Extension 'ms-python.debugpy' v2026.6.0 was successfully installed.
+Extension 'ms-python.vscode-python-envs' v1.36.0 was successfully installed.
+Extension 'ms-python.vscode-pylance' v2026.3.1 was successfully installed.
+Extension 'ms-python.python' v2026.4.0 was successfully installed.
+Installing extensions...
+(node:64565) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ms-vscode.cpptools'...
+Extension 'ms-vscode.cpptools' v1.32.2 was successfully installed.
+Installing extensions...
+(node:64715) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `code --trace-deprecation ...` to show where the warning was created)
+Installing extension 'ms-iot.vscode-ros'...
+Extension 'ms-iot.vscode-ros' v0.9.2 was successfully installed.
+[PASS] VS Code 和 rehab_env/rehab_code 快捷入口配置完成
+
+============================================================
+11/12 软件静态验收
+============================================================
+[PASS] configuration validated: /home/gu/rehab_robot_ws/config/system.yaml
+[PASS] franka_bringup -> /home/gu/franka_ros2_ws/install/franka_bringup
+[PASS] franka_hardware -> /home/gu/franka_ros2_ws/install/franka_hardware
+[PASS] franka_fr3_moveit_config -> /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config
+[PASS] rehab_robot_control -> /home/gu/rehab_robot_ws/install
+[PASS] rehab_robot_bringup -> /home/gu/rehab_robot_ws/install
+[PASS] realsense2_camera -> /opt/ros/jazzy
+[WARN] realtime=0
+[PASS] import xhand_controller -> /usr/local/lib/python3.12/dist-packages/xhand_controller/__init__.py
+[PASS] import xhand_controller.xhand_control -> /usr/local/lib/python3.12/dist-packages/xhand_controller/xhand_control.cpython-312-x86_64-linux-gnu.so
+/home/gu/franka_ros2_ws/install/franka_bringup
+/home/gu/franka_ros2_ws/install/franka_hardware
+/home/gu/franka_ros2_ws/install/franka_fr3_moveit_config
+/home/gu/rehab_robot_ws/install
+/home/gu/rehab_robot_ws/install
+/opt/ros/jazzy
+[PASS] software-only verification complete
+No hardware node was started and no motion command was sent.
+libfranka=0.20.4
+franka_ros2=d812aabfab939317bd16515a392ad2cf1928fa83
+franka_description=ec8789e
+xhand_status=PASS
+realtime_install_status=NEEDS_PRO_TOKEN
+libfranka 已经被设置为手动安装。
+ros-jazzy-rmw-cyclonedds-cpp 已经被设置为手动安装。
+ros-jazzy-realsense2-camera 已经被设置为手动安装。
+ros-jazzy-realsense2-camera-msgs 已经被设置为手动安装。
+ros-jazzy-librealsense2 已经被设置为手动安装。
+ros-jazzy-ros2-control 已经被设置为手动安装。
+ros-jazzy-ros2-controllers 已经被设置为手动安装。
+ros-jazzy-moveit 已经被设置为手动安装。
+[PASS] 软件静态验收通过
+
+============================================================
+12/12 最终状态
+============================================================
+当前内核：7.0.0-28-generic
+当前 realtime：0
+当前会话 realtime 组：1
+XHand：PASS
+日志：/home/gu/rehab_robot_fresh_install_20260801_181302.log
+
+已完成：
+  - ROS 2 Jazzy
+  - libfranka 0.20.4
+  - franka_ros2 d812aabfab939317bd16515a392ad2cf1928fa83
+  - franka_description 2.7.0
+  - MoveIt、ros2_control、RealSense
+  - rehab_robot_ws 安全基础工程
+  - 实时权限与 CPU performance
+  - FR3/XHand 网卡模板（未激活）
+  - 软件静态验收
+
+未执行：
+  - 未启动 FR3
+  - 未启动 XHand/EtherCAT
+  - 未启动 D435i
+  - 未发送任何运动命令
+
+[NEXT] 需要重启以进入实时内核并刷新 realtime 组：
+       sudo reboot
+
+重启后再次运行同一个脚本。它会自动跳过已完成部分并执行最终验收。
+
+============================================================
+[PASS] 一键软件配置流程完成
+工程入口：source ~/rehab_robot_ws/env.sh
+静态验收：~/rehab_robot_ws/tools/verify_software.sh
+============================================================

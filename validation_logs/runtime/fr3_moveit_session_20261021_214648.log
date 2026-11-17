@@ -1,0 +1,748 @@
+[ENV] ROS 2 Jazzy
+[ENV] Franka official workspace
+[ENV] rehab_robot_ws NOT loaded
+[INFO] [launch]: All log files can be found below /home/gu/.ros/log/2026-10-21-21-46-53-239302-gu-G3-3500-135796
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [rviz2-1]: process started with pid [135837]
+[INFO] [robot_state_publisher-2]: process started with pid [135838]
+[INFO] [move_group-3]: process started with pid [135839]
+[INFO] [ros2_control_node-4]: process started with pid [135840]
+[INFO] [throttle-5]: process started with pid [135841]
+[INFO] [joint_state_publisher-6]: process started with pid [135842]
+[INFO] [spawner-7]: process started with pid [135843]
+[INFO] [ros2-8]: process started with pid [135844]
+[INFO] [ros2-9]: process started with pid [135845]
+[robot_state_publisher-2] [INFO] [1792590413.769554410] [robot_state_publisher]: Robot initialized
+[ros2_control_node-4] [INFO] [1792590413.785797125] [controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-4] [INFO] [1792590413.789973197] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[move_group-3] [WARN] [1792590413.836798617] [move_group]: Falling back to using the the move_group node namespace (deprecated behavior).
+[move_group-3] [INFO] [1792590413.843503782] [moveit.moveit.ros.rdf_loader]: Loaded robot model in 0.00606713 seconds
+[move_group-3] [INFO] [1792590413.843599593] [moveit.moveit.core.robot_model]: Loading robot model 'fr3'...
+[move_group-3] [INFO] [1792590413.856232231] [moveit.moveit.kinematics.kdl_kinematics_plugin]: Joint weights for group 'fr3_arm': 1 1 1 1 1 1 1
+[ros2_control_node-4] [INFO] [1792590413.870792036] [controller_manager]: update rate is 1000 Hz
+[ros2_control_node-4] [INFO] [1792590413.870839745] [controller_manager]: Overruns handling is : disabled
+[ros2_control_node-4] [INFO] [1792590413.870854671] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 98
+[ros2_control_node-4] [INFO] [1792590413.875998224] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 98.
+[move_group-3] [INFO] [1792590413.893468116] [moveit.moveit.ros.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-3] [INFO] [1792590413.893672689] [moveit.moveit.ros.moveit_cpp]: Listening to 'joint_states' for joint states
+[move_group-3] [INFO] [1792590413.894839307] [moveit.moveit.ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[move_group-3] [INFO] [1792590413.896262545] [moveit.moveit.ros.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[move_group-3] [INFO] [1792590413.896392202] [moveit.moveit.ros.planning_scene_monitor]: Stopping existing planning scene publisher.
+[move_group-3] [INFO] [1792590413.896587779] [moveit.moveit.ros.planning_scene_monitor]: Stopped publishing maintained planning scene.
+[move_group-3] [INFO] [1792590413.898290087] [moveit.moveit.ros.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-3] [INFO] [1792590413.898403945] [moveit.moveit.ros.planning_scene_monitor]: Starting planning scene monitor
+[move_group-3] [INFO] [1792590413.901618606] [moveit.moveit.ros.planning_scene_monitor]: Listening to '/planning_scene'
+[move_group-3] [INFO] [1792590413.901656706] [moveit.moveit.ros.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[move_group-3] [INFO] [1792590413.902163066] [moveit.moveit.ros.planning_scene_monitor]: Listening to 'collision_object'
+[move_group-3] [INFO] [1792590413.902741785] [moveit.moveit.ros.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[move_group-3] [WARN] [1792590413.902998139] [moveit.moveit.ros.occupancy_map_monitor]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[move_group-3] [ERROR] [1792590413.903023514] [moveit.moveit.ros.occupancy_map_monitor]: No 3D sensor plugin(s) defined for octomap updates
+[ros2_control_node-4] [INFO] [1792590413.907988150] [controller_manager]: Received robot description from topic.
+[ros2_control_node-4] [INFO] [1792590413.908033835] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-4] text not specified in the prefix tag
+[ros2_control_node-4] text not specified in the arm_prefix tag
+[ros2_control_node-4] [INFO] [1792590413.914848314] [controller_manager]: Loading hardware 'FrankaHardwareInterface' 
+[ros2_control_node-4] [INFO] [1792590413.928201685] [controller_manager]: Loaded hardware 'FrankaHardwareInterface' from plugin 'franka_hardware/FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792590413.928699139] [controller_manager]: Initialize hardware 'FrankaHardwareInterface' 
+[move_group-3] [INFO] [1792590413.929347157] [moveit.moveit.ros.planning_pipeline]: Successfully loaded planner 'OMPL'
+[move_group-3] [INFO] [1792590413.931184215] [move_group]: Try loading adapter 'default_planning_request_adapters/ResolveConstraintFrames'
+[move_group-3] [INFO] [1792590413.933225110] [move_group]: Loaded adapter 'default_planning_request_adapters/ResolveConstraintFrames'
+[move_group-3] [INFO] [1792590413.933288266] [move_group]: Try loading adapter 'default_planning_request_adapters/ValidateWorkspaceBounds'
+[move_group-3] [INFO] [1792590413.933821214] [move_group]: Loaded adapter 'default_planning_request_adapters/ValidateWorkspaceBounds'
+[move_group-3] [INFO] [1792590413.933846355] [move_group]: Try loading adapter 'default_planning_request_adapters/CheckStartStateBounds'
+[move_group-3] [INFO] [1792590413.933890949] [move_group]: Loaded adapter 'default_planning_request_adapters/CheckStartStateBounds'
+[move_group-3] [INFO] [1792590413.933902259] [move_group]: Try loading adapter 'default_planning_request_adapters/CheckStartStateCollision'
+[move_group-3] [INFO] [1792590413.933920903] [move_group]: Loaded adapter 'default_planning_request_adapters/CheckStartStateCollision'
+[move_group-3] [INFO] [1792590413.935716434] [move_group]: Try loading adapter 'default_planning_response_adapters/AddTimeOptimalParameterization'
+[ros2_control_node-4] [INFO] [1792590413.938208191] [FrankaHardwareInterface]: Parsed Franka ros2_control interface version: 1.0.0
+[ros2_control_node-4] [INFO] [1792590413.938229771] [FrankaHardwareInterface]: Connecting to robot at "192.168.1.25" ...
+[ros2_control_node-4] [INFO] [1792590413.938639637] [FrankaHardwareInterface]: libfranka: Setting thread priority to the highest possible value.
+[move_group-3] [INFO] [1792590413.940055198] [move_group]: Loaded adapter 'default_planning_response_adapters/AddTimeOptimalParameterization'
+[move_group-3] [INFO] [1792590413.940090606] [move_group]: Try loading adapter 'default_planning_response_adapters/ValidateSolution'
+[move_group-3] [INFO] [1792590413.942680808] [move_group]: Loaded adapter 'default_planning_response_adapters/ValidateSolution'
+[move_group-3] [INFO] [1792590413.942719154] [move_group]: Try loading adapter 'default_planning_response_adapters/DisplayMotionPath'
+[move_group-3] [INFO] [1792590413.943823614] [move_group]: Loaded adapter 'default_planning_response_adapters/DisplayMotionPath'
+[ros2_control_node-4] [INFO] [1792590413.948346554] [FrankaHardwareInterface]: Successfully connected to robot
+[ros2_control_node-4] [INFO] [1792590413.956292763] [service_server]: Service started
+[move_group-3] [INFO] [1792590413.995613830] [moveit.moveit.plugins.simple_controller_manager]: Added FollowJointTrajectory controller for fr3_arm_controller
+[move_group-3] [INFO] [1792590413.995679468] [moveit.moveit.plugins.simple_controller_manager]: fr3_gripper will command a max effort of: 0
+[move_group-3] [INFO] [1792590413.997475560] [moveit.moveit.plugins.simple_controller_manager]: Added GripperCommand controller for fr3_gripper
+[move_group-3] [INFO] [1792590413.997680988] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[move_group-3] [INFO] [1792590413.997716779] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[move_group-3] [INFO] [1792590413.998151531] [moveit.moveit.ros.trajectory_execution_manager]: Trajectory execution is managing controllers
+[move_group-3] [INFO] [1792590413.998178575] [move_group]: MoveGroup debug mode is ON
+[move_group-3] [INFO] [1792590414.031988674] [moveit.moveit.ros.move_group.executable]: 
+[move_group-3] 
+[move_group-3] ********************************************************
+[move_group-3] * MoveGroup using: 
+[move_group-3] *     - apply_planning_scene_service
+[move_group-3] *     - clear_octomap_service
+[move_group-3] *     - get_group_urdf
+[move_group-3] *     - load_geometry_from_file
+[move_group-3] *     - CartesianPathService
+[move_group-3] *     - execute_trajectory_action
+[move_group-3] *     - get_planning_scene_service
+[move_group-3] *     - kinematics_service
+[move_group-3] *     - move_action
+[move_group-3] *     - motion_plan_service
+[move_group-3] *     - query_planners_service
+[move_group-3] *     - state_validation_service
+[move_group-3] *     - save_geometry_to_file
+[move_group-3] ********************************************************
+[move_group-3] 
+[move_group-3] [INFO] [1792590414.032059967] [moveit.moveit.ros.move_group.context]: MoveGroup context using pipeline move_group
+[move_group-3] [INFO] [1792590414.032078802] [moveit.moveit.ros.move_group.context]: MoveGroup context initialization complete
+[move_group-3] [96mLoading 'move_group/ApplyPlanningSceneService'...[0m
+[move_group-3] [96mLoading 'move_group/ClearOctomapService'...[0m
+[move_group-3] [96mLoading 'move_group/GetUrdfService'...[0m
+[move_group-3] [96mLoading 'move_group/LoadGeometryFromFileService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupCartesianPathService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupExecuteTrajectoryAction'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupGetPlanningSceneService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupKinematicsService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupMoveAction'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupPlanService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupQueryPlannersService'...[0m
+[move_group-3] [96mLoading 'move_group/MoveGroupStateValidationService'...[0m
+[move_group-3] [96mLoading 'move_group/SaveGeometryToFileService'...[0m
+[move_group-3] 
+[move_group-3] [92mYou can start planning now![0m
+[move_group-3] 
+[ros2_control_node-4] [INFO] [1792590414.068773168] [action_server]: Action server started
+[ros2_control_node-4] [INFO] [1792590414.068835441] [controller_manager]: Successful initialization of hardware 'FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792590414.069179104] [FrankaHardwareInterface]: Register joint-based command interfaces
+[ros2_control_node-4] [INFO] [1792590414.069190540] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface position with index 0
+[ros2_control_node-4] [INFO] [1792590414.069196638] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface velocity with index 0
+[ros2_control_node-4] [INFO] [1792590414.069201196] [FrankaHardwareInterface]: Registering command interface: fr3_joint1 for command interface effort with index 0
+[ros2_control_node-4] [INFO] [1792590414.069205394] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface position with index 1
+[ros2_control_node-4] [INFO] [1792590414.069209577] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface velocity with index 1
+[ros2_control_node-4] [INFO] [1792590414.069213566] [FrankaHardwareInterface]: Registering command interface: fr3_joint2 for command interface effort with index 1
+[ros2_control_node-4] [INFO] [1792590414.069217718] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface position with index 2
+[ros2_control_node-4] [INFO] [1792590414.069223877] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface velocity with index 2
+[ros2_control_node-4] [INFO] [1792590414.069227873] [FrankaHardwareInterface]: Registering command interface: fr3_joint3 for command interface effort with index 2
+[ros2_control_node-4] [INFO] [1792590414.069231789] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface position with index 3
+[ros2_control_node-4] [INFO] [1792590414.069235773] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface velocity with index 3
+[ros2_control_node-4] [INFO] [1792590414.069239929] [FrankaHardwareInterface]: Registering command interface: fr3_joint4 for command interface effort with index 3
+[ros2_control_node-4] [INFO] [1792590414.069243803] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface position with index 4
+[ros2_control_node-4] [INFO] [1792590414.069248942] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface velocity with index 4
+[ros2_control_node-4] [INFO] [1792590414.069260454] [FrankaHardwareInterface]: Registering command interface: fr3_joint5 for command interface effort with index 4
+[ros2_control_node-4] [INFO] [1792590414.069296373] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface position with index 5
+[ros2_control_node-4] [INFO] [1792590414.069302729] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface velocity with index 5
+[ros2_control_node-4] [INFO] [1792590414.069306775] [FrankaHardwareInterface]: Registering command interface: fr3_joint6 for command interface effort with index 5
+[ros2_control_node-4] [INFO] [1792590414.069310649] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface position with index 6
+[ros2_control_node-4] [INFO] [1792590414.069314603] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface velocity with index 6
+[ros2_control_node-4] [INFO] [1792590414.069318673] [FrankaHardwareInterface]: Registering command interface: fr3_joint7 for command interface effort with index 6
+[ros2_control_node-4] [INFO] [1792590414.069322906] [FrankaHardwareInterface]: Register general purpose command interfaces
+[ros2_control_node-4] [INFO] [1792590414.069329351] [FrankaHardwareInterface]: Registering command interface: vx for command interface cartesian_velocity with index 0
+[ros2_control_node-4] [INFO] [1792590414.069334542] [FrankaHardwareInterface]: Registering command interface: vy for command interface cartesian_velocity with index 1
+[ros2_control_node-4] [INFO] [1792590414.069338751] [FrankaHardwareInterface]: Registering command interface: vz for command interface cartesian_velocity with index 2
+[ros2_control_node-4] [INFO] [1792590414.069343001] [FrankaHardwareInterface]: Registering command interface: wx for command interface cartesian_velocity with index 3
+[ros2_control_node-4] [INFO] [1792590414.069347450] [FrankaHardwareInterface]: Registering command interface: wy for command interface cartesian_velocity with index 4
+[ros2_control_node-4] [INFO] [1792590414.069351523] [FrankaHardwareInterface]: Registering command interface: wz for command interface cartesian_velocity with index 5
+[ros2_control_node-4] [INFO] [1792590414.069355696] [FrankaHardwareInterface]: Registering command interface: 0 for command interface cartesian_pose_command with index 0
+[ros2_control_node-4] [INFO] [1792590414.069365989] [FrankaHardwareInterface]: Registering command interface: 1 for command interface cartesian_pose_command with index 1
+[ros2_control_node-4] [INFO] [1792590414.069370513] [FrankaHardwareInterface]: Registering command interface: 2 for command interface cartesian_pose_command with index 2
+[ros2_control_node-4] [INFO] [1792590414.069374587] [FrankaHardwareInterface]: Registering command interface: 3 for command interface cartesian_pose_command with index 3
+[ros2_control_node-4] [INFO] [1792590414.069378946] [FrankaHardwareInterface]: Registering command interface: 4 for command interface cartesian_pose_command with index 4
+[ros2_control_node-4] [INFO] [1792590414.069383084] [FrankaHardwareInterface]: Registering command interface: 5 for command interface cartesian_pose_command with index 5
+[ros2_control_node-4] [INFO] [1792590414.069387239] [FrankaHardwareInterface]: Registering command interface: 6 for command interface cartesian_pose_command with index 6
+[ros2_control_node-4] [INFO] [1792590414.069391283] [FrankaHardwareInterface]: Registering command interface: 7 for command interface cartesian_pose_command with index 7
+[ros2_control_node-4] [INFO] [1792590414.069395312] [FrankaHardwareInterface]: Registering command interface: 8 for command interface cartesian_pose_command with index 8
+[ros2_control_node-4] [INFO] [1792590414.069399484] [FrankaHardwareInterface]: Registering command interface: 9 for command interface cartesian_pose_command with index 9
+[ros2_control_node-4] [INFO] [1792590414.069404272] [FrankaHardwareInterface]: Registering command interface: 10 for command interface cartesian_pose_command with index 10
+[ros2_control_node-4] [INFO] [1792590414.069408923] [FrankaHardwareInterface]: Registering command interface: 11 for command interface cartesian_pose_command with index 11
+[ros2_control_node-4] [INFO] [1792590414.069413251] [FrankaHardwareInterface]: Registering command interface: 12 for command interface cartesian_pose_command with index 12
+[ros2_control_node-4] [INFO] [1792590414.069417521] [FrankaHardwareInterface]: Registering command interface: 13 for command interface cartesian_pose_command with index 13
+[ros2_control_node-4] [INFO] [1792590414.069421887] [FrankaHardwareInterface]: Registering command interface: 14 for command interface cartesian_pose_command with index 14
+[ros2_control_node-4] [INFO] [1792590414.069426305] [FrankaHardwareInterface]: Registering command interface: 15 for command interface cartesian_pose_command with index 15
+[ros2_control_node-4] [INFO] [1792590414.069442220] [FrankaHardwareInterface]: Registering command interface: joint_3_position for command interface elbow_command with index 0
+[ros2_control_node-4] [INFO] [1792590414.069447608] [FrankaHardwareInterface]: Registering command interface: joint_4_sign for command interface elbow_command with index 1
+[ros2_control_node-4] [INFO] [1792590414.069815458] [controller_manager]: Activating component 'FrankaHardwareInterface'.
+[ros2_control_node-4] [INFO] [1792590414.069838951] [resource_manager]: 'configure' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-4] [INFO] [1792590414.069845783] [resource_manager]: Successful 'configure' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792590414.069863970] [resource_manager]: 'activate' hardware 'FrankaHardwareInterface' 
+[ros2_control_node-4] [INFO] [1792590414.070110423] [resource_manager]: Successful 'activate' of hardware 'FrankaHardwareInterface'
+[ros2_control_node-4] [INFO] [1792590414.070163224] [controller_manager]: Registering statistics for : FrankaHardwareInterface
+[ros2_control_node-4] [INFO] [1792590414.070259448] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[joint_state_publisher-6] [INFO] [1792590414.123951159] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[joint_state_publisher-6] [INFO] [1792590414.129755601] [joint_state_publisher]: Got description, configuring robot
+[rviz2-1] [INFO] [1792590414.200110050] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-1] [INFO] [1792590414.200238531] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[ros2_control_node-4] [INFO] [1792590414.204118323] [controller_manager]: Loading controller : 'franka_robot_state_broadcaster' of type 'franka_robot_state_broadcaster/FrankaRobotStateBroadcaster'
+[ros2_control_node-4] [INFO] [1792590414.204165886] [controller_manager]: Loading controller 'franka_robot_state_broadcaster'
+[ros2_control_node-4] [WARN] [1792590414.207571960] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[ros2_control_node-4] [INFO] [1792590414.207610519] [controller_manager]: Controller 'franka_robot_state_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_lm9kczly --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml -r joint_states:=franka/joint_states 
+[rviz2-1] [INFO] [1792590414.221993817] [rviz2]: Stereo is NOT SUPPORTED
+[spawner-7] [INFO] [1792590414.237836815] [spawner_franka_robot_state_broadcaster]: Loaded franka_robot_state_broadcaster
+[ros2_control_node-4] [INFO] [1792590414.238683440] [controller_manager]: Configuring controller: 'franka_robot_state_broadcaster'
+[ros2_control_node-4] [INFO] [1792590414.244286679] [franka_robot_state_broadcaster]: Convenience topics at 1000 Hz, full state at 1000 Hz
+[ros2_control_node-4] [INFO] [1792590414.245851377] [controller_manager]: Activating controllers: [ franka_robot_state_broadcaster ]
+[ros2_control_node-4] [INFO] [1792590414.250710284] [franka_robot_state_broadcaster]: Publish thread started with SCHED_FIFO priority 50.
+[ros2_control_node-4] [INFO] [1792590414.250820565] [controller_manager]: Successfully switched controllers!
+[spawner-7] [INFO] [1792590414.256505003] [spawner_franka_robot_state_broadcaster]: Configured and activated franka_robot_state_broadcaster
+[rviz2-1] [WARN] [1792590414.317712047] [rcl.logging_rosout]: Publisher already registered for node name: 'rviz2'. If this is due to multiple nodes with the same name then all logs for the logger named 'rviz2' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[rviz2-1] Warning: class_loader.impl: SEVERE WARNING!!! A namespace collision has occurred with plugin factory for class rviz_default_plugins::displays::InteractiveMarkerDisplay. New factory will OVERWRITE existing one. This situation occurs when libraries containing plugins are directly linked against an executable (the one running right now generating this message). Please separate plugins out into their own library or just don't link against the library and use either class_loader::ClassLoader/MultiLibraryClassLoader to open.
+[rviz2-1]          at line 321 in /opt/ros/jazzy/include/class_loader/class_loader/class_loader_core.hpp
+[rviz2-1] [INFO] [1792590414.373061928] [rviz2.moveit.ros.rdf_loader]: Loaded robot model in 0.00490243 seconds
+[rviz2-1] [INFO] [1792590414.373170763] [rviz2.moveit.core.robot_model]: Loading robot model 'fr3'...
+[ros2_control_node-4] [INFO] [1792590414.525142646] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-4] [INFO] [1792590414.525188803] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-4] [WARN] [1792590414.528558980] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[ros2_control_node-4] [INFO] [1792590414.528593662] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_lm9kczly --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml -r joint_states:=franka/joint_states 
+[INFO] [spawner-7]: process has finished cleanly [pid 135843]
+[ros2-9] [INFO] [1792590414.557451340] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ros2_control_node-4] [INFO] [1792590414.558581184] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-4] [INFO] [1792590414.558720586] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2_control_node-4] [INFO] [1792590414.570586313] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[ros2_control_node-4] [INFO] [1792590414.570954844] [controller_manager]: Successfully switched controllers!
+[ros2-9] [INFO] [1792590414.573149976] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[ros2_control_node-4] [INFO] [1792590414.875406312] [controller_manager]: Loading controller : 'fr3_arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[ros2_control_node-4] [INFO] [1792590414.875437237] [controller_manager]: Loading controller 'fr3_arm_controller'
+[ros2_control_node-4] [WARN] [1792590414.878038857] [controller_manager]: The use of remapping arguments to the controller_manager node is deprecated. Please use the '--controller-ros-args' argument of the spawner to pass remapping arguments to the controller node.
+[ros2_control_node-4] [INFO] [1792590414.878077833] [controller_manager]: Controller 'fr3_arm_controller' node arguments: --ros-args --params-file /tmp/launch_params_lm9kczly --params-file /home/gu/franka_ros2_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config/config/fr3_ros_controllers.yaml -r joint_states:=franka/joint_states 
+[INFO] [ros2-9]: process has finished cleanly [pid 135845]
+[ros2-8] [INFO] [1792590414.916312814] [spawner_fr3_arm_controller]: Loaded fr3_arm_controller
+[ros2_control_node-4] [INFO] [1792590414.917067668] [controller_manager]: Configuring controller: 'fr3_arm_controller'
+[ros2_control_node-4] [INFO] [1792590414.917384183] [fr3_arm_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[ros2_control_node-4] [INFO] [1792590414.917470850] [fr3_arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[ros2_control_node-4] [INFO] [1792590414.917502302] [fr3_arm_controller]: Using 'splines' interpolation method.
+[ros2_control_node-4] [INFO] [1792590414.920839531] [fr3_arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2_control_node-4] [INFO] [1792590414.923313247] [fr3_arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[ros2_control_node-4] [INFO] [1792590414.925117823] [controller_manager]: Activating controllers: [ fr3_arm_controller ]
+[ros2_control_node-4] [INFO] [1792590414.928335419] [controller_manager]: Successfully switched controllers!
+[ros2-8] [INFO] [1792590414.930143300] [spawner_fr3_arm_controller]: Configured and activated fr3_arm_controller
+[INFO] [ros2-8]: process has finished cleanly [pid 135844]
+[rviz2-1] [ERROR] [1792590417.846989326] [rviz2.moveit.ros.motion_planning_frame]: Action server: /recognize_objects not available
+[rviz2-1] [INFO] [1792590417.945953365] [rviz2.moveit.ros.rdf_loader]: Loaded robot model in 0.00236064 seconds
+[rviz2-1] [INFO] [1792590417.946094171] [rviz2.moveit.core.robot_model]: Loading robot model 'fr3'...
+[rviz2-1] [INFO] [1792590417.962841206] [rviz2.moveit.kinematics.kdl_kinematics_plugin]: Joint weights for group 'fr3_arm': 1 1 1 1 1 1 1
+[rviz2-1] [INFO] [1792590418.005242187] [rviz2.moveit.ros.planning_scene_monitor]: Starting planning scene monitor
+[rviz2-1] [INFO] [1792590418.006550411] [rviz2.moveit.ros.planning_scene_monitor]: Listening to '/monitored_planning_scene'
+[ros2_control_node-4] [ERROR] [1792597846.682793491] [FrankaHardwareInterface]: libfranka: Move command aborted: User Stop pressed!
+[ros2_control_node-4] [ERROR] [1792597846.682880210] [FrankaHardwareInterface]: libfranka: Move command aborted: User Stop pressed!
+[ros2_control_node-4] [ERROR] [1792597846.686194595] [controller_manager]: Deactivating following hardware components as their read cycle resulted in an error: [ FrankaHardwareInterface ]
+[ros2_control_node-4] [ERROR] [1792597846.686300433] [controller_manager]: Deactivating following controllers as their hardware components read cycle resulted in an error: [ franka_robot_state_broadcaster joint_state_broadcaster fr3_arm_controller ]
+[ros2_control_node-4] [ERROR] [1792597846.686360271] [controller_manager]: Not acceptable command interfaces combination: 
+[ros2_control_node-4] Start interfaces: 
+[ros2_control_node-4] [
+[ros2_control_node-4] ]
+[ros2_control_node-4] Stop interfaces: 
+[ros2_control_node-4] [
+[ros2_control_node-4]   fr3_joint1/effort
+[ros2_control_node-4]   fr3_joint2/effort
+[ros2_control_node-4]   fr3_joint3/effort
+[ros2_control_node-4]   fr3_joint4/effort
+[ros2_control_node-4]   fr3_joint5/effort
+[ros2_control_node-4]   fr3_joint6/effort
+[ros2_control_node-4]   fr3_joint7/effort
+[ros2_control_node-4] ]
+[ros2_control_node-4] Not available: 
+[ros2_control_node-4] [
+[ros2_control_node-4]  fr3_joint1/effort
+[ros2_control_node-4]  fr3_joint2/effort
+[ros2_control_node-4]  fr3_joint3/effort
+[ros2_control_node-4]  fr3_joint4/effort
+[ros2_control_node-4]  fr3_joint5/effort
+[ros2_control_node-4]  fr3_joint6/effort
+[ros2_control_node-4]  fr3_joint7/effort
+[ros2_control_node-4] ]
+[ros2_control_node-4] 
+[ros2_control_node-4] [ERROR] [1792597846.686375932] [controller_manager]: Error while attempting mode switch when deactivating controllers in read cycle!
+[joint_state_publisher-6] 1792597858.928945 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597858.962298 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597858.995611 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.018292 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.028948 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.062349 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.095605 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.118318 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.128935 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.162331 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.195629 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.218379 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.228937 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.262350 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.295610 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.318439 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.328937 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.362355 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.395606 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.418502 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.428955 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.462329 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.495632 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.518561 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.528952 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.562355 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.595623 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.628986 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.662351 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.695725 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.718627 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.728941 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.762339 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.795629 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.828931 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.862363 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.895613 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597859.918688 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.928961 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.962347 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597859.995615 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.028947 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.062422 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.095635 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.128940 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.162378 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.195614 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.228957 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.262371 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.295678 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597860.318744 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.329101 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.362439 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.395807 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.428937 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.462343 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.495616 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.528948 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.562364 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.595608 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.628935 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.662373 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.695636 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597860.718814 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.728996 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.762347 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.795653 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.828960 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.862309 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.895616 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.928936 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.962346 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597860.995598 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.028938 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.062354 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.095630 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.128975 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.162318 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.195600 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.228933 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.262295 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.295606 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.328940 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.362312 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.395626 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.428934 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.462281 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.495600 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597861.518920 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.528936 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.562275 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.595600 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.628960 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.662334 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.695632 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.728964 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.762339 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.795649 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597861.808483 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597861.814407 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597861.816243 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597861.829024 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597861.858699 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597861.862530 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.895653 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597861.905983 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597861.908543 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597861.912941 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597861.914470 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597861.916100 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597861.916290 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597861.929037 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597861.958329 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597861.958739 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597861.962360 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597861.995697 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.008603 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.014528 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.016355 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.028999 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.058780 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.062403 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.064978 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.095634 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.108662 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.114581 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.116411 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.125706 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.128977 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.158866 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.162434 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.163582 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597862.165108 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.195670 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.208725 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.214656 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.216491 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.224888 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.225760 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.229054 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.258968 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.262434 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.265111 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.295614 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.308802 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.314717 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.316549 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.318982 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.325828 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.329034 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.359013 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.362377 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.365172 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.395616 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.408874 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.414775 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.416598 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.425889 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.428943 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.459147 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.462609 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.465232 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.495735 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.525957 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.528942 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.562365 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.565299 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.595620 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.609002 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.614844 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.616658 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.626015 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.628962 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.659212 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.662521 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.665364 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.695676 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.726077 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.729129 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.762384 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.795865 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597862.809022 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597862.814974 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597862.816715 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.829071 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597862.859292 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.862311 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597862.865420 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.895621 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.926147 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597862.928987 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.962454 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597862.995698 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.028947 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.062364 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597863.065477 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.095630 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.126215 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.128933 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.162335 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.196055 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597863.209095 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597863.215060 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597863.216799 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.229121 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597863.259343 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.262405 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.295623 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.329233 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.362581 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.395814 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.428950 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.462369 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597863.465544 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.495652 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.526289 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.529100 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.562345 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.595648 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597863.609152 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597863.615123 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597863.616907 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.629002 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[move_group-3] 1792597863.659399 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.662347 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.695627 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.728948 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.762280 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.795694 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.828956 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.862291 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[rviz2-1] 1792597863.865581 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.895606 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[robot_state_publisher-2] 1792597863.919024 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.926350 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.928915 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597863.952372 [0]   throttle: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597863.952439 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597863.962282 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597863.995620 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597864.028990 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.052428 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.052440 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.062403 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597864.095609 [0] joint_stat: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597864.128868 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.152490 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.152499 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.162283 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.195592 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.229055 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.252551 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.252562 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.262388 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.295639 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.329095 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.352609 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.352618 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.362328 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.395708 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.409213 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597864.415183 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597864.416946 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.429066 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.452670 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.452681 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597864.459461 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.462322 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.495625 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.528956 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.552752 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[throttle-5] 1792597864.552767 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.562287 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.595692 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.628958 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.652830 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.662619 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[rviz2-1] 1792597864.665726 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.695748 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.726406 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.729163 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.752789 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597864.762290 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.795604 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.828936 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.852907 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597864.862387 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.895604 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.928946 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597864.952849 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597864.962280 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597864.995607 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.028969 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597865.052967 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.062420 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.095650 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.129001 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.162322 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.195621 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597865.209292 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597865.215258 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597865.217007 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.228975 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[move_group-3] 1792597865.259522 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.262257 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.295607 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.328950 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597865.352921 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597865.362327 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.395676 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.428938 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597865.453025 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.462287 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[rviz2-1] 1792597865.465755 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.495607 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.526465 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.528924 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.562283 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.595606 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.628957 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.662438 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.695612 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.728940 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597865.752973 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597865.762284 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.795592 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.828954 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597865.853084 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597865.862328 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.895636 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.929040 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.962320 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597865.995626 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.028976 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.062323 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.095602 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.128935 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.162295 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.195607 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.228946 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.262304 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.295602 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.328944 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.362279 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.395672 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.428938 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.462338 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.495596 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.528949 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597866.553031 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597866.562284 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.595599 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.628933 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597866.653144 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597866.662303 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.695613 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.728981 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.762279 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.795592 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597866.809351 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597866.815362 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597866.817068 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597866.828952 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[move_group-3] 1792597866.859603 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597866.862266 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.895601 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.928942 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.962289 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597866.995727 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.028968 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.062341 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[rviz2-1] 1792597867.065857 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597867.095639 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.126522 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597867.128976 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.162314 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.195657 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.229073 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.262420 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.295762 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.329053 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597867.353094 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7401 failed with retcode -1
+[joint_state_publisher-6] 1792597867.362364 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.395716 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.429082 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597867.453204 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597867.462553 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.495710 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.529118 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.562420 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.595714 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.628955 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.662299 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.695633 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.728998 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.762287 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.795661 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.829054 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.862300 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.895687 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.928955 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.962285 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597867.995615 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.028925 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.062287 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.095589 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.128932 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.162273 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.195581 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.228917 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.262361 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.295611 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.328979 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.362301 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.395601 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597868.409405 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597868.415405 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597868.417140 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597868.428936 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[move_group-3] 1792597868.459657 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597868.462281 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.495600 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.528940 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.562291 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.595592 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.628915 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.662264 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[rviz2-1] 1792597868.665902 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597868.695582 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.726588 [0]        tev: ddsi_udp_conn_write to udp/192.168.1.100:7414 failed with retcode -1
+[joint_state_publisher-6] 1792597868.728915 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.762288 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.795607 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.828922 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.862278 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[joint_state_publisher-6] 1792597868.895559 [0] joint_stat: ddsi_udp_conn_write to udp/192.168.1.100:7415 failed with retcode -1
+[throttle-5] 1792597869.906040 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597869.912994 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597869.916109 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597869.958395 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597870.163616 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597870.224948 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597877.906107 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597877.913065 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597877.916179 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597877.958437 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597878.163676 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597878.225037 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597885.906184 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597885.913122 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597885.916320 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597885.958498 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597886.163800 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597886.225085 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597893.906283 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597893.913189 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597893.916343 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597893.958570 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597894.163849 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597894.225154 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597901.906314 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597901.913330 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597901.916414 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597901.958638 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597902.163932 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597902.225264 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597909.906394 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597909.913383 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597909.916465 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597909.958738 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597910.164031 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597910.225330 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597917.906459 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597917.913424 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597917.916544 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597917.958782 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597918.164079 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597918.225409 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[throttle-5] 1792597925.906501 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597925.913537 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597925.916614 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597925.958915 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] 1792597926.164136 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597926.225468 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[rviz2-1] [INFO] [1792597929.770584818] [rviz2.moveit.ros.planning_scene_monitor]: Stopping planning scene monitor
+[INFO] [rviz2-1]: process has finished cleanly [pid 135837]
+[throttle-5] 1792597933.906543 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[robot_state_publisher-2] 1792597933.913535 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[ros2_control_node-4] 1792597933.916639 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[move_group-3] 1792597933.959085 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1
+[joint_state_publisher-6] 1792597934.225507 [0]        tev: ddsi_udp_conn_write to udp/239.255.0.1:7400 failed with retcode -1

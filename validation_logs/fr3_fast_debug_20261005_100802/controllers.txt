@@ -1,0 +1,2 @@
+franka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  active
+joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               active

@@ -1,0 +1,967 @@
+============================================================
+FR3 + XHand EMPTY-GRASP LIVE PREFLIGHT
+READ-ONLY / NO MOTION
+============================================================
+log=/home/gu/rehab_robot_ws/validation_logs/runtime/empty_grasp_preflight_20260906_110018.log
+
+========== 0. 软件总检查 ==========
+============================================================
+FR3 + XHand Empty-Grasp FINAL CHECK
+SOFTWARE ONLY
+============================================================
+
+========== A. 配置一致性 ==========
+xhand_motion_profile = {'verified': False, 'source': 'real_device_micro_validation_candidate_20260830', 'kp': 225, 'ki': 0, 'kd': 0}
+empty_grasp_sequence = {'verified': False, 'kp': 225, 'ki': 0, 'kd': 0}
+[PASS] configuration consistency
+[PASS] combined real-motion gate remains CLOSED
+
+========== B. Python / Shell syntax ==========
+[PASS] Python syntax
+[PASS] run_empty_grasp.sh syntax
+
+========== C. merged workspace build ==========
+Starting >>> rehab_robot_interfaces
+Starting >>> rehab_robot_bringup
+Finished <<< rehab_robot_interfaces [0.69s]
+Starting >>> rehab_robot_control
+Finished <<< rehab_robot_bringup [2.43s]
+Finished <<< rehab_robot_control [2.33s]
+
+Summary: 3 packages finished [3.20s]
+build_result=0
+
+========== D. merged workspace tests ==========
+Starting >>> rehab_robot_interfaces
+Finished <<< rehab_robot_interfaces [0.02s]
+Starting >>> rehab_robot_control
+Finished <<< rehab_robot_control [1.19s]
+
+Summary: 2 packages finished [1.39s]
+Summary: 75 tests, 0 errors, 0 failures, 0 skipped
+test_command_result=0
+test_result_result=0
+
+========== E. software-only dry-run ==========
+============================================================
+FR3 + XHand Empty-Grasp software plan
+============================================================
+
+sequence:
+  01. preflight_readonly
+  02. xhand_single_joint_0p005
+  03. xhand_whole_hand_0p005
+  04. fr3_relative_pregrasp
+  05. xhand_grasp
+  06. fr3_relative_grasp
+  07. fr3_rehab_stage_1
+  08. controlled_finish
+
+FR3:
+  software limits: loaded
+  max velocity: 0.020 rad/s
+  relative PTP goals: 3
+  goal1: [0.005, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal2: [0.015, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal3: [0.02, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+
+XHand single:
+  joints = ['index_joint1']
+  delta = 0.005
+  limit = 150 mA
+
+XHand safe whole-hand group:
+  joints = ['thumb_bend_joint', 'index_joint1', 'index_joint2', 'mid_joint1', 'mid_joint2', 'ring_joint1', 'ring_joint2', 'pinky_joint1', 'pinky_joint2']
+  delta = 0.005
+  limit = 220 mA
+
+[PASS] DRY-RUN ONLY
+No ROS Action goal sent.
+No XHand command sent.
+No hardware opened.
+dry_run_result=0
+
+========== F. 防止 synthetic FR3 goal 被误认为实机目标 ==========
+[INFO] current dry-run still contains _safe_fr3_midpoint()
+[PASS] it is classified as SOFTWARE-ONLY and must not feed the real executor
+
+========== G. 当前 real execute gate 应继续拒绝 ==========
+Traceback (most recent call last):
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 159, in require_real_execution_gate
+    require_verified_gains(
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/xhand_motion_contract.py", line 59, in require_verified_gains
+    raise XHandMotionGateError(
+rehab_robot_control.xhand_motion_contract.XHandMotionGateError: XHand active kp/ki/kd are not verified
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 306, in <module>
+    main()
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 282, in main
+    require_real_execution_gate()
+  File "/home/gu/rehab_robot_ws/build/rehab_robot_control/rehab_robot_control/empty_grasp_dry_run.py", line 163, in require_real_execution_gate
+    raise EmptyGraspExecutionBlocked(
+EmptyGraspExecutionBlocked: XHand active kp/ki/kd are not verified
+============================================================
+FR3 + XHand Empty-Grasp software plan
+============================================================
+
+sequence:
+  01. preflight_readonly
+  02. xhand_single_joint_0p005
+  03. xhand_whole_hand_0p005
+  04. fr3_relative_pregrasp
+  05. xhand_grasp
+  06. fr3_relative_grasp
+  07. fr3_rehab_stage_1
+  08. controlled_finish
+
+FR3:
+  software limits: loaded
+  max velocity: 0.020 rad/s
+  relative PTP goals: 3
+  goal1: [0.005, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal2: [0.015, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+  goal3: [0.02, 0.0, 0.0, -1.59695, 0.0, 2.5307, 0.0]
+
+XHand single:
+  joints = ['index_joint1']
+  delta = 0.005
+  limit = 150 mA
+
+XHand safe whole-hand group:
+  joints = ['thumb_bend_joint', 'index_joint1', 'index_joint2', 'mid_joint1', 'mid_joint2', 'ring_joint1', 'ring_joint2', 'pinky_joint1', 'pinky_joint2']
+  delta = 0.005
+  limit = 220 mA
+
+[CHECK] real execution gate
+
+[PASS] current real execution gate is CLOSED
+
+========== H. 下一阶段所需真实接口快照 ==========
+
+----- fr3_ptp_client.py -----
+from __future__ import annotations
+
+from rclpy.action import ActionClient
+
+from franka_msgs.action import PTPMotion
+
+from .fr3_ptp_contract import (
+    FR3PTPContractError,
+    PTP_ACTION_TYPE,
+    build_goal,
+    discover_unique_ptp_action,
+)
+
+
+class FR3PTPExecutionGateError(RuntimeError):
+    pass
+
+
+def discover_from_node(node):
+    graph = node.get_action_names_and_types()
+
+    return discover_unique_ptp_action(
+        graph
+    )
+
+
+class FR3PTPClient:
+    """
+    Real ActionClient wrapper.
+
+    Merely constructing this object does not send a goal.
+    """
+
+    def __init__(
+        self,
+        node,
+        action_name: str,
+    ):
+        if not action_name:
+            raise FR3PTPContractError(
+                "PTP action name must not be empty"
+            )
+
+        self._node = node
+        self._action_name = action_name
+
+        self._client = ActionClient(
+            node,
+            PTPMotion,
+            action_name,
+        )
+
+    @property
+    def action_name(self):
+        return self._action_name
+
+    def wait_ready(self, timeout_sec=2.0):
+        return self._client.wait_for_server(
+            timeout_sec=float(timeout_sec)
+        )
+
+    def build_goal(
+        self,
+        target,
+        *,
+        maximum_velocity_rad_s=0.020,
+        goal_tolerance=0.001,
+    ):
+        return build_goal(
+            target,
+            maximum_velocity_rad_s=(
+                maximum_velocity_rad_s
+            ),
+            goal_tolerance=goal_tolerance,
+        )
+
+    def send_goal_async(
+        self,
+        goal,
+        *,
+        execute=False,
+    ):
+        if not execute:
+            raise FR3PTPExecutionGateError(
+                "PTP goal blocked: execute flag is false"
+            )
+
+        return self._client.send_goal_async(
+            goal
+        )
+
+----- fr3_ptp_contract.py -----
+from __future__ import annotations
+
+from pathlib import Path
+import math
+
+import yaml
+
+from franka_msgs.action import PTPMotion
+
+
+PTP_ACTION_TYPE = "franka_msgs/action/PTPMotion"
+
+JOINT_NAMES = tuple(
+    f"fr3_joint{i}"
+    for i in range(1, 8)
+)
+
+
+class FR3PTPContractError(ValueError):
+    pass
+
+
+def load_joint_limits(
+    path: Path | None = None,
+):
+    if path is None:
+        path = (
+            Path.home()
+            / "rehab_robot_ws/config/"
+              "fr3_joint_limits_resolved.yaml"
+        )
+
+    data = yaml.safe_load(
+        path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    joints = data["joints"]
+
+    for name in JOINT_NAMES:
+        if name not in joints:
+            raise FR3PTPContractError(
+                f"missing joint limit: {name}"
+            )
+
+    return joints
+
+
+def validate_target(
+    target,
+    *,
+    limits=None,
+):
+    values = tuple(
+        float(v)
+        for v in target
+    )
+
+    if len(values) != 7:
+        raise FR3PTPContractError(
+            "FR3 target must contain exactly 7 joints"
+        )
+
+    if not all(
+        math.isfinite(v)
+        for v in values
+    ):
+        raise FR3PTPContractError(
+            "FR3 target contains non-finite value"
+        )
+
+    if limits is None:
+        limits = load_joint_limits()
+
+    for index, (
+        name,
+        value,
+    ) in enumerate(
+        zip(
+            JOINT_NAMES,
+            values,
+        )
+    ):
+        item = limits[name]
+
+        lower = float(
+            item["safe_lower_rad"]
+        )
+        upper = float(
+            item["safe_upper_rad"]
+        )
+
+        if not lower <= value <= upper:
+            raise FR3PTPContractError(
+                f"{name} target {value:.6f} "
+                f"outside safe "
+                f"[{lower:.6f}, {upper:.6f}]"
+            )
+
+    return values
+
+
+def relative_target(
+    current,
+    *,
+    joint_index: int,
+    delta_rad: float,
+    limits=None,
+):
+    base = tuple(
+        float(v)
+        for v in current
+    )
+
+    if len(base) != 7:
+        raise FR3PTPContractError(
+            "current FR3 state must contain 7 joints"
+        )
+
+    if not 0 <= joint_index < 7:
+        raise FR3PTPContractError(
+            "joint_index must be in [0, 6]"
+        )
+
+    target = list(base)
+
+    target[joint_index] += float(
+        delta_rad
+    )
+
+    return validate_target(
+        target,
+        limits=limits,
+    )
+
+
+def build_goal(
+    target,
+    *,
+    maximum_velocity_rad_s: float = 0.020,
+    goal_tolerance: float = 0.001,
+    limits=None,
+):
+    target = validate_target(
+        target,
+        limits=limits,
+    )
+
+    velocity = float(
+        maximum_velocity_rad_s
+    )
+
+    if not 0.0 < velocity <= 0.020:
+        raise FR3PTPContractError(
+            "maximum velocity must be in (0, 0.020]"
+        )
+
+    tolerance = float(
+        goal_tolerance
+    )
+
+    if tolerance <= 0.0:
+        raise FR3PTPContractError(
+            "goal_tolerance must be > 0"
+        )
+
+    goal = PTPMotion.Goal()
+
+    goal.goal_joint_configuration = list(
+        target
+    )
+
+    goal.maximum_joint_velocities = [
+        velocity
+    ] * 7
+
+    goal.goal_tolerance = tolerance
+
+    return goal
+
+
+def discover_unique_ptp_action(
+    action_names_and_types,
+):
+    matches = []
+
+    for name, types in action_names_and_types:
+        if PTP_ACTION_TYPE in types:
+            matches.append(name)
+
+    if len(matches) == 0:
+        raise FR3PTPContractError(
+            "no PTPMotion action server discovered"
+        )
+
+    if len(matches) > 1:
+        raise FR3PTPContractError(
+            "multiple PTPMotion action servers discovered: "
+            + ", ".join(matches)
+        )
+
+    return matches[0]
+
+----- empty_grasp_dry_run.py main / gate -----
+        profile=profile,
+    )
+
+    return {
+        "sequence": seq["sequence"],
+        "fr3_start": fr3_start,
+        "fr3_goals": fr3_goals,
+        "xhand_single": single,
+        "xhand_whole": whole,
+    }
+
+
+def require_real_execution_gate():
+    profile = load_profile()
+    gains = load_active_gains(
+        profile
+    )
+
+    try:
+        require_verified_gains(
+            gains
+        )
+    except XHandMotionGateError as exc:
+        raise EmptyGraspExecutionBlocked(
+            str(exc)
+        ) from exc
+
+
+def main(args=None):
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+    )
+
+    ns = parser.parse_args(args)
+
+    plan = build_dry_run_plan()
+
+    print("=" * 60)
+    print("FR3 + XHand Empty-Grasp software plan")
+    print("=" * 60)
+
+    print()
+    print("sequence:")
+
+    for index, stage in enumerate(
+        plan["sequence"],
+        1,
+    ):
+        print(
+            f"  {index:02d}. {stage}"
+        )
+
+    print()
+    print("FR3:")
+    print(
+        "  software limits: loaded"
+    )
+    print(
+        "  max velocity: 0.020 rad/s"
+    )
+    print(
+        "  relative PTP goals: 3"
+    )
+
+    for i, goal in enumerate(
+        plan["fr3_goals"],
+        1,
+    ):
+        print(
+            f"  goal{i}: "
+            f"{list(goal.goal_joint_configuration)}"
+        )
+
+    print()
+    print("XHand single:")
+    print(
+        "  joints =",
+        list(
+            plan[
+                "xhand_single"
+            ][
+                "active_joints"
+            ]
+        ),
+    )
+    print(
+        "  delta =",
+        plan[
+            "xhand_single"
+        ][
+            "delta_rad"
+        ],
+    )
+    print(
+        "  limit =",
+        plan[
+            "xhand_single"
+        ][
+            "effort_limit_ma"
+        ],
+        "mA",
+    )
+
+    print()
+    print("XHand safe whole-hand group:")
+    print(
+        "  joints =",
+        list(
+            plan[
+                "xhand_whole"
+            ][
+                "active_joints"
+            ]
+        ),
+    )
+    print(
+        "  delta =",
+        plan[
+            "xhand_whole"
+        ][
+            "delta_rad"
+        ],
+    )
+    print(
+        "  limit =",
+        plan[
+            "xhand_whole"
+        ][
+            "effort_limit_ma"
+        ],
+        "mA",
+    )
+
+    if ns.execute:
+        print()
+        print(
+            "[CHECK] real execution gate"
+        )
+
+        require_real_execution_gate()
+
+        # No real execution implementation is reached
+        # in the current stage.
+        raise EmptyGraspExecutionBlocked(
+            "real execution backend is not enabled"
+        )
+
+    print()
+    print(
+        "[PASS] DRY-RUN ONLY"
+    )
+    print(
+        "No ROS Action goal sent."
+    )
+    print(
+        "No XHand command sent."
+    )
+    print(
+        "No hardware opened."
+    )
+
+
+if __name__ == "__main__":
+    main()
+
+----- xhand_motion_contract.py -----
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+import math
+from typing import Optional
+
+import yaml
+
+from .xhand_sdk_adapter import (
+    JointCommandSpec,
+    build_command,
+)
+from .xhand_state_mapper import JOINT_NAMES
+
+
+class XHandMotionGateError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class ActiveGains:
+    mode: int
+    kp: Optional[int]
+    ki: Optional[int]
+    kd: Optional[int]
+    verified: bool
+
+
+def load_profile(path: Path | None = None):
+    if path is None:
+        path = (
+            Path.home()
+            / "rehab_robot_ws/config/xhand_motion_profile.yaml"
+        )
+
+    return yaml.safe_load(
+        path.read_text(encoding="utf-8")
+    )["xhand"]
+
+
+def load_active_gains(profile=None) -> ActiveGains:
+    if profile is None:
+        profile = load_profile()
+
+    gains = profile["active_gains"]
+
+    return ActiveGains(
+        mode=int(profile["mode"]),
+        kp=gains["kp"],
+        ki=gains["ki"],
+        kd=gains["kd"],
+        verified=bool(gains["verified"]),
+    )
+
+
+def require_verified_gains(gains: ActiveGains) -> None:
+    if not gains.verified:
+        raise XHandMotionGateError(
+            "XHand active kp/ki/kd are not verified"
+        )
+
+    if None in (gains.kp, gains.ki, gains.kd):
+        raise XHandMotionGateError(
+            "verified XHand gains contain missing values"
+        )
+
+
+def validate_positions(values):
+    result = tuple(float(v) for v in values)
+
+    if len(result) != 12:
+        raise XHandMotionGateError(
+            "XHand position vector must contain 12 joints"
+        )
+
+    if not all(math.isfinite(v) for v in result):
+        raise XHandMotionGateError(
+            "XHand position vector contains non-finite value"
+        )
+
+    return result
+
+
+def validate_active_joints(names, profile=None):
+    if profile is None:
+        profile = load_profile()
+
+    names = tuple(names)
+
+    unknown = [
+        name for name in names
+        if name not in JOINT_NAMES
+    ]
+
+    if unknown:
+        raise XHandMotionGateError(
+            "unknown XHand joints: "
+            + ", ".join(unknown)
+        )
+
+    forbidden = set(
+        profile["fixed_joints"]
+        + profile["excluded_joints"]
+    )
+
+    bad = [
+        name for name in names
+        if name in forbidden
+    ]
+
+    if bad:
+        raise XHandMotionGateError(
+            "forbidden active XHand joints: "
+            + ", ".join(bad)
+        )
+
+    return names
+
+
+def plan_relative_motion(
+    current_positions,
+    *,
+    active_joints,
+    delta_rad,
+    effort_limit_ma,
+    profile=None,
+):
+    if profile is None:
+        profile = load_profile()
+
+    current = validate_positions(
+        current_positions
+    )
+
+    active_joints = validate_active_joints(
+        active_joints,
+        profile=profile,
+    )
+
+    delta = float(delta_rad)
+
+    if not math.isfinite(delta):
+        raise XHandMotionGateError(
+            "delta_rad must be finite"
+        )
+
+    if abs(delta) > 0.005 + 1e-12:
+        raise XHandMotionGateError(
+            "first-stage XHand delta exceeds 0.005 rad"
+        )
+
+    effort = int(effort_limit_ma)
+
+    if effort <= 0 or effort > 220:
+        raise XHandMotionGateError(
+            "XHand effort limit must be in (0, 220] mA"
+        )
+
+    target = list(current)
+
+    active_set = set(active_joints)
+
+    for index, name in enumerate(JOINT_NAMES):
+        if name in active_set:
+            target[index] += delta
+
+    return {
+        "active_joints": active_joints,
+        "current_positions": current,
+        "target_positions": tuple(target),
+        "delta_rad": delta,
+        "effort_limit_ma": effort,
+    }
+
+
+def build_verified_sdk_command(
+    plan,
+    *,
+    gains: ActiveGains,
+):
+    require_verified_gains(gains)
+
+    active = set(
+        plan["active_joints"]
+    )
+
+    specs = []
+
+    for index, name in enumerate(JOINT_NAMES):
+        if name in active:
+            specs.append(
+                JointCommandSpec(
+                    position=plan[
+                        "target_positions"
+                    ][index],
+                    effort_limit=int(
+                        plan["effort_limit_ma"]
+                    ),
+                    mode=int(gains.mode),
+                    kp=int(gains.kp),
+                    ki=int(gains.ki),
+                    kd=int(gains.kd),
+                )
+            )
+        else:
+            specs.append(
+                JointCommandSpec(
+                    position=plan[
+                        "current_positions"
+                    ][index],
+                    effort_limit=0,
+                    mode=0,
+                    kp=0,
+                    ki=0,
+                    kd=0,
+                )
+            )
+
+    return build_command(specs)
+
+============================================================
+[PASS] EMPTY-GRASP SOFTWARE CHECK
+============================================================
+
+Real motion status: CLOSED
+
+This check did NOT:
+  start FR3
+  open XHand EtherCAT
+  send XHand command
+  send FR3 PTP goal
+  start D435i
+
+build_result=0
+test_command_result=0
+test_result_result=0
+dry_run_result=0
+execute_gate_return=1
+============================================================
+[PASS] software check
+
+========== 1. sudo ==========
+[PASS] sudo
+
+========== 2. FR3 网络 ==========
+enp4s0           UP             2c:ea:7f:fe:5d:ae <BROADCAST,MULTICAST,UP,LOWER_UP> 
+enp4s0           UP             192.168.1.100/24 
+PING 192.168.1.25 (192.168.1.25) from 192.168.1.100 enp4s0: 56(84) bytes of data.
+64 bytes from 192.168.1.25: icmp_seq=1 ttl=64 time=0.098 ms
+64 bytes from 192.168.1.25: icmp_seq=2 ttl=64 time=0.088 ms
+64 bytes from 192.168.1.25: icmp_seq=3 ttl=64 time=0.082 ms
+
+--- 192.168.1.25 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2068ms
+rtt min/avg/max/mdev = 0.082/0.089/0.098/0.006 ms
+[PASS] FR3 network
+
+========== 3. XHand EtherCAT 网络 ==========
+enx6c1ff7641594  UP             6c:1f:f7:64:15:94 <BROADCAST,MULTICAST,PROMISC,UP,LOWER_UP> 
+carrier=1
+[PASS] XHand physical link
+
+========== 4. XHand 冲突进程 ==========
+[PASS] no conflicting XHand process
+
+========== 5. FR3 Bringup ==========
+[INFO] existing /controller_manager found
+[INFO] preflight will use existing FR3 session
+
+========== 6. 等待 FR3 状态 broadcaster 真正就绪 ==========
+
+--- final controller state ---
+joint_state_broadcaster        joint_state_broadcaster/JointStateBroadcaster               active
+franka_robot_state_broadcaster franka_robot_state_broadcaster/FrankaRobotStateBroadcaster  active
+[PASS] joint_state_broadcaster active
+[PASS] franka_robot_state_broadcaster active
+[PASS] no motion controller is active
+
+========== 7. FR3 live q + PTP Action + 未来目标检查 ==========
+
+========== FR3 live state ==========
+fr3_joint1 q=+0.021166 dq=+0.002056
+fr3_joint2 q=-0.673934 dq=+0.000484
+fr3_joint3 q=+0.005676 dq=+0.000095
+fr3_joint4 q=-2.524310 dq=+0.000037
+fr3_joint5 q=-0.018460 dq=+0.000333
+fr3_joint6 q=+1.557554 dq=-0.000208
+fr3_joint7 q=+1.579531 dq=+0.000056
+max |dq| = 0.002056 rad/s
+observed receive rate ≈ 1002.4 Hz
+
+========== FR3 PTP Action ==========
+expected action = /action_server/ptp_motion
+expected type   = franka_msgs/action/PTPMotion
+[PASS] /action_server/ptp_motion
+[PASS] ActionClient server ready
+[PASS] NO PTP GOAL SENT
+
+========== LIVE projected targets ==========
+以下全部只是计算结果；没有发送 PTP goal
+q_live = [0.021166, -0.673934, 0.005676, -2.52431, -0.01846, 1.557554, 1.579531]
+q1 pregrasp = [0.026166, -0.673934, 0.005676, -2.52431, -0.01846, 1.557554, 1.579531]
+q2 grasp = [0.036166, -0.673934, 0.005676, -2.52431, -0.01846, 1.557554, 1.579531]
+q3 rehab = [0.041166, -0.673934, 0.005676, -2.52431, -0.01846, 1.557554, 1.579531]
+
+========== FR3 safe-limit margin ==========
+minimum projected margin = 0.502690 rad (fr3_joint4)
+
+[PASS] FR3 LIVE PREFLIGHT
+[PASS] live q used
+[PASS] PTP server ready
+[PASS] projected targets inside software limits
+[PASS] NO PTP GOAL SENT
+
+========== 8. XHand strict read-only ==========
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x3638e6a8,  24 In:0x3638e6c0, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+[PASS] XHand EtherCAT open device_id=0
+serial=012R3201B1217006
+[PASS] valid states=50
+positions = [0.050164, 1.066439, 0.537456, -0.039336, 0.01062, 0.007796, 0.020506, 0.003559, 0.004971, 0.017682, 0.021919, 0.012033]
+currents_mA = [73.0, 33.0, 91.0, 101.0, 71.0, 73.0, 67.0, 78.0, 69.0, 62.0, 56.0, 84.0]
+modes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[PASS] all 12 joints mode=0
+
+[PASS] XHand READ-ONLY PREFLIGHT
+No send_command() API exists in this project path.
+[PASS] XHand read-only session closed
+
+========== 9. 最终确认：正式运动门禁仍关闭 ==========
+source   = real_device_micro_validation_candidate_20260830
+kp       = 225
+ki       = 0
+kd       = 0
+verified = False
+[PASS] production combined-motion gate remains CLOSED
+
+============================================================
+[PASS] EMPTY-GRASP LIVE PREFLIGHT
+============================================================
+Real combined motion gate: CLOSED
+No FR3 PTP goal was sent.
+No XHand send_command() API call was made.
+D435i was not started.
+log=/home/gu/rehab_robot_ws/validation_logs/runtime/empty_grasp_preflight_20260906_110018.log

@@ -1,0 +1,21 @@
+planned max joint delta = 0.007198 rad
+live/start drift = 0.000005 rad
+
+================================
+REAL MOTION READY
+Motion:
+  current pose -> planned +Z 5 mm endpoint
+  hold 1 s
+  -> original position
+PTP max velocity = 0.020 rad/s
+XHand = no command
+Camera = not used
+================================
+输入 EXECUTE-5MM 才执行：
+[EXECUTE] outbound
+[OUTBOUND] current q = [-0.129781, 1.377265, 1.429646, -1.840831, 0.136133, 1.765395, -0.917826]
+[OUTBOUND] target q  = [-0.131602, 1.373239, 1.436843, -1.841337, 0.140424, 1.764368, -0.911926]
+[OUTBOUND] PTP goal accepted
+
+[FAULT] EffectTestError: OUTBOUND: PTP failed: status=6
+[SAFE] no automatic recovery motion will be sent

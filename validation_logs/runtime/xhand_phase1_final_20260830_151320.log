@@ -1,0 +1,69 @@
+============================================================
+XHand Phase-1 FINAL validation
+============================================================
+mode=3
+kp=225
+ki=0
+kd=0
+tor_max=150mA
+delta=+0.005rad
+
+注意：本验收检查安全接管/隔离/有界微动，
+不再用单次编码器量化步作为9关节伺服性能判据。
+ec_init on enx6c1ff7641594 succeeded.
+1 slaves found and configured.
+ slave 1 setup pdo success, retval : 7, expect_wkc: 7.
+io map config complete
+enter safe op success.
+Slave:1 Name:EV_HAND_V001 Output size:192bits Input size:3264bits State: 4 delay:0.1
+         Out:0x3951ec58,  24 In:0x3951ec70, 408
+Calculated workcounter 3
+Request operational state for all slaves
+set affinity success!Operational state reached for all slaves.
+Found EV slave 1 with device id 0,name ,sn 012R3201B1217006,type R
+
+[PASS] EtherCAT open device_id=0
+serial=012R3201B1217006
+
+============================================================
+A. index_joint1 single-joint
+============================================================
+passive q=+0.017682 I=+72.0mA
+takeover median=-0.001412 range=[-0.002825,+0.002825] Imax=73.0
+move median=+0.000000 range=[-0.002825,+0.001412] Imax=73.0
+[PASS] index_joint1 control/safety contract
+
+============================================================
+B. 9-joint whole-hand micro validation
+============================================================
+
+takeover:
+thumb_bend_joint   range=[-0.001412,+0.004237] Imax=74.0
+index_joint1       range=[-0.004237,+0.001412] Imax=73.0
+index_joint2       range=[-0.001412,+0.002825] Imax=75.0
+mid_joint1         range=[-0.001412,+0.004237] Imax=67.0
+mid_joint2         range=[-0.002825,+0.001412] Imax=78.0
+ring_joint1        range=[-0.002825,+0.004237] Imax=70.0
+ring_joint2        range=[-0.002825,+0.002825] Imax=64.0
+pinky_joint1       range=[-0.002825,+0.002825] Imax=58.0
+pinky_joint2       range=[-0.004237,+0.001412] Imax=87.0
+
++0.005 group command:
+thumb_bend_joint   median=+0.000000 range=[-0.002825,+0.002825] Imax=74.0
+index_joint1       median=-0.001412 range=[-0.002825,+0.002825] Imax=73.0
+index_joint2       median=+0.000000 range=[-0.001412,+0.002825] Imax=75.0
+mid_joint1         median=+0.000000 range=[-0.004237,+0.002825] Imax=68.0
+mid_joint2         median=+0.001412 range=[+0.000000,+0.004237] Imax=78.0
+ring_joint1        median=-0.001412 range=[-0.004237,+0.001412] Imax=71.0
+ring_joint2        median=+0.001412 range=[-0.001412,+0.005649] Imax=64.0
+pinky_joint1       median=+0.001412 range=[-0.001412,+0.002825] Imax=58.0
+pinky_joint2       median=+0.000000 range=[-0.004237,+0.002825] Imax=87.0
+
+============================================================
+[PASS] XHand PHASE-1 FINAL MICRO VALIDATION
+============================================================
+index_joint1 direction was already visually confirmed as closing.
+Production active_gains is NOT modified by this script.
+
+[SAFE] powerless x3 + close EtherCAT
+[PASS] XHand powerless + EtherCAT closed

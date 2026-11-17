@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# No motion, no controller activation, no auto-recovery.
+set -euo pipefail
+
+source "$HOME/robot_env/rehab.sh"
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export OPENCV_FOR_THREADS_NUM=1
+
+WS="$HOME/rehab_robot_ws"
+DIR="$WS/tools/handeye_v2"
+LEGACY_A="$WS/tools/checkerboard_pose_probe.py"
+LEGACY_B="$WS/tools/fr3_d435i_handeye_collect.py"
+export HAND_EYE_LEGACY_A="$LEGACY_A"
+export HAND_EYE_LEGACY_B="$LEGACY_B"
+
+# Never kill other processes automatically. Detect duplicate expensive vision programs.
+python3 - <<'PY'
+import os
+from pathlib import Path
+import sys
+for p in Path('/proc').iterdir():
+    if not p.name.isdecimal():
+        continue
+    try:
+        argv=(p/'cmdline').read_bytes().split(b'\x00')
+        executable_args=[a.decode(errors='replace') for a in argv if a]
+    except (OSError, PermissionError):
+        continue
+    if str(p.name) == str(os.getpid()):
+        continue
+    forbidden = [os.getenv('HAND_EYE_LEGACY_A'), os.getenv('HAND_EYE_LEGACY_B'),
+                 str(Path.home()/'rehab_robot_ws/tools/handeye_v2/handeye_capture_v2.py')]
+    if any(x in executable_args for x in forbidden):
+        print(f'[STOP] another hand-eye/chessboard process PID={p.name}, args={executable_args}')
+        sys.exit(2)
+print('[PASS] no duplicate expensive vision processing process')
+PY
+
+if [[ "${HAND_EYE_CPUS:-}" != "" ]]; then
+    echo "[INFO] optional vision-only CPU affinity: $HAND_EYE_CPUS"
+    exec taskset -c "$HAND_EYE_CPUS" python3 "$DIR/handeye_capture_v2.py" "$@"
+fi
+exec python3 "$DIR/handeye_capture_v2.py" "$@"

@@ -1,0 +1,361 @@
+#!/usr/bin/env python3
+"""Non-motion, fail-closed FR3 + D435i checkerboard hand-eye capture.
+
+Never commands hardware, switches controllers, creates static camera TF, or
+performs automatic recovery. Writes ONLY to a new v2 calibration directory.
+"""
+from __future__ import annotations
+
+import argparse
+from collections import deque
+import json
+import math
+from pathlib import Path
+import time
+
+import cv2
+cv2.setNumThreads(1)
+cv2.ocl.setUseOpenCL(False)
+import numpy as np
+import rclpy
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from rclpy.time import Time
+from rclpy.duration import Duration
+from sensor_msgs.msg import Image, CameraInfo, JointState
+from controller_manager_msgs.srv import ListControllers, ListHardwareComponents
+from tf2_ros import Buffer, TransformListener
+
+from handeye_math import transform_matrix, relative_pose, extract_board, image_stamp_sec
+
+CAM_IMAGE = '/camera/camera/color/image_raw'
+CAM_INFO = '/camera/camera/color/camera_info'
+FRANKA_JOINTS = '/franka/joint_states'
+BASE, FLANGE = 'fr3_link0', 'fr3_link8'
+REQUIRED_CONTROLLERS = (
+    'fr3_arm_controller', 'joint_state_broadcaster', 'franka_robot_state_broadcaster')
+JOINT_NAMES = tuple(f'fr3_joint{i}' for i in range(1, 8))
+RMSE_MAX = .8
+MAX_AGE_S = .5
+MIN_STILL_WINDOW_S = .5
+MAX_JOINT_SPEED = .025
+MAX_JOINT_DRIFT = .003
+MIN_POSE_TRANSLATION = .015
+MIN_POSE_ROTATION_DEG = 3.0
+
+
+def frame_to_bgr(msg: Image):
+    """Copies one latest RGB frame, handles padded ROS Image rows."""
+    kind = msg.encoding.lower()
+    channels = {'bgr8': 3, 'rgb8': 3, 'mono8': 1, 'bgra8': 4, 'rgba8': 4}.get(kind)
+    if channels is None:
+        raise ValueError(f'unsupported color encoding {msg.encoding!r}')
+    row = np.frombuffer(msg.data, np.uint8)
+    if row.size < msg.step * msg.height:
+        raise ValueError('truncated ROS image buffer')
+    frame = row[:msg.step * msg.height].reshape(msg.height, msg.step)
+    image = np.ascontiguousarray(frame[:, :msg.width * channels])
+    if channels > 1:
+        image = image.reshape(msg.height, msg.width, channels)
+    if kind == 'rgb8':
+        return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    if kind == 'rgba8':
+        return cv2.cvtColor(image, cv2.COLOR_RGBA2BGR)
+    if kind == 'bgra8':
+        return cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+    if kind == 'mono8':
+        return cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+    return image.copy()
+
+
+class Capture(Node):
+    def __init__(self, output_dir: Path):
+        super().__init__('fr3_d435i_handeye_capture_v2')
+        self.output_dir = output_dir
+        self.img = None
+        self.img_received = 0.0
+        self.info = None
+        self.joint_received = 0.0
+        self.joint_msg = None
+        self.joint_history = deque(maxlen=80)
+        self.last_history_insert = 0.0
+        self.tf_buffer = Buffer(cache_time=Duration(seconds=20.0))
+        self.tf_listener = TransformListener(self.tf_buffer, self, spin_thread=False)
+        self.create_subscription(Image, CAM_IMAGE, self.on_image, qos_profile_sensor_data)
+        self.create_subscription(CameraInfo, CAM_INFO, self.on_info, qos_profile_sensor_data)
+        self.create_subscription(JointState, FRANKA_JOINTS, self.on_joint, qos_profile_sensor_data)
+        self.ctrl_client = self.create_client(ListControllers, '/controller_manager/list_controllers')
+        self.hw_client = self.create_client(ListHardwareComponents, '/controller_manager/list_hardware_components')
+        self.last_health = 0.0
+        self.health_ok = False
+        self.ever_healthy = False
+        self.halted = False
+        self.health_reason = 'waiting for control services'
+        self.check_futures = None
+        self.check_since = 0.0
+        self.create_timer(1.0, self.poll_health)
+        self.last_display_stamp = -1
+        self.last_candidate = None
+        self.last_candidate_msg = None
+        self.last_candidate_monotonic = 0.0
+        self.last_img_size = None
+        self.last_rmse = float('nan')
+        self.saved = self._existing_samples()
+
+    def _existing_samples(self):
+        valid = []
+        for p in sorted(self.output_dir.glob('sample_*.json')):
+            try:
+                s = json.loads(p.read_text())
+                if s.get('schema') == 'fr3_handeye_v2' and s.get('status') == 'candidate':
+                    valid.append(np.asarray(s['base_T_gripper'], dtype=float))
+            except (ValueError, KeyError, OSError):
+                print('[WARN] Invalid existing sample:', p)
+        return valid
+
+    def on_image(self, msg):
+        self.img = msg
+        self.img_received = time.monotonic()
+
+    def on_info(self, msg):
+        self.info = msg
+
+    def on_joint(self, msg):
+        now = time.monotonic()
+        positions = dict(zip(msg.name, msg.position))
+        speeds = dict(zip(msg.name, msg.velocity)) if len(msg.velocity) == len(msg.name) else {}
+        if not all(j in positions for j in JOINT_NAMES) or not all(j in speeds for j in JOINT_NAMES):
+            return
+        if any(not math.isfinite(float(positions[j])) or not math.isfinite(float(speeds[j])) for j in JOINT_NAMES):
+            return
+        q = np.array([positions[j] for j in JOINT_NAMES], dtype=float)
+        dq = np.array([speeds[j] for j in JOINT_NAMES], dtype=float)
+        self.joint_msg = msg
+        self.joint_received = now
+        if now - self.last_history_insert >= .04:
+            self.joint_history.append((now, q, dq))
+            self.last_history_insert = now
+
+    def poll_health(self):
+        if self.halted:
+            return
+        now = time.monotonic()
+        if self.check_futures is not None:
+            if now - self.check_since > 2.5:
+                self.mark_unhealthy('control services timed out')
+                self.check_futures = None
+            return
+        if not self.ctrl_client.service_is_ready() or not self.hw_client.service_is_ready():
+            self.mark_unhealthy('controller/hardware service missing')
+            return
+        a = self.ctrl_client.call_async(ListControllers.Request())
+        b = self.hw_client.call_async(ListHardwareComponents.Request())
+        self.check_futures = a, b
+        self.check_since = now
+        a.add_done_callback(self.receive_health)
+        b.add_done_callback(self.receive_health)
+
+    def mark_unhealthy(self, reason):
+        self.health_ok = False
+        self.health_reason = reason
+        if self.ever_healthy:
+            self.halted = True
+            print('[HALT] FR3 health lost:', reason, '| no further samples in this session')
+
+    def receive_health(self, _future):
+        fs = self.check_futures
+        if fs is None or not all(f.done() for f in fs):
+            return
+        self.check_futures = None
+        try:
+            control_result, hardware_result = (f.result() for f in fs)
+            if control_result is None or hardware_result is None:
+                raise ValueError('empty service response')
+            controllers = {c.name: c.state for c in control_result.controller}
+            for name in REQUIRED_CONTROLLERS:
+                if controllers.get(name) != 'active':
+                    raise ValueError(f'{name} state={controllers.get(name)!r}')
+            comps = [c for c in hardware_result.component if c.name == 'FrankaHardwareInterface']
+            if len(comps) != 1:
+                raise ValueError('FrankaHardwareInterface not uniquely present')
+            if comps[0].state.label.lower() != 'active':
+                raise ValueError(f'FrankaHardwareInterface state={comps[0].state.label!r}')
+        except Exception as exc:
+            self.mark_unhealthy(str(exc))
+            return
+        self.health_ok = True
+        self.ever_healthy = True
+        self.last_health = time.monotonic()
+        self.health_reason = 'controller + hardware active'
+
+    def view_once(self):
+        if self.img is None or self.info is None:
+            return None
+        if image_stamp_sec(self.img) == self.last_display_stamp:
+            return None
+        msg = self.img
+        self.last_display_stamp = image_stamp_sec(msg)
+        try:
+            bgr = frame_to_bgr(msg)
+            if self.info.width != msg.width or self.info.height != msg.height:
+                raise ValueError('camera_info resolution differs from image')
+            if self.info.distortion_model not in ('plumb_bob', 'rational_polynomial'):
+                raise ValueError('unsupported distortion_model: ' + self.info.distortion_model)
+            K = np.asarray(self.info.k, dtype=float).reshape(3, 3)
+            D = np.asarray(self.info.d, dtype=float)
+            if not (np.isfinite(K).all() and np.isfinite(D).all() and K[0, 0] > 0 and K[1, 1] > 0):
+                raise ValueError('invalid camera intrinsics')
+            result = extract_board(bgr, K, D)
+            self.last_candidate = result
+            self.last_candidate_msg = msg
+            self.last_candidate_monotonic = time.monotonic()
+            self.last_rmse = result[1] if result is not None else float('nan')
+            if result is not None:
+                cv2.drawChessboardCorners(bgr, (11, 8), result[2], True)
+            return bgr
+        except Exception as exc:
+            self.last_candidate = None
+            self.last_candidate_msg = None
+            print('[WARN] image processing:', type(exc).__name__, str(exc))
+            return None
+
+    def force_health_check(self):
+        """Obtain a fresh hardware+controller service result before every save."""
+        if self.halted:
+            raise ValueError('hardware health was lost earlier in this session')
+        if self.check_futures is None:
+            self.poll_health()
+        deadline = time.monotonic() + 1.5
+        while self.check_futures is not None and time.monotonic() < deadline:
+            rclpy.spin_once(self, timeout_sec=.02)
+        if self.check_futures is not None:
+            self.mark_unhealthy('fresh health check timed out')
+            raise ValueError('fresh health check timed out')
+        if not self.health_ok or time.monotonic() - self.last_health > 1.5:
+            raise ValueError('fresh health check failed: ' + self.health_reason)
+
+    def save_sample(self):
+        self.force_health_check()
+        if self.halted:
+            raise ValueError('controller hardware previously failed: this capture session is latched HALT')
+        now = time.monotonic()
+        if not self.health_ok or now - self.last_health > 2.2:
+            raise ValueError('controller + hardware have not passed a recent service health check: ' + self.health_reason)
+        if self.joint_msg is None or now - self.joint_received > .3:
+            raise ValueError('no fresh /franka/joint_states')
+        if self.last_candidate is None or self.last_candidate_msg is None:
+            raise ValueError('checkerboard not detected')
+        if now - self.last_candidate_monotonic > MAX_AGE_S:
+            raise ValueError('checkerboard observation is stale')
+        if self.info is None:
+            raise ValueError('camera intrinsics not received')
+        rmse = self.last_candidate[1]
+        if not np.isfinite(rmse) or rmse > RMSE_MAX:
+            raise ValueError(f'RMSE={rmse:.3f}px exceeds {RMSE_MAX}px')
+        image_stamp = image_stamp_sec(self.last_candidate_msg)
+        joint_stamp = image_stamp_sec(self.joint_msg)
+        wall = time.time()
+        if not (0 <= wall - image_stamp < MAX_AGE_S):
+            raise ValueError(f'camera frame stamp age={wall - image_stamp:.3f}s is invalid')
+        if not (0 <= wall - joint_stamp < MAX_AGE_S):
+            raise ValueError(f'joint state stamp age={wall - joint_stamp:.3f}s is invalid')
+        hist = [(t, q, dq) for t, q, dq in self.joint_history if now - t <= .8]
+        if len(hist) < 5 or hist[-1][0] - hist[0][0] < MIN_STILL_WINDOW_S:
+            raise ValueError('not enough stationary history')
+        if max(float(np.max(np.abs(dq))) for _, _, dq in hist) >= MAX_JOINT_SPEED:
+            raise ValueError('robot joint velocity exceeds stationary threshold')
+        Q = np.stack([q for _, q, _ in hist])
+        if float(np.max(Q.max(axis=0) - Q.min(axis=0))) >= MAX_JOINT_DRIFT:
+            raise ValueError('joint positions are not stable')
+        img_time = Time.from_msg(self.last_candidate_msg.header.stamp)
+        try:
+            transform = self.tf_buffer.lookup_transform(BASE, FLANGE, img_time)
+        except Exception as exc:
+            raise ValueError(f'cannot get {BASE} -> {FLANGE} at camera frame timestamp: {exc}') from exc
+        # tf2 interpolates the kinematics transform at the camera exposure stamp.
+        t = transform.transform.translation
+        r = transform.transform.rotation
+        B_T_G = transform_matrix([t.x, t.y, t.z], [r.x, r.y, r.z, r.w])
+        for existing in self.saved:
+            translation, rotation = relative_pose(existing, B_T_G)
+            if translation < MIN_POSE_TRANSLATION and rotation < MIN_POSE_ROTATION_DEG:
+                raise ValueError(f'pose too similar to existing sample (d={translation:.3f}m, r={rotation:.1f}deg)')
+        C_T_T = self.last_candidate[0]
+        stamp = self.last_candidate_msg.header.stamp
+        seq = 1
+        while (self.output_dir / f'sample_{seq:03d}.json').exists():
+            seq += 1
+        content = {
+            'schema': 'fr3_handeye_v2', 'status': 'candidate',
+            'camera_image_stamp': {'sec': stamp.sec, 'nanosec': stamp.nanosec},
+            'joint_state_stamp': {'sec': self.joint_msg.header.stamp.sec, 'nanosec': self.joint_msg.header.stamp.nanosec},
+            'tf_stamp': {'sec': transform.header.stamp.sec, 'nanosec': transform.header.stamp.nanosec},
+            'flange_frame': FLANGE, 'base_frame': BASE,
+            'camera_frame': self.last_candidate_msg.header.frame_id,
+            'board_inner_corners': [11, 8], 'square_size_m': .025,
+            'camera_matrix': list(self.info.k), 'distortion': list(self.info.d),
+            'reprojection_rmse_px': rmse,
+            'base_T_gripper': B_T_G.tolist(),
+            'camera_T_board': C_T_T.tolist(),
+            'fr3_joint_positions': dict(zip(JOINT_NAMES, [float(x) for x in hist[-1][1]])),
+            'note': 'candidate only; no independent hand-eye validation yet',
+        }
+        path = self.output_dir / f'sample_{seq:03d}.json'
+        # Exclusive creation: never overwrite any existing sample.
+        with path.open('x', encoding='utf-8') as f:
+            json.dump(content, f, indent=2, ensure_ascii=False)
+        self.saved.append(B_T_G)
+        print(f'[SAVED] {path.name}, RMSE={rmse:.3f}px, candidate_only=True')
+
+
+def main():
+    parser = argparse.ArgumentParser(description='One-pass fail-closed FR3 hand-eye capture; NO MOTION')
+    parser.add_argument('--output', type=Path, default=Path.home() / 'rehab_robot_ws' / 'calibration' / 'fr3_d435i_handeye_v2')
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=True)
+    rclpy.init()
+    node = Capture(args.output)
+    print('=== FR3 + D435i HAND-EYE V2 / NO MOTION ===')
+    print('s: save stationary sample; q/ESC: quit. Never use Desk guidance while FCI controls the arm.')
+    print('Original data untouched. V2 output:', args.output)
+    last_draw = 0.0
+    last_image = None
+    last_gui = 0.0
+    try:
+        while rclpy.ok():
+            rclpy.spin_once(node, timeout_sec=.01)
+            now = time.monotonic()
+            if node.ever_healthy and node.joint_received and now - node.joint_received > 1.0:
+                node.mark_unhealthy('FR3 joint stream stopped')
+            if now - last_draw >= .2:
+                last_draw = now
+                result = node.view_once()
+                if result is not None:
+                    last_image = result
+            if last_image is not None and now - last_gui >= .1:
+                last_gui = now
+                view = last_image.copy()
+                message = ('HALT: FR3 CONTROL LOST' if node.halted else
+                           'FR3 OK: s=sample / q=quit' if node.health_ok else 'WAIT: ' + node.health_reason)
+                cv2.putText(view, message[:90], (10, 28), cv2.FONT_HERSHEY_SIMPLEX, .6,
+                            (30, 30, 230) if not node.health_ok else (30, 180, 30), 2)
+                cv2.imshow('FR3 D435i HandEye V2 (NO MOTION)', view)
+            key = cv2.waitKey(1) & 255
+            if key in (ord('q'), 27):
+                break
+            if key == ord('s'):
+                try:
+                    node.save_sample()
+                except Exception as exc:
+                    print('[REJECT] NO SAMPLE SAVED:', exc)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+        cv2.destroyAllWindows()
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

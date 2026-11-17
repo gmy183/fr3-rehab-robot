@@ -1,0 +1,217 @@
+============================================================
+RealSense udev 权限规则安装
+============================================================
+
+========== 1/7 系统检查 ==========
+kernel=6.8.1-1015-realtime
+realtime=1
+uid=1000(gu) gid=1000(gu) 组=1000(gu),4(adm),24(cdrom),27(sudo),30(dip),44(video),46(plugdev),100(users),114(lpadmin),1001(realtime)
+[PASS] 系统和用户组检查通过
+
+========== 2/7 安装仓库工具 ==========
+命中:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:2 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+命中:4 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+正在读取软件包列表...
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+ca-certificates 已经是最新版 (20260601~24.04.1)。
+curl 已经是最新版 (8.5.0-2ubuntu10.11)。
+gnupg 已经是最新版 (2.4.4-2ubuntu17.4)。
+下列软件包是自动安装的并且现在不需要了：
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 linux-headers-6.17.0-14-generic
+  linux-hwe-6.17-headers-6.17.0-14 linux-hwe-6.17-tools-6.17.0-14
+  linux-image-6.17.0-14-generic linux-modules-6.17.0-14-generic
+  linux-modules-extra-6.17.0-14-generic linux-tools-6.17.0-14-generic
+  mesa-libgallium:i386 ocl-icd-libopencl1:i386
+使用'sudo apt autoremove'来卸载它(它们)。
+下列【新】软件包将被安装：
+  apt-transport-https
+升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+需要下载 3,970 B 的归档。
+解压缩后会消耗 36.9 kB 的额外空间。
+获取:1 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 apt-transport-https all 2.8.3 [3,970 B]
+已下载 3,970 B，耗时 1秒 (5,788 B/s)
+正在选中未选择的软件包 apt-transport-https。
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 375726 个文件和目录。)
+准备解压 .../apt-transport-https_2.8.3_all.deb  ...
+正在解压 apt-transport-https (2.8.3) ...
+正在设置 apt-transport-https (2.8.3) ...
+[PASS] 仓库工具已安装
+
+========== 3/7 注册官方 RealSense 软件源 ==========
+gpg: 目录‘/home/gu/.gnupg’已创建
+gpg: 钥匙箱‘/home/gu/.gnupg/pubring.kbx’已创建
+pub   rsa4096 2025-11-27 [SC] [有效至：2028-11-26]
+      5381 411D 24E6 59FB 1819  5FA5 FB0B 2489 5113 F120
+uid                      RealSense Debian Archive Automatic Signing Key (Debian repository signing only) <security@realsenseai.com>
+sub   rsa4096 2025-11-27 [E] [有效至：2028-11-26]
+sub   rsa4096 2025-11-27 [S] [有效至：2028-11-26]
+
+pub   rsa2048 2018-01-09 [SC] [有效至：2028-01-08]
+      F6E6 5AC0 44F8 31AC 80A0  6380 C8B3 A55A 6F3E FCDE
+uid                      "CN = Intel(R) Intel(R) Realsense", O=Intel Corporation
+
+获取:1 https://librealsense.realsenseai.com/Debian/apt-repo noble InRelease [3,589 B]
+命中:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+命中:3 http://packages.ros.org/ros2/ubuntu noble InRelease
+命中:4 http://archive.ubuntu.com/ubuntu noble InRelease
+命中:5 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+获取:6 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages [14.5 kB]
+命中:7 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+已下载 18.1 kB，耗时 2秒 (11.6 kB/s)
+正在读取软件包列表...
+[PASS] 官方 RealSense 软件源已注册
+
+========== 4/7 检查候选版本 ==========
+librealsense2-udev-rules:
+  Installed: (none)
+  Candidate: 2.58.3-0~realsense.19622
+  Version table:
+     2.58.3-0~realsense.19622 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.58.2-0~realsense.19295 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.58.2-0~realsense.19286 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.58.1-0~realsense.19174 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.58.0-0~realsense.19619 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.57.7-0~realsense.18834 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.56.5-0~realsense.17055 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+     2.56.4-0~realsense.16977 500
+        500 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 Packages
+candidate=2.58.3-0~realsense.19622
+[PASS] udev 规则包存在候选版本
+
+========== 5/7 模拟安装并检查副作用 ==========
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 linux-headers-6.17.0-14-generic
+  linux-hwe-6.17-headers-6.17.0-14 linux-hwe-6.17-tools-6.17.0-14
+  linux-image-6.17.0-14-generic linux-modules-6.17.0-14-generic
+  linux-modules-extra-6.17.0-14-generic linux-tools-6.17.0-14-generic
+  mesa-libgallium:i386 ocl-icd-libopencl1:i386
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  at libv4l2rds0t64 v4l-utils
+Suggested packages:
+  default-mta | mail-transport-agent
+The following NEW packages will be installed:
+  at librealsense2-udev-rules libv4l2rds0t64 v4l-utils
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Inst at (3.2.5-2.1ubuntu3 Ubuntu:24.04/noble [amd64])
+Inst libv4l2rds0t64 (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Inst v4l-utils (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Inst librealsense2-udev-rules (2.58.3-0~realsense.19622 Artifactory:noble [amd64])
+Conf at (3.2.5-2.1ubuntu3 Ubuntu:24.04/noble [amd64])
+Conf libv4l2rds0t64 (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Conf v4l-utils (1.26.1-4build3 Ubuntu:24.04/noble [amd64])
+Conf librealsense2-udev-rules (2.58.3-0~realsense.19622 Artifactory:noble [amd64])
+[PASS] 模拟安装安全，仅安装权限规则相关内容
+
+========== 6/7 安装 udev 规则 ==========
+正在读取软件包列表...
+正在分析软件包的依赖关系树...
+正在读取状态信息...
+下列软件包是自动安装的并且现在不需要了：
+  dkms libatomic1:i386 libbsd0:i386 libdrm-amdgpu1:i386 libdrm-intel1:i386
+  libdrm2:i386 libedit2:i386 libelf1t64:i386 libexpat1:i386 libffi8:i386
+  libfwupd2 libgbm1:i386 libicu74:i386 libllvm20:i386 libpciaccess0:i386
+  libsensors5:i386 libstdc++6:i386 libwayland-client0:i386
+  libwayland-server0:i386 libx11-6:i386 libx11-xcb1:i386 libxau6:i386
+  libxcb-dri3-0:i386 libxcb-present0:i386 libxcb-randr0:i386 libxcb-sync1:i386
+  libxcb-xfixes0:i386 libxcb1:i386 libxdmcp6:i386 libxext6:i386 libxml2:i386
+  libxshmfence1:i386 linux-headers-6.17.0-14-generic
+  linux-hwe-6.17-headers-6.17.0-14 linux-hwe-6.17-tools-6.17.0-14
+  linux-image-6.17.0-14-generic linux-modules-6.17.0-14-generic
+  linux-modules-extra-6.17.0-14-generic linux-tools-6.17.0-14-generic
+  mesa-libgallium:i386 ocl-icd-libopencl1:i386
+使用'sudo apt autoremove'来卸载它(它们)。
+将会同时安装下列软件：
+  at libv4l2rds0t64 v4l-utils
+建议安装：
+  default-mta | mail-transport-agent
+下列【新】软件包将被安装：
+  at librealsense2-udev-rules libv4l2rds0t64 v4l-utils
+升级了 0 个软件包，新安装了 4 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。
+需要下载 797 kB 的归档。
+解压缩后会消耗 2,661 kB 的额外空间。
+获取:1 https://librealsense.realsenseai.com/Debian/apt-repo noble/main amd64 librealsense2-udev-rules amd64 2.58.3-0~realsense.19622 [14.7 kB]
+获取:2 http://archive.ubuntu.com/ubuntu noble/universe amd64 at amd64 3.2.5-2.1ubuntu3 [40.6 kB]
+获取:3 http://archive.ubuntu.com/ubuntu noble/main amd64 libv4l2rds0t64 amd64 1.26.1-4build3 [20.0 kB]
+获取:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 v4l-utils amd64 1.26.1-4build3 [722 kB]
+已下载 797 kB，耗时 2秒 (331 kB/s)
+正在选中未选择的软件包 at。
+(正在读取数据库 ... (正在读取数据库 ... 5%(正在读取数据库 ... 10%(正在读取数据库 ... 15%(正在读取数据库 ... 20%(正在读取数据库 ... 25%(正在读取数据库 ... 30%(正在读取数据库 ... 35%(正在读取数据库 ... 40%(正在读取数据库 ... 45%(正在读取数据库 ... 50%(正在读取数据库 ... 55%(正在读取数据库 ... 60%(正在读取数据库 ... 65%(正在读取数据库 ... 70%(正在读取数据库 ... 75%(正在读取数据库 ... 80%(正在读取数据库 ... 85%(正在读取数据库 ... 90%(正在读取数据库 ... 95%(正在读取数据库 ... 100%(正在读取数据库 ... 系统当前共安装有 375730 个文件和目录。)
+准备解压 .../at_3.2.5-2.1ubuntu3_amd64.deb  ...
+正在解压 at (3.2.5-2.1ubuntu3) ...
+正在选中未选择的软件包 libv4l2rds0t64:amd64。
+准备解压 .../libv4l2rds0t64_1.26.1-4build3_amd64.deb  ...
+正在解压 libv4l2rds0t64:amd64 (1.26.1-4build3) ...
+正在选中未选择的软件包 v4l-utils。
+准备解压 .../v4l-utils_1.26.1-4build3_amd64.deb  ...
+正在解压 v4l-utils (1.26.1-4build3) ...
+正在选中未选择的软件包 librealsense2-udev-rules:amd64。
+准备解压 .../librealsense2-udev-rules_2.58.3-0~realsense.19622_amd64.deb  ...
+正在解压 librealsense2-udev-rules:amd64 (2.58.3-0~realsense.19622) ...
+正在设置 at (3.2.5-2.1ubuntu3) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/atd.service → /usr/lib/systemd/system/atd.service.
+正在设置 libv4l2rds0t64:amd64 (1.26.1-4build3) ...
+正在设置 v4l-utils (1.26.1-4build3) ...
+正在设置 librealsense2-udev-rules:amd64 (2.58.3-0~realsense.19622) ...
+
+Postinst script activated...
+Created user presets for gu
+Presets deployment:
+no src dir
+tgt dir exists
+Presets deployment is skipped
+正在处理用于 libc-bin (2.39-0ubuntu8.8) 的触发器 ...
+正在处理用于 man-db (2.12.0-4build2) 的触发器 ...
+librealsense2-udev-rules 已经被设置为手动安装。
+[PASS] RealSense udev 规则包已安装
+
+========== 7/7 最终验收 ==========
+librealsense2-udev-rules status=ii 
+/lib/udev/rules.d/60-librealsense2-mipi-udev-rules.rules
+/lib/udev/rules.d/60-librealsense2-udev-rules.rules
+
+1 udev rules files have been checked.
+  Success: 1
+  Fail:    0
+
+1 udev rules files have been checked.
+  Success: 1
+  Fail:    0
+[PASS] librealsense2-dkms 未安装
+[PASS] RealSense udev 规则存在并已重新加载
+
+============================================================
+[PASS] RealSense 离线权限配置完成
+日志：/home/gu/install_realsense_udev_rules_20260801_204528.log
+
+未连接或启动 D435i，未修改实时内核，未启动机器人节点。
+============================================================

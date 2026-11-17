@@ -1,0 +1,21 @@
+CURRENT ENGINEERING BASELINE
+
+rehab_robot_fr3_xhand_baseline_r1_20260906
+
+Release directory:
+/home/gu/rehab_robot_ws/releases/rehab_robot_fr3_xhand_baseline_r1_20260906
+
+Archive:
+/home/gu/rehab_robot_ws/releases/rehab_robot_fr3_xhand_baseline_r1_20260906.tar.gz
+
+Frozen hardware validation:
+/home/gu/rehab_robot_ws/validation_logs/baseline_20260906_112458
+
+Current source workspace:
+/home/gu/rehab_robot_ws
+
+Status:
+FR3 + XHand segmented real-hardware validation PASS.
+Full uninterrupted one-shot --execute is not formally accepted.
+
+Do not develop directly inside the release directory.

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T16:30:22.691111+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "RESUME",
+  "to_point": "P1",
+  "route": [
+    "RESUME",
+    "P3",
+    "P2",
+    "P1"
+  ],
+  "planned_polyline_length_m": 0.42179282017814257,
+  "estimated_subsegments": 29,
+  "result": "FAULT",
+  "edges": [],
+  "fault": "TeachPathError: TF unavailable: \"fr3_link0\" passed to lookupTransform argument target_frame does not exist. ",
+  "finished_at": "2026-10-04T16:30:24.728609+08:00"
+}

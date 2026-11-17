@@ -1,0 +1,818 @@
+nohup: 忽略输入
+[INFO] [launch]: All log files can be found below /home/gu/.ros/log/2026-10-05-09-44-13-943212-gu-G3-3500-6328
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [6389]
+[INFO] [ros2_control_node-2]: process started with pid [6390]
+[INFO] [joint_state_publisher-3]: process started with pid [6391]
+[INFO] [spawner-4]: process started with pid [6392]
+[INFO] [spawner-5]: process started with pid [6393]
+[spawner-4] [INFO] [1791164657.583312091] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[joint_state_publisher-3] [INFO] [1791164659.153888183] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+[robot_state_publisher-1] [INFO] [1791164660.075975432] [robot_state_publisher]: Robot initialized
+[joint_state_publisher-3] [INFO] [1791164660.076652793] [joint_state_publisher]: Got description, configuring robot
+[ros2_control_node-2] [INFO] [1791164660.724645840] [controller_manager]: Using Steady (Monotonic) clock for triggering controller manager cycles.
+[ros2_control_node-2] [INFO] [1791164661.025368893] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[ros2_control_node-2] [INFO] [1791164661.513065812] [controller_manager]: update rate is 1000 Hz
+[ros2_control_node-2] [INFO] [1791164661.513102038] [controller_manager]: Overruns handling is : disabled
+[ros2_control_node-2] [INFO] [1791164661.513109361] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 98
+[ros2_control_node-2] [INFO] [1791164661.515303202] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 98.
+[ros2_control_node-2] [INFO] [1791164661.528775148] [controller_manager]: Received robot description from topic.
+[ros2_control_node-2] [INFO] [1791164661.528809349] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[ros2_control_node-2] text not specified in the prefix tag
+[ros2_control_node-2] text not specified in the arm_prefix tag
+[ros2_control_node-2] [INFO] [1791164661.614463426] [controller_manager]: Loading hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791164661.974852425] [controller_manager]: Loaded hardware 'FrankaHardwareInterface' from plugin 'franka_hardware/FrankaHardwareInterface'
+[ros2_control_node-2] [INFO] [1791164661.974955848] [controller_manager]: Initialize hardware 'FrankaHardwareInterface' 
+[ros2_control_node-2] [INFO] [1791164661.978484209] [FrankaHardwareInterface]: Parsed Franka ros2_control interface version: 1.0.0
+[ros2_control_node-2] [INFO] [1791164661.978503816] [FrankaHardwareInterface]: Connecting to robot at "192.168.1.25" ...
+[ros2_control_node-2] [FATAL] [1791164662.984513528] [FrankaHardwareInterface]: Could not connect to robot
+[ros2_control_node-2] [FATAL] [1791164662.984559650] [FrankaHardwareInterface]: libfranka: Connection timeout. Please check your network connection or settings.
+[ros2_control_node-2] [ERROR] [1791164662.984585985] [controller_manager]: Failed to initialize hardware 'FrankaHardwareInterface'
+[ros2_control_node-2] [WARN] [1791164662.984614504] [controller_manager]: System hardware component 'FrankaHardwareInterface' from plugin 'franka_hardware/FrankaHardwareInterface' failed to initialize.
+[ros2_control_node-2] [WARN] [1791164662.984695148] [controller_manager]: Could not load and initialize hardware. Please check previous output for more details. After you have corrected your URDF, try to publish robot description again.
+[ros2_control_node-2] [WARN] [1791164663.006688939] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164663.025153874] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164664.025150190] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164665.025151626] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164666.025154597] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164667.025154551] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164667.589361289] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164667.589675572] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164668.025155516] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164669.025151474] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164670.025152182] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164671.025151939] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164672.025150720] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164673.025152421] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164674.025153270] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164675.025151456] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164676.025153495] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164677.025152054] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-5] [WARN] [1791164677.251423257] [ros2_control_controller_spawner_franka_robot_state_broadcaster]: Failed to acquire lock in 20 seconds. Attempt 1 of 5 failed. Retrying in 3 seconds...
+[spawner-4] [WARN] [1791164677.594854504] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164677.595173898] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164678.025151801] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164679.025149266] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164680.025151716] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164681.025154365] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164682.025151705] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164683.025151664] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164684.025150881] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164685.025157713] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164686.025150196] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164687.025150907] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164687.600174175] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164687.600472769] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164688.025155081] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164689.025149527] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164690.025151724] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164691.025150544] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164692.025148983] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164693.025161008] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164694.025151066] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164695.025151086] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164696.025147826] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164697.025154983] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164697.605752037] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164697.606061466] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164698.025151168] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164699.025150820] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164700.025149354] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-5] [WARN] [1791164700.290072041] [ros2_control_controller_spawner_franka_robot_state_broadcaster]: Failed to acquire lock in 20 seconds. Attempt 2 of 5 failed. Retrying in 3 seconds...
+[ros2_control_node-2] [WARN] [1791164701.025150229] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164702.025149827] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164703.025150915] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164704.025154386] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164705.025153280] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164706.025153184] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164707.025152275] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164707.611322059] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164707.611599796] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164708.025154758] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164709.025154433] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164710.025152087] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164711.025149329] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164712.025150004] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164713.025154139] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164714.025153777] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164715.025153698] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164716.025153105] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164717.025151219] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164717.616567087] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164717.616867828] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164718.025152455] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164719.025156073] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164720.025154572] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164721.025155636] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164722.025153335] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164723.025157564] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-5] [WARN] [1791164723.323983187] [ros2_control_controller_spawner_franka_robot_state_broadcaster]: Failed to acquire lock in 20 seconds. Attempt 3 of 5 failed. Retrying in 3 seconds...
+[ros2_control_node-2] [WARN] [1791164724.025155265] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164725.025157708] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164726.025171949] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164727.025154430] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164727.621363218] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164727.621642436] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164728.025154143] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164729.025152052] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164730.025152325] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164731.025150940] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164732.025151924] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164733.025150364] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164734.025151920] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164735.025151414] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164736.025182266] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164737.025151036] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164737.626337445] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164737.626614456] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164738.025151965] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164739.025152078] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164740.025151438] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164741.025170107] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164742.025152116] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164743.025151622] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164744.025155846] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164745.025149346] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164746.025149608] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-5] [WARN] [1791164746.357078158] [ros2_control_controller_spawner_franka_robot_state_broadcaster]: Failed to acquire lock in 20 seconds. Attempt 4 of 5 failed. Retrying in 3 seconds...
+[ros2_control_node-2] [WARN] [1791164747.025151559] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164747.632882194] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164747.633213994] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164748.025181725] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164749.025150970] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164750.025153506] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164751.025153193] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164752.025152896] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164753.025161740] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164754.025149027] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164755.025153168] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164756.025151682] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164757.025149697] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164757.637636447] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164757.637916406] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164758.025152318] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164759.025162512] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164760.025152134] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164761.025152320] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164762.025155242] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164763.025155321] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164764.025156440] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164765.025152020] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164766.025169163] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164767.025170958] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164767.642303219] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164767.642577778] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164768.025153731] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164769.025151670] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-5] [WARN] [1791164769.394579791] [ros2_control_controller_spawner_franka_robot_state_broadcaster]: Failed to acquire lock in 20 seconds. Attempt 5 of 5 failed. Retrying in 3 seconds...
+[ros2_control_node-2] [WARN] [1791164770.025155615] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164771.025151811] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164772.025183654] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-5] [ERROR] [1791164772.395194918] [ros2_control_controller_spawner_franka_robot_state_broadcaster]: Failed to acquire lock after multiple attempts.
+[ERROR] [spawner-5]: process has died [pid 6393, exit code 1, cmd '/opt/ros/jazzy/lib/controller_manager/spawner franka_robot_state_broadcaster --ros-args -r __ns:=/'].
+[ros2_control_node-2] [WARN] [1791164773.025149097] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164774.025150678] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164775.025152182] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164776.025151098] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164777.025151229] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164777.646790964] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164777.647141704] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164778.025166860] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164779.025153148] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164780.025151887] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164781.025151815] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164782.025153860] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164783.025157260] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164784.025221889] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164785.025152787] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164786.025151469] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164787.025152054] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164787.652246932] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164787.652540797] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164788.025151215] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164789.025150069] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164790.025150984] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164791.025155666] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164792.025154230] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164793.025149634] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164794.025151029] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164795.025182450] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164796.025151658] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164797.025151264] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164797.657538638] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164797.657822551] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164798.025153507] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164799.025156797] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164800.025151781] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164801.025151830] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164802.025153433] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164803.025151549] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164804.025154577] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164805.025152580] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164806.025149673] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164807.025153194] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164807.663150249] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164807.663431238] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164808.025151130] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164809.025154418] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164810.025154266] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164811.025154078] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164812.025152093] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164813.025165883] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164814.025160465] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164815.025152630] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164816.025152384] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164817.025153333] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164817.668551703] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164817.668892346] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164818.025152380] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164819.025154005] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164820.025150897] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164821.025151055] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164822.025150223] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164823.025154063] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164824.025149860] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164825.025150573] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164826.025152400] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164827.025149900] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164827.674307134] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164827.674759673] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164828.025150407] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164829.025157950] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164830.025153284] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164831.025153927] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164832.025148671] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164833.025151231] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164834.025151197] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164835.025157771] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164836.025152228] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164837.025156884] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164837.679624319] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164837.679928611] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164838.025187965] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164839.025156417] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164840.025154543] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164841.025151291] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164842.025155662] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164843.025184914] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164844.025152162] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164845.025153642] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164846.025150771] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164847.025153719] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164847.684439225] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164847.684934121] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164848.025161837] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164849.025152190] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164850.025151708] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164851.025153087] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164852.025151673] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164853.025149791] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164854.025152922] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164855.025154678] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164856.025149580] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164857.025151496] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164857.689472063] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164857.689948425] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164858.025153660] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164859.025152861] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164860.025160723] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164861.025182917] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164862.025151416] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164863.025188809] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164864.025184890] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164865.025150767] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164866.025149403] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164867.025150743] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164867.694682262] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164867.695123313] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164868.025154859] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164869.025155342] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164870.025150819] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164871.025160909] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164872.025152909] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164873.025159415] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164874.025154044] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164875.025156827] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164876.025151352] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164877.025149447] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164877.700037123] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164877.700321204] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164878.025151504] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164879.025155757] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164880.025150598] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164881.025151134] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164882.025150089] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164883.025150980] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164884.025150624] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164885.025157135] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164886.025150904] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164887.025159657] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164887.705418273] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164887.705735522] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164888.025154714] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164889.025149342] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164890.025151574] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164891.025153629] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164892.025152561] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164893.025153652] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164894.025153419] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164895.025151510] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164896.025154036] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164897.025158662] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164897.714262364] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164897.714716228] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164898.025157856] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164899.025151091] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164900.025151553] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164901.025158967] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164902.025158402] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164903.025160256] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164904.025156578] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164905.025152077] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164906.025150899] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164907.025144768] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164907.719268100] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164907.719573810] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164908.025158256] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164909.025150491] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164910.025152274] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164911.025152752] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164912.025152629] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164913.025149474] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164914.025149529] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164915.025152063] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164916.025151370] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164917.025151808] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164917.725059662] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164917.725357228] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164918.025153993] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164919.025151506] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164920.025153712] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164921.025153294] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164922.025151234] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164923.025151222] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164924.025151322] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164925.025150839] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164926.025129152] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164927.025157568] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164927.730363486] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164927.730644604] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164928.025181278] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164929.025152857] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164930.025148601] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164931.025157427] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164932.025150393] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164933.025166209] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164934.025150383] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164935.025152278] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164936.025150655] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164937.025149928] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164937.735538128] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164937.735814488] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164938.025155531] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164939.025148489] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164940.025149062] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164941.025151139] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164942.025149210] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164943.025151249] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164944.025149689] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164945.025153678] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164946.025183630] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164947.025153849] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164947.740626951] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164947.740933729] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164948.025151838] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164949.025154697] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164950.025151588] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164951.025151034] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164952.025148727] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164953.025153611] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164954.025176030] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164955.025154399] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164956.025151332] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164957.025152612] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164957.747652901] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164957.747961754] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164958.025181954] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164959.025149480] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164960.025153450] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164961.025152514] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164962.025148534] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164963.025203161] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164964.025150454] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164965.025151590] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164966.025150047] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164967.025151397] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164967.753120502] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164967.753409710] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164968.025153338] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164969.025152185] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164970.025148273] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164971.025149989] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164972.025152747] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164973.025152296] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164974.025150852] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164975.025150074] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164976.025152825] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164977.025169207] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164977.758263254] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164977.758610462] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164978.025150513] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164979.025155464] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164980.025150436] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164981.025150354] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164982.025152529] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164983.025154798] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164984.025150849] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164985.025151918] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164986.025153048] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164987.025148894] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164987.763437816] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164987.763716455] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164988.025153767] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164989.025153758] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164990.025153174] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164991.025157805] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164992.025152099] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164993.025155769] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164994.025153925] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164995.025151112] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164996.025181270] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164997.025169911] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791164997.768577454] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791164997.768880743] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791164998.025150325] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791164999.025152011] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165000.025167787] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165001.025151648] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165002.025151378] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165003.025150472] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165004.025154265] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165005.025153373] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165006.025151227] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165007.025151449] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165007.773618612] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165007.773931901] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165008.025151756] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165009.025152060] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165010.025153127] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165011.025150587] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165012.025156603] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165013.025151519] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165014.025150098] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165015.025152643] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165016.025150502] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165017.025153400] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165017.778338671] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165017.778607553] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165018.025182266] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165019.025150715] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165020.025152136] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165021.025150396] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165022.025155898] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165023.025160790] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165024.025160207] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165025.025155367] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165026.025156899] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165027.025151862] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165027.782982140] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165027.783256583] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165028.025153475] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165029.025151543] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165030.025158914] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165031.025155481] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165032.025155126] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165033.025154460] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165034.025151909] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165035.025154209] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165036.025155273] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165037.025153048] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165037.787467400] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165037.787781567] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165038.025154710] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165039.025153262] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165040.025152551] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165041.025150251] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165042.025152993] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165043.025152374] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165044.025150112] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165045.025171013] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165046.025153321] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165047.025154508] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165047.792871763] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165047.793171253] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165048.025154650] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165049.025153129] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165050.025161763] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165051.025149916] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165052.025155803] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165053.025162999] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165054.025167167] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165055.025266241] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165056.025157961] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165057.025156856] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165057.798313287] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165057.798756188] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165058.025151686] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165059.025153250] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165060.025103624] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165061.025157710] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165062.025107967] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165063.025152964] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165064.025171277] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165065.025150732] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165066.025149441] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165067.025172056] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165067.803680833] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165067.804040359] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165068.025154309] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165069.025171265] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165070.025153320] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165071.025154561] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165072.025152422] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165073.025184870] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165074.025156866] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165075.025169997] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165076.025156399] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165077.025152492] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165077.808846568] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165077.809134992] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165078.025152728] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165079.025152945] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165080.025157550] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165081.025152971] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165082.025152598] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165083.025249207] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165084.025159015] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165085.025152925] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165086.025153268] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165087.025160483] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165087.813519953] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165087.813799316] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165088.025155730] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165089.025156140] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165090.025157274] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165091.025156282] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165092.025160690] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165093.025149922] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165094.025151157] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165095.025151083] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165096.025163677] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165097.025154036] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165097.818065595] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165097.818331831] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165098.025153806] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165099.025160455] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165100.025181390] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165101.025155220] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165102.025153427] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165103.025202175] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165104.025169032] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165105.025148539] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165106.025151087] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165107.025153973] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165107.822530635] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165107.822830392] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165108.025152704] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165109.025178369] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165110.025153902] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165111.025158476] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165112.025152753] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165113.025202330] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165114.025161047] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165115.025152327] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165116.025156633] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165117.025156864] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165117.827961862] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165117.828451731] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165118.025150516] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165119.025152189] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165120.025153507] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165121.025170775] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165122.025153598] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165123.025152741] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165124.025151858] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165125.025156169] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165126.025186498] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165127.025157164] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165127.833147907] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165127.833439971] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165128.025162883] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165129.025176919] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165130.025168470] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165131.025154513] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165132.025150892] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165133.025155525] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165134.025171178] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165135.025159668] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165136.025182036] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165137.025154113] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165137.838447526] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165137.838738802] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165138.025182098] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165139.025154891] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165140.025161381] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165141.025154920] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165142.025156447] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165143.025234365] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165144.025156151] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165145.025169170] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165146.025153023] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165147.025177178] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165147.843777251] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165147.844072465] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165148.025154583] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165149.025157424] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165150.025163948] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165151.025163872] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165152.025158251] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165153.025151352] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165154.025156262] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165155.025188287] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165156.025172135] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165157.025188931] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165157.848955987] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165157.849252856] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165158.025186430] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165159.025183964] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165160.025111045] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165161.025172172] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165162.025164564] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165163.025159123] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165164.025188715] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165165.025153245] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165166.025154247] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165167.025151350] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165167.854206593] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165167.854558962] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165168.025157631] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165169.025154271] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165170.025151935] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165171.025189186] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165172.025158855] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165173.025165077] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165174.025151926] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165175.025217918] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165176.025156195] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165177.025167202] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165177.859554786] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165177.859860634] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165178.025154774] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165179.025155412] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165180.025173668] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165181.025154913] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165182.025179421] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165183.025155642] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165184.025153324] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165185.025168328] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165186.025167834] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165187.025159743] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165187.865068261] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165187.865494174] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165188.025155599] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165189.025156830] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165190.025154426] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165191.025150343] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165192.025168089] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165193.025153959] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165194.025156021] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165195.025159359] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165196.025163267] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165197.025164771] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165197.871003902] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165197.871293567] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165198.025175908] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165199.025162637] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165200.025154623] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165201.025158050] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165202.025157511] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165203.025166121] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165204.025151206] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165205.025152670] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165206.025151380] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165207.025160983] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165207.876724707] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165207.877082468] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165208.025154986] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165209.025222734] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165210.025165320] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165211.025159402] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165212.025177335] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165213.025165121] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165214.025174564] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165215.025204262] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165216.025165785] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165217.025156006] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165217.882729808] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165217.883104233] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165218.025161016] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165219.025172678] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165220.025152855] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165221.025184777] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165222.025153409] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165223.025171861] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165224.025167273] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165225.025155277] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165226.025159114] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165227.025151607] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165227.888993824] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165227.889510726] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165228.025150628] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165229.025163984] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165230.025153877] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165231.025155526] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165232.025177386] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165233.025176391] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165234.025153596] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165235.025157340] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165236.025156711] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165237.025156205] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165237.894684709] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165237.895131814] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165238.025149811] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165239.025151665] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165240.025150467] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165241.025151435] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165242.025151563] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165243.025149490] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165244.025153461] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165245.025151388] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165246.025147925] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165247.025155281] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165247.900077677] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165247.900606093] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165248.025153036] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165249.025167586] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165250.025151550] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165251.025152614] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165252.025183063] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165253.025154043] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165254.025149693] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165255.025149296] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165256.025152588] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165257.025154799] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165257.906102530] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165257.906571967] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165258.025149153] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165259.025156015] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165260.025152086] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165261.025150600] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165262.025167423] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165263.025171373] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165264.025148571] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165265.025156234] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165266.025159929] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165267.025158569] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165267.911551844] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165267.911855038] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165268.025149558] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165269.025182429] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165270.025150681] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165271.025148692] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165272.025149636] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165273.025151159] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165274.025153991] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165275.025150977] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165276.025163260] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165277.025156341] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165277.916387507] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165277.916680200] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165278.025151295] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165279.025149666] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165280.025154669] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165281.025158929] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165282.025150659] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165283.025149996] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165284.025159061] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165285.025150561] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165286.025147558] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165287.025149154] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[spawner-4] [WARN] [1791165287.921312323] [spawner_joint_state_broadcaster]: Could not contact service /controller_manager/list_controllers
+[spawner-4] [INFO] [1791165287.921601510] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ros2_control_node-2] [WARN] [1791165288.025158037] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165289.025154831] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165290.025156653] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165291.025147755] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[ros2_control_node-2] [WARN] [1791165292.025151392] [controller_manager]: Waiting for data on 'robot_description' topic to finish initialization
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [spawner-4]: sending signal 'SIGINT' to process[spawner-4]
+[INFO] [joint_state_publisher-3]: sending signal 'SIGINT' to process[joint_state_publisher-3]
+[INFO] [ros2_control_node-2]: sending signal 'SIGINT' to process[ros2_control_node-2]
+[INFO] [robot_state_publisher-1]: sending signal 'SIGINT' to process[robot_state_publisher-1]
+[ros2_control_node-2] [INFO] [1791165292.106147347] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ros2_control_node-2] [INFO] [1791165292.106245090] [controller_manager]: Shutdown request received....
+[ros2_control_node-2] [INFO] [1791165292.106279671] [controller_manager]: Shutting down all controllers in the controller manager.
+[ros2_control_node-2] [INFO] [1791165292.106294039] [controller_manager]: Shutting down the controller manager.
+[ros2_control_node-2] [ERROR] [1791165292.106364539] [controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[ros2_control_node-2] [ERROR] [1791165292.106404807] [controller_manager.pal_statistics]: Exception in publisher thread: context cannot be slept with because it's invalid!. Aborting!
+[robot_state_publisher-1] [INFO] [1791165292.106776048] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[spawner-4] [INFO] [1791165292.107031185] [spawner_joint_state_broadcaster]: KeyboardInterrupt received! Exiting....
+[ros2_control_node-2] [INFO] [1791165292.114806174] [controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-2] [INFO] [1791165292.114828704] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[ros2_control_node-2] [INFO] [1791165292.119874015] [controller_manager.pal_statistics]: Async messages lost 0
+[ros2_control_node-2] [INFO] [1791165292.119890916] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[INFO] [robot_state_publisher-1]: process has finished cleanly [pid 6389]
+[INFO] [ros2_control_node-2]: process has finished cleanly [pid 6390]
+[INFO] [launch]: process[ros2_control_node-2] was required: shutting down launched system
+[INFO] [spawner-4]: process has finished cleanly [pid 6392]
+[INFO] [joint_state_publisher-3]: process has finished cleanly [pid 6391]

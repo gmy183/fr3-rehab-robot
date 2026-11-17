@@ -1,0 +1,393 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T16:08:53.142375+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "P8",
+  "to_point": "P1",
+  "route": [
+    "P8",
+    "P7",
+    "P6",
+    "P5",
+    "P4",
+    "P3",
+    "P2",
+    "P1"
+  ],
+  "planned_polyline_length_m": 0.9127742847828249,
+  "estimated_subsegments": 64,
+  "result": "FAULT",
+  "edges": [
+    {
+      "from": "P8",
+      "to": "P7",
+      "live_edge_length_m": 0.02291291352311223,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.27126394257162956,
+            0.5181024089574644,
+            0.2999849279669358
+          ],
+          "planned_distance_m": 0.011455663418659539,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011631215739562606,
+          "cartesian_error_m": 0.0006654199261336201
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.282329,
+            0.515231,
+            0.29923
+          ],
+          "planned_distance_m": 0.011217773674577516,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012223860577400547,
+          "cartesian_error_m": 0.000704918537074025
+        }
+      ],
+      "waypoint_final_error_m": 0.000704918537074025
+    },
+    {
+      "from": "P7",
+      "to": "P6",
+      "live_edge_length_m": 0.12357983489549819,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.2942420543694106,
+            0.5079555064663094,
+            0.2989836695928106
+          ],
+          "planned_distance_m": 0.01373109276616647,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011399791786468327,
+          "cartesian_error_m": 0.0008159509428805314
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.30599367257323423,
+            0.5009226931580207,
+            0.29997458589370923
+          ],
+          "planned_distance_m": 0.013658678017452347,
+          "fraction": 1.0,
+          "joint_error_rad": 0.001263128908023603,
+          "cartesian_error_m": 0.0008255608944948668
+        },
+        {
+          "index": 3,
+          "target_xyz_m": [
+            0.31774529077705793,
+            0.49388987984973204,
+            0.30096550219460794
+          ],
+          "planned_distance_m": 0.013646957198208255,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0014308720560782806,
+          "cartesian_error_m": 0.0008279449470337814
+        },
+        {
+          "index": 4,
+          "target_xyz_m": [
+            0.32949690898088163,
+            0.48685706654144334,
+            0.3019564184955066
+          ],
+          "planned_distance_m": 0.013649955154756086,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0013893826420789956,
+          "cartesian_error_m": 0.0008482129336371381
+        },
+        {
+          "index": 5,
+          "target_xyz_m": [
+            0.3412485271847053,
+            0.4798242532331547,
+            0.3029473347964053
+          ],
+          "planned_distance_m": 0.013637092120343431,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011824268554940787,
+          "cartesian_error_m": 0.0008397404895847569
+        },
+        {
+          "index": 6,
+          "target_xyz_m": [
+            0.353000145388529,
+            0.472791439924866,
+            0.30393825109730394
+          ],
+          "planned_distance_m": 0.01363679575261085,
+          "fraction": 1.0,
+          "joint_error_rad": 0.001342376689425162,
+          "cartesian_error_m": 0.0008193217088226193
+        },
+        {
+          "index": 7,
+          "target_xyz_m": [
+            0.3647517635923527,
+            0.46575862661657735,
+            0.30492916739820264
+          ],
+          "planned_distance_m": 0.013643328685315181,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011204753426665714,
+          "cartesian_error_m": 0.000797118488566966
+        },
+        {
+          "index": 8,
+          "target_xyz_m": [
+            0.3765033817961763,
+            0.45872581330828865,
+            0.3059200836991013
+          ],
+          "planned_distance_m": 0.013646852189567255,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011733321042615152,
+          "cartesian_error_m": 0.0007577845925207796
+        },
+        {
+          "index": 9,
+          "target_xyz_m": [
+            0.388255,
+            0.451693,
+            0.306911
+          ],
+          "planned_distance_m": 0.01366253555641795,
+          "fraction": 1.0,
+          "joint_error_rad": 0.001118233315830608,
+          "cartesian_error_m": 0.0008368288619137436
+        }
+      ],
+      "waypoint_final_error_m": 0.0008368288619137436
+    },
+    {
+      "from": "P6",
+      "to": "P5",
+      "live_edge_length_m": 0.17726182504712987,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.3994844875925591,
+            0.4419917860068922,
+            0.3045232769427981
+          ],
+          "planned_distance_m": 0.014771818753927487,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011277091332970723,
+          "cartesian_error_m": 0.0007527142191561832
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.4106388978114174,
+            0.43244653273353834,
+            0.30288806994799833
+          ],
+          "planned_distance_m": 0.014414964860499322,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0010978737269724537,
+          "cartesian_error_m": 0.0007885563120882319
+        },
+        {
+          "index": 3,
+          "target_xyz_m": [
+            0.4217933080302756,
+            0.4229012794601845,
+            0.3012528629531985
+          ],
+          "planned_distance_m": 0.014551969433580246,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012397459523889598,
+          "cartesian_error_m": 0.0007468647302592216
+        },
+        {
+          "index": 4,
+          "target_xyz_m": [
+            0.43294771824913386,
+            0.4133560261868307,
+            0.2996176559583987
+          ],
+          "planned_distance_m": 0.014429527442507032,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012448779940119614,
+          "cartesian_error_m": 0.0007616421699968849
+        },
+        {
+          "index": 5,
+          "target_xyz_m": [
+            0.44410212846799213,
+            0.40381077291347683,
+            0.2979824489635988
+          ],
+          "planned_distance_m": 0.014420309483102363,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0010913385231929862,
+          "cartesian_error_m": 0.0007904534157326135
+        },
+        {
+          "index": 6,
+          "target_xyz_m": [
+            0.4552565386868504,
+            0.394265519640123,
+            0.296347241968799
+          ],
+          "planned_distance_m": 0.014558990290336254,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011475729158703096,
+          "cartesian_error_m": 0.000792077110182315
+        },
+        {
+          "index": 7,
+          "target_xyz_m": [
+            0.46641094890570867,
+            0.38472026636676915,
+            0.29471203497399917
+          ],
+          "planned_distance_m": 0.01455988883587576,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011572028060651274,
+          "cartesian_error_m": 0.0007893952014568282
+        },
+        {
+          "index": 8,
+          "target_xyz_m": [
+            0.4775653591245669,
+            0.3751750130934154,
+            0.2930768279791993
+          ],
+          "planned_distance_m": 0.014392508175842913,
+          "fraction": 1.0,
+          "joint_error_rad": 0.001111140929355603,
+          "cartesian_error_m": 0.0007840075428386443
+        },
+        {
+          "index": 9,
+          "target_xyz_m": [
+            0.4887197693434252,
+            0.3656297598200615,
+            0.2914416209843995
+          ],
+          "planned_distance_m": 0.014485144025914849,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011671394334797913,
+          "cartesian_error_m": 0.0008006841962447915
+        },
+        {
+          "index": 10,
+          "target_xyz_m": [
+            0.4998741795622834,
+            0.35608450654670765,
+            0.28980641398959966
+          ],
+          "planned_distance_m": 0.014409453389394283,
+          "fraction": 1.0,
+          "joint_error_rad": 0.001094843204739071,
+          "cartesian_error_m": 0.0007994340144386498
+        },
+        {
+          "index": 11,
+          "target_xyz_m": [
+            0.5110285897811417,
+            0.3465392532733539,
+            0.28817120699479987
+          ],
+          "planned_distance_m": 0.014498938913020645,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0010604336294288697,
+          "cartesian_error_m": 0.0008314951299063301
+        },
+        {
+          "index": 12,
+          "target_xyz_m": [
+            0.522183,
+            0.336994,
+            0.286536
+          ],
+          "planned_distance_m": 0.014332010777325927,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0010629866506688401,
+          "cartesian_error_m": 0.000830515595883944
+        }
+      ],
+      "waypoint_final_error_m": 0.000830515595883944
+    },
+    {
+      "from": "P5",
+      "to": "P4",
+      "live_edge_length_m": 0.06555578225724722,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.5245270884420821,
+            0.32382453042919235,
+            0.2867808503631102
+          ],
+          "planned_distance_m": 0.013111156451449443,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011515951513056955,
+          "cartesian_error_m": 0.000995679005653197
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.5267753163315616,
+            0.31096739782189425,
+            0.28802263777233267
+          ],
+          "planned_distance_m": 0.01303850280462992,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011802620044985002,
+          "cartesian_error_m": 0.0009430253059041711
+        },
+        {
+          "index": 3,
+          "target_xyz_m": [
+            0.529023544221041,
+            0.2981102652145962,
+            0.2892644251815551
+          ],
+          "planned_distance_m": 0.013027422341588045,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0012960797708121419,
+          "cartesian_error_m": 0.0009296585513588788
+        },
+        {
+          "index": 4,
+          "target_xyz_m": [
+            0.5312717721105206,
+            0.2852531326072981,
+            0.2905062125907776
+          ],
+          "planned_distance_m": 0.012996614136780587,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0011885363631360946,
+          "cartesian_error_m": 0.0009306427775252594
+        },
+        {
+          "index": 5,
+          "target_xyz_m": [
+            0.53352,
+            0.272396,
+            0.291748
+          ],
+          "planned_distance_m": 0.012962188069062729,
+          "fraction": 1.0,
+          "joint_error_rad": 0.00132151516576684,
+          "cartesian_error_m": 0.0008905986624190418
+        }
+      ],
+      "waypoint_final_error_m": 0.0008905986624190418
+    }
+  ],
+  "fault": "TeachPathError: E5S8: PTP result timeout",
+  "finished_at": "2026-10-04T16:10:56.922074+08:00"
+}

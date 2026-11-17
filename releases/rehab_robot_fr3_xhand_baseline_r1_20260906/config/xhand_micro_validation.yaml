@@ -1,0 +1,49 @@
+micro_validation:
+  status: passed
+  source: xhand_phase1_final_20260830
+  scope: bounded_empty_load_micro_motion
+
+  formal_active_gains_verified: false
+
+  mode: 3
+  kp: 225
+  ki: 0
+  kd: 0
+
+  delta_rad: 0.005
+  effort_limit_ma: 150
+
+  watchdog_s: 0.5
+  refresh_hz: 20.0
+  disable_frames: 3
+
+  safety_guard:
+    max_abs_current_ma: 170.0
+    max_abs_joint_motion_rad: 0.020
+    max_takeover_drift_rad: 0.015
+
+  single_joint:
+    joint: index_joint1
+    direction_confirmed: closing
+
+  whole_hand:
+    active_joints:
+      - thumb_bend_joint
+      - index_joint1
+      - index_joint2
+      - mid_joint1
+      - mid_joint2
+      - ring_joint1
+      - ring_joint2
+      - pinky_joint1
+      - pinky_joint2
+    validation_scope: bounded_micro_motion
+    precise_direction_tracking_verified: false
+
+  requirements:
+    empty_load: true
+    live_fr3_state: true
+    live_xhand_state: true
+    fr3_ptp_server: /action_server/ptp_motion
+    no_automatic_fr3_recovery: true
+    no_automatic_fr3_return_on_fault: true

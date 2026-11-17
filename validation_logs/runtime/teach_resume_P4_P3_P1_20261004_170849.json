@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "started_at": "2026-10-04T17:08:59.615532+08:00",
+  "teach_file": "/home/gu/rehab_robot_ws/teach/teach_path_8pts_v1.yaml",
+  "config_file": "/home/gu/rehab_robot_ws/config/rehab_teach_executor.yaml",
+  "from_point": "RESUME",
+  "to_point": "P1",
+  "route": [
+    "RESUME",
+    "P3",
+    "P2",
+    "P1"
+  ],
+  "planned_polyline_length_m": 0.42221702721667587,
+  "estimated_subsegments": 29,
+  "result": "FAULT",
+  "edges": [
+    {
+      "from": "RESUME",
+      "to": "P3",
+      "live_edge_length_m": 0.08788773317117002,
+      "segments": [
+        {
+          "index": 1,
+          "target_xyz_m": [
+            0.517889770624339,
+            0.17930894908662565,
+            0.35630069035601736
+          ],
+          "planned_distance_m": 0.014647700672084317,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0009193911207581174,
+          "cartesian_error_m": 0.0007171273241203551
+        },
+        {
+          "index": 2,
+          "target_xyz_m": [
+            0.5158156164994713,
+            0.1679327592693005,
+            0.36529195228481387
+          ],
+          "planned_distance_m": 0.015093344342489125,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0008818429534653838,
+          "cartesian_error_m": 0.0007226902786155615
+        },
+        {
+          "index": 3,
+          "target_xyz_m": [
+            0.5137414623746035,
+            0.15655656945197538,
+            0.37428321421361044
+          ],
+          "planned_distance_m": 0.015003728543296794,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0008792106999633287,
+          "cartesian_error_m": 0.0007676339052090037
+        },
+        {
+          "index": 4,
+          "target_xyz_m": [
+            0.5116673082497356,
+            0.14518037963465025,
+            0.38327447614240695
+          ],
+          "planned_distance_m": 0.015007310738222167,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0008474121872883433,
+          "cartesian_error_m": 0.0008668775104356598
+        },
+        {
+          "index": 5,
+          "target_xyz_m": [
+            0.5095931541248678,
+            0.13380418981732511,
+            0.39226573807120346
+          ],
+          "planned_distance_m": 0.01529213519268994,
+          "fraction": 1.0,
+          "joint_error_rad": 0.000847132667988415,
+          "cartesian_error_m": 0.0009481088140679323
+        },
+        {
+          "index": 6,
+          "target_xyz_m": [
+            0.507519,
+            0.122428,
+            0.401257
+          ],
+          "planned_distance_m": 0.014931372559255588,
+          "fraction": 1.0,
+          "joint_error_rad": 0.0008476039446303485,
+          "cartesian_error_m": 0.0009666703091027636
+        }
+      ],
+      "waypoint_final_error_m": 0.0009666703091027636
+    }
+  ],
+  "fault": "TeachPathError: E2S2: ROS action failed",
+  "finished_at": "2026-10-04T17:09:27.682484+08:00"
+}

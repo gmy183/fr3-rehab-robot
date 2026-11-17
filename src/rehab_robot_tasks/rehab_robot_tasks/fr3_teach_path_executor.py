@@ -1,0 +1,860 @@
+"""P15 final one-click FR3 eight-point teach-path executor.
+
+Official path only:
+rehab_robot_tasks -> MoveIt 2 -> ros2_control -> FrankaHardwareInterface -> FR3
+
+No legacy PTP/V3, no controller switching, no automatic retry/return/ErrorRecovery.
+"""
+
+from __future__ import annotations
+
+import argparse
+import math
+import time
+from dataclasses import dataclass
+
+import rclpy
+from action_msgs.msg import GoalStatus
+from controller_manager_msgs.srv import ListControllers
+from geometry_msgs.msg import Pose, PoseStamped
+from moveit_msgs.action import ExecuteTrajectory
+from moveit_msgs.msg import MoveItErrorCodes, RobotState
+from moveit_msgs.srv import GetCartesianPath, GetPositionIK
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from rclpy.time import Time
+from sensor_msgs.msg import JointState
+from tf2_ros import Buffer, TransformListener
+
+from .fr3_moveit_client import FR3_JOINT_NAMES, FR3MoveItClient
+from .fr3_teach_path import (
+    DEFAULT_END,
+    DEFAULT_MAX_STEP_M,
+    DEFAULT_START,
+    build_route,
+    edge_summaries,
+    load_teach_path,
+    polyline_length,
+)
+
+GROUP_NAME = "fr3_arm"
+REQUIRED_CONTROLLERS = {
+    "fr3_arm_controller": "active",
+    "joint_state_broadcaster": "active",
+    "franka_robot_state_broadcaster": "active",
+}
+
+JOINT_GOAL_TOLERANCE_RAD = 0.020
+MAX_START_GOTO_JOINT_DELTA_RAD = 1.20
+SKIP_START_GOTO_M = 0.010
+START_SANITY_TOLERANCE_M = 0.050
+FINAL_SANITY_TOLERANCE_M = 0.050
+
+MAX_STEP_M = DEFAULT_MAX_STEP_M
+VELOCITY_SCALING = 0.05
+ACCELERATION_SCALING = 0.05
+MAX_CARTESIAN_SPEED_M_S = 0.020
+
+STATE_FRESHNESS_S = 0.50
+DISCOVERY_TIMEOUT_S = 10.0
+PLANNING_TIMEOUT_S = 20.0
+EXECUTION_TIMEOUT_MIN_S = 60.0
+
+
+class P15Error(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class ToolPose:
+    xyz: tuple[float, float, float]
+    quaternion_xyzw: tuple[float, float, float, float]
+
+
+class OfficialTeachMoveItClient(FR3MoveItClient):
+    def compute_cartesian_async(self, request: GetCartesianPath.Request):
+        return self._cartesian_path.call_async(request)
+
+    def send_trajectory_async(self, trajectory, *, timeout_sec=5.0):
+        if not self._execute_trajectory.wait_for_server(
+            timeout_sec=float(timeout_sec)
+        ):
+            raise P15Error("official /execute_trajectory action unavailable")
+
+        goal = ExecuteTrajectory.Goal()
+        goal.trajectory = trajectory
+        return self._execute_trajectory.send_goal_async(goal)
+
+
+class P15Node(Node):
+    def __init__(self):
+        super().__init__("p15_fr3_teach_path_executor")
+        self.joint_positions = None
+        self.joint_stamp = None
+        self.joint_source = None
+
+        self.create_subscription(
+            JointState,
+            "/joint_states",
+            lambda msg: self._joint_cb(msg, "/joint_states"),
+            qos_profile_sensor_data,
+        )
+        self.create_subscription(
+            JointState,
+            "/franka/joint_states",
+            lambda msg: self._joint_cb(msg, "/franka/joint_states"),
+            qos_profile_sensor_data,
+        )
+
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+        self.ik_client = self.create_client(GetPositionIK, "/compute_ik")
+        self.controller_client = self.create_client(
+            ListControllers, "/controller_manager/list_controllers"
+        )
+
+    def _joint_cb(self, msg, source):
+        table = dict(zip(msg.name, msg.position))
+        if all(name in table for name in FR3_JOINT_NAMES):
+            self.joint_positions = [
+                float(table[name]) for name in FR3_JOINT_NAMES
+            ]
+            self.joint_stamp = time.monotonic()
+            self.joint_source = source
+
+
+def spin_until(node, predicate, timeout_s):
+    deadline = time.monotonic() + float(timeout_s)
+    while rclpy.ok() and time.monotonic() < deadline:
+        rclpy.spin_once(node, timeout_sec=0.1)
+        if predicate():
+            return True
+    return False
+
+
+def wait_future(node, future, timeout_s):
+    return spin_until(node, lambda: future.done(), timeout_s)
+
+
+def wait_fresh_joint_state(node, timeout_s=5.0):
+    ok = spin_until(
+        node,
+        lambda: (
+            node.joint_positions is not None
+            and node.joint_stamp is not None
+            and time.monotonic() - node.joint_stamp < STATE_FRESHNESS_S
+        ),
+        timeout_s,
+    )
+    if not ok:
+        raise P15Error(
+            "fresh FR3 state unavailable from /joint_states "
+            "and /franka/joint_states"
+        )
+    return list(node.joint_positions)
+
+
+def read_controller_states(node, timeout_s=5.0):
+    if not node.controller_client.wait_for_service(timeout_sec=timeout_s):
+        raise P15Error("/controller_manager/list_controllers unavailable")
+
+    future = node.controller_client.call_async(ListControllers.Request())
+    if not wait_future(node, future, timeout_s):
+        raise P15Error("controller-state query timeout")
+
+    response = future.result()
+    if response is None:
+        raise P15Error("empty controller-state response")
+
+    return {item.name: item.state for item in response.controller}
+
+
+def require_active_controllers(node):
+    states = read_controller_states(node)
+    print("controller states:")
+    for name, expected in REQUIRED_CONTROLLERS.items():
+        actual = states.get(name, "<missing>")
+        print(f"  {name}: {actual}")
+        if actual != expected:
+            raise P15Error(f"{name} must be {expected}, got {actual}")
+
+
+def wait_relevant_moveit(node, client):
+    deadline = time.monotonic() + DISCOVERY_TIMEOUT_S
+    state = None
+
+    while time.monotonic() < deadline:
+        rclpy.spin_once(node, timeout_sec=0.1)
+        state = client.readiness()
+        if (
+            state.move_group
+            and state.execute_trajectory
+            and state.cartesian_path
+            and state.position_ik
+        ):
+            return state
+
+    if state is None:
+        raise P15Error("MoveIt readiness unavailable")
+
+    raise P15Error(
+        "required MoveIt endpoints unavailable: "
+        f"move_group={state.move_group}, "
+        f"execute_trajectory={state.execute_trajectory}, "
+        f"cartesian_path={state.cartesian_path}, "
+        f"position_ik={state.position_ik}"
+    )
+
+
+def lookup_tool_pose(node, frame, tool, timeout_s=5.0):
+    deadline = time.monotonic() + float(timeout_s)
+    last_error = None
+
+    while rclpy.ok() and time.monotonic() < deadline:
+        rclpy.spin_once(node, timeout_sec=0.1)
+        try:
+            tf = node.tf_buffer.lookup_transform(frame, tool, Time())
+            t = tf.transform.translation
+            r = tf.transform.rotation
+            return ToolPose(
+                xyz=(float(t.x), float(t.y), float(t.z)),
+                quaternion_xyzw=(
+                    float(r.x),
+                    float(r.y),
+                    float(r.z),
+                    float(r.w),
+                ),
+            )
+        except Exception as exc:
+            last_error = exc
+
+    raise P15Error(f"TF unavailable {frame} -> {tool}: {last_error}")
+
+
+def make_robot_state(node, q):
+    state = RobotState()
+    state.joint_state.header.stamp = node.get_clock().now().to_msg()
+    state.joint_state.name = list(FR3_JOINT_NAMES)
+    state.joint_state.position = list(q)
+    state.is_diff = False
+    return state
+
+
+def compute_ik(node, q_seed, *, frame, tool, xyz, quaternion_xyzw):
+    if not node.ik_client.wait_for_service(timeout_sec=5.0):
+        raise P15Error("/compute_ik unavailable")
+
+    req = GetPositionIK.Request()
+    req.ik_request.group_name = GROUP_NAME
+    req.ik_request.ik_link_name = tool
+    req.ik_request.avoid_collisions = True
+    req.ik_request.timeout.sec = 3
+    req.ik_request.robot_state = make_robot_state(node, q_seed)
+
+    pose = PoseStamped()
+    pose.header.frame_id = frame
+    pose.header.stamp = node.get_clock().now().to_msg()
+    pose.pose.position.x = float(xyz[0])
+    pose.pose.position.y = float(xyz[1])
+    pose.pose.position.z = float(xyz[2])
+    pose.pose.orientation.x = float(quaternion_xyzw[0])
+    pose.pose.orientation.y = float(quaternion_xyzw[1])
+    pose.pose.orientation.z = float(quaternion_xyzw[2])
+    pose.pose.orientation.w = float(quaternion_xyzw[3])
+    req.ik_request.pose_stamped = pose
+
+    future = node.ik_client.call_async(req)
+    if not wait_future(node, future, 8.0):
+        raise P15Error("start-point IK timeout")
+
+    response = future.result()
+    if response is None:
+        raise P15Error("empty start-point IK response")
+
+    code = int(response.error_code.val)
+    if code != MoveItErrorCodes.SUCCESS:
+        raise P15Error(f"start-point IK failed, MoveIt code={code}")
+
+    table = dict(
+        zip(
+            response.solution.joint_state.name,
+            response.solution.joint_state.position,
+        )
+    )
+    if not all(name in table for name in FR3_JOINT_NAMES):
+        raise P15Error("IK result missing FR3 joints")
+
+    return [float(table[name]) for name in FR3_JOINT_NAMES]
+
+
+def plan_joint_target(node, client, q_target):
+    future = client.send_joint_plan_async(
+        q_target,
+        tolerance_rad=JOINT_GOAL_TOLERANCE_RAD,
+        allowed_planning_time_s=5.0,
+        planning_attempts=3,
+    )
+    if not wait_future(node, future, 8.0):
+        raise P15Error("MoveGroup plan goal timeout")
+
+    handle = future.result()
+    if handle is None or not handle.accepted:
+        raise P15Error("MoveGroup plan goal rejected")
+
+    result_future = handle.get_result_async()
+    if not wait_future(node, result_future, PLANNING_TIMEOUT_S):
+        raise P15Error("MoveGroup plan result timeout")
+
+    wrapped = result_future.result()
+    if wrapped is None:
+        raise P15Error("empty MoveGroup plan result")
+
+    result = wrapped.result
+    code = int(result.error_code.val)
+    points = result.planned_trajectory.joint_trajectory.points
+
+    if (
+        wrapped.status != GoalStatus.STATUS_SUCCEEDED
+        or code != MoveItErrorCodes.SUCCESS
+        or len(points) < 2
+    ):
+        raise P15Error(
+            "MoveGroup start-point planning failed: "
+            f"status={wrapped.status}, code={code}, points={len(points)}"
+        )
+
+    return len(points)
+
+
+def execute_joint_target(node, client, q_target):
+    require_active_controllers(node)
+
+    future = client.send_joint_move_async(
+        q_target,
+        tolerance_rad=JOINT_GOAL_TOLERANCE_RAD,
+        allowed_planning_time_s=5.0,
+        planning_attempts=3,
+    )
+    if not wait_future(node, future, 8.0):
+        raise P15Error("MoveGroup execution goal timeout")
+
+    handle = future.result()
+    if handle is None or not handle.accepted:
+        raise P15Error("MoveGroup execution goal rejected")
+
+    print("[PASS] MoveGroup execution goal accepted")
+    result_future = handle.get_result_async()
+
+    if not wait_future(node, result_future, EXECUTION_TIMEOUT_MIN_S):
+        raise P15Error("MoveGroup start-point execution timeout")
+
+    wrapped = result_future.result()
+    if wrapped is None:
+        raise P15Error("empty MoveGroup execution result")
+
+    code = int(wrapped.result.error_code.val)
+    if (
+        wrapped.status != GoalStatus.STATUS_SUCCEEDED
+        or code != MoveItErrorCodes.SUCCESS
+    ):
+        raise P15Error(
+            "MoveGroup start-point execution failed: "
+            f"status={wrapped.status}, code={code}"
+        )
+
+    return wrapped
+
+
+def make_pose(xyz, quaternion_xyzw):
+    pose = Pose()
+    pose.position.x = float(xyz[0])
+    pose.position.y = float(xyz[1])
+    pose.position.z = float(xyz[2])
+    pose.orientation.x = float(quaternion_xyzw[0])
+    pose.orientation.y = float(quaternion_xyzw[1])
+    pose.orientation.z = float(quaternion_xyzw[2])
+    pose.orientation.w = float(quaternion_xyzw[3])
+    return pose
+
+
+def trajectory_duration_s(trajectory):
+    points = trajectory.joint_trajectory.points
+    if not points:
+        return 0.0
+    last = points[-1].time_from_start
+    return float(last.sec) + float(last.nanosec) * 1e-9
+
+
+def trajectory_time_valid(trajectory):
+    points = trajectory.joint_trajectory.points
+    if len(points) < 2:
+        return False
+
+    times = [
+        float(p.time_from_start.sec)
+        + float(p.time_from_start.nanosec) * 1e-9
+        for p in points
+    ]
+    return all(b > a for a, b in zip(times[:-1], times[1:]))
+
+
+def plan_cartesian_route(
+    node,
+    client,
+    path,
+    route,
+    *,
+    q_start,
+    quaternion_xyzw,
+):
+    if len(route) < 2:
+        raise P15Error("teach route must contain at least two points")
+
+    req = GetCartesianPath.Request()
+    req.header.stamp = node.get_clock().now().to_msg()
+    req.header.frame_id = path.frame
+    req.start_state = make_robot_state(node, q_start)
+    req.group_name = GROUP_NAME
+    req.link_name = path.tool
+
+    # route[0] is represented by q_start. Excluding it prevents
+    # an arbitrary CURRENT -> P8 Cartesian line from being inserted.
+    req.waypoints = [
+        make_pose(point.position_m, quaternion_xyzw)
+        for point in route[1:]
+    ]
+
+    req.max_step = MAX_STEP_M
+    req.jump_threshold = 0.0
+    req.prismatic_jump_threshold = 0.0
+    req.revolute_jump_threshold = 0.0
+    req.avoid_collisions = True
+    req.max_velocity_scaling_factor = VELOCITY_SCALING
+    req.max_acceleration_scaling_factor = ACCELERATION_SCALING
+    req.cartesian_speed_limited_link = path.tool
+    req.max_cartesian_speed = MAX_CARTESIAN_SPEED_M_S
+
+    future = client.compute_cartesian_async(req)
+    if not wait_future(node, future, PLANNING_TIMEOUT_S):
+        raise P15Error("Cartesian planning timeout")
+
+    response = future.result()
+    if response is None:
+        raise P15Error("empty Cartesian planning response")
+
+    code = int(response.error_code.val)
+    trajectory = response.solution
+    points = trajectory.joint_trajectory.points
+    duration = trajectory_duration_s(trajectory)
+
+    if code != MoveItErrorCodes.SUCCESS:
+        raise P15Error(f"Cartesian planner failed, MoveIt code={code}")
+    if response.fraction < 0.999:
+        raise P15Error(
+            f"Cartesian path incomplete: fraction={response.fraction:.9f}"
+        )
+    if len(points) < 2:
+        raise P15Error("Cartesian trajectory contains too few points")
+    if not trajectory_time_valid(trajectory):
+        raise P15Error("Cartesian trajectory timing is invalid")
+
+    return response, trajectory, duration
+
+
+def execute_cartesian_route(node, client, trajectory, duration_s):
+    require_active_controllers(node)
+
+    future = client.send_trajectory_async(trajectory, timeout_sec=5.0)
+    if not wait_future(node, future, 8.0):
+        raise P15Error("ExecuteTrajectory goal send timeout")
+
+    handle = future.result()
+    if handle is None or not handle.accepted:
+        raise P15Error("ExecuteTrajectory goal rejected")
+
+    print("[PASS] ExecuteTrajectory goal accepted")
+    result_future = handle.get_result_async()
+    timeout_s = max(
+        EXECUTION_TIMEOUT_MIN_S,
+        duration_s * 2.0 + 20.0,
+    )
+
+    if not wait_future(node, result_future, timeout_s):
+        raise P15Error("Cartesian execution result timeout")
+
+    wrapped = result_future.result()
+    if wrapped is None:
+        raise P15Error("empty Cartesian execution result")
+
+    code = int(wrapped.result.error_code.val)
+    if (
+        wrapped.status != GoalStatus.STATUS_SUCCEEDED
+        or code != MoveItErrorCodes.SUCCESS
+    ):
+        raise P15Error(
+            f"Cartesian execution failed: status={wrapped.status}, code={code}"
+        )
+
+    return wrapped
+
+
+def print_route(path, route):
+    print("=" * 72)
+    print("P15 FINAL - FR3 OFFICIAL MOVEIT 8-POINT EXECUTOR")
+    print("=" * 72)
+    print(f"profile = {path.name}")
+    print("route   = " + " -> ".join(p.point_id for p in route))
+    print(f"frame   = {path.frame}")
+    print(f"tool    = {path.tool}")
+    print("orientation = hold execution-start fr3_link8 orientation")
+    print(f"polyline length = {polyline_length(route):.6f} m")
+    print(f"Cartesian max_step = {MAX_STEP_M * 1000.0:.1f} mm")
+    print(f"joint functional tolerance = {JOINT_GOAL_TOLERANCE_RAD:.3f} rad")
+
+    print()
+    print("========== TAUGHT ROUTE ==========")
+    total_segments = 0
+
+    for first, second, distance, segments in edge_summaries(
+        route, MAX_STEP_M
+    ):
+        total_segments += segments
+        print(
+            f"{first} -> {second}: "
+            f"{distance * 1000.0:.1f} mm, "
+            f"~{segments} interpolation steps"
+        )
+
+    print(f"estimated interpolation steps = {total_segments}")
+
+
+def confirm_execution(token, supplied):
+    if supplied:
+        answer = supplied
+    else:
+        print()
+        print("=" * 72)
+        print("REAL FR3 MOTION GATE")
+        print("Desk=EXEC / FCI=ON / joints unlocked")
+        print("workspace clear / no human contact")
+        print("XHand is NOT commanded")
+        print("NO retry / NO auto-return / NO ErrorRecovery")
+        print("=" * 72)
+        answer = input(f"Type exactly {token} : ").strip()
+
+    if answer != token:
+        raise P15Error("real-motion confirmation mismatch")
+
+
+def preview_bundle(node, client, path, route):
+    require_active_controllers(node)
+    wait_relevant_moveit(node, client)
+
+    q_current = wait_fresh_joint_state(node)
+    tool_pose = lookup_tool_pose(node, path.frame, path.tool)
+    start_point = route[0]
+    start_distance = math.dist(tool_pose.xyz, start_point.position_m)
+
+    print()
+    print("========== LIVE START ==========")
+    print(f"joint source = {node.joint_source}")
+    print(
+        "current xyz = "
+        f"[{tool_pose.xyz[0]:.6f}, "
+        f"{tool_pose.xyz[1]:.6f}, "
+        f"{tool_pose.xyz[2]:.6f}]"
+    )
+    print(
+        f"{start_point.point_id} xyz = "
+        f"[{start_point.position_m[0]:.6f}, "
+        f"{start_point.position_m[1]:.6f}, "
+        f"{start_point.position_m[2]:.6f}]"
+    )
+    print(f"start-point distance = {start_distance * 1000.0:.3f} mm")
+
+    if start_distance > SKIP_START_GOTO_M:
+        q_start_target = compute_ik(
+            node,
+            q_current,
+            frame=path.frame,
+            tool=path.tool,
+            xyz=start_point.position_m,
+            quaternion_xyzw=tool_pose.quaternion_xyzw,
+        )
+        max_delta = max(
+            abs(a - b) for a, b in zip(q_current, q_start_target)
+        )
+        print(f"start-point IK max joint delta = {max_delta:.6f} rad")
+
+        if max_delta > MAX_START_GOTO_JOINT_DELTA_RAD:
+            raise P15Error(
+                "start-point IK requires excessive joint change: "
+                f"{max_delta:.6f} rad > "
+                f"{MAX_START_GOTO_JOINT_DELTA_RAD:.6f} rad"
+            )
+
+        npoints = plan_joint_target(node, client, q_start_target)
+        print(
+            "[PASS] official MoveGroup plan to "
+            f"{start_point.point_id}, trajectory_points={npoints}"
+        )
+    else:
+        q_start_target = q_current
+        print(
+            f"[PASS] already within {SKIP_START_GOTO_M * 1000.0:.1f} mm "
+            f"of {start_point.point_id}; start-point move can be skipped"
+        )
+
+    response, _, duration = plan_cartesian_route(
+        node,
+        client,
+        path,
+        route,
+        q_start=q_start_target,
+        quaternion_xyzw=tool_pose.quaternion_xyzw,
+    )
+
+    print()
+    print("========== ROUTE PLAN PREVIEW ==========")
+    print(f"moveit_error_code = {int(response.error_code.val)}")
+    print(f"fraction          = {response.fraction:.9f}")
+    print(
+        "trajectory_points = "
+        f"{len(response.solution.joint_trajectory.points)}"
+    )
+    print(f"duration          = {duration:.3f} s")
+    print("[PASS] taught route planning preview")
+
+
+def execute_bundle(node, client, path, route):
+    require_active_controllers(node)
+    wait_relevant_moveit(node, client)
+
+    q_current = wait_fresh_joint_state(node)
+    tool_pose = lookup_tool_pose(node, path.frame, path.tool)
+    hold_orientation = tool_pose.quaternion_xyzw
+    start_point = route[0]
+    start_distance = math.dist(tool_pose.xyz, start_point.position_m)
+
+    print()
+    print("========== LIVE EXECUTION START ==========")
+    print(f"joint source = {node.joint_source}")
+    print(
+        f"distance to {start_point.point_id} = "
+        f"{start_distance * 1000.0:.3f} mm"
+    )
+
+    if start_distance > SKIP_START_GOTO_M:
+        print()
+        print(f"========== GOTO {start_point.point_id} ==========")
+
+        # Live IK: nothing from preview is reused.
+        q_start_target = compute_ik(
+            node,
+            q_current,
+            frame=path.frame,
+            tool=path.tool,
+            xyz=start_point.position_m,
+            quaternion_xyzw=hold_orientation,
+        )
+        max_delta = max(
+            abs(a - b) for a, b in zip(q_current, q_start_target)
+        )
+        print(f"live IK max joint delta = {max_delta:.6f} rad")
+
+        if max_delta > MAX_START_GOTO_JOINT_DELTA_RAD:
+            raise P15Error(
+                "live start-point IK requires excessive joint change: "
+                f"{max_delta:.6f} rad"
+            )
+
+        npoints = plan_joint_target(node, client, q_start_target)
+        print(f"[PASS] live start-point plan, trajectory_points={npoints}")
+        print(f"[EXECUTE] official MoveGroup -> {start_point.point_id}")
+
+        execute_joint_target(node, client, q_start_target)
+        print(f"[PASS] MoveGroup reached {start_point.point_id} target")
+    else:
+        print(
+            f"[PASS] already near {start_point.point_id}; "
+            "start-point joint move skipped"
+        )
+
+    settle_until = time.monotonic() + 1.0
+    while rclpy.ok() and time.monotonic() < settle_until:
+        rclpy.spin_once(node, timeout_sec=0.05)
+
+    start_pose = lookup_tool_pose(node, path.frame, path.tool)
+    start_error = math.dist(start_pose.xyz, start_point.position_m)
+    print(
+        f"{start_point.point_id} Cartesian error = "
+        f"{start_error * 1000.0:.3f} mm"
+    )
+
+    if start_error > START_SANITY_TOLERANCE_M:
+        raise P15Error(
+            f"{start_point.point_id} Cartesian error "
+            f"{start_error * 1000.0:.3f} mm exceeds "
+            f"{START_SANITY_TOLERANCE_M * 1000.0:.1f} mm"
+        )
+
+    q_route_start = wait_fresh_joint_state(node)
+    require_active_controllers(node)
+
+    print()
+    print("========== FINAL ROUTE PLAN ==========")
+    response, trajectory, duration = plan_cartesian_route(
+        node,
+        client,
+        path,
+        route,
+        q_start=q_route_start,
+        quaternion_xyzw=hold_orientation,
+    )
+
+    print(f"moveit_error_code = {int(response.error_code.val)}")
+    print(f"fraction          = {response.fraction:.9f}")
+    print(f"trajectory_points = {len(trajectory.joint_trajectory.points)}")
+    print(f"duration          = {duration:.3f} s")
+
+    print()
+    print(
+        "[EXECUTE] official /execute_trajectory "
+        + " -> ".join(p.point_id for p in route)
+    )
+
+    wrapped = execute_cartesian_route(
+        node,
+        client,
+        trajectory,
+        duration,
+    )
+
+    print()
+    print("========== ROUTE RESULT ==========")
+    print(f"action_status     = {wrapped.status}")
+    print(f"moveit_error_code = {int(wrapped.result.error_code.val)}")
+
+    settle_until = time.monotonic() + 1.0
+    while rclpy.ok() and time.monotonic() < settle_until:
+        rclpy.spin_once(node, timeout_sec=0.05)
+
+    final_pose = lookup_tool_pose(node, path.frame, path.tool)
+    end_point = route[-1]
+    final_error = math.dist(final_pose.xyz, end_point.position_m)
+
+    print()
+    print("========== FINAL ==========")
+    print(f"target = {end_point.point_id}")
+    print(
+        "final xyz = "
+        f"[{final_pose.xyz[0]:.6f}, "
+        f"{final_pose.xyz[1]:.6f}, "
+        f"{final_pose.xyz[2]:.6f}]"
+    )
+    print(f"Cartesian error = {final_error * 1000.0:.3f} mm")
+
+    if final_error > FINAL_SANITY_TOLERANCE_M:
+        raise P15Error(
+            "final Cartesian error exceeds temporary functional limit: "
+            f"{final_error * 1000.0:.3f} mm > "
+            f"{FINAL_SANITY_TOLERANCE_M * 1000.0:.1f} mm"
+        )
+
+    print()
+    print("=" * 72)
+    print("[PASS] P15 FINAL REAL EXECUTION")
+    print("route = " + " -> ".join(p.point_id for p in route))
+    print("backend = official MoveIt 2")
+    print("legacy PTP = NONE")
+    print("V3 = NONE")
+    print("automatic retry = DISABLED")
+    print("automatic return = DISABLED")
+    print("automatic ErrorRecovery = DISABLED")
+    print("XHand command = NONE")
+    print("=" * 72)
+
+
+def main(args=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--start", default=DEFAULT_START)
+    parser.add_argument("--end", default=DEFAULT_END)
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="execute real FR3 motion after preview and confirmation",
+    )
+    parser.add_argument(
+        "--confirm",
+        default="",
+        help="optional exact confirmation token for non-interactive use",
+    )
+    ns = parser.parse_args(args)
+
+    path = load_teach_path()
+    route = build_route(path, ns.start, ns.end)
+    print_route(path, route)
+
+    rclpy.init()
+    node = P15Node()
+    client = OfficialTeachMoveItClient(node)
+
+    try:
+        print()
+        print("========== PREFLIGHT ==========")
+        preview_bundle(node, client, path, route)
+
+        if not ns.execute:
+            print()
+            print("=" * 72)
+            print("[PASS] P15 FINAL PLAN-ONLY")
+            print("NO FR3 motion sent")
+            print("[LOCKED] Real execution disabled: XYZ-only teach path")
+            print("=" * 72)
+            return
+
+        raise P15Error(
+            "REAL EXECUTION LOCKED: the current 8-point teach file "
+            "contains XYZ only and does not contain validated tool "
+            "orientation/collision geometry. Re-teach full 6D poses "
+            "before real execution."
+        )
+
+        token = f"EXECUTE-P15-{ns.start}-{ns.end}"
+        confirm_execution(token, ns.confirm)
+
+        # Re-read controllers/state/TF/IK/plan from the live robot.
+        execute_bundle(node, client, path, route)
+
+    except KeyboardInterrupt:
+        print()
+        print("[ABORT] operator interrupt")
+        print("[SAFE] no automatic retry")
+        print("[SAFE] no automatic return")
+        print("[SAFE] no ErrorRecovery")
+        raise SystemExit(130)
+
+    except Exception as exc:
+        print()
+        print(f"[FAULT] {type(exc).__name__}: {exc}")
+        print("[SAFE] task stopped")
+        print("[SAFE] no automatic retry")
+        print("[SAFE] no automatic return")
+        print("[SAFE] no ErrorRecovery")
+        raise SystemExit(2)
+
+    finally:
+        try:
+            node.destroy_node()
+        except Exception:
+            pass
+
+        try:
+            if rclpy.ok():
+                rclpy.shutdown()
+        except Exception:
+            pass
+
+
+if __name__ == "__main__":
+    main()

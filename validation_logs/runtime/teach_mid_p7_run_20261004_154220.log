@@ -1,0 +1,29 @@
+============================================================
+RESUME TAUGHT PATH: MID -> P7
+============================================================
+current = [0.271218, 0.517968, 0.299022]
+MID     = [0.270938, 0.518346, 0.301005]
+P7      = [0.282329, 0.515231, 0.29923]
+current/MID error = 2.038 mm
+current/P7 distance = 11.446 mm
+current -> P7 distance = 11.45 mm
+fraction = 1.000000
+max joint delta = 0.027878 rad
+
+Motion = MID -> P7
+Orientation = hold current
+PTP speed = 0.015 rad/s
+NO automatic return
+输入 EXECUTE-MID-P7 才执行：[MID-P7] PTP goal accepted
+[MID-P7] ROS status = 4
+[MID-P7] PTP status = 2
+[MID-P7] target reached; waiting for IDLE settle...
+[WAIT] robot_mode=2, waiting for IDLE...
+[PASS] FR3 returned to IDLE
+
+final joint error = 0.001147 rad
+P7 Cartesian error = 0.698 mm
+
+[PASS] MID -> P7 COMPLETE
+[PASS] IDLE settle fix verified
+[SAFE] robot remains at P7

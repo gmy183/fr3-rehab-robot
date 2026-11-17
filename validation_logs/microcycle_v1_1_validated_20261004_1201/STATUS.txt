@@ -1,0 +1,41 @@
+FR3 + XHand Rehab Micro-Cycle V1.1
+
+VALIDATION STATUS:
+  SINGLE REAL EMPTY-LOAD CYCLE: PASS
+
+FR3:
+  live-q0 based
+  J1 outbound delta: +0.005 rad
+  planned normal return: captured live q0
+  max velocity: 0.020 rad/s
+
+REAL RESULT:
+  q0 J1:     0.039572 rad
+  q_out J1:  0.044572 rad
+  outbound final max error: 0.001470 rad
+  return final max error:   0.001516 rad
+  explicit q0 return error: 0.001520 rad
+
+XHand:
+  mode: 3
+  kp/ki/kd: 225/0/0
+  effort limit: 150 mA
+  delta: +0.005 rad
+  refresh: 20 Hz
+  watchdog: 0.5 s
+
+PTP HOLD:
+  outbound max refresh gap: 0.0532 s
+  return max refresh gap:   0.0538 s
+
+SAFETY:
+  fault auto FR3 recovery: disabled
+  fault auto FR3 return: disabled
+  XHand final powerless: PASS
+
+SOFTWARE:
+  95 tests PASS
+
+IMPORTANT:
+  formal XHand active gain verification remains FALSE.
+  Production combined-motion gate remains CLOSED.
